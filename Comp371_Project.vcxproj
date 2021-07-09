@@ -149,13 +149,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera\Camera.cpp" />
+    <ClCompile Include="src\gridLines\GridLines.cpp" />
     <ClCompile Include="src\main\Main.cpp" />
     <ClCompile Include="src\shader\Shader.cpp" />
+    <ClCompile Include="src\unitAxes\UnitAxes.cpp" />
+    <ClCompile Include="src\unitCube\UnitCube.cpp" />
+    <ClCompile Include="src\unitLine\UnitLine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h" />
+    <ClInclude Include="src\gridLines\GridLines.h" />
     <ClInclude Include="src\main\Main.h" />
     <ClInclude Include="src\shader\Shader.h" />
+    <ClInclude Include="src\unitAxes\UnitAxes.h" />
+    <ClInclude Include="src\unitCube\UnitCube.h" />
+    <ClInclude Include="src\unitLine\UnitLine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

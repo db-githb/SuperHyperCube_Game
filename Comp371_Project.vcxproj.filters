@@ -19,6 +19,18 @@
     <Filter Include="src\shaderObj">
       <UniqueIdentifier>{a80cba0d-7a8f-48a9-b89d-2f59b013c10c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\unitCube">
+      <UniqueIdentifier>{869cac29-dafc-4aa9-8c90-3f44a12181a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\unitLine">
+      <UniqueIdentifier>{a3ce5c5c-3710-4851-ba0e-dd1498e731fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\unitAxes">
+      <UniqueIdentifier>{ec839972-83e8-4202-b316-6d520b22deec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gridLines">
+      <UniqueIdentifier>{08fb71d1-6d1b-41b3-8890-2c643f1cef3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\axisShader.frag">
@@ -50,6 +62,18 @@
     <ClCompile Include="src\shader\Shader.cpp">
       <Filter>src\shaderObj</Filter>
     </ClCompile>
+    <ClCompile Include="src\unitCube\UnitCube.cpp">
+      <Filter>src\unitCube</Filter>
+    </ClCompile>
+    <ClCompile Include="src\unitLine\UnitLine.cpp">
+      <Filter>src\unitLine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\unitAxes\UnitAxes.cpp">
+      <Filter>src\unitAxes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gridLines\GridLines.cpp">
+      <Filter>src\gridLines</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">
@@ -60,6 +84,18 @@
     </ClInclude>
     <ClInclude Include="src\shader\Shader.h">
       <Filter>src\shaderObj</Filter>
+    </ClInclude>
+    <ClInclude Include="src\unitCube\UnitCube.h">
+      <Filter>src\unitCube</Filter>
+    </ClInclude>
+    <ClInclude Include="src\unitLine\UnitLine.h">
+      <Filter>src\unitLine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\unitAxes\UnitAxes.h">
+      <Filter>src\unitAxes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gridLines\GridLines.h">
+      <Filter>src\gridLines</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
