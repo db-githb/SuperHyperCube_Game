@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{5fa3368d-72f6-4ec8-bcd9-5806c970d6da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\main">
+      <UniqueIdentifier>{1ff297e4-e3e0-4d8d-b5b0-f0a71ebe38a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\camera">
+      <UniqueIdentifier>{4bb2cb94-066c-4ec4-8182-bda5cfb347fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="res">
+      <UniqueIdentifier>{91da0847-b820-4301-894a-fcbcf205ec46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="res\shaders">
+      <UniqueIdentifier>{cfcc7b23-20c9-40c3-bb94-092678c72c1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\shaderObj">
+      <UniqueIdentifier>{a80cba0d-7a8f-48a9-b89d-2f59b013c10c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\shaders\axisShader.frag">
+      <Filter>res\shaders</Filter>
+    </None>
+    <None Include="res\shaders\axisShader.vert">
+      <Filter>res\shaders</Filter>
+    </None>
+    <None Include="res\shaders\cubeShader.frag">
+      <Filter>res\shaders</Filter>
+    </None>
+    <None Include="res\shaders\cubeShader.vert">
+      <Filter>res\shaders</Filter>
+    </None>
+    <None Include="res\shaders\gridLineShader.frag">
+      <Filter>res\shaders</Filter>
+    </None>
+    <None Include="res\shaders\gridLineShader.vert">
+      <Filter>res\shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\camera\Camera.cpp">
+      <Filter>src\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\Main.cpp">
+      <Filter>src\main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shader\Shader.cpp">
+      <Filter>src\shaderObj</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\camera\Camera.h">
+      <Filter>src\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\Main.h">
+      <Filter>src\main</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shader\Shader.h">
+      <Filter>src\shaderObj</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
