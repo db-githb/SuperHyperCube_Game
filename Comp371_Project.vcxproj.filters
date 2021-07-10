@@ -31,6 +31,9 @@
     <Filter Include="src\gridLines">
       <UniqueIdentifier>{08fb71d1-6d1b-41b3-8890-2c643f1cef3c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\modelDamian">
+      <UniqueIdentifier>{f30fbe5b-4dfa-4759-a390-95825e904215}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\axisShader.frag">
@@ -49,6 +52,12 @@
       <Filter>res\shaders</Filter>
     </None>
     <None Include="res\shaders\gridLineShader.vert">
+      <Filter>res\shaders</Filter>
+    </None>
+    <None Include="res\shaders\modelDamian.frag">
+      <Filter>res\shaders</Filter>
+    </None>
+    <None Include="res\shaders\modelDamian.vert">
       <Filter>res\shaders</Filter>
     </None>
   </ItemGroup>
@@ -74,6 +83,9 @@
     <ClCompile Include="src\gridLines\GridLines.cpp">
       <Filter>src\gridLines</Filter>
     </ClCompile>
+    <ClCompile Include="src\modelDamian\ModelDamian.cpp">
+      <Filter>src\modelDamian</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">
@@ -96,6 +108,9 @@
     </ClInclude>
     <ClInclude Include="src\gridLines\GridLines.h">
       <Filter>src\gridLines</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modelDamian\ModelDamian.h">
+      <Filter>src\modelDamian</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

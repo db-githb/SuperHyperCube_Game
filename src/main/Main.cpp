@@ -3,8 +3,7 @@
 #include "../unitLine/UnitLine.h"
 #include "../unitAxes/UnitAxes.h"
 #include "../gridLines/GridLines.h"
-
-GLuint gridLinesVAO, gridLinesVBO;
+#include "../modelDamian/modelDamian.h"
 
 // camera
 Camera camera(glm::vec3(0.0f, 1.0f, 5.0f));
@@ -130,9 +129,19 @@ int main()
 	// Create Viewport
 	glViewport(0, 0, WIDTH, HEIGHT);
 
-	UnitCube* unitCube = new UnitCube();
-	UnitAxes* unitAxes = new UnitAxes();
-	GridLines* gridLines = new GridLines();
+	UnitAxes unitAxes;
+	GridLines gridLines;
+
+	ModelDamian modelDamian;
+
+	// directional lighting values
+
+	glm::vec3 dirLighting[4] = {
+		glm::vec3(-0.2f, -1.0f, -0.3f), //direction
+		glm::vec3(0.05f, 0.05f, 0.05f), // ambient
+		glm::vec3(0.4f, 0.4f, 0.4f), // diffuse
+		glm::vec3(0.5f, 0.5f, 0.5f) // specular
+	};
 
 	while (!glfwWindowShouldClose(mainWindow))
 	{
@@ -155,9 +164,11 @@ int main()
 		glm::mat4 view = camera.GetViewMatrix();
 		glm::mat4 model = glm::mat4(1.0f);
 
-		unitCube->draw(camera, projection, view, model);
-		unitAxes->draw(camera, projection, view, model);
-		gridLines->draw(camera, projection, view, model);
+		unitAxes.draw(camera, projection, view, model);
+		gridLines.draw(camera, projection, view, model);
+
+		modelDamian.draw(camera, dirLighting, projection, view, model);
+
 
 		glfwSwapBuffers(mainWindow);
 		

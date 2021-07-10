@@ -5,6 +5,14 @@ UnitCube::UnitCube() {
 	createCube();
 }
 
+GLuint UnitCube::getVAO() {
+	return unitCubeVAO;
+}
+
+GLuint UnitCube::getVBO() {
+	return unitCubeVBO;
+}
+
 void UnitCube::createCube()
 {
 	float vertices[] = {
@@ -77,18 +85,17 @@ void UnitCube::createCube()
 	glBindVertexArray(0);
 }
 
-void UnitCube::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
+void UnitCube::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
 
 	cubeShader.use();
 
 	cubeShader.setVec3("viewPos", inCam.Position);
 
-	cubeShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-	cubeShader.setVec3("dirLight.ambient", 0.05f, 0.05f, 0.05f);
-	cubeShader.setVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
-	cubeShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
+	cubeShader.setVec3("dirLight.direction", dirLight[LIGHT_DIRECTION]);
+	cubeShader.setVec3("dirLight.ambient", dirLight[LIGHT_AMBIENT]);
+	cubeShader.setVec3("dirLight.diffuse", dirLight[LIGHT_DIFFUSE]);
+	cubeShader.setVec3("dirLight.specular", dirLight[LIGHT_SPECULAR]);
 
-	
 	cubeShader.setMat4("projection", projection);
 	cubeShader.setMat4("view", view);
 
