@@ -100,7 +100,7 @@ void UnitCube::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, glm
 	cubeShader.setMat4("view", view);
 
 	// world transformation
-	model = glm::translate(model, glm::vec3(-1.0f, 0.5f, -2.0f));
+	model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f));
 	cubeShader.setMat4("model", model);
 
 	// render the cubes
