@@ -2,6 +2,8 @@
 
 void ModelDamian::initialize() {
 	
+	modelBasePosition = glm::vec3(0.5f, 0.5f, -2.0f);
+
 	// initialize entire model to a wall
 	for (int r = 0; r < ROWS; r++) {
 		for (int c = 0; c < COLUMNS; c++) {
@@ -60,12 +62,14 @@ void ModelDamian::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 			if (modelData[r][c] == WALL) {
 				baseShader.setVec3("dirLight.ambient", dirLight[LIGHT_AMBIENT]);
 
+				glm::vec3 translation = glm::vec3(x, y, 0.0f);
 				// TODO: make base position a variable (currently it's a constant)
-				model = glm::translate(model, glm::vec3(x + 0.5, y + 0.5f, -2.0f));
+				model = glm::translate(model, modelBasePosition + translation);
 			}
 			else {
 				
-				model = glm::translate(model, glm::vec3(x + 0.5, y + 0.5f, 2.0f));
+				glm::vec3 translation = glm::vec3(x, y, 2.0f);
+				model = glm::translate(model, modelBasePosition + translation);
 
 				if (modelData[r][c] == RED) {
 					baseShader.setVec3("dirLight.ambient", glm::vec3(1.0f, 0.0f, 0.0f));

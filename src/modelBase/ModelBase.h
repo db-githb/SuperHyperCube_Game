@@ -1,5 +1,4 @@
 #pragma once
-
 #include "../unitCube/UnitCube.h"
 
 #define LIGHT_DIRECTION 0 
@@ -12,6 +11,7 @@ class ModelBase {
 public:
 	UnitCube unitCube;
 	Shader baseShader;
+	glm::vec3 modelBasePosition;
 
 	ModelBase();
 	virtual void initialize();

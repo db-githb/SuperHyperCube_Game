@@ -6,6 +6,7 @@ ModelBase::ModelBase() {
 }
 
 void ModelBase::initialize() {
+	modelBasePosition = glm::vec3(-5.0f, 0.5f, 0.0f);
 	return;
 }
 
@@ -24,7 +25,7 @@ void ModelBase::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, gl
 	baseShader.setMat4("view", view);
 
 	// world transformation
-	model = glm::translate(model, glm::vec3(-5.0f, 0.5f, 0.0f));
+	model = glm::translate(model, modelBasePosition);
 	baseShader.setMat4("model", model);
 
 	// render the cubes
