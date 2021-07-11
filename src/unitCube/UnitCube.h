@@ -1,15 +1,23 @@
 #pragma once
-#include "../main/Main.h"
+
+#include <iostream>
+#include <stdio.h>
+#include <string.h>
+#include "../../glad/glad.h"
+#include <glfw/glfw3.h>
+#include "../../glm/glm.hpp"
+#include "../../glm/gtc/matrix_transform.hpp"
+#include "../../glm/gtc/type_ptr.hpp"
+#include "../shader/Shader.h"
+#include "../camera/Camera.h"
 
 class UnitCube {
 public:
 	UnitCube();
 	void createCube();
-	void draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, glm::mat4 view, glm::mat4 model);
 	GLuint getVAO();
 	GLuint getVBO();
 
 private:
 	GLuint unitCubeVBO, unitCubeVAO;
-	Shader cubeShader;
 };

@@ -144,8 +144,8 @@
     <None Include="res\shaders\axisShader.vert" />
     <None Include="res\shaders\cubeShader.frag" />
     <None Include="res\shaders\cubeShader.vert" />
-    <None Include="res\shaders\modelDamian.frag" />
-    <None Include="res\shaders\modelDamian.vert" />
+    <None Include="res\shaders\baseShader.frag" />
+    <None Include="res\shaders\baseShader.vert" />
     <None Include="res\shaders\gridLineShader.frag" />
     <None Include="res\shaders\gridLineShader.vert" />
   </ItemGroup>
@@ -153,6 +153,7 @@
     <ClCompile Include="src\camera\Camera.cpp" />
     <ClCompile Include="src\gridLines\GridLines.cpp" />
     <ClCompile Include="src\main\Main.cpp" />
+    <ClCompile Include="src\modelBase\ModelBase.cpp" />
     <ClCompile Include="src\modelDamian\ModelDamian.cpp" />
     <ClCompile Include="src\shader\Shader.cpp" />
     <ClCompile Include="src\unitAxes\UnitAxes.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="src\camera\Camera.h" />
     <ClInclude Include="src\gridLines\GridLines.h" />
     <ClInclude Include="src\main\Main.h" />
+    <ClInclude Include="src\modelBase\ModelBase.h" />
     <ClInclude Include="src\modelDamian\ModelDamian.h" />
     <ClInclude Include="src\shader\Shader.h" />
     <ClInclude Include="src\unitAxes\UnitAxes.h" />

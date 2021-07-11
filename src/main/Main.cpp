@@ -3,6 +3,7 @@
 #include "../unitLine/UnitLine.h"
 #include "../unitAxes/UnitAxes.h"
 #include "../gridLines/GridLines.h"
+#include "../modelBase/modelBase.h"
 #include "../modelDamian/modelDamian.h"
 
 // camera
@@ -131,8 +132,10 @@ int main()
 
 	UnitAxes unitAxes;
 	GridLines gridLines;
+	// ModelBase unitCube;
 
 	ModelDamian modelDamian;
+	modelDamian.initialize();
 
 	// directional lighting values
 
@@ -167,11 +170,14 @@ int main()
 		unitAxes.draw(camera, projection, view, model);
 		gridLines.draw(camera, projection, view, model);
 
+		// unitCube.draw(camera, dirLighting, projection, view, model);
+
 		modelDamian.draw(camera, dirLighting, projection, view, model);
 
 
 		glfwSwapBuffers(mainWindow);
 		
 	}
+
 	return 0;
 }

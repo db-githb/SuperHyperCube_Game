@@ -34,6 +34,9 @@
     <Filter Include="src\modelDamian">
       <UniqueIdentifier>{f30fbe5b-4dfa-4759-a390-95825e904215}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\modelBase">
+      <UniqueIdentifier>{d441b9a4-bbdb-40f7-9ef4-c160e84009f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\axisShader.frag">
@@ -54,10 +57,10 @@
     <None Include="res\shaders\gridLineShader.vert">
       <Filter>res\shaders</Filter>
     </None>
-    <None Include="res\shaders\modelDamian.frag">
+    <None Include="res\shaders\baseShader.frag">
       <Filter>res\shaders</Filter>
     </None>
-    <None Include="res\shaders\modelDamian.vert">
+    <None Include="res\shaders\baseShader.vert">
       <Filter>res\shaders</Filter>
     </None>
   </ItemGroup>
@@ -86,6 +89,9 @@
     <ClCompile Include="src\modelDamian\ModelDamian.cpp">
       <Filter>src\modelDamian</Filter>
     </ClCompile>
+    <ClCompile Include="src\modelBase\ModelBase.cpp">
+      <Filter>src\modelBase</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">
@@ -111,6 +117,9 @@
     </ClInclude>
     <ClInclude Include="src\modelDamian\ModelDamian.h">
       <Filter>src\modelDamian</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modelBase\ModelBase.h">
+      <Filter>src\modelBase</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

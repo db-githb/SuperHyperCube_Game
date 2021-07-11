@@ -12,10 +12,5 @@
 #include "../camera/Camera.h"
 
 // window size
-#define WIDTH 800
-#define HEIGHT 600
-
-#define LIGHT_DIRECTION 0 
-#define LIGHT_AMBIENT 1
-#define LIGHT_DIFFUSE 2
-#define LIGHT_SPECULAR 3
+#define WIDTH 1024
+#define HEIGHT 768

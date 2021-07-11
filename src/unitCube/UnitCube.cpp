@@ -1,7 +1,6 @@
 #include "UnitCube.h"
 
 UnitCube::UnitCube() {
-	cubeShader = Shader("res/shaders/cubeShader.vert", "res/shaders/cubeShader.frag");
 	createCube();
 }
 
@@ -85,26 +84,3 @@ void UnitCube::createCube()
 	glBindVertexArray(0);
 }
 
-void UnitCube::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
-
-	cubeShader.use();
-
-	cubeShader.setVec3("viewPos", inCam.Position);
-
-	cubeShader.setVec3("dirLight.direction", dirLight[LIGHT_DIRECTION]);
-	cubeShader.setVec3("dirLight.ambient", dirLight[LIGHT_AMBIENT]);
-	cubeShader.setVec3("dirLight.diffuse", dirLight[LIGHT_DIFFUSE]);
-	cubeShader.setVec3("dirLight.specular", dirLight[LIGHT_SPECULAR]);
-
-	cubeShader.setMat4("projection", projection);
-	cubeShader.setMat4("view", view);
-
-	// world transformation
-	model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f));
-	cubeShader.setMat4("model", model);
-
-	// render the cubes
-	glBindVertexArray(unitCubeVAO);
-
-	glDrawArrays(GL_TRIANGLES, 0, 36);
-}
