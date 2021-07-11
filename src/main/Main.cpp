@@ -130,15 +130,21 @@ int main()
 	// Create Viewport
 	glViewport(0, 0, WIDTH, HEIGHT);
 
+	// ----------------------------------
+	// DECLARE AND INITIALIZE MODELS HERE
+	// ----------------------------------
 	UnitAxes unitAxes;
 	GridLines gridLines;
+
 	// ModelBase unitCube;
+	// unitCube.initialize();
 
 	ModelDamian modelDamian;
 	modelDamian.initialize();
 
-	// directional lighting values
+	// ==================================
 
+	// directional lighting values
 	glm::vec3 dirLighting[4] = {
 		glm::vec3(-0.2f, -1.0f, -0.3f), //direction
 		glm::vec3(0.05f, 0.05f, 0.05f), // ambient
@@ -170,10 +176,14 @@ int main()
 		unitAxes.draw(camera, projection, view, model);
 		gridLines.draw(camera, projection, view, model);
 
-		// unitCube.draw(camera, dirLighting, projection, view, model);
+		// ----------------------------------
+		// DRAW MODELS HERE
+		// ----------------------------------
 
+		// unitCube.draw(camera, dirLighting, projection, view, model);
 		modelDamian.draw(camera, dirLighting, projection, view, model);
 
+		// ==================================
 
 		glfwSwapBuffers(mainWindow);
 		
