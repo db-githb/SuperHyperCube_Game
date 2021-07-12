@@ -3,6 +3,8 @@
 ModelBase::ModelBase() {
 	unitCube = UnitCube();
 	baseShader = Shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
+
+	scaleFactor = 1.0f;
 }
 
 void ModelBase::initialize() {
@@ -25,11 +27,23 @@ void ModelBase::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, gl
 	baseShader.setMat4("view", view);
 
 	// world transformation
+	// model = glm::scale(model, glm::vec3(1.0f * scaleFactor, 1.0f * scaleFactor, 1.0f));
 	model = glm::translate(model, modelBasePosition);
+	model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
+
 	baseShader.setMat4("model", model);
 
 	// render the cubes
 	glBindVertexArray(unitCube.getVAO());
 
 	glDrawArrays(GL_TRIANGLES, 0, 36);
+}
+
+void ModelBase::scale(int scaleDirection) {
+	if (scaleDirection == SCALE_UP) {
+		scaleFactor += 0.1f;
+	}
+	else {
+		scaleFactor -= 0.1f;
+	}
 }

@@ -53,8 +53,8 @@ void ModelDamian::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 	// world transformation: glm::translate moves the model around the world
 	for (int r = 0; r < ROWS; r++) {
 		for (int c = 0; c < COLUMNS; c++) {
-			float x = (float)c;
-			float y = (float)r;
+			float x = (float)c * scaleFactor;
+			float y = (float)r * scaleFactor;
 			
 			model = glm::mat4(1.0f);
 
@@ -67,7 +67,7 @@ void ModelDamian::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 				model = glm::translate(model, modelBasePosition + translation);
 			}
 			else {
-				
+					
 				glm::vec3 translation = glm::vec3(x, y, 2.0f);
 				model = glm::translate(model, modelBasePosition + translation);
 
@@ -78,6 +78,8 @@ void ModelDamian::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 					baseShader.setVec3("dirLight.ambient", glm::vec3(0.0f, 0.0f, 1.0f));
 				}
 			}
+
+			model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
 
 			// pass the model matrix to the vertex shader
 			baseShader.setMat4("model", model);

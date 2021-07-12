@@ -17,6 +17,15 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+ModelBase* activeModel;
+
+// -------------------
+// DECLARE MODELS HERE
+// -------------------
+ModelBase* unitCube;
+ModelDamian* modelDamian;
+// ===================
+
 void processInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -30,6 +39,7 @@ void processInput(GLFWwindow* window)
 		camera.ProcessKeyboard(LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera.ProcessKeyboard(RIGHT, deltaTime);
+
 }
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
@@ -68,10 +78,27 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS) {
-		return;
+	if (action == GLFW_RELEASE) {
+		switch (key) {
+
+		// choose which model is "active" aka which model will be manipulated
+		case GLFW_KEY_0:
+			activeModel = unitCube;
+			break;
+		case GLFW_KEY_1:
+			activeModel = modelDamian;
+			break;
+
+		// scale models up and down
+		case  GLFW_KEY_U:
+			activeModel->scale(SCALE_UP);
+			break;
+
+		case  GLFW_KEY_J:
+			activeModel->scale(SCALE_DOWN);
+			break;
+		}
 	}
-	return;
 }
 
 int main()
@@ -131,16 +158,16 @@ int main()
 	glViewport(0, 0, WIDTH, HEIGHT);
 
 	// ----------------------------------
-	// DECLARE AND INITIALIZE MODELS HERE
+	// INSTANTIATE AND INITIALIZE MODELS HERE
 	// ----------------------------------
 	UnitAxes unitAxes;
 	GridLines gridLines;
 
-	// ModelBase unitCube;
-	// unitCube.initialize();
+	unitCube = new ModelBase();
+	unitCube->initialize();
 
-	ModelDamian modelDamian;
-	modelDamian.initialize();
+	modelDamian = new ModelDamian();
+	modelDamian->initialize();
 
 	// ==================================
 
@@ -151,6 +178,9 @@ int main()
 		glm::vec3(0.4f, 0.4f, 0.4f), // diffuse
 		glm::vec3(0.5f, 0.5f, 0.5f) // specular
 	};
+
+	// initialize active model
+	activeModel = modelDamian;
 
 	while (!glfwWindowShouldClose(mainWindow))
 	{
@@ -180,8 +210,8 @@ int main()
 		// DRAW MODELS HERE
 		// ----------------------------------
 
-		// unitCube.draw(camera, dirLighting, projection, view, model);
-		modelDamian.draw(camera, dirLighting, projection, view, model);
+		unitCube->draw(camera, dirLighting, projection, view, model);
+		modelDamian->draw(camera, dirLighting, projection, view, model);
 
 		// ==================================
 
