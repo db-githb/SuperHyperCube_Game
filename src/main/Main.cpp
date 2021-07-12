@@ -31,13 +31,13 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
 		camera.ProcessKeyboard(FORWARD, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
 		camera.ProcessKeyboard(BACKWARD, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
 		camera.ProcessKeyboard(LEFT, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS)
 		camera.ProcessKeyboard(RIGHT, deltaTime);
 
 }
@@ -90,12 +90,30 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 
 		// scale models up and down
-		case  GLFW_KEY_U:
+		case GLFW_KEY_U:
 			activeModel->scale(SCALE_UP);
 			break;
 
-		case  GLFW_KEY_J:
+		case GLFW_KEY_J:
 			activeModel->scale(SCALE_DOWN);
+			break;
+
+		// translate models left/right
+		case GLFW_KEY_A:
+			activeModel->translate(TRANS_LEFT);
+			break;
+
+		case  GLFW_KEY_D:
+			activeModel->translate(TRANS_RIGHT);
+			break;
+
+		// translate models up/down
+		case GLFW_KEY_W:
+			activeModel->translate(TRANS_UP);
+			break;
+
+		case  GLFW_KEY_S:
+			activeModel->translate(TRANS_DOWN);
 			break;
 		}
 	}

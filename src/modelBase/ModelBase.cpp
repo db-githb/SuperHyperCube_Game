@@ -5,6 +5,9 @@ ModelBase::ModelBase() {
 	baseShader = Shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
 
 	scaleFactor = 1.0f;
+
+	xTranslation = 0.0f;
+	yTranslation = 0.0f;
 }
 
 void ModelBase::initialize() {
@@ -29,6 +32,7 @@ void ModelBase::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, gl
 	// world transformation
 	// model = glm::scale(model, glm::vec3(1.0f * scaleFactor, 1.0f * scaleFactor, 1.0f));
 	model = glm::translate(model, modelBasePosition);
+	model = glm::translate(model, glm::vec3(xTranslation, yTranslation, 0.0f));
 	model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
 
 	baseShader.setMat4("model", model);
@@ -45,5 +49,22 @@ void ModelBase::scale(int scaleDirection) {
 	}
 	else {
 		scaleFactor -= 0.1f;
+	}
+}
+
+void ModelBase::translate(int translationDirection) {
+	
+	switch (translationDirection) {
+		case TRANS_RIGHT:
+			xTranslation += 0.1f;
+			break;
+		case TRANS_LEFT:
+			xTranslation -= 0.1f;
+			break;
+		case TRANS_UP:
+			yTranslation += 0.1f;
+			break;
+		case TRANS_DOWN:
+			yTranslation -= 0.1f;
 	}
 }

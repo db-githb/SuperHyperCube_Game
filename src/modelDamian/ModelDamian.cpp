@@ -53,11 +53,15 @@ void ModelDamian::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 	// world transformation: glm::translate moves the model around the world
 	for (int r = 0; r < ROWS; r++) {
 		for (int c = 0; c < COLUMNS; c++) {
-			float x = (float)c * scaleFactor;
-			float y = (float)r * scaleFactor;
+
+			// scale
+			float x = (float)c *scaleFactor;
+			float y = (float)r *scaleFactor;
 			
 			model = glm::mat4(1.0f);
 
+			model = glm::translate(model, glm::vec3(xTranslation, yTranslation, 0.0f));
+			
 			// wall cubes are offset from a different base position then the object cubes
 			if (modelData[r][c] == WALL) {
 				baseShader.setVec3("dirLight.ambient", dirLight[LIGHT_AMBIENT]);
@@ -80,7 +84,7 @@ void ModelDamian::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 			}
 
 			model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
-
+			
 			// pass the model matrix to the vertex shader
 			baseShader.setMat4("model", model);
 
