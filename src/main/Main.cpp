@@ -6,6 +6,7 @@
 #include "../modelBase/modelBase.h"
 #include "../modelDamian/modelDamian.h"
 #include "../modelElijah/modelElijah.h"
+#include "../modelThomas/modelThomas.h"
 
 // camera
 Camera camera(glm::vec3(0.0f, 1.0f, 5.0f));
@@ -26,6 +27,7 @@ ModelBase* activeModel;
 ModelBase* unitCube;
 ModelDamian* modelDamian;
 ModelElijah* modelElijah;
+ModelThomas* modelThomas;
 // ===================
 
 void processInput(GLFWwindow* window)
@@ -92,6 +94,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		case GLFW_KEY_2:
 			activeModel = modelElijah;
+			break;
+		case GLFW_KEY_3:
+			activeModel = modelThomas;
 
 		// scale models up and down
 		case GLFW_KEY_U:
@@ -204,6 +209,9 @@ int main()
 	modelElijah = new ModelElijah();
 	modelElijah->initialize();
 
+	modelThomas = new ModelThomas();
+	modelThomas->initialize();
+
 
 	// ==================================
 
@@ -249,6 +257,7 @@ int main()
 		unitCube->draw(camera, dirLighting, projection, view, model);
 		modelDamian->draw(camera, dirLighting, projection, view, model);
 		modelElijah->draw(camera, dirLighting, projection, view, model);
+		modelThomas->draw(camera, dirLighting, projection, view, model);
 
 		// ==================================
 

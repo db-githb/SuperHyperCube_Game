@@ -40,6 +40,9 @@
     <Filter Include="src\modelElijah">
       <UniqueIdentifier>{e335ef80-6227-4015-b86b-060daa5e0d37}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\modelThomas">
+      <UniqueIdentifier>{c03432c7-a564-4eae-a89b-a825ccc5f20f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\axisShader.frag">
@@ -98,6 +101,9 @@
     <ClCompile Include="src\modelElijah\ModelElijah.cpp">
       <Filter>src\modelElijah</Filter>
     </ClCompile>
+    <ClCompile Include="src\modelThomas\ModelThomas.cpp">
+      <Filter>src\modelThomas</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">
@@ -129,6 +135,9 @@
     </ClInclude>
     <ClInclude Include="src\modelElijah\ModelElijah.h">
       <Filter>src\modelElijah</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modelThomas\ModelThomas.h">
+      <Filter>src\modelThomas</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
