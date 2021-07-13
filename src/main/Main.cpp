@@ -98,13 +98,23 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			activeModel->scale(SCALE_DOWN);
 			break;
 
-		// translate models left/right
+		// translate models left/right and rotate left/right
 		case GLFW_KEY_A:
-			activeModel->translate(TRANS_LEFT);
+			if (mods == GLFW_MOD_SHIFT) {
+				activeModel->translate(TRANS_LEFT);
+			}
+			else {
+				activeModel->rotate(ROTATE_LEFT);
+			}
 			break;
 
 		case  GLFW_KEY_D:
-			activeModel->translate(TRANS_RIGHT);
+			if (mods == GLFW_MOD_SHIFT) {
+				activeModel->translate(TRANS_RIGHT);
+			}
+			else {
+				activeModel->rotate(ROTATE_RIGHT);
+			}
 			break;
 
 		// translate models up/down

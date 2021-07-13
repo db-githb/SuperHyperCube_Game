@@ -2,30 +2,40 @@
 
 void ModelDamian::initialize() {
 	
-	modelBasePosition = glm::vec3(0.5f, 0.5f, -2.0f);
+	modelBasePosition = glm::vec3(-3.5f, 0.5f, 0.5f);
 
-	// initialize entire model to a wall
+	// initialize entire model to a wall or none (no unit cube)
 	for (int r = 0; r < ROWS; r++) {
 		for (int c = 0; c < COLUMNS; c++) {
-			modelData[r][c] = WALL;
+			for(int p = 0; p < PLANES; p++)
+				if (p == 0) {
+					modelData[r][c][p] = WALL;
+				}
+				else {
+					modelData[r][c][p] = NONE;
+				}
 		}
 	}
 
-	// reset unitCubes in the model to their color
+	// reset unitCubes in the model to their respective colors
 	for (int r = 1; r < 8; r++) {
-		modelData[r][3] = BLUE;
+		modelData[r][3][PLANES-1] = BLUE;
+		modelData[r][3][0] = NONE;
 	}
 
 	for (int c = 1; c < 6; c++) {
 		
-		modelData[2][c] = RED;
+		modelData[2][c][PLANES-1] = RED;
+		modelData[2][c][0] = NONE;
 
 		if (c != 3) {
-			modelData[6][c] = RED;
+			modelData[6][c][PLANES-1] = RED;
+			modelData[6][c][0] = NONE;
 		}
 		
 		if (c == 2 || c == 4) {
-			modelData[4][c] = RED;
+			modelData[4][c][PLANES-1] = RED;
+			modelData[4][c][0] = NONE;
 		}
 	}
 
@@ -50,47 +60,72 @@ void ModelDamian::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 	baseShader.setMat4("projection", projection);
 	baseShader.setMat4("view", view);
 
+	// TODO: put this in base class? or leave 
+	float radians = glm::radians(degrees);
+
 	// world transformation: glm::translate moves the model around the world
 	for (int r = 0; r < ROWS; r++) {
 		for (int c = 0; c < COLUMNS; c++) {
+			for (int p = 0; p < PLANES; p++) {
 
-			// scale
-			float x = (float)c *scaleFactor;
-			float y = (float)r *scaleFactor;
-			
-			model = glm::mat4(1.0f);
+				if (modelData[r][c][p] == NONE) {
+					continue;
+				}
 
-			model = glm::translate(model, glm::vec3(xTranslation, yTranslation, 0.0f));
-			
-			// wall cubes are offset from a different base position then the object cubes
-			if (modelData[r][c] == WALL) {
-				baseShader.setVec3("dirLight.ambient", dirLight[LIGHT_AMBIENT]);
+				// scale position of each unitCube
+				float x = (float)c * scaleFactor;
+				float y = (float)r * scaleFactor;
+				float z = (float)p * scaleFactor;
 
-				glm::vec3 translation = glm::vec3(x, y, 0.0f);
-				// TODO: make base position a variable (currently it's a constant)
-				model = glm::translate(model, modelBasePosition + translation);
-			}
-			else {
-					
-				glm::vec3 translation = glm::vec3(x, y, 2.0f);
-				model = glm::translate(model, modelBasePosition + translation);
+				// ensure that the model matrix passed is an identity matrix
+				model = glm::mat4(1.0f);
 
-				if (modelData[r][c] == RED) {
-					baseShader.setVec3("dirLight.ambient", glm::vec3(1.0f, 0.0f, 0.0f));
+				// apply any x or y translations
+				model = glm::translate(model, glm::vec3(xTranslation, yTranslation, 0.0f));
+
+				// apply any rotation to the model
+				model = glm::rotate(model, glm::radians(degrees), glm::vec3(0.0f, 1.0f, 0.0f));
+
+				// wall cubes are offset from a different base position then the object cubes
+				if (modelData[r][c][p] == WALL) {
+
+					// shader colors the wall unit cube grey
+					baseShader.setVec3("dirLight.ambient", dirLight[LIGHT_AMBIENT]);
+
+					// translation vector to move unit cube from base position
+					glm::vec3 translation = glm::vec3(x, y, z);
+
+					// TODO: make base position a variable (currently it's a constant)
+					model = glm::translate(model, modelBasePosition + translation);
 				}
 				else {
-					baseShader.setVec3("dirLight.ambient", glm::vec3(0.0f, 0.0f, 1.0f));
+					// translation vector to move unit cube from base position
+					glm::vec3 translation = glm::vec3(x, y, z);
+
+					// translation vector to move unit cube from base position
+					model = glm::translate(model, modelBasePosition + translation);
+
+					// if-else statement colors the object cubes either red or blue
+					if (modelData[r][c][p] == RED) {
+						baseShader.setVec3("dirLight.ambient", glm::vec3(1.0f, 0.0f, 0.0f));
+					}
+					else {
+						baseShader.setVec3("dirLight.ambient", glm::vec3(0.0f, 0.0f, 1.0f));
+					}
 				}
+
+				// scale the size of each cube
+				model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
+
+				// pass the model matrix to the vertex shader
+				baseShader.setMat4("model", model);
+
+				// render the cube
+				glBindVertexArray(unitCube.getVAO());
+				glDrawArrays(GL_TRIANGLES, 0, 36);
+
 			}
-
-			model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
-			
-			// pass the model matrix to the vertex shader
-			baseShader.setMat4("model", model);
-
-			// render the cube
-			glBindVertexArray(unitCube.getVAO());
-			glDrawArrays(GL_TRIANGLES, 0, 36);
+		
 		}
 	}
 }

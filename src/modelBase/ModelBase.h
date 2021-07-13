@@ -14,6 +14,9 @@
 #define TRANS_UP 2
 #define TRANS_DOWN 3
 
+#define ROTATE_RIGHT 0
+#define ROTATE_LEFT 1
+
 class ModelBase {
 
 public:
@@ -22,6 +25,7 @@ public:
 	virtual void draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, glm::mat4 view, glm::mat4 model);
 	virtual void scale(int scaleDirection);
 	virtual void translate(int translationDirection);
+	virtual void rotate(int rotation);
 
 protected:
 	UnitCube unitCube;
@@ -30,4 +34,5 @@ protected:
 	float scaleFactor;
 	float xTranslation;
 	float yTranslation;
+	float degrees;
 };

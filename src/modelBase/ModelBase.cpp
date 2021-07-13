@@ -8,6 +8,8 @@ ModelBase::ModelBase() {
 
 	xTranslation = 0.0f;
 	yTranslation = 0.0f;
+
+	degrees = 0.0f;
 }
 
 void ModelBase::initialize() {
@@ -66,5 +68,14 @@ void ModelBase::translate(int translationDirection) {
 			break;
 		case TRANS_DOWN:
 			yTranslation -= 0.1f;
+	}
+}
+
+void ModelBase::rotate(int rotation) {
+	if (rotation == ROTATE_LEFT) {
+		degrees += 5;
+	}
+	else {
+		degrees -= 5;
 	}
 }
