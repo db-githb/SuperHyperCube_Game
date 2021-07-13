@@ -5,6 +5,7 @@
 #include "../gridLines/GridLines.h"
 #include "../modelBase/modelBase.h"
 #include "../modelDamian/modelDamian.h"
+#include "../modelElijah/modelElijah.h"
 
 // camera
 Camera camera(glm::vec3(0.0f, 1.0f, 5.0f));
@@ -24,6 +25,7 @@ ModelBase* activeModel;
 // -------------------
 ModelBase* unitCube;
 ModelDamian* modelDamian;
+ModelElijah* modelElijah;
 // ===================
 
 void processInput(GLFWwindow* window)
@@ -88,6 +90,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_1:
 			activeModel = modelDamian;
 			break;
+		case GLFW_KEY_2:
+			activeModel = modelElijah;
 
 		// scale models up and down
 		case GLFW_KEY_U:
@@ -197,6 +201,10 @@ int main()
 	modelDamian = new ModelDamian();
 	modelDamian->initialize();
 
+	modelElijah = new ModelElijah();
+	modelElijah->initialize();
+
+
 	// ==================================
 
 	// directional lighting values
@@ -240,6 +248,7 @@ int main()
 
 		unitCube->draw(camera, dirLighting, projection, view, model);
 		modelDamian->draw(camera, dirLighting, projection, view, model);
+		modelElijah->draw(camera, dirLighting, projection, view, model);
 
 		// ==================================
 

@@ -37,6 +37,9 @@
     <Filter Include="src\modelBase">
       <UniqueIdentifier>{d441b9a4-bbdb-40f7-9ef4-c160e84009f9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\modelElijah">
+      <UniqueIdentifier>{e335ef80-6227-4015-b86b-060daa5e0d37}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\axisShader.frag">
@@ -92,6 +95,9 @@
     <ClCompile Include="src\modelBase\ModelBase.cpp">
       <Filter>src\modelBase</Filter>
     </ClCompile>
+    <ClCompile Include="src\modelElijah\ModelElijah.cpp">
+      <Filter>src\modelElijah</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">
@@ -120,6 +126,9 @@
     </ClInclude>
     <ClInclude Include="src\modelBase\ModelBase.h">
       <Filter>src\modelBase</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modelElijah\ModelElijah.h">
+      <Filter>src\modelElijah</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

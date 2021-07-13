@@ -77,6 +77,14 @@
     <LibraryPath>$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\lib-vc2019;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
     <IncludePath>$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>D:\dev\COMP-371\Comp371_Project\lib\glfw-3.3.2.bin.WIN32\include;D:\dev\Libraries\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\dev\Libraries\Libs;D:\dev\COMP-371\Comp371_Project\lib\glfw-3.3.2.bin.WIN32\lib-vc2019;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>D:\dev\COMP-371\Comp371_Project\lib\glfw-3.3.2.bin.WIN32\include;D:\dev\Libraries\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\dev\Libraries\Libs;D:\dev\COMP-371\Comp371_Project\lib\glfw-3.3.2.bin.WIN32\lib-vc2019;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -98,6 +106,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -129,6 +138,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -155,6 +165,7 @@
     <ClCompile Include="src\main\Main.cpp" />
     <ClCompile Include="src\modelBase\ModelBase.cpp" />
     <ClCompile Include="src\modelDamian\ModelDamian.cpp" />
+    <ClCompile Include="src\modelElijah\ModelElijah.cpp" />
     <ClCompile Include="src\shader\Shader.cpp" />
     <ClCompile Include="src\unitAxes\UnitAxes.cpp" />
     <ClCompile Include="src\unitCube\UnitCube.cpp" />
@@ -166,6 +177,7 @@
     <ClInclude Include="src\main\Main.h" />
     <ClInclude Include="src\modelBase\ModelBase.h" />
     <ClInclude Include="src\modelDamian\ModelDamian.h" />
+    <ClInclude Include="src\modelElijah\ModelElijah.h" />
     <ClInclude Include="src\shader\Shader.h" />
     <ClInclude Include="src\unitAxes\UnitAxes.h" />
     <ClInclude Include="src\unitCube\UnitCube.h" />
