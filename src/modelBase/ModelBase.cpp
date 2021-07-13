@@ -9,7 +9,7 @@ ModelBase::ModelBase() {
 	xTranslation = 0.0f;
 	yTranslation = 0.0f;
 
-	degrees = 0.0f;
+	orientation = 0.0f;
 }
 
 void ModelBase::initialize() {
@@ -73,9 +73,9 @@ void ModelBase::translate(int translationDirection) {
 
 void ModelBase::rotate(int rotation) {
 	if (rotation == ROTATE_LEFT) {
-		degrees += 5;
+		orientation += glm::radians(5.0f);
 	}
 	else {
-		degrees -= 5;
+		orientation -= glm::radians(5.0f);
 	}
 }

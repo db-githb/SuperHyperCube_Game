@@ -19,6 +19,13 @@ Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float u
 		updateCameraVectors();
 	}
 
+void Camera::sendHome() {
+	Position = HOME_POSITION;
+	WorldUp = HOME_UP;
+	Yaw = HOME_YAW;
+	Pitch = HOME_PITCH;
+	updateCameraVectors();
+}
 	// returns the view matrix calculated using Euler Angles and the LookAt Matrix
 	glm::mat4 Camera::GetViewMatrix()
 	{

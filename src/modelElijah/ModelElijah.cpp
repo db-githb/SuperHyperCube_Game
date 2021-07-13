@@ -61,7 +61,7 @@ void ModelElijah::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 	baseShader.setMat4("view", view);
 
 	// TODO: put this in base class? or leave 
-	float radians = glm::radians(degrees);
+	float radians = glm::radians(orientation);
 
 	// world transformation: glm::translate moves the model around the world
 	for (int r = 0; r < ROWS; r++) {
@@ -84,7 +84,7 @@ void ModelElijah::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 				model = glm::translate(model, glm::vec3(xTranslation, yTranslation, 0.0f));
 
 				// apply any rotation to the model
-				model = glm::rotate(model, glm::radians(degrees), glm::vec3(0.0f, 1.0f, 0.0f));
+				model = glm::rotate(model,orientation, glm::vec3(0.0f, 1.0f, 0.0f));
 
 				// wall cubes are offset from a different base position then the object cubes
 				if (modelData[r][c][p] == WALL) {

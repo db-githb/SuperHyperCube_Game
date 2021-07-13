@@ -2,7 +2,7 @@
 
 void ModelDamian::initialize() {
 	
-	modelBasePosition = glm::vec3(-3.5f, 0.5f, 0.5f);
+	modelBasePosition = glm::vec3(-5.0f, 0.5f, -6.5f);
 
 	// initialize entire model to a wall or none (no unit cube)
 	for (int r = 0; r < ROWS; r++) {
@@ -38,7 +38,6 @@ void ModelDamian::initialize() {
 			modelData[4][c][0] = NONE;
 		}
 	}
-
 }
 
 // draw method works by rendering each unit cube in the model
@@ -60,8 +59,13 @@ void ModelDamian::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 	baseShader.setMat4("projection", projection);
 	baseShader.setMat4("view", view);
 
-	// TODO: put this in base class? or leave 
-	float radians = glm::radians(degrees);
+	// put this in base class or leave 
+
+	const glm::mat3 rotationMatrix = glm::mat3(
+		glm::vec3(glm::cos(orientation), 0.0f, -glm::sin(orientation)),
+		glm::vec3(0.0f, 1.0f, 0.0f),
+		glm::vec3(glm::sin(orientation), 0.0f, glm::cos(orientation))
+	);
 
 	// world transformation: glm::translate moves the model around the world
 	for (int r = 0; r < ROWS; r++) {
@@ -73,18 +77,23 @@ void ModelDamian::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 				}
 
 				// scale position of each unitCube
-				float x = (float)c * scaleFactor;
+				// positions of each cube are relative to the axis of rotation
+				float x = ((float)c - (COLUMNS * 0.5f)) * scaleFactor;
 				float y = (float)r * scaleFactor;
-				float z = (float)p * scaleFactor;
+				float z = ((float)p - 0.5f) * scaleFactor;
+
+				// translation vector to move unit cube from base position
+				glm::vec3 translation = glm::vec3(x, y, z);
+
+				// apply a rotation to the translation vector so that the position of the unit cube is synchronized with the orientation of the cube
+				translation = rotationMatrix * translation;
+				
 
 				// ensure that the model matrix passed is an identity matrix
 				model = glm::mat4(1.0f);
-
+				
 				// apply any x or y translations
 				model = glm::translate(model, glm::vec3(xTranslation, yTranslation, 0.0f));
-
-				// apply any rotation to the model
-				model = glm::rotate(model, glm::radians(degrees), glm::vec3(0.0f, 1.0f, 0.0f));
 
 				// wall cubes are offset from a different base position then the object cubes
 				if (modelData[r][c][p] == WALL) {
@@ -92,15 +101,11 @@ void ModelDamian::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 					// shader colors the wall unit cube grey
 					baseShader.setVec3("dirLight.ambient", dirLight[LIGHT_AMBIENT]);
 
-					// translation vector to move unit cube from base position
-					glm::vec3 translation = glm::vec3(x, y, z);
-
 					// TODO: make base position a variable (currently it's a constant)
 					model = glm::translate(model, modelBasePosition + translation);
+
 				}
 				else {
-					// translation vector to move unit cube from base position
-					glm::vec3 translation = glm::vec3(x, y, z);
 
 					// translation vector to move unit cube from base position
 					model = glm::translate(model, modelBasePosition + translation);
@@ -116,6 +121,9 @@ void ModelDamian::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 
 				// scale the size of each cube
 				model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
+
+				// apply the unit cube so that the cube's orientation is aligned with the model's orientation
+				model = glm::rotate(model, orientation, glm::vec3(0.0f, 1.0f, 0.0f));
 
 				// pass the model matrix to the vertex shader
 				baseShader.setMat4("model", model);

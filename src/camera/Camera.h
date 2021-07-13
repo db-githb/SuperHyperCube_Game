@@ -15,9 +15,13 @@ enum Camera_Movement {
 	RIGHT
 };
 
+#define HOME_POSITION glm::vec3(0.0f, 1.0f, 5.0f)
+#define HOME_YAW -90.0f
+#define HOME_PITCH 0.0f
+#define HOME_UP glm::vec3(0.0f, 1.0f, 0.0f)
+
+
 // Default camera values
-const float YAW = -90.0f;
-const float PITCH = 0.0f;
 const float SPEED = 2.5f;
 const float SENSITIVITY = 0.1f;
 const float ZOOM = 45.0f;
@@ -28,21 +32,26 @@ public:
 	// camera Attributes
 	glm::vec3 Position;
 	glm::vec3 Front;
-	glm::vec3 Up;
+	glm::vec3 Up; //  TODO: check what this parameter does.  Pretty sure we only need to the worldUp parameter
 	glm::vec3 Right;
 	glm::vec3 WorldUp;
+
 	// euler Angles
 	float Yaw;
 	float Pitch;
+
 	// camera options
 	float MovementSpeed;
 	float MouseSensitivity;
 	float Zoom;
 
 	// constructor with vectors
-	Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH);
+	Camera(glm::vec3 position = HOME_POSITION, glm::vec3 up = HOME_UP, float yaw = HOME_YAW, float pitch = HOME_PITCH);
+
 	// constructor with scalar values
 	Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch);
+
+	void sendHome();
 
 	// returns the view matrix calculated using Euler Angles and the LookAt Matrix
 	glm::mat4 GetViewMatrix();

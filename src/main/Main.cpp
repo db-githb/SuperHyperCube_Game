@@ -8,8 +8,8 @@
 #include "../modelElijah/modelElijah.h"
 #include "../modelThomas/modelThomas.h"
 
-// camera
-Camera camera(glm::vec3(0.0f, 1.0f, 5.0f));
+// instantiate camera
+Camera camera;
 
 float lastX = WIDTH / 2.0f;
 float lastY = HEIGHT / 2.0f;
@@ -35,13 +35,13 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 
-	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
 		camera.ProcessKeyboard(FORWARD, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
 		camera.ProcessKeyboard(BACKWARD, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
 		camera.ProcessKeyboard(LEFT, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 		camera.ProcessKeyboard(RIGHT, deltaTime);
 
 }
@@ -133,6 +133,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 		case  GLFW_KEY_S:
 			activeModel->translate(TRANS_DOWN);
+			break;
+
+		case GLFW_KEY_HOME:
+			camera.sendHome();
 			break;
 		}
 	}

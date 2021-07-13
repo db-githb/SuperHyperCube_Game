@@ -34,5 +34,7 @@ protected:
 	float scaleFactor;
 	float xTranslation;
 	float yTranslation;
-	float degrees;
+
+	/* orientation in radians */
+	float orientation;
 };
