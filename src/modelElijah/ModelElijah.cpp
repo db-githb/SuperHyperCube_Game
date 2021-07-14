@@ -60,11 +60,6 @@ void ModelElijah::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 	baseShader.setMat4("projection", projection);
 	baseShader.setMat4("view", view);
 
-<<<<<<< Updated upstream
-=======
-
-	
->>>>>>> Stashed changes
 	// world transformation: glm::translate moves the model around the world
 	for (int r = 0; r < ROWS; r++) {
 		for (int c = 0; c < COLUMNS; c++) {
@@ -81,8 +76,9 @@ void ModelElijah::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 
 				// ensure that the model matrix passed is an identity matrix
 				model = glm::mat4(1.0f);
-				glm::mat4 modelPosition = glm::translate(model , modelBasePosition);
+				glm::mat4 modelPosition = glm::translate(model , modelBasePosition + glm::vec3(xTranslation, yTranslation, 0.0f));
 				// apply any rotation to the model
+
 				model = glm::rotate(modelPosition, orientation, glm::vec3(0.0f, 1.0f, 0.0f));
 				
 				// wall cubes are offset from a different base position then the object cubes
@@ -95,14 +91,14 @@ void ModelElijah::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 					glm::vec3 translation = glm::vec3(x, y, z);
 
 					// TODO: make base position a variable (currently it's a constant)
-					model = glm::translate(model,translation + glm::vec3(xTranslation-COLUMNS/2, yTranslation, 0.0f));
+					model = glm::translate(model,translation + glm::vec3(-COLUMNS / 2, 0.0f, 0.0f));
 				}
 				else {
 					// translation vector to move unit cube from base position
 					glm::vec3 translation = glm::vec3(x, y, z);
 
 					// translation vector to move unit cube from base position
-					model = glm::translate(model,translation + glm::vec3(xTranslation - COLUMNS / 2, yTranslation, 0.0f));
+					model = glm::translate(model,translation + glm::vec3(-COLUMNS/2, 0.0f, 0.0f));
 
 					// if-else statement colors the object cubes either red or blue
 					if (modelData[r][c][p] == RED) {
