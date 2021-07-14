@@ -7,6 +7,7 @@
 #include "../modelDamian/modelDamian.h"
 #include "../modelElijah/modelElijah.h"
 #include "../modelThomas/modelThomas.h"
+#include "../modelKayla/modelKayla.h"
 
 // instantiate camera
 Camera camera;
@@ -28,6 +29,7 @@ ModelBase* unitCube;
 ModelDamian* modelDamian;
 ModelElijah* modelElijah;
 ModelThomas* modelThomas;
+ModelKayla* modelKayla;
 // ===================
 
 void processInput(GLFWwindow* window)
@@ -97,6 +99,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		case GLFW_KEY_3:
 			activeModel = modelThomas;
+			break;
+		case GLFW_KEY_4:
+			activeModel = modelKayla;
 			break;
 
 		// select render mode
@@ -229,6 +234,8 @@ int main()
 	modelThomas = new ModelThomas();
 	modelThomas->initialize();
 
+	modelKayla = new ModelKayla();
+	modelKayla->initialize();
 
 	// ==================================
 
@@ -275,6 +282,7 @@ int main()
 		modelDamian->draw(camera, dirLighting, projection, view, model);
 		modelElijah->draw(camera, dirLighting, projection, view, model);
 		modelThomas->draw(camera, dirLighting, projection, view, model);
+		modelKayla->draw(camera, dirLighting, projection, view, model);
 
 		// ==================================
 

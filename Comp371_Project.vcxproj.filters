@@ -104,6 +104,7 @@
     <ClCompile Include="src\modelThomas\ModelThomas.cpp">
       <Filter>src\modelThomas</Filter>
     </ClCompile>
+    <ClCompile Include="src\modelKayla\ModelKayla.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">
@@ -139,5 +140,6 @@
     <ClInclude Include="src\modelThomas\ModelThomas.h">
       <Filter>src\modelThomas</Filter>
     </ClInclude>
+    <ClInclude Include="src\modelKayla\ModelKayla.h" />
   </ItemGroup>
 </Project>
