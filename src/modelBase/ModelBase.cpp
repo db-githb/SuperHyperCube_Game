@@ -10,6 +10,8 @@ ModelBase::ModelBase() {
 	yTranslation = 0.0f;
 
 	orientation = 0.0f;
+
+	renderMode = RENDER_TRIANGLES;
 }
 
 void ModelBase::initialize() {
@@ -78,4 +80,8 @@ void ModelBase::rotate(int rotation) {
 	else {
 		orientation -= glm::radians(5.0f);
 	}
+}
+
+void ModelBase::setRenderMode(int inRenderMode) {
+	renderMode = inRenderMode;
 }

@@ -17,6 +17,10 @@
 #define ROTATE_RIGHT 0
 #define ROTATE_LEFT 1
 
+#define RENDER_POINTS 0
+#define RENDER_LINES 1
+#define RENDER_TRIANGLES 2
+
 class ModelBase {
 
 public:
@@ -26,6 +30,7 @@ public:
 	virtual void scale(int scaleDirection);
 	virtual void translate(int translationDirection);
 	virtual void rotate(int rotation);
+	virtual void setRenderMode(int renderMode);
 
 protected:
 	UnitCube unitCube;
@@ -34,6 +39,7 @@ protected:
 	float scaleFactor;
 	float xTranslation;
 	float yTranslation;
+	int renderMode;
 
 	/* orientation in radians */
 	float orientation;

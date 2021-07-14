@@ -60,9 +60,6 @@ void ModelElijah::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 	baseShader.setMat4("projection", projection);
 	baseShader.setMat4("view", view);
 
-	// TODO: put this in base class? or leave 
-	float radians = glm::radians(orientation);
-
 	// world transformation: glm::translate moves the model around the world
 	for (int r = 0; r < ROWS; r++) {
 		for (int c = 0; c < COLUMNS; c++) {

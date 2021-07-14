@@ -36,13 +36,13 @@ void processInput(GLFWwindow* window)
 		glfwSetWindowShouldClose(window, true);
 
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		camera.ProcessKeyboard(FORWARD, deltaTime);
+		camera.ProcessKeyboard(Camera_Movement::FORWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		camera.ProcessKeyboard(BACKWARD, deltaTime);
+		camera.ProcessKeyboard(Camera_Movement::BACKWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-		camera.ProcessKeyboard(LEFT, deltaTime);
+		camera.ProcessKeyboard(Camera_Movement::LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		camera.ProcessKeyboard(RIGHT, deltaTime);
+		camera.ProcessKeyboard(Camera_Movement::RIGHT, deltaTime);
 
 }
 
@@ -71,11 +71,23 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
+	if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
+	{
+		camera.Engaged = Mouse_Button::Right;
+		return;
+	}
+	if (button == GLFW_MOUSE_BUTTON_MIDDLE && action == GLFW_PRESS)
+	{
+		camera.Engaged = Mouse_Button::Middle;
+		return;
+	}
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
 	{
+		camera.Engaged = Mouse_Button::Left;
 		return;
 	}
 
+	camera.Engaged = Mouse_Button::None;
 	return;
 
 }
@@ -138,13 +150,25 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_HOME:
 			camera.sendHome();
 			break;
+		
+		// change rendering mode
+		case  GLFW_KEY_P:
+			activeModel->setRenderMode(RENDER_POINTS);
+			break;
+
+		case GLFW_KEY_L:
+			activeModel->setRenderMode(RENDER_LINES);
+			break;
+
+		case GLFW_KEY_T:
+			activeModel->setRenderMode(RENDER_TRIANGLES);
+			break;
 		}
 	}
 }
 
 int main()
 {
-
 	// Initialise GLFW
 		if (!glfwInit())
 		{

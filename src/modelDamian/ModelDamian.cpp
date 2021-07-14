@@ -60,7 +60,6 @@ void ModelDamian::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 	baseShader.setMat4("view", view);
 
 	// put this in base class or leave 
-
 	const glm::mat3 rotationMatrix = glm::mat3(
 		glm::vec3(glm::cos(orientation), 0.0f, -glm::sin(orientation)),
 		glm::vec3(0.0f, 1.0f, 0.0f),
@@ -88,7 +87,6 @@ void ModelDamian::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 				// apply a rotation to the translation vector so that the position of the unit cube is synchronized with the orientation of the cube
 				translation = rotationMatrix * translation;
 				
-
 				// ensure that the model matrix passed is an identity matrix
 				model = glm::mat4(1.0f);
 				
@@ -128,10 +126,23 @@ void ModelDamian::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 				// pass the model matrix to the vertex shader
 				baseShader.setMat4("model", model);
 
+				baseShader.setMat4("projection", projection);
+				baseShader.setMat4("view", view);
+
 				// render the cube
 				glBindVertexArray(unitCube.getVAO());
-				glDrawArrays(GL_TRIANGLES, 0, 36);
 
+				switch (renderMode){
+					case RENDER_POINTS:
+						glDrawArrays(GL_POINTS, 0, 36);
+						break;
+					case RENDER_LINES:
+						glDrawArrays(GL_LINES, 0, 36);
+						break;
+					case RENDER_TRIANGLES:
+						glDrawArrays(GL_TRIANGLES, 0, 36);
+						break;
+				}
 			}
 		
 		}

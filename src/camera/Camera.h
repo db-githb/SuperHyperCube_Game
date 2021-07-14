@@ -15,6 +15,13 @@ enum Camera_Movement {
 	RIGHT
 };
 
+enum Mouse_Button {
+	None,
+	Right,
+	Middle,
+	Left
+};
+
 #define HOME_POSITION glm::vec3(0.0f, 1.0f, 5.0f)
 #define HOME_YAW -90.0f
 #define HOME_PITCH 0.0f
@@ -44,6 +51,8 @@ public:
 	float MovementSpeed;
 	float MouseSensitivity;
 	float Zoom;
+
+	Mouse_Button Engaged;
 
 	// constructor with vectors
 	Camera(glm::vec3 position = HOME_POSITION, glm::vec3 up = HOME_UP, float yaw = HOME_YAW, float pitch = HOME_PITCH);
