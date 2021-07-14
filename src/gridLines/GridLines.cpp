@@ -13,6 +13,10 @@ void GridLines::draw(Camera camera, glm::mat4 projection, glm::mat4 view, glm::m
 
 	// lines parallel to z-axis
 	for (int i = 0; i < 101; i++) {
+		if (i % 5 == 0)
+			gridLinesShader.setVec4("Color", glm::vec4(1, 0, 1, 1));
+		else
+			gridLinesShader.setVec4("Color", glm::vec4(0.5f, 1, 0.5f, 1));
 		model = glm::scale(glm::mat4(1.0f), glm::vec3(0.2f));
 		model = glm::translate(model, glm::vec3(-50.0 + (float)i, 0.0f, 0.0f));
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 50.0f));
@@ -25,6 +29,10 @@ void GridLines::draw(Camera camera, glm::mat4 projection, glm::mat4 view, glm::m
 
 	// lines perpendicular to z-axis
 	for (int i = 0; i < 101; i++) {
+		if (i % 5 == 0)
+			gridLinesShader.setVec4("Color", glm::vec4(1, 0, 1, 1));
+		else
+			gridLinesShader.setVec4("Color", glm::vec4(0.5f, 1, 0.5f, 1));
 		model = glm::scale(glm::mat4(1.0f), glm::vec3(0.2f));
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -50.0 + (float)i));
 		model = glm::translate(model, glm::vec3(-50.0f, 0.0f, 0.0f));
