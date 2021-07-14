@@ -97,6 +97,19 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		case GLFW_KEY_3:
 			activeModel = modelThomas;
+			break;
+
+		// select render mode
+
+		case GLFW_KEY_T:
+			activeModel->setRenderMode(GL_TRIANGLES);
+			break;
+		case GLFW_KEY_P:
+			activeModel->setRenderMode(GL_POINTS);
+			break;
+		case GLFW_KEY_L:
+			activeModel->setRenderMode(GL_LINES);
+
 
 		// scale models up and down
 		case GLFW_KEY_U:

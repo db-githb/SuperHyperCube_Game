@@ -26,6 +26,7 @@ public:
 	virtual void scale(int scaleDirection);
 	virtual void translate(int translationDirection);
 	virtual void rotate(int rotation);
+	virtual void setRenderMode(int mode);
 
 protected:
 	UnitCube unitCube;
@@ -34,6 +35,7 @@ protected:
 	float scaleFactor;
 	float xTranslation;
 	float yTranslation;
+	int renderMode;
 
 	/* orientation in radians */
 	float orientation;

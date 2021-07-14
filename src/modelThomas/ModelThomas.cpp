@@ -119,7 +119,7 @@ void ModelThomas::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 
 				// render the cube
 				glBindVertexArray(unitCube.getVAO());
-				glDrawArrays(GL_TRIANGLES, 0, 36);
+				glDrawArrays(renderMode, 0, 36);
 
 			}
 
