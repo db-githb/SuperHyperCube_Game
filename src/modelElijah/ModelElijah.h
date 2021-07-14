@@ -19,4 +19,5 @@ public:
 
 private:
 	int modelData[ROWS][COLUMNS][PLANES];
+	glm::mat4 positionMat;
 };
