@@ -24,9 +24,9 @@ enum Mouse_Button {
 	Left
 };
 
-#define HOME_POSITION glm::vec3(0.0f, 1.0f, 5.0f)
+#define HOME_POSITION glm::vec3(0.0f, 15.0f, 25.0f)
 #define HOME_YAW -90.0f
-#define HOME_PITCH 0.0f
+#define HOME_PITCH -35.0f
 #define HOME_UP glm::vec3(0.0f, 1.0f, 0.0f)
 
 

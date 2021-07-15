@@ -4,10 +4,49 @@ void ModelDamian::initialize() {
 	
 	modelBasePosition = glm::vec3(-5.0f, 0.5f, -6.5f);
 
+	resetModel();
+	generateOriginalObject();
+}
+
+int* ModelDamian::generateRandomModel(int x, int y, int z) {
+	
+	resetModel();
+
+	int zRand;
+
+	// reset unitCubes in the model to their respective colors
+	for (int r = 1; r < 8; r++) {
+		zRand = (rand() % 3) + 1;
+		modelData[r][3][zRand] = BLUE;
+		modelData[r][3][0] = NONE;
+	}
+
+	for (int c = 1; c < 6; c++) {
+		zRand = (rand() % 3) + 1;
+		modelData[2][c][zRand] = RED;
+		modelData[2][c][0] = NONE;
+
+		if (c != 3) {
+			zRand = (rand() % 3) + 1;
+			modelData[6][c][zRand] = RED;
+			modelData[6][c][0] = NONE;
+		}
+
+		if (c == 2 || c == 4) {
+			zRand = (rand() % 3) + 1;
+			modelData[4][c][zRand] = RED;
+			modelData[4][c][0] = NONE;
+		}
+	}
+
+	return NULL;
+}
+
+void ModelDamian::resetModel() {
 	// initialize entire model to a wall or none (no unit cube)
 	for (int r = 0; r < ROWS; r++) {
 		for (int c = 0; c < COLUMNS; c++) {
-			for(int p = 0; p < PLANES; p++)
+			for (int p = 0; p < PLANES; p++)
 				if (p == 0) {
 					modelData[r][c][p] = WALL;
 				}
@@ -16,25 +55,30 @@ void ModelDamian::initialize() {
 				}
 		}
 	}
+}
+
+void ModelDamian::generateOriginalObject() {
+
+	resetModel();
 
 	// reset unitCubes in the model to their respective colors
 	for (int r = 1; r < 8; r++) {
-		modelData[r][3][PLANES-1] = BLUE;
+		modelData[r][3][PLANES - 1] = BLUE;
 		modelData[r][3][0] = NONE;
 	}
 
 	for (int c = 1; c < 6; c++) {
-		
-		modelData[2][c][PLANES-1] = RED;
+
+		modelData[2][c][PLANES - 1] = RED;
 		modelData[2][c][0] = NONE;
 
 		if (c != 3) {
-			modelData[6][c][PLANES-1] = RED;
+			modelData[6][c][PLANES - 1] = RED;
 			modelData[6][c][0] = NONE;
 		}
-		
+
 		if (c == 2 || c == 4) {
-			modelData[4][c][PLANES-1] = RED;
+			modelData[4][c][PLANES - 1] = RED;
 			modelData[4][c][0] = NONE;
 		}
 	}

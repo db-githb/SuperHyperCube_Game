@@ -29,7 +29,6 @@
 class ModelBase {
 
 public:
-
 	ModelBase();
 	virtual void initialize();
 	virtual void draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, glm::mat4 view, glm::mat4 model);

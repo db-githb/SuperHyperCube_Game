@@ -169,6 +169,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_HOME:
 			camera.sendHome();
 			break;
+
+		case GLFW_KEY_R:
+			activeModel->generateRandomModel(0,0,0);
 		}
 	}
 }
