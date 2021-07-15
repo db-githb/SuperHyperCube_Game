@@ -17,9 +17,18 @@
 #define ROTATE_RIGHT 0
 #define ROTATE_LEFT 1
 
+#define SCALE_MAX 2.0f
+#define SCALE_MIN 0.1f
+
+#define BOUND_X_MAX 10.0f
+#define BOUND_X_MIN -10.0f
+#define BOUND_Y_MIN 0.5f
+
+
 class ModelBase {
 
 public:
+
 	ModelBase();
 	virtual void initialize();
 	virtual void draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, glm::mat4 view, glm::mat4 model);
@@ -27,6 +36,7 @@ public:
 	virtual void translate(int translationDirection);
 	virtual void rotate(int rotation);
 	virtual void setRenderMode(int mode);
+	virtual bool inBound(int direction);
 
 protected:
 	UnitCube unitCube;

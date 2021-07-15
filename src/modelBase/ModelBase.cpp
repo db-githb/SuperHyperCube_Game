@@ -48,17 +48,19 @@ void ModelBase::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, gl
 }
 
 void ModelBase::scale(int scaleDirection) {
-	if (scaleDirection == SCALE_UP) {
+	if (scaleDirection == SCALE_UP && scaleFactor < SCALE_MAX) {
 		scaleFactor += 0.1f;
 	}
-	else {
+	else if (scaleDirection == SCALE_DOWN && scaleFactor > SCALE_MIN) {
 		scaleFactor -= 0.1f;
 	}
 }
 
 void ModelBase::translate(int translationDirection) {
 	
-	switch (translationDirection) {
+	if (inBound(translationDirection)) {
+
+		switch (translationDirection) {
 		case TRANS_RIGHT:
 			xTranslation += 0.1f;
 			break;
@@ -70,7 +72,9 @@ void ModelBase::translate(int translationDirection) {
 			break;
 		case TRANS_DOWN:
 			yTranslation -= 0.1f;
+		}
 	}
+
 }
 
 void ModelBase::rotate(int rotation) {
@@ -97,3 +101,18 @@ void ModelBase::setRenderMode(int mode) {
 	}
 };
 
+bool ModelBase::inBound(int direction) {
+
+	switch (direction) {
+	case TRANS_RIGHT:
+		return modelBasePosition.x + xTranslation < BOUND_X_MAX;
+	case TRANS_LEFT:
+		return modelBasePosition.x + xTranslation > BOUND_X_MIN;
+	case TRANS_UP:
+		return true; // no y max let user rise to infinity
+	case TRANS_DOWN:
+		return modelBasePosition.y + yTranslation > BOUND_Y_MIN;
+	}
+
+	return true;
+}
