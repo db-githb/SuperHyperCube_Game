@@ -25,11 +25,11 @@ void ModelElijah::initialize() {
 
 	for (int c = 1; c < 6; c++) {
 
-		modelData[1][c][PLANES - 1] = RED;
+		modelData[2][c][PLANES - 1] = RED;
 		modelData[2][c][0] = NONE;
 
 		if (c != 3) {
-			modelData[5][c][PLANES - 1] = RED;
+			modelData[7][c][PLANES - 1] = RED;
 			modelData[7][c][0] = NONE;
 		}
 

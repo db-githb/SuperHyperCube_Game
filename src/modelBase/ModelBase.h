@@ -1,5 +1,6 @@
 #pragma once
 #include "../unitCube/UnitCube.h"
+#include <stdlib.h>
 
 #define LIGHT_DIRECTION 0 
 #define LIGHT_AMBIENT 1
@@ -37,6 +38,7 @@ public:
 	virtual void rotate(int rotation);
 	virtual void setRenderMode(int mode);
 	virtual bool inBound(int direction);
+	virtual int* generateRandomModel(int rows, int columns, int planes);
 
 protected:
 	UnitCube unitCube;
