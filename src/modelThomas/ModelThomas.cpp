@@ -77,8 +77,10 @@ void ModelThomas::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 				// ensure that the model matrix passed is an identity matrix
 				model = glm::mat4(1.0f);
 
-				// apply any x or y translations
-				model = glm::translate(model, glm::vec3(xTranslation, yTranslation, 0.0f));
+				// translation vector to move unit cube from base position
+				glm::vec3 translation = glm::vec3(x, y, z);
+
+				model = glm::translate(model, (modelBasePosition + glm::vec3(xTranslation * scaleFactor, yTranslation * scaleFactor, 0.0f)));
 
 				// apply any rotation to the model
 				model = glm::rotate(model, orientation, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -89,18 +91,8 @@ void ModelThomas::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 					// shader colors the wall unit cube grey
 					baseShader.setVec3("dirLight.ambient", dirLight[LIGHT_AMBIENT]);
 
-					// translation vector to move unit cube from base position
-					glm::vec3 translation = glm::vec3(x, y, z);
-
-					// TODO: make base position a variable (currently it's a constant)
-					model = glm::translate(model, modelBasePosition + translation);
 				}
 				else {
-					// translation vector to move unit cube from base position
-					glm::vec3 translation = glm::vec3(x, y, z);
-
-					// translation vector to move unit cube from base position
-					model = glm::translate(model, modelBasePosition + translation);
 
 					// if-else statement colors the object cubes either red or blue
 					if (modelData[r][c][p] == RED) {
@@ -110,6 +102,8 @@ void ModelThomas::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 						baseShader.setVec3("dirLight.ambient", glm::vec3(1.0f, 1.0f, 0.0f));
 					}
 				}
+
+				model = glm::translate(model, translation+ glm::vec3(scaleFactor*(-COLUMNS*0.5),0.0f,scaleFactor*(-PLANES/2)));
 
 				// scale the size of each cube
 				model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
