@@ -25,17 +25,17 @@ void ModelElijah::initialize() {
 
 	for (int c = 1; c < 6; c++) {
 
-		modelData[2][c][PLANES - 1] = RED;
+		modelData[1][c][PLANES - 1] = RED;
 		modelData[2][c][0] = NONE;
 
 		if (c != 3) {
-			modelData[6][c][PLANES - 1] = RED;
-			modelData[6][c][0] = NONE;
+			modelData[5][c][PLANES - 1] = RED;
+			modelData[7][c][0] = NONE;
 		}
 
 		if (c == 2 || c == 4) {
-			modelData[4][c][PLANES - 1] = RED;
-			modelData[4][c][0] = NONE;
+			modelData[3][c][PLANES - 1] = RED;
+			modelData[3][c][0] = NONE;
 		}
 	}
 
@@ -61,11 +61,15 @@ void ModelElijah::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 	baseShader.setMat4("view", view);
 
 	// world transformation: glm::translate moves the model around the world
-	for (int r = 0; r < ROWS; r++) {
-		for (int c = 0; c < COLUMNS; c++) {
-			for (int p = 0; p < PLANES; p++) {
+	for (int r = 0; r < ROWS; r++) 
+	{
+		for (int c = 0; c < COLUMNS; c++) 
+		{
+			for (int p = 0; p < PLANES; p++) 
+			{
 
-				if (modelData[r][c][p] == NONE) {
+				if (modelData[r][c][p] == NONE) 
+				{
 					continue;
 				}
 
@@ -76,48 +80,47 @@ void ModelElijah::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 
 				// ensure that the model matrix passed is an identity matrix
 				model = glm::mat4(1.0f);
-				glm::mat4 modelPosition = glm::translate(model , modelBasePosition + glm::vec3(xTranslation, yTranslation, 0.0f));
-				// apply any rotation to the model
 
+				// translation vector to move unit cube from base position
+				glm::vec3 translation = glm::vec3(x, y, z);
+				glm::mat4 modelPosition = glm::translate(model , (modelBasePosition +  glm::vec3(xTranslation*scaleFactor, yTranslation*scaleFactor, 0.0f)));
+				//modelPosition = glm::scale(modelPosition, glm::vec3(1.0f) * scaleFactor);
+
+				// apply any rotation to the model
 				model = glm::rotate(modelPosition, orientation, glm::vec3(0.0f, 1.0f, 0.0f));
 				
-				// wall cubes are offset from a different base position then the object cubes
-				if (modelData[r][c][p] == WALL) {
-
-					// shader colors the wall unit cube grey
-					baseShader.setVec3("dirLight.ambient", dirLight[LIGHT_AMBIENT]);
-
-					// translation vector to move unit cube from base position
-					glm::vec3 translation = glm::vec3(x, y, z);
-
-					// TODO: make base position a variable (currently it's a constant)
-					model = glm::translate(model,translation + glm::vec3(-COLUMNS / 2, 0.0f, 0.0f));
-				}
-				else {
-					// translation vector to move unit cube from base position
-					glm::vec3 translation = glm::vec3(x, y, z);
-
-					// translation vector to move unit cube from base position
-					model = glm::translate(model,translation + glm::vec3(-COLUMNS/2, 0.0f, 0.0f));
-
+				if (modelData[r][c][p] == WALL) 
+					baseShader.setVec3("dirLight.ambient", dirLight[LIGHT_AMBIENT]); // shader colors the wall unit cube grey
+				else 
+				{
 					// if-else statement colors the object cubes either red or blue
-					if (modelData[r][c][p] == RED) {
+					if (modelData[r][c][p] == RED) 
+					{
 						baseShader.setVec3("dirLight.ambient", glm::vec3(0.0f, 1.0f, 0.0f));
 					}
-					else {
+					else 
+					{
 						baseShader.setVec3("dirLight.ambient", glm::vec3(0.5f, 0.0f, 0.5f));
 					}
 				}
+
+				// translation vector to move unit cube from base position
+				model = glm::translate(model, translation + glm::vec3(scaleFactor*(-COLUMNS / 2), 0.0f, scaleFactor * (-PLANES / 2)));
 				
 
 				// scale the size of each cube
 				model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
-
+				
 				// pass the model matrix to the vertex shader
 				baseShader.setMat4("model", model);
 
 				// render the cube
 				glBindVertexArray(unitCube.getVAO());
+				glDrawArrays(renderMode, 0, 36);
+
+				glBindVertexArray(unitCube.getVAO());
+				baseShader.setMat4("model", modelPosition);
+				baseShader.setVec3("dirLight.ambient", glm::vec3(1.0f, 1.0f, 1.0f));
 				glDrawArrays(renderMode, 0, 36);
 
 			}
