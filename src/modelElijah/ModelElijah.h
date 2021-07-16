@@ -8,7 +8,7 @@
 
 #define sizeX 7
 #define sizeY 9
-#define sizeZ 5
+#define sizeZ 7
 
 class ModelElijah : public ModelBase {
 

@@ -35,39 +35,76 @@ void ModelElijah::initialize() {
 			for (int z = 2; z < sizeZ; z++)
 			{
 				if (y == 1 || y == sizeY - 2)
+				{
 					modelData[x][y][z] = BLUE;
-				if (y == 2 || y == sizeY - 3 && (x >=2 && x <= sizeX - 2))
+					modelData[x][y][0] = NONE;
+				}
+				if ((y == 2 || y == sizeY - 3) && (x >=2 && x <= sizeX - 3))
+				{
 					modelData[x][y][z] = BLUE;
-				/*if (y == 3 || y == sizeY - 4)
-					modelData[x][y][z] = BLUE;*/
+					modelData[x][y][0] = NONE;
+				}
+				if ((y == 3 || y == sizeY - 4) && (x >= 3 && x <= sizeX - 4))
+				{
+					modelData[x][y][z] = BLUE;
+					modelData[x][y][0] = NONE;
+				}
+				if ((y == 4 || y == sizeY - 5))
+				{
+					modelData[x][y][z] = BLUE;
+					modelData[x][y][0] = NONE;
+				}
+
+			}
+		}	
+	}
+
+	for (int y = 1; y < sizeY - 1; y++)
+	{
+		for (int x = 1; x < sizeX - 1; x++)
+		{
+			for (int z = 2; z < sizeZ; z++)
+			{
+				if ((x == 1 || x == sizeX - 2) && z != 4)
+					modelData[x][y][z] = NONE;
+				if ((x == 2 || x == sizeX - 3) && (z == 2 || z == 6))
+					modelData[x][y][z] = NONE;
 
 			}
 		}
-			
-		
+	}
+	
+	for (int y = 1; y < sizeY - 1; y++)
+	{
+		for (int x = 1; x < sizeX - 1; x++)
+		{
+			for (int z = 2; z < sizeZ; z++)
+			{
+				if((y == 2 || y == 6) && (z == 2 || z == 6))
+					modelData[x][y][z] = NONE;
+				if ((y == 3 || y == 5) && (z == 2 || z == 3 || z == 5 || z == 6))
+					modelData[x][y][z] = NONE;
+				if ((y == 2 || y == 6) && (x == 2 || x == 4) && (z==3 || z==5))
+					modelData[x][y][z] = NONE;
+			}
+		}
 	}
 
-	// reset unitCubes in the model to their respective colors
-	/*for (int y = 1; y < 8; y++) {
-		modelData[3][y][sizeZ - 1] = BLUE;
-		modelData[3][y][0] = NONE;
+	for (int y = 1; y < sizeY - 1; y++)
+	{
+		for (int x = 1; x < sizeX - 1; x++)
+		{
+			for (int z = 2; z < sizeZ; z++)
+			{
+				if (modelData[x][y][z] == BLUE && y % 2 == 0)
+				{
+					modelData[x][y][z] = RED;
+					modelData[x][y][0] = NONE;
+				}
+			}
+		}
 	}
 
-	for (int x = 1; x < 6; x++) {
-
-		modelData[x][2][sizeZ - 1] = RED;
-		modelData[x][2][0] = NONE;
-
-		if (x != 3) {
-			modelData[x][7][sizeZ - 1] = RED;
-			modelData[x][7][0] = NONE;
-		}
-
-		if (x == 2 || x == 4) {
-			modelData[x][3][sizeZ - 1] = RED;
-			modelData[x][3][0] = NONE;
-		}
-	}*/
 
 }
 
@@ -125,16 +162,16 @@ void ModelElijah::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 					// if-else statement colors the object cubes either red or blue
 					if (modelData[c][r][p] == RED) 
 					{
-						baseShader.setVec3("dirLight.ambient", glm::vec3(0.0f, 1.0f, 0.0f));
+						baseShader.setVec3("dirLight.ambient", glm::vec3(0.1f, 0.7f, 0.5f));
 					}
 					else 
 					{
-						baseShader.setVec3("dirLight.ambient", glm::vec3(0.5f, 0.0f, 0.5f));
+						baseShader.setVec3("dirLight.ambient", glm::vec3(0.5f, 0.1f, 0.5f));
 					}
 				}
 
 				// translation vector to move unit cube from base position
-				model = glm::translate(model, translation + glm::vec3(scaleFactor*(-COLUMNS / 2), 0.0f, scaleFactor * (-PLANES / 2)));
+				model = glm::translate(model, translation + glm::vec3(scaleFactor*(-sizeX / 2), 0.0f, scaleFactor * (-sizeZ / 2)));
 				
 
 				// scale the size of each cube
