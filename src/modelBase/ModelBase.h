@@ -38,6 +38,7 @@ public:
 	virtual void setRenderMode(int mode);
 	virtual bool inBound(int direction);
 	virtual int* generateRandomModel(int rows, int columns, int planes);
+	virtual void generateOriginalObject();
 
 protected:
 	UnitCube unitCube;

@@ -122,3 +122,7 @@ int* ModelBase::generateRandomModel(int rows, int columns, int planes)
 	int result[] = { 1,2,3 };
 	return result; 
 }
+
+void ModelBase::generateOriginalObject() {
+	return;
+}

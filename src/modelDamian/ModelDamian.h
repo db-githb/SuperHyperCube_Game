@@ -3,13 +3,16 @@
 
 #define ROWS 9
 #define COLUMNS 7
-#define PLANES 4
+#define PLANES 7
 
+#define NONE -2
+#define WALL -1
 
-#define WALL 0
+#define RED 0
 #define BLUE 1
-#define RED 2
-#define NONE 3
+#define VIOLET 2
+#define NUM_COLORS 3
+
 
 class ModelDamian : public ModelBase {
 
@@ -17,9 +20,11 @@ public:
 	void initialize();
 	void draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, glm::mat4 view, glm::mat4 model);
 	int* generateRandomModel(int rows, int columns, int planes);
+	void generateOriginalObject();
+	void intializeColorPalette();
 
 private:
 	int modelData[ROWS][COLUMNS][PLANES];
 	void resetModel();
-	void generateOriginalObject();
+	glm::vec3* colorPalette;
 };

@@ -6,39 +6,82 @@ void ModelDamian::initialize() {
 
 	resetModel();
 	generateOriginalObject();
+
+	colorPalette = new glm::vec3[NUM_COLORS];
+	intializeColorPalette();
 }
+
+void ModelDamian::intializeColorPalette() {
+
+	colorPalette[RED] = glm::vec3(.9f, 0.1f, 0.15f);
+	colorPalette[BLUE] = glm::vec3(0.15f, 0.1f, 0.9f);
+	colorPalette[VIOLET] = glm::vec3(0.25f, 0.1f, 0.85f);
+
+	//colorPalette[ORANGE] = glm::vec3(0.25f, 0.0f, 0.0f);
+	//colorPalette[YELLOW] = glm::vec3(0.0f, 0.0f, 0.35f);
+	//colorPalette[VIOLET] = glm::vec3(0.0f, 0.0f, 0.25f);
+}
+
 
 int* ModelDamian::generateRandomModel(int x, int y, int z) {
 	
 	resetModel();
 
-	int zRand;
-
 	// reset unitCubes in the model to their respective colors
 	for (int r = 1; r < 8; r++) {
-		zRand = (rand() % 3) + 1;
-		modelData[r][3][zRand] = BLUE;
+
+		//puts hole in the wall
 		modelData[r][3][0] = NONE;
+
+		// 10% chance of a blank discontinuity in the model (blank space? blank cartridge? i don't know how to describe this)
+		if ((rand() % 10 == 0)) {
+			continue;
+		}
+
+		// randomly generates blocks on z axis
+		for (int z = 2; z < 7; z++) {
+
+			if ((rand() % 2) == 1) {
+				modelData[r][3][z] = rand()%NUM_COLORS;
+			}
+		}
 	}
 
 	for (int c = 1; c < 6; c++) {
-		zRand = (rand() % 3) + 1;
-		modelData[2][c][zRand] = RED;
-		modelData[2][c][0] = NONE;
 
-		if (c != 3) {
-			zRand = (rand() % 3) + 1;
-			modelData[6][c][zRand] = RED;
-			modelData[6][c][0] = NONE;
+		// puts hole in the wall
+		modelData[2][c][0] = NONE;
+		modelData[6][c][0] = NONE;
+		modelData[4][c][0] = NONE;
+
+		// same as above 10% chance...
+		if ((rand() % 10 == 0)) {
+			continue;
 		}
 
-		if (c == 2 || c == 4) {
-			zRand = (rand() % 3) + 1;
-			modelData[4][c][zRand] = RED;
-			modelData[4][c][0] = NONE;
+		// randomly generates blocks on z axis
+		for (int z = 2; z < 7; z++) {
+			
+			if ((rand() % 2) == 1) {
+				modelData[2][c][z] = rand()%NUM_COLORS;
+			}
+			
+
+			if (c != 3) {
+
+				if ((rand() % 2) == 1) {
+					modelData[6][c][z] = rand() % NUM_COLORS;
+				}
+			}
+
+			if (c == 2 || c == 4) {
+				
+				if ((rand() % 2) == 1) {
+					modelData[4][c][z] = rand() % NUM_COLORS;
+				}
+			}
 		}
 	}
-
 	return NULL;
 }
 
@@ -63,23 +106,50 @@ void ModelDamian::generateOriginalObject() {
 
 	// reset unitCubes in the model to their respective colors
 	for (int r = 1; r < 8; r++) {
-		modelData[r][3][PLANES - 1] = BLUE;
+		modelData[r][3][PLANES - 3] = BLUE;
 		modelData[r][3][0] = NONE;
 	}
 
 	for (int c = 1; c < 6; c++) {
 
-		modelData[2][c][PLANES - 1] = RED;
+		modelData[2][c][PLANES - 3] = RED;
 		modelData[2][c][0] = NONE;
 
-		if (c != 3) {
+		if (c == 1) {
+			modelData[6][1][PLANES - 5] = RED;
+			modelData[6][1][PLANES - 4] = RED;
+
+			modelData[2][1][PLANES - 1] = RED;
+			modelData[2][1][PLANES - 2] = RED;
+		}
+
+		if (c == 5) {
 			modelData[6][c][PLANES - 1] = RED;
+			modelData[6][c][PLANES - 2] = RED;
+
+			modelData[2][c][PLANES - 5] = RED;
+			modelData[2][c][PLANES - 4] = RED;
+		}
+
+		if (c != 3) {
+			modelData[6][c][PLANES - 3] = RED;
 			modelData[6][c][0] = NONE;
 		}
 
 		if (c == 2 || c == 4) {
-			modelData[4][c][PLANES - 1] = RED;
+			modelData[4][c][PLANES - 3] = RED;
 			modelData[4][c][0] = NONE;
+
+			if (c == 2) {
+				modelData[6][c][PLANES - 4] = RED;
+				modelData[2][c][PLANES - 2] = RED;
+			}
+
+			if (c == 4) {
+				modelData[6][c][PLANES - 2] = RED;
+				modelData[2][c][PLANES - 4] = RED;
+			}
+
 		}
 	}
 }
@@ -155,14 +225,8 @@ void ModelDamian::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 					model = glm::translate(model, modelBasePosition + translation);
 
 					// if-else statement colors the object cubes either red or blue
-					if (modelData[r][c][p] == RED) {
-						baseShader.setVec3("dirLight.ambient", glm::vec3(1.0f, 0.0f, 0.0f));
-					}
-					else {
-						baseShader.setVec3("dirLight.ambient", glm::vec3(0.0f, 0.0f, 1.0f));
-					}
+					baseShader.setVec3("dirLight.ambient", colorPalette[modelData[r][c][p]]);
 				}
-
 				// scale the size of each cube
 				model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
 
@@ -175,7 +239,6 @@ void ModelDamian::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 				// render the cube
 				glBindVertexArray(unitCube.getVAO());
 				glDrawArrays(renderMode, 0, 36);
-
 			}
 		
 		}
