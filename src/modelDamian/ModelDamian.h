@@ -22,6 +22,7 @@ public:
 	int* generateRandomModel(int rows, int columns, int planes);
 	void generateOriginalObject();
 	void intializeColorPalette();
+	bool boundaryCollision();
 
 private:
 	int modelData[ROWS][COLUMNS][PLANES];

@@ -39,6 +39,7 @@ public:
 	virtual bool inBound(int direction);
 	virtual int* generateRandomModel(int rows, int columns, int planes);
 	virtual void generateOriginalObject();
+	virtual bool boundaryCollision();
 
 protected:
 	UnitCube unitCube;

@@ -152,6 +152,10 @@ void ModelDamian::generateOriginalObject() {
 
 		}
 	}
+
+	modelData[0][0][0] = BLUE;
+	modelData[0][6][6] = VIOLET;
+	modelData[0][0][6] = VIOLET;
 }
 
 // draw method works by rendering each unit cube in the model
@@ -243,4 +247,70 @@ void ModelDamian::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 		
 		}
 	}
+}
+
+bool ModelDamian::boundaryCollision() {
+
+	glm::vec3* modelCorners = new glm::vec3[4];
+
+	
+	modelCorners[0] = glm::vec3((COLUMNS*-0.5f)-0.5f, 0.0f, 0.0f);
+	modelCorners[1] = glm::vec3((COLUMNS*0.5f) - 0.5f, 0.0f, 0.0f);
+	modelCorners[2] = glm::vec3((COLUMNS*0.5)-0.5f, 0.0f, PLANES - 0.5f);
+	modelCorners[3] = glm::vec3((COLUMNS*-0.5) - 0.5f, 0.0f, PLANES - 0.5f);
+
+	const glm::mat3 rotationMatrix = glm::mat3(
+		glm::vec3(glm::cos(orientation), 0.0f, -glm::sin(orientation)),
+		glm::vec3(0.0f, 1.0f, 0.0f),
+		glm::vec3(glm::sin(orientation), 0.0f, glm::cos(orientation))
+	);
+
+	for (int i = 0; i < 4; i++) {
+		// move corner vector to base position
+		modelCorners[i] = glm::vec3(
+			modelCorners[i].x + modelBasePosition.x,
+			modelCorners[i].y + modelBasePosition.y,
+			modelCorners[i].z + modelBasePosition.z
+			);
+
+		// scale corner vector
+		modelCorners[i] *= scaleFactor;
+
+		// rotate corner vector
+		modelCorners[i] = rotationMatrix * modelCorners[i];
+
+		// apply any x or y translations to corner vector
+		// translations are multiplied by 1.4 to prempt the collision
+		if (xTranslation < 0) {
+			modelCorners[i] = glm::vec3(modelCorners[i].x + xTranslation - 0.05f, modelCorners[i].y + yTranslation, modelCorners[i].z);
+		}
+		else {
+			modelCorners[i] = glm::vec3(modelCorners[i].x + xTranslation + 0.05f, modelCorners[i].y + yTranslation, modelCorners[i].z);
+		}
+
+		std::cout << "model corner "<< i <<":" <<" x " << modelCorners[i].x << " y " << modelCorners[i].y << " z " << modelCorners[i].z << std::endl;
+
+		// check x boundary
+		if(modelCorners[i].x < -10.1f || modelCorners[i].x > 10.1f) {
+			//std::cout << "x " << modelCorners[i].x << " y " << modelCorners[i].y << " z " << modelCorners[i].z << std::endl;
+			std::cout << "i out of bounds: " << i << std::endl;
+			return true;
+		}
+
+		// check y boundary (only applies to y translation, not scaling)
+		if (modelCorners[i].y <= 0) {
+			//std::cout << "x " << modelCorners[i].x << " y " << modelCorners[i].y << " z " << modelCorners[i].z << std::endl;
+			std::cout << "i out of bounds: " << i << std::endl;
+			return true;
+		}
+
+		//check z boundary
+		if (modelCorners[i].z <= -10.0f || modelCorners[i].z >= 10.0f) {
+			//std::cout << "x " << modelCorners[i].x << " y " << modelCorners[i].y << " z " << modelCorners[i].z << std::endl;
+			std::cout << "i out of bounds: " << i << std::endl;
+			return true;
+		}
+	}
+	std::cout << " " << std::endl;
+	return false;
 }

@@ -74,7 +74,6 @@ void ModelBase::translate(int translationDirection) {
 			yTranslation -= 0.1f;
 		}
 	}
-
 }
 
 void ModelBase::rotate(int rotation) {
@@ -125,4 +124,8 @@ int* ModelBase::generateRandomModel(int rows, int columns, int planes)
 
 void ModelBase::generateOriginalObject() {
 	return;
+}
+
+bool ModelBase::boundaryCollision() {
+	return false;
 }
