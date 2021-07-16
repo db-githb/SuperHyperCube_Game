@@ -1,43 +1,73 @@
 #include "ModelElijah.h"
 
+     ModelElijah::ModelElijah()
+	{
+		transform.position = glm::vec3(-5.0f, 0.5f, 7.0f);
+	}
+
 void ModelElijah::initialize() {
 
-	modelBasePosition = glm::vec3(0.0f, 0.5f, 7.0f);
+	modelBasePosition = glm::vec3(-5.0f, 0.5f, 7.0f);
 
 	// initialize entire model to a wall or none (no unit cube)
-	for (int r = 0; r < ROWS; r++) {
-		for (int c = 0; c < COLUMNS; c++) {
-			for (int p = 0; p < PLANES; p++)
-				if (p == 0) {
-					modelData[r][c][p] = WALL;
+	for (int x = 0; x < sizeX; x++) 
+	{
+		for (int y = 0; y < sizeY; y++) 
+		{
+			for (int z = 0; z < sizeZ; z++)
+			{
+				if (z == 0)
+				{
+					modelData[x][y][z] = WALL;
 				}
-				else {
-					modelData[r][c][p] = NONE;
+				else
+				{
+					modelData[x][y][z] = NONE;
 				}
+			}
 		}
+	}
+
+	for (int y = 1; y < sizeY - 1; y++)
+	{
+		for (int x = 1; x < sizeX - 1; x++)
+		{
+			for (int z = 2; z < sizeZ; z++)
+			{
+				if (y == 1 || y == sizeY - 2)
+					modelData[x][y][z] = BLUE;
+				if (y == 2 || y == sizeY - 3 && (x >=2 && x <= sizeX - 2))
+					modelData[x][y][z] = BLUE;
+				/*if (y == 3 || y == sizeY - 4)
+					modelData[x][y][z] = BLUE;*/
+
+			}
+		}
+			
+		
 	}
 
 	// reset unitCubes in the model to their respective colors
-	for (int r = 1; r < 8; r++) {
-		modelData[r][3][PLANES - 1] = BLUE;
-		modelData[r][3][0] = NONE;
+	/*for (int y = 1; y < 8; y++) {
+		modelData[3][y][sizeZ - 1] = BLUE;
+		modelData[3][y][0] = NONE;
 	}
 
-	for (int c = 1; c < 6; c++) {
+	for (int x = 1; x < 6; x++) {
 
-		modelData[2][c][PLANES - 1] = RED;
-		modelData[2][c][0] = NONE;
+		modelData[x][2][sizeZ - 1] = RED;
+		modelData[x][2][0] = NONE;
 
-		if (c != 3) {
-			modelData[7][c][PLANES - 1] = RED;
-			modelData[7][c][0] = NONE;
+		if (x != 3) {
+			modelData[x][7][sizeZ - 1] = RED;
+			modelData[x][7][0] = NONE;
 		}
 
-		if (c == 2 || c == 4) {
-			modelData[3][c][PLANES - 1] = RED;
-			modelData[3][c][0] = NONE;
+		if (x == 2 || x == 4) {
+			modelData[x][3][sizeZ - 1] = RED;
+			modelData[x][3][0] = NONE;
 		}
-	}
+	}*/
 
 }
 
@@ -61,14 +91,14 @@ void ModelElijah::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 	baseShader.setMat4("view", view);
 
 	// world transformation: glm::translate moves the model around the world
-	for (int r = 0; r < ROWS; r++) 
+	for (int c = 0; c < sizeX; c++)
 	{
-		for (int c = 0; c < COLUMNS; c++) 
+		for (int r = 0; r < sizeY; r++)
 		{
-			for (int p = 0; p < PLANES; p++) 
+			for (int p = 0; p < sizeZ; p++) 
 			{
 
-				if (modelData[r][c][p] == NONE) 
+				if (modelData[c][r][p] == NONE) 
 				{
 					continue;
 				}
@@ -78,23 +108,22 @@ void ModelElijah::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 				float y = (float)r * scaleFactor;
 				float z = (float)p * scaleFactor;
 
-				// ensure that the model matrix passed is an identity matrix
-				model = glm::mat4(1.0f);
+				// ensure that the model matrix passed is an identity matri;
 
 				// translation vector to move unit cube from base position
 				glm::vec3 translation = glm::vec3(x, y, z);
-				glm::mat4 modelPosition = glm::translate(model , (modelBasePosition +  glm::vec3(xTranslation*scaleFactor, yTranslation*scaleFactor, 0.0f)));
+				transform.matrix = glm::translate(glm::mat4(1.0f) , (transform.position +  glm::vec3(xTranslation*scaleFactor, yTranslation*scaleFactor, 0.0f)));
 				//modelPosition = glm::scale(modelPosition, glm::vec3(1.0f) * scaleFactor);
 
 				// apply any rotation to the model
-				model = glm::rotate(modelPosition, orientation, glm::vec3(0.0f, 1.0f, 0.0f));
+				model = glm::rotate(transform.matrix, orientation, glm::vec3(0.0f, 1.0f, 0.0f));
 				
-				if (modelData[r][c][p] == WALL) 
+				if (modelData[c][r][p] == WALL) 
 					baseShader.setVec3("dirLight.ambient", dirLight[LIGHT_AMBIENT]); // shader colors the wall unit cube grey
 				else 
 				{
 					// if-else statement colors the object cubes either red or blue
-					if (modelData[r][c][p] == RED) 
+					if (modelData[c][r][p] == RED) 
 					{
 						baseShader.setVec3("dirLight.ambient", glm::vec3(0.0f, 1.0f, 0.0f));
 					}
@@ -119,7 +148,7 @@ void ModelElijah::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 				glDrawArrays(renderMode, 0, 36);
 
 				glBindVertexArray(unitCube.getVAO());
-				baseShader.setMat4("model", modelPosition);
+				baseShader.setMat4("model", transform.matrix);
 				baseShader.setVec3("dirLight.ambient", glm::vec3(1.0f, 1.0f, 1.0f));
 				glDrawArrays(renderMode, 0, 36);
 
