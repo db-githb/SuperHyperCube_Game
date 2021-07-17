@@ -16,7 +16,7 @@ class ModelKayla : public ModelBase {
 public:
 	void initialize();
 	void generateOriginalObject();
-	int* generateRandomModel(int x, int y, int z);
+	void generateRandomModel();
 	void resetUnitCubes();
 	void resetModel();
 

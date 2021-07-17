@@ -117,7 +117,7 @@ void ModelKayla::generateOriginalObject()
 	resetUnitCubes();
 }
 
-int* ModelKayla::generateRandomModel(int x, int y, int z) 
+void ModelKayla::generateRandomModel() 
 {
 	resetModel();
 	//Generate a random number of cubes
@@ -126,8 +126,6 @@ int* ModelKayla::generateRandomModel(int x, int y, int z)
 	{
 		generateCube(rand() % 7 + 1, rand() % 7 + 1, rand() % 5 + 1, rand() % 5 + 1, rand() % 5 + 1, rand() % 5 + 1, rand() % 2 + 1);
 	}
-
-	return NULL;
 }
 
 void ModelKayla::resetModel()

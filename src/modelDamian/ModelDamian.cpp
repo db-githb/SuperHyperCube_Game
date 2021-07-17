@@ -23,7 +23,7 @@ void ModelDamian::intializeColorPalette() {
 }
 
 
-int* ModelDamian::generateRandomModel(int x, int y, int z) {
+void ModelDamian::generateRandomModel() {
 	
 	resetModel();
 
@@ -82,7 +82,6 @@ int* ModelDamian::generateRandomModel(int x, int y, int z) {
 			}
 		}
 	}
-	return NULL;
 }
 
 void ModelDamian::resetModel() {
