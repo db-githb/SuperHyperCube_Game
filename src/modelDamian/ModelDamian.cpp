@@ -2,7 +2,7 @@
 
 void ModelDamian::initialize() {
 	
-	modelBasePosition = glm::vec3(-5.0f, 0.5f, -6.5f);
+	modelBasePosition = glm::vec3(-5.0f, 0.5f, 2.0f);
 
 	resetModel();
 	generateOriginalObject();
@@ -256,10 +256,10 @@ bool ModelDamian::boundaryCollision() {
 	glm::vec3* localSpaceCorners = new glm::vec3[4];
 
 	// subtracting 1 to try and align the center of rotation in the middle of the x-axis
-	localSpaceCorners[0] = glm::vec3(((float)(COLUMNS - 1.0f)*-0.5f)-0.5f, 0.0f, 0.0f);
-	localSpaceCorners[1] = glm::vec3(((float)(COLUMNS - 1.0f) *0.5f) - 0.5f, 0.0f, 0.0f);
-	localSpaceCorners[2] = glm::vec3(((float)(COLUMNS - 1.0f) *0.5)-0.5f, 0.0f, (float) PLANES - 0.5f);
-	localSpaceCorners[3] = glm::vec3(((float)(COLUMNS - 1.0f) *-0.5) - 0.5f, 0.0f, (float) PLANES - 0.5f);
+	localSpaceCorners[0] = glm::vec3(((float)(COLUMNS - 1)*-0.5f)-0.5f, 0.0f, 0.0f);
+	localSpaceCorners[1] = glm::vec3(((float)(COLUMNS - 1) *0.5f) - 0.5f, 0.0f, 0.0f);
+	localSpaceCorners[2] = glm::vec3(((float)(COLUMNS - 1) *0.5)-0.5f, 0.0f, (float) PLANES - 0.5f);
+	localSpaceCorners[3] = glm::vec3(((float)(COLUMNS - 1) *-0.5) - 0.5f, 0.0f, (float) PLANES - 0.5f);
 
 	const glm::mat3 rotationMatrix = glm::mat3(
 		glm::vec3(glm::cos(orientation), 0.0f, -glm::sin(orientation)),
@@ -282,8 +282,6 @@ bool ModelDamian::boundaryCollision() {
 			localSpaceCorners[i].z + modelBasePosition.z
 			);
 
-		std::cout << "modelCorner + basePosition: " << localSpaceCorners[i].x << " " << localSpaceCorners[i].y << " " << localSpaceCorners[i].z << std::endl;
-
 		// apply any x or y translations to corner vector
 		if (xTranslation < 0) {
 			localSpaceCorners[i] = glm::vec3(localSpaceCorners[i].x + xTranslation - 0.05f, localSpaceCorners[i].y + yTranslation, localSpaceCorners[i].z);
@@ -291,8 +289,6 @@ bool ModelDamian::boundaryCollision() {
 		else {
 			localSpaceCorners[i] = glm::vec3(localSpaceCorners[i].x + xTranslation + 0.05f, localSpaceCorners[i].y + yTranslation, localSpaceCorners[i].z);
 		}
-
-		std::cout << "model corner "<< i << ": " <<" x " << localSpaceCorners[i].x << " y " << localSpaceCorners[i].y << " z " << localSpaceCorners[i].z << std::endl;
 
 		// check x boundary
 		if(localSpaceCorners[i].x < -10.1f || localSpaceCorners[i].x > 10.1f) {
@@ -309,6 +305,5 @@ bool ModelDamian::boundaryCollision() {
 			return true;
 		}
 	}
-	std::cout << " " << std::endl;
 	return false;
 }

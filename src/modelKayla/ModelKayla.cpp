@@ -2,7 +2,7 @@
 
 void ModelKayla::initialize() {
 
-	positionModel(5.0f, 0.5f, 5.5f);
+	positionModel(5.0f, 0.5f, 2.0f);
 	generateOriginalObject();
 }
 

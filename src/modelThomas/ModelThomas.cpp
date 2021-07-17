@@ -2,7 +2,7 @@
 
 void ModelThomas::initialize() {
 
-	modelBasePosition = glm::vec3(2.5f, 0.5f, -7.0f);
+	modelBasePosition = glm::vec3(5.0f, 0.5f, -5.5f);
 
 	for (int r = 0; r < ROWS; r++) {
 		for (int c = 0; c < COLUMNS; c++) {
