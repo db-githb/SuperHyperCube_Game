@@ -2,44 +2,8 @@
 
 void ModelKayla::initialize() {
 
-	modelBasePosition = glm::vec3(9.0f, 0.5f, 5.5f);
-
-	// initialize entire model to a wall or none (no unit cube)
-	for (int r = 0; r < ROWS; r++) {
-		for (int c = 0; c < COLUMNS; c++) {
-			for (int p = 0; p < PLANES; p++)
-				if (p == 0) {
-					modelData[r][c][p] = WALL;
-				}
-				else {
-					modelData[r][c][p] = NONE;
-				}
-		}
-	}
-
-	// reset unitCubes in the model to their respective colors
-	for (int c = 1; c < 3; c++) {
-		for (int r = 5; r < 8; r++) {
-			modelData[r][c][PLANES - 1] = RED;
-			modelData[r][c][PLANES - 2] = RED;
-			modelData[r][c][0] = NONE;
-		}
-	}
-
-	for (int c = 1; c < 6; c++) {
-		modelData[2][c][PLANES - 2] = BLUE;
-		modelData[2][c][0] = NONE;
-	}
-
-	modelData[3][4][0] = NONE;
-	for (int p = 2; p < 4; p++) {
-		modelData[3][4][p] = RED;
-	}
-
-	for (int r = 4; r < 6; r++) {
-		modelData[r][3][PLANES - 1] = BLUE;
-		modelData[r][3][0] = NONE;
-	}
+	positionModel(5.0f, 0.5f, 5.5f);
+	generateOriginalObject();
 }
 
 // draw method works by rendering each unit cube in the model
@@ -137,4 +101,70 @@ void ModelKayla::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, g
 			}
 		}
 	}
+}
+
+void ModelKayla::positionModel(float x, float y, float z)
+{
+	modelBasePosition = glm::vec3(x, y, z);
+}
+
+void ModelKayla::generateOriginalObject()
+{
+	// initialize entire model to a wall or none (no unit cube)
+	resetModel();
+
+	// reset unitCubes in the model to their respective colors
+	resetUnitCubes();
+}
+
+int* ModelKayla::generateRandomModel(int x, int y, int z) 
+{
+	resetModel();
+	//Generate a random number of cubes
+	int numCubes = rand() % 25 + 3;
+	for (int i = 0; i < numCubes; i++)
+	{
+		generateCube(rand() % 7 + 1, rand() % 7 + 1, rand() % 5 + 1, rand() % 5 + 1, rand() % 5 + 1, rand() % 5 + 1, rand() % 2 + 1);
+	}
+
+	return NULL;
+}
+
+void ModelKayla::resetModel()
+{
+	for (int r = 0; r < ROWS; r++) {
+		for (int c = 0; c < COLUMNS; c++) {
+			for (int p = 0; p < PLANES; p++)
+				if (p == 0) {
+					modelData[r][c][p] = WALL;
+				}
+				else {
+					modelData[r][c][p] = NONE;
+				}
+		}
+	}
+}
+
+void ModelKayla::generateCube(int rowStart, int rowEnd, int columnStart, int columnEnd, int planeStart, int planeEnd, int color)
+{
+	//Validating cube values
+	if (!((rowStart > rowEnd) || (columnStart > columnEnd) || (planeStart > planeEnd))) {
+		for (int c = columnStart; c < columnEnd+1; c++) {
+			for (int r = rowStart; r < rowEnd+1; r++) {
+				for (int p = planeStart; p < planeEnd+1; p++) {
+					modelData[r][c][PLANES - p] = color;
+				}
+				//Make hole
+				modelData[r][c][0] = NONE;
+			}
+		}
+	}
+}
+
+void ModelKayla::resetUnitCubes()
+{
+	generateCube(5, 7, 1, 2, 3, 4, RED);
+	generateCube(2, 2, 1, 5, 2, 2, BLUE);
+	generateCube(3, 3, 4, 4, 2, 3, RED);
+	generateCube(4, 5, 3, 3, 1, 1, BLUE);
 }

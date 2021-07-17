@@ -1,23 +1,32 @@
 #pragma once
 #include "../modelBase/ModelBase.h"
 
-#define ROWS 9
-#define COLUMNS 7
-#define PLANES 4
+#define WALL 1
+#define BLUE 2
+#define RED 3
+#define NONE 0
 
-
-#define WALL 0
-#define BLUE 1
-#define RED 2
-#define NONE 3
+#define sizeX 7
+#define sizeY 9
+#define sizeZ 7
 
 class ModelElijah : public ModelBase {
 
+	struct Transform
+	{
+		glm::vec3 position = glm::vec3(1.0f);
+		glm::vec3 rotation = glm::vec3(1.0f);
+		glm::vec3 scale	   = glm::vec3(1.0f);
+		glm::mat4 matrix   = glm::mat4(1.0f);
+	};
+
 public:
+	Transform transform;
+	ModelElijah();
 	void initialize();
 	void draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, glm::mat4 view, glm::mat4 model);
 
 private:
-	int modelData[ROWS][COLUMNS][PLANES];
+	int modelData[sizeX][sizeY][sizeZ];
 	glm::mat4 positionMat;
 };
