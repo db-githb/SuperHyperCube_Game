@@ -26,6 +26,8 @@ public:
 	void initialize();
 	void draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, glm::mat4 view, glm::mat4 model);
 
+	void generateRandomModel();
+
 private:
 	int modelData[sizeX][sizeY][sizeZ];
 	glm::mat4 positionMat;

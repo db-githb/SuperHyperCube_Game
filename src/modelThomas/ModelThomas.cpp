@@ -18,6 +18,16 @@ void ModelThomas::initialize() {
 	}
 
 	for (int r = 2; r < 8; r++) {
+		modelData[r][1][PLANES - 3] = BLUE;
+		modelData[r][1][0] = NONE;
+	}
+
+	for (int c = 1; c < 6; c++) {
+		modelData[1][c][PLANES - 3] = BLUE;
+		modelData[1][c][0] = NONE;
+	}
+
+	for (int r = 2; r < 8; r++) {
 		modelData[r][1][PLANES - 2] = BLUE;
 		modelData[r][1][0] = NONE;
 	}
@@ -29,17 +39,19 @@ void ModelThomas::initialize() {
 
 
 	modelData[2][2][0] = NONE;
-	for (int p = 2; p < 5; p++) {
+	for (int p = 2; p < 6; p++) {
 		modelData[2][2][p] = RED;
 	}
 
 	modelData[5][2][0] = NONE;
-	for (int p = 2; p < 5; p++) {
+	for (int p = 2; p < 6; p++) {
 		modelData[5][2][p] = RED;
 	}
 
+	for (int r = 2; r < 6; r++) {
+		modelData[r][1][PLANES - 1] = RED;
+	}
 
-	//TODO: add other bars
 
 }
 

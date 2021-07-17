@@ -194,3 +194,25 @@ void ModelElijah::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 		}
 	}
 }
+
+void ModelElijah::generateRandomModel()
+{
+	// initialize entire model to a wall or none (no unit cube)
+	for (int x = 0; x < sizeX; x++)
+	{
+		for (int y = 0; y < sizeY; y++)
+		{
+			for (int z = 0; z < sizeZ; z++)
+			{
+				if (z == 0)
+				{
+					modelData[x][y][z] = WALL;
+				}
+				else
+				{
+					modelData[x][y][z] = NONE;
+				}
+			}
+		}
+	}
+}
