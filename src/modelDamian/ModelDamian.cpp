@@ -153,9 +153,12 @@ void ModelDamian::generateOriginalObject() {
 		}
 	}
 
+	// bricks for testing
+	/*
 	modelData[0][0][0] = BLUE;
 	modelData[0][6][6] = VIOLET;
 	modelData[0][0][6] = VIOLET;
+	*/
 }
 
 // draw method works by rendering each unit cube in the model
@@ -177,8 +180,7 @@ void ModelDamian::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 	baseShader.setMat4("projection", projection);
 	baseShader.setMat4("view", view);
 
-	// put this in base class or leave 
-
+	// put this in base class or leave it
 	const glm::mat3 rotationMatrix = glm::mat3(
 		glm::vec3(glm::cos(orientation), 0.0f, -glm::sin(orientation)),
 		glm::vec3(0.0f, 1.0f, 0.0f),
@@ -196,7 +198,8 @@ void ModelDamian::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 
 				// scale position of each unitCube
 				// positions of each cube are relative to the axis of rotation
-				float x = ((float)c - (COLUMNS * 0.5f)) * scaleFactor;
+				// subtracting 1 to try and align the center of rotation in the middle of the x-axis
+				float x = ((float)c - ((COLUMNS-1.0f) * 0.5f)) * scaleFactor;
 				float y = (float)r * scaleFactor;
 				float z = ((float)p - 0.5f) * scaleFactor;
 
@@ -219,7 +222,6 @@ void ModelDamian::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 					// shader colors the wall unit cube grey
 					baseShader.setVec3("dirLight.ambient", dirLight[LIGHT_AMBIENT]);
 
-					// TODO: make base position a variable (currently it's a constant)
 					model = glm::translate(model, modelBasePosition + translation);
 
 				}
@@ -251,63 +253,59 @@ void ModelDamian::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 
 bool ModelDamian::boundaryCollision() {
 
-	glm::vec3* modelCorners = new glm::vec3[4];
+	glm::vec3* localSpaceCorners = new glm::vec3[4];
 
-	
-	modelCorners[0] = glm::vec3((COLUMNS*-0.5f)-0.5f, 0.0f, 0.0f);
-	modelCorners[1] = glm::vec3((COLUMNS*0.5f) - 0.5f, 0.0f, 0.0f);
-	modelCorners[2] = glm::vec3((COLUMNS*0.5)-0.5f, 0.0f, PLANES - 0.5f);
-	modelCorners[3] = glm::vec3((COLUMNS*-0.5) - 0.5f, 0.0f, PLANES - 0.5f);
+	// subtracting 1 to try and align the center of rotation in the middle of the x-axis
+	localSpaceCorners[0] = glm::vec3(((float)(COLUMNS - 1.0f)*-0.5f)-0.5f, 0.0f, 0.0f);
+	localSpaceCorners[1] = glm::vec3(((float)(COLUMNS - 1.0f) *0.5f) - 0.5f, 0.0f, 0.0f);
+	localSpaceCorners[2] = glm::vec3(((float)(COLUMNS - 1.0f) *0.5)-0.5f, 0.0f, (float) PLANES - 0.5f);
+	localSpaceCorners[3] = glm::vec3(((float)(COLUMNS - 1.0f) *-0.5) - 0.5f, 0.0f, (float) PLANES - 0.5f);
 
 	const glm::mat3 rotationMatrix = glm::mat3(
 		glm::vec3(glm::cos(orientation), 0.0f, -glm::sin(orientation)),
 		glm::vec3(0.0f, 1.0f, 0.0f),
 		glm::vec3(glm::sin(orientation), 0.0f, glm::cos(orientation))
 	);
-
+	
 	for (int i = 0; i < 4; i++) {
-		// move corner vector to base position
-		modelCorners[i] = glm::vec3(
-			modelCorners[i].x + modelBasePosition.x,
-			modelCorners[i].y + modelBasePosition.y,
-			modelCorners[i].z + modelBasePosition.z
-			);
-
-		// scale corner vector
-		modelCorners[i] *= scaleFactor;
 
 		// rotate corner vector
-		modelCorners[i] = rotationMatrix * modelCorners[i];
+		localSpaceCorners[i] = rotationMatrix * localSpaceCorners[i];
+
+		// scale corner vector
+		localSpaceCorners[i] *= scaleFactor;
+
+		// move corner vector to base position
+		localSpaceCorners[i] = glm::vec3(
+			localSpaceCorners[i].x + modelBasePosition.x,
+			localSpaceCorners[i].y + modelBasePosition.y,
+			localSpaceCorners[i].z + modelBasePosition.z
+			);
+
+		std::cout << "modelCorner + basePosition: " << localSpaceCorners[i].x << " " << localSpaceCorners[i].y << " " << localSpaceCorners[i].z << std::endl;
 
 		// apply any x or y translations to corner vector
-		// translations are multiplied by 1.4 to prempt the collision
 		if (xTranslation < 0) {
-			modelCorners[i] = glm::vec3(modelCorners[i].x + xTranslation - 0.05f, modelCorners[i].y + yTranslation, modelCorners[i].z);
+			localSpaceCorners[i] = glm::vec3(localSpaceCorners[i].x + xTranslation - 0.05f, localSpaceCorners[i].y + yTranslation, localSpaceCorners[i].z);
 		}
 		else {
-			modelCorners[i] = glm::vec3(modelCorners[i].x + xTranslation + 0.05f, modelCorners[i].y + yTranslation, modelCorners[i].z);
+			localSpaceCorners[i] = glm::vec3(localSpaceCorners[i].x + xTranslation + 0.05f, localSpaceCorners[i].y + yTranslation, localSpaceCorners[i].z);
 		}
 
-		std::cout << "model corner "<< i <<":" <<" x " << modelCorners[i].x << " y " << modelCorners[i].y << " z " << modelCorners[i].z << std::endl;
+		std::cout << "model corner "<< i << ": " <<" x " << localSpaceCorners[i].x << " y " << localSpaceCorners[i].y << " z " << localSpaceCorners[i].z << std::endl;
 
 		// check x boundary
-		if(modelCorners[i].x < -10.1f || modelCorners[i].x > 10.1f) {
-			//std::cout << "x " << modelCorners[i].x << " y " << modelCorners[i].y << " z " << modelCorners[i].z << std::endl;
-			std::cout << "i out of bounds: " << i << std::endl;
+		if(localSpaceCorners[i].x < -10.1f || localSpaceCorners[i].x > 10.1f) {
 			return true;
 		}
 
 		// check y boundary (only applies to y translation, not scaling)
-		if (modelCorners[i].y <= 0) {
-			//std::cout << "x " << modelCorners[i].x << " y " << modelCorners[i].y << " z " << modelCorners[i].z << std::endl;
-			std::cout << "i out of bounds: " << i << std::endl;
+		if (localSpaceCorners[i].y <= 0) {
 			return true;
 		}
 
 		//check z boundary
-		if (modelCorners[i].z <= -10.0f || modelCorners[i].z >= 10.0f) {
-			//std::cout << "x " << modelCorners[i].x << " y " << modelCorners[i].y << " z " << modelCorners[i].z << std::endl;
-			std::cout << "i out of bounds: " << i << std::endl;
+		if (localSpaceCorners[i].z <= -10.0f || localSpaceCorners[i].z >= 10.0f) {
 			return true;
 		}
 	}
