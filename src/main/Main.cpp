@@ -70,11 +70,6 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 	camera.ProcessMouseMovement(xoffset, yoffset);
 }
 
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
-
-	camera.ProcessMouseScroll((float)yoffset);
-}
-
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
 	if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
@@ -244,7 +239,6 @@ int main()
 	// Set context for GLAD to use
 	glfwMakeContextCurrent(mainWindow);
 	glfwSetCursorPosCallback(mainWindow, mouse_callback);
-	glfwSetScrollCallback(mainWindow, scroll_callback);
 	glfwSetMouseButtonCallback(mainWindow, mouse_button_callback);
 	glfwSetKeyCallback(mainWindow, key_callback);
 

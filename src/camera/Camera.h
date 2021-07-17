@@ -1,3 +1,10 @@
+/*
+ * Camera class adapted from the learnOpenGL.com code repostitory on github: https://github.com/JoeyDeVries/LearnOpenGL
+   License:
+ * All code samples, unless explicitly stated otherwise, are licensed under the terms of the CC BY-NC 4.0 license as published by Creative Commons, either version 4 of the License, or (at your option) any later version.
+ * Link to license:  https://github.com/JoeyDeVries/LearnOpenGL/blob/master/LICENSE.md
+*/
+
 #ifndef CAMERA_H
 #define CAMERA_H
 
@@ -72,9 +79,6 @@ public:
 
 	// processes input received from a mouse input system. Expects the offset value in both the x and y direction.
 	void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
-
-	// processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
-	void ProcessMouseScroll(float yoffset);
 
 private:
 	// calculates the front vector from the Camera's (updated) Euler Angles
