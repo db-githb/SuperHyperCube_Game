@@ -118,7 +118,7 @@ bool ModelBase::inBound(int direction) {
 
 void ModelBase::generateRandomModel()
 {
-	return 
+	return;
 }
 
 void ModelBase::generateOriginalObject() {
