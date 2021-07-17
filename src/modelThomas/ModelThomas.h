@@ -3,7 +3,7 @@
 
 #define ROWS 9
 #define COLUMNS 7
-#define PLANES 5
+#define PLANES 6
 
 
 #define WALL 0
