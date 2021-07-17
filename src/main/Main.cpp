@@ -327,9 +327,9 @@ int main()
 
 		//unitCube->draw(camera, dirLighting, projection, view, model);
 		modelDamian->draw(camera, dirLighting, projection, view, model);
-		//modelElijah->draw(camera, dirLighting, projection, view, model);
-		//modelThomas->draw(camera, dirLighting, projection, view, model);
-		//modelKayla->draw(camera, dirLighting, projection, view, model);
+		modelElijah->draw(camera, dirLighting, projection, view, model);
+		modelThomas->draw(camera, dirLighting, projection, view, model);
+		modelKayla->draw(camera, dirLighting, projection, view, model);
 
 		// ==================================
 
