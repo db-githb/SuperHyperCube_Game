@@ -37,7 +37,7 @@ public:
 	virtual void rotate(int rotation);
 	virtual void setRenderMode(int mode);
 	virtual bool inBound(int direction);
-	virtual int* generateRandomModel(int rows, int columns, int planes);
+	virtual void generateRandomModel();
 	virtual void generateOriginalObject();
 	virtual bool boundaryCollision();
 

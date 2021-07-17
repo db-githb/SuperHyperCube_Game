@@ -116,10 +116,9 @@ bool ModelBase::inBound(int direction) {
 	return true;
 }
 
-int* ModelBase::generateRandomModel(int rows, int columns, int planes)
+void ModelBase::generateRandomModel()
 {
-	int result[] = { 1,2,3 };
-	return result; 
+	return 
 }
 
 void ModelBase::generateOriginalObject() {
