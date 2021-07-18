@@ -28,6 +28,8 @@ public:
 
 	void generateRandomModel();
 
+	void generateOriginalObject();
+
 private:
 	int modelData[sizeX][sizeY][sizeZ];
 	glm::mat4 positionMat;
