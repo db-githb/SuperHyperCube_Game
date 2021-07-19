@@ -50,14 +50,13 @@ void ModelElijah::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 				float y = (float)r * scaleFactor;
 				float z = (float)p * scaleFactor;
 
-				// ensure that the model matrix passed is an identity matri;
-
-				// translation vector to move unit cube from base position
+				// The XYZ coordinate vector of a given cube relative to the model's root/origin
 				glm::vec3 translation = glm::vec3(x, y, z);
+				//transform.matrix = glm::scale(transform.matrix, glm::vec3(1.0f) * scaleFactor);
+				// Set the model's origin relative to the scene origin
 				transform.matrix = glm::translate(glm::mat4(1.0f) , (transform.position +  glm::vec3(xTranslation*scaleFactor, yTranslation*scaleFactor, 0.0f)));
-				//modelPosition = glm::scale(modelPosition, glm::vec3(1.0f) * scaleFactor);
-
-				// apply any rotation to the model
+				
+				// Apply rotation to a given unit cube relative to the whole model's origin
 				model = glm::rotate(transform.matrix, orientation, glm::vec3(0.0f, 1.0f, 0.0f));
 				
 				if (modelData[c][r][p] == WALL) 
@@ -78,9 +77,9 @@ void ModelElijah::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 				// translation vector to move unit cube from base position
 				model = glm::translate(model, translation + glm::vec3(scaleFactor*(-sizeX / 2), 0.0f, scaleFactor * (-sizeZ / 2)));
 				
-
-				// scale the size of each cube
+				// Scale the size of each cube uniformly
 				model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
+				
 				
 				// pass the model matrix to the vertex shader
 				baseShader.setMat4("model", model);
@@ -90,9 +89,9 @@ void ModelElijah::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 				glDrawArrays(renderMode, 0, 36);
 
 				glBindVertexArray(unitCube.getVAO());
-				baseShader.setMat4("model", transform.matrix);
+				/*baseShader.setMat4("model", transform.matrix);
 				baseShader.setVec3("dirLight.ambient", glm::vec3(1.0f, 1.0f, 1.0f));
-				glDrawArrays(renderMode, 0, 36);
+				glDrawArrays(renderMode, 0, 36);*/
 
 			}
 
