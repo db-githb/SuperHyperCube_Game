@@ -4,6 +4,23 @@ void ModelThomas::initialize() {
 
 	modelBasePosition = glm::vec3(5.0f, 0.5f, -5.5f);
 
+	resetModel();
+	generateOriginalObject();
+
+	colorPalette = new glm::vec3[NUM_COLORS];
+	initializeColorPalette();
+
+}
+
+void ModelThomas::initializeColorPalette() {
+
+	colorPalette[YELLOW] = glm::vec3(1.0f, 1.0f, 0.0f);
+	colorPalette[ORANGE] = glm::vec3(1.0f, 0.5f, 0.0f);
+
+}
+
+void ModelThomas::resetModel() {
+	// initialize wall and empty space
 	for (int r = 0; r < ROWS; r++) {
 		for (int c = 0; c < COLUMNS; c++) {
 			for (int p = 0; p < PLANES; p++) {
@@ -16,40 +33,100 @@ void ModelThomas::initialize() {
 			}
 		}
 	}
+}
+
+void ModelThomas::generateOriginalObject() {
+
+	resetModel();
 
 	for (int r = 2; r < 8; r++) {
-		modelData[r][1][PLANES - 3] = BLUE;
+		modelData[r][1][PLANES - 3] = YELLOW;
 		modelData[r][1][0] = NONE;
 	}
 
 	for (int c = 1; c < 6; c++) {
-		modelData[1][c][PLANES - 3] = BLUE;
+		modelData[1][c][PLANES - 3] = YELLOW;
 		modelData[1][c][0] = NONE;
 	}
 
 	for (int r = 2; r < 8; r++) {
-		modelData[r][1][PLANES - 2] = BLUE;
+		modelData[r][1][PLANES - 2] = YELLOW;
 		modelData[r][1][0] = NONE;
 	}
 
 	for (int c = 1; c < 6; c++) {
-		modelData[1][c][PLANES - 2] = BLUE;
+		modelData[1][c][PLANES - 2] = YELLOW;
 		modelData[1][c][0] = NONE;
 	}
-
 
 	modelData[2][2][0] = NONE;
 	for (int p = 2; p < 6; p++) {
-		modelData[2][2][p] = RED;
+		modelData[2][2][p] = ORANGE;
 	}
 
 	modelData[5][2][0] = NONE;
 	for (int p = 2; p < 6; p++) {
-		modelData[5][2][p] = RED;
+		modelData[5][2][p] = ORANGE;
 	}
 
 	for (int r = 2; r < 6; r++) {
-		modelData[r][1][PLANES - 1] = RED;
+		modelData[r][1][PLANES - 1] = ORANGE;
+	}
+}
+
+void ModelThomas::generateRandomModel() {
+
+	resetModel();
+
+	for (int r = 2; r < 8; r++) {
+		
+		modelData[r][1][0] = NONE;
+
+		if ((rand() % 10 == 0)) {
+			continue;
+		}
+
+		for (int p = 2; p < PLANES; p++)
+			if ((rand() % 2 == 1)) {
+				modelData[r][1][p] = rand() % NUM_COLORS;
+			}
+	}
+
+	for (int c = 1; c < 6; c++) {
+		modelData[1][c][0] = NONE;
+
+		if ((rand() % 10 == 0)) {
+			continue;
+		}
+
+		for (int p = 2; p < PLANES; p++)
+			if ((rand() % 2 == 1)) {
+				modelData[1][c][p] =  rand() % NUM_COLORS;
+			}
+	}
+
+	modelData[2][2][0] = NONE;
+	modelData[5][2][0] = NONE;
+
+	for (int p = 2; p < PLANES; p++) {
+		if ((rand() % 10 == 0)) {
+			continue;
+		}
+
+		if ((rand() % 2 == 1)) {
+			modelData[2][2][p] = rand() % NUM_COLORS;
+		}
+	}
+
+	
+	for (int p = 2; p < PLANES; p++) {
+		if ((rand() % 10 == 0)) {
+			continue;
+		}
+
+		if ((rand() % 2 == 1)) {
+			modelData[5][2][p] = rand() % NUM_COLORS;
+		}
 	}
 
 
@@ -105,14 +182,9 @@ void ModelThomas::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 
 				}
 				else {
-
-					// if-else statement colors the object cubes either red or blue
-					if (modelData[r][c][p] == RED) {
-						baseShader.setVec3("dirLight.ambient", glm::vec3(1.0f, 0.5f, 0.0f));
-					}
-					else {
-						baseShader.setVec3("dirLight.ambient", glm::vec3(1.0f, 1.0f, 0.0f));
-					}
+					// color value applied through enums
+					baseShader.setVec3("dirLight.ambient", colorPalette[modelData[r][c][p]]);
+					
 				}
 
 				model = glm::translate(model, translation+ glm::vec3(scaleFactor*(-COLUMNS*0.5),0.0f,scaleFactor*(-PLANES/2)));
@@ -132,3 +204,4 @@ void ModelThomas::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 		}
 	}
 }
+
