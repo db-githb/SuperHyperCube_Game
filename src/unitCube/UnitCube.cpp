@@ -59,11 +59,11 @@ void UnitCube::createCube()
 		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f, 0.0f,  0.0f, 1.0f
 	};
 
-	// lightCube VAO and VBO
+	// unitCube VAO and VBO
 	glGenVertexArrays(1, &unitCubeVAO);
 
 	glGenBuffers(1, &unitCubeVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, unitCubeVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, unitCubeVBO); 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	glBindVertexArray(unitCubeVAO);

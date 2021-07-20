@@ -4,7 +4,7 @@ ModelBase::ModelBase() {
 	unitCube = UnitCube();
 	baseShader = Shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
 
-	scaleFactor = 1.0f;
+	scaleFactor = 0.5f;
 
 	xTranslation = 0.0f;
 	yTranslation = 0.0f;
@@ -21,6 +21,7 @@ void ModelBase::initialize() {
 
 void ModelBase::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
 
+	// specify the shader being used
 	baseShader.use();
 
 	baseShader.setVec3("viewPos", inCam.Position);
@@ -41,9 +42,10 @@ void ModelBase::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, gl
 
 	baseShader.setMat4("model", model);
 
-	// render the cubes
+	// specify the vao that will be use
 	glBindVertexArray(unitCube.getVAO());
 
+	// render the cubes
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 

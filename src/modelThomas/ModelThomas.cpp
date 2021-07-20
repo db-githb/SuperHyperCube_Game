@@ -2,7 +2,7 @@
 
 void ModelThomas::initialize() {
 
-	modelBasePosition = glm::vec3(5.0f, 0.5f, -5.5f);
+	modelBasePosition = glm::vec3(5.0f, 0.5f, -5.0f);
 
 	resetModel();
 	generateOriginalObject();

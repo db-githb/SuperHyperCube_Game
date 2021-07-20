@@ -36,3 +36,5 @@ while right mouse button pressed, use mouse movement in x-direction to pan camer
 while middle mouse button pressed, use mouse movement in y-direction to tilt camera
 
 while left mouse button pressed, use mouse movement to zoom
+
+Home key returns camera to starting position 

@@ -2,7 +2,7 @@
 
 void ModelDamian::initialize() {
 	
-	modelBasePosition = glm::vec3(-5.0f, 0.5f, 2.0f);
+	modelBasePosition = glm::vec3(-5.0f, 0.5f, 5.0f);
 
 	resetModel();
 	generateOriginalObject();

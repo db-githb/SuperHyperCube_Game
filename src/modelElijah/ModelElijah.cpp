@@ -2,12 +2,12 @@
 
      ModelElijah::ModelElijah()
 	{
-		transform.position = glm::vec3(-5.0f, 0.5f, -7.0f);
+		transform.position = glm::vec3(-5.0f, 0.5f, -5.0f);
 	}
 
 void ModelElijah::initialize() {
 
-	modelBasePosition = glm::vec3(-5.0f, 0.5f, 7.0f);
+	modelBasePosition = glm::vec3(-5.0f, 0.5f, -5.0f);
 
 	generateOriginalObject();
 
