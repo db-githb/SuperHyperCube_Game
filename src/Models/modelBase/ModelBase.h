@@ -32,6 +32,7 @@ public:
 	ModelBase();
 	virtual void initialize();
 	virtual void draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, glm::mat4 view, glm::mat4 model);
+	virtual void Draw(Shader& shader);
 	virtual void scale(int scaleDirection);
 	virtual void translate(int translationDirection);
 	virtual void rotate(int rotation);

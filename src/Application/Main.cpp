@@ -21,10 +21,9 @@ ModelBase* activeModel;
 // DECLARE MODELS HERE
 // -------------------
 ModelBase* unitCube;
-ModelDamian* modelDamian;
 ModelElijah* modelElijah;
-ModelThomas* modelThomas;
-ModelKayla* modelKayla;
+WorldCube* worldCube;
+
 // ===================
 ObjectNode root;
 
@@ -91,23 +90,17 @@ int main()
 	// ----------------------------------
 	// INSTANTIATE AND INITIALIZE MODELS HERE
 	// ----------------------------------
-	UnitAxes unitAxes;
-	GridLines gridLines;
+	Axes unitAxes;
+	Grid gridLines;
 
 	unitCube = new ModelBase();
 	unitCube->initialize();
 
-	modelDamian = new ModelDamian();
-	modelDamian->initialize();
-
 	modelElijah = new ModelElijah();
 	modelElijah->initialize();
 
-	modelThomas = new ModelThomas();
-	modelThomas->initialize();
+	worldCube = new WorldCube();
 
-	modelKayla = new ModelKayla();
-	modelKayla->initialize();
 
 	// ==================================
 
@@ -120,8 +113,14 @@ int main()
 	};
 
 	// initialize active model
-	activeModel = modelDamian;
-
+	activeModel = modelElijah;
+	Shader shader = Shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
+	shader.use();
+	shader.setVec3("dirLight.direction", glm::vec3(-0.2f, -1.0f, -0.3f));
+	shader.setVec3("dirLight.ambient", glm::vec3(0.05f, 0.05f, 0.05f));
+	shader.setVec3("dirLight.diffuse", glm::vec3(0.4f, 0.4f, 0.4f));
+	shader.setVec3("dirLight.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+	// Main Loop
 	while (!glfwWindowShouldClose(mainWindow))
 	{
 		// Get + Handle User Input
@@ -149,11 +148,13 @@ int main()
 		// DRAW MODELS HERE
 		// ----------------------------------
 
-		//unitCube->draw(camera, dirLighting, projection, view, model);
-		modelDamian->draw(camera, dirLighting, projection, view, model);
-		modelElijah->draw(camera, dirLighting, projection, view, model);
-		modelThomas->draw(camera, dirLighting, projection, view, model);
-		modelKayla->draw(camera, dirLighting, projection, view, model);
+		//unitCube->draw(camera, dirLighting, projection, view, model);;
+		//modelElijah->draw(camera, dirLighting, projection, view, model);
+		shader.use();
+		shader.setMat4("projection", projection);
+		shader.setMat4("view", view);
+		modelElijah->Draw(shader);
+		worldCube->Draw(shader);
 
 		// ==================================
 
@@ -233,9 +234,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			activeModel = unitCube;
 			break;
 		case GLFW_KEY_1:
-			activeModel = modelDamian;
+			activeModel = modelElijah;
 			break;
-		case GLFW_KEY_2:
+		/*case GLFW_KEY_2:
 			activeModel = modelElijah;
 			break;
 		case GLFW_KEY_3:
@@ -243,7 +244,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		case GLFW_KEY_4:
 			activeModel = modelKayla;
-			break;
+			break;*/
 
 			// select render mode
 		case GLFW_KEY_T:

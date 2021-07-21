@@ -13,13 +13,12 @@
 
 #include "../Mesh/unitCube/UnitCube.h"
 #include "../Mesh/unitLine/UnitLine.h"
-#include "../Models/Axes/UnitAxes.h"
-#include "../Models/gridLines/GridLines.h"
+#include "../Models/Axes/Axes.h"
+#include "../Models/gridLines/Grid.h"
 #include "../Models/modelBase/modelBase.h"
-#include "../Models/modelDamian/modelDamian.h"
 #include "../Models/modelElijah/modelElijah.h"
-#include "../Models/modelThomas/modelThomas.h"
-#include "../Models/modelKayla/modelKayla.h"
+
+#include "../Models/WorldCube/WorldCube.h"
 #include "../Scene/ObjectNode.h"
 
 // window size

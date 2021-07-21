@@ -1,12 +1,12 @@
 #pragma once
 #include "../../Application/Main.h"
 
-class GridLines {
+class Grid {
 public:
-	GridLines();
+	Grid();
 	void draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model);
 
 private:
 	UnitLine unitLine;
-	Shader gridLinesShader;
+	Shader gridShader;
 };
