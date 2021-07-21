@@ -162,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="src\Application\Main.h" />
     <ClInclude Include="src\Application\Renderer.h" />
+    <ClInclude Include="src\Application\Transform.h" />
     <ClInclude Include="src\Camera\Camera.h" />
     <ClInclude Include="src\Mesh\Mesh.h" />
     <ClInclude Include="src\Models\Axes\UnitAxes.h" />
@@ -179,6 +180,7 @@
   <ItemGroup>
     <ClCompile Include="src\Application\Main.cpp" />
     <ClCompile Include="src\Application\Renderer.cpp" />
+    <ClCompile Include="src\Application\Transform.cpp" />
     <ClCompile Include="src\Camera\Camera.cpp" />
     <ClCompile Include="src\Mesh\Mesh.cpp" />
     <ClCompile Include="src\Models\Axes\UnitAxes.cpp" />

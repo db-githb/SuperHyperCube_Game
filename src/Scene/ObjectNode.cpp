@@ -1,8 +1,9 @@
 #include "ObjectNode.h"
 
-ObjectNode::ObjectNode(Mesh* mesh, glm::vec4 colour)
+ObjectNode::ObjectNode(Mesh* m, glm::vec4 col)
 {
-
+	mesh = m;
+	colour = col;
 }
 
 ObjectNode::~ObjectNode(void)
@@ -23,4 +24,9 @@ void ObjectNode::Draw(const Renderer& renderer)
 {
 	if (mesh)
 		mesh->Draw();
+}
+
+void ObjectNode::Update(float ms)
+{
+
 }

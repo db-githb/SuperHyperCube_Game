@@ -18,7 +18,7 @@ class ObjectNode
 {
 
 public:
-	ObjectNode(Mesh* m = NULL, glm::vec4 colour = glm::vec4(1, 1, 1, 1));
+	ObjectNode(Mesh* m = NULL, glm::vec4 col = glm::vec4(1, 1, 1, 1));
 	~ObjectNode(void);
 
 	void AddChild(ObjectNode* objectNode);
