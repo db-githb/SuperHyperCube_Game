@@ -1,4 +1,3 @@
-#include "../main/Main.h"
 #include "UnitLine.h"
 
 UnitLine::UnitLine() {

@@ -1,5 +1,6 @@
 #pragma once
 #include "../modelBase/ModelBase.h"
+#include "../../Application/Transform.h"
 
 #define WALL 1
 #define BLUE 2
@@ -12,13 +13,6 @@
 
 class ModelElijah : public ModelBase {
 
-	struct Transform
-	{
-		glm::vec3 position = glm::vec3(1.0f);
-		glm::vec3 rotation = glm::vec3(1.0f);
-		glm::vec3 scale	   = glm::vec3(1.0f);
-		glm::mat4 matrix   = glm::mat4(1.0f);
-	};
 
 public:
 	Transform transform;

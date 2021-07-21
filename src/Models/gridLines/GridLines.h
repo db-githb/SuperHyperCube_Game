@@ -1,6 +1,5 @@
 #pragma once
-#include "../main/Main.h"
-#include "../unitLine/UnitLine.h"
+#include "../../Application/Main.h"
 
 class GridLines {
 public:

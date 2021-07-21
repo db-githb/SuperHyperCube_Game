@@ -2,20 +2,20 @@
 
      ModelElijah::ModelElijah()
 	{
-		transform.position = glm::vec3(-5.0f, 0.5f, -5.0f);
+
 	}
 
-void ModelElijah::initialize() {
-
-	modelBasePosition = glm::vec3(-5.0f, 0.5f, -5.0f);
-
+void ModelElijah::initialize() 
+{
 	generateOriginalObject();
-
 }
 
 // draw method works by rendering each unit cube in the model
 void ModelElijah::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
-
+	
+	// Set the world position of the model
+	transform.SetPosition(glm::vec3(-5.0f, 0.5f, -7.0f) + glm::vec3(xTranslation * scaleFactor, yTranslation * scaleFactor, 0.0f));
+	
 	// activate the shader
 	baseShader.use();
 
@@ -54,10 +54,9 @@ void ModelElijah::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 				glm::vec3 translation = glm::vec3(x, y, z);
 				//transform.matrix = glm::scale(transform.matrix, glm::vec3(1.0f) * scaleFactor);
 				// Set the model's origin relative to the scene origin
-				transform.matrix = glm::translate(glm::mat4(1.0f) , (transform.position +  glm::vec3(xTranslation*scaleFactor, yTranslation*scaleFactor, 0.0f)));
 				
 				// Apply rotation to a given unit cube relative to the whole model's origin
-				model = glm::rotate(transform.matrix, orientation, glm::vec3(0.0f, 1.0f, 0.0f));
+				model = glm::rotate(transform.GetModel(), orientation, glm::vec3(0.0f, 1.0f, 0.0f));
 				
 				if (modelData[c][r][p] == WALL) 
 					baseShader.setVec3("dirLight.ambient", dirLight[LIGHT_AMBIENT]); // shader colors the wall unit cube grey
