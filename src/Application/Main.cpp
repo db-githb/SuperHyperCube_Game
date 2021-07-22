@@ -4,7 +4,14 @@
 	40078229
 	COMP-371
 	Quiz 1
-
+	Resources: 
+	1) Team 7 Assignment 1: Basic Model Loading and Transformation Framework
+	2) Newcastle University: Graphics for Games Tutorials (Scene Graph Concepts) -> https://research.ncl.ac.uk/game/mastersdegree/graphicsforgames/
+	3) TheBennyBox: 3D Game Engine Tutorial Series (Transform Class) -> https://www.youtube.com/watch?v=ktz9AlMSEoA&ab_channel=thebennybox
+																	 -> https://www.youtube.com/watch?v=Xe7FmplKAF0&t=227s&ab_channel=thebennybox
+	4) LearnOpenGL.com: Basic OpenGL Tutorial (Basic Rendering, Transformations and Camera) -> https://learnopengl.com/
+	5) The Cherno: OpenGL and Game Engine Tutorial Series -> https://www.youtube.com/watch?v=W3gAzLwfIP0&list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2&ab_channel=TheCherno
+														  -> https://www.youtube.com/watch?v=JxIZbV_XjAs&list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT&ab_channel=TheCherno
 
 */
 
@@ -115,11 +122,6 @@ int main()
 	// Create scene graph
 	scene = new ObjectNode();
 
-
-	/*modelElijah = new ModelElijah();
-	modelElijah->initialize();
-	scene->AddChild(new ObjectNode(modelElijah));*/
-
 	// Create world cube and wall -> add them to the scene graph
 	worldCube = new WorldCube();
 	scene->AddChild(new ObjectNode(worldCube));
@@ -160,6 +162,7 @@ int main()
 	shader.setVec3("dirLight.ambient",	 glm::vec3(0.05f, 0.05f, 0.05f));
 	shader.setVec3("dirLight.diffuse",	 glm::vec3(0.4f, 0.4f, 0.4f));
 	shader.setVec3("dirLight.specular",	 glm::vec3(0.5f, 0.5f, 0.5f));
+	
 	// Main Loop
 	while (!glfwWindowShouldClose(mainWindow))
 	{
@@ -187,9 +190,8 @@ int main()
 		// ----------------------------------
 		// DRAW MODELS HERE
 		// ----------------------------------
-
-		//unitCube->draw(camera, dirLighting, projection, view, model);;
-		//modelElijah->draw(camera, dirLighting, projection, view, model);
+		
+		// Submit projection and view matrices to the basic shader
 		shader.use();
 		shader.setMat4("projection", projection);
 		shader.setMat4("view", view);
