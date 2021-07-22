@@ -22,8 +22,8 @@ void ObjectNode::AddChild(ObjectNode* objectNode)
 
 void ObjectNode::Draw(const Renderer& renderer)
 {
-	if (mesh)
-		mesh->Draw();
+	/*if (mesh)
+		mesh->Draw();*/
 }
 
 void ObjectNode::Update(float ms)

@@ -1,7 +1,7 @@
 #include "UnitCube.h"
 
 UnitCube::UnitCube() {
-	createCube();
+	setupMesh();
 }
 
 GLuint UnitCube::getVAO() {
@@ -12,7 +12,7 @@ GLuint UnitCube::getVBO() {
 	return unitCubeVBO;
 }
 
-void UnitCube::createCube()
+void UnitCube::setupMesh()
 {
 	float vertices[] = {
 		// positions          // normals        // texture coords
@@ -84,3 +84,7 @@ void UnitCube::createCube()
 	glBindVertexArray(0);
 }
 
+void UnitCube::Draw(Shader& shader)
+{
+
+}

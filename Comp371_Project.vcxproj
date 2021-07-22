@@ -171,6 +171,7 @@
     <ClInclude Include="src\Models\gridLines\Grid.h" />
     <ClInclude Include="src\Models\modelBase\ModelBase.h" />
     <ClInclude Include="src\Models\modelElijah\ModelElijah.h" />
+    <ClInclude Include="src\Models\Wall\Wall.h" />
     <ClInclude Include="src\Models\WorldCube\WorldCube.h" />
     <ClInclude Include="src\Scene\ObjectNode.h" />
     <ClInclude Include="src\Shader\Shader.h" />
@@ -187,6 +188,7 @@
     <ClCompile Include="src\Models\gridLines\Grid.cpp" />
     <ClCompile Include="src\Models\modelBase\ModelBase.cpp" />
     <ClCompile Include="src\Models\modelElijah\ModelElijah.cpp" />
+    <ClCompile Include="src\Models\Wall\Wall.cpp" />
     <ClCompile Include="src\Models\WorldCube\WorldCube.cpp" />
     <ClCompile Include="src\Scene\ObjectNode.cpp" />
     <ClCompile Include="src\Shader\Shader.cpp" />

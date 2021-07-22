@@ -19,6 +19,7 @@
 #include "../Models/modelElijah/modelElijah.h"
 
 #include "../Models/WorldCube/WorldCube.h"
+#include "../Models/Wall/Wall.h"
 #include "../Scene/ObjectNode.h"
 
 // window size

@@ -52,6 +52,7 @@
     <ClInclude Include="src\Models\Axes\Axes.h" />
     <ClInclude Include="src\Models\gridLines\Grid.h" />
     <ClInclude Include="src\Models\WorldCube\WorldCube.h" />
+    <ClInclude Include="src\Models\Wall\Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application\Main.cpp" />
@@ -68,5 +69,6 @@
     <ClCompile Include="src\Models\Axes\Axes.cpp" />
     <ClCompile Include="src\Models\gridLines\Grid.cpp" />
     <ClCompile Include="src\Models\WorldCube\WorldCube.cpp" />
+    <ClCompile Include="src\Models\Wall\Wall.cpp" />
   </ItemGroup>
 </Project>

@@ -23,6 +23,7 @@ ModelBase* activeModel;
 ModelBase* unitCube;
 ModelElijah* modelElijah;
 WorldCube* worldCube;
+Wall* wall;
 
 // ===================
 ObjectNode root;
@@ -100,6 +101,8 @@ int main()
 	modelElijah->initialize();
 
 	worldCube = new WorldCube();
+	wall = new Wall();
+
 
 
 	// ==================================
@@ -153,8 +156,10 @@ int main()
 		shader.use();
 		shader.setMat4("projection", projection);
 		shader.setMat4("view", view);
-		modelElijah->Draw(shader);
+		//modelElijah->Draw(shader);
 		worldCube->Draw(shader);
+		wall->Draw(shader);
+		
 
 		// ==================================
 

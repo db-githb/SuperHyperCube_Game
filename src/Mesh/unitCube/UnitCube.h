@@ -10,13 +10,15 @@
 #include "../../glm/gtc/type_ptr.hpp"
 #include "../../Shader/Shader.h"
 #include "../../Camera/Camera.h"
+#include "../Mesh.h"
 
-class UnitCube {
+class UnitCube : public Mesh{
 public:
 	UnitCube();
-	void createCube();
+	void setupMesh();
 	GLuint getVAO();
 	GLuint getVBO();
+	void Draw(Shader &shader);
 
 private:
 	GLuint unitCubeVBO, unitCubeVAO;
