@@ -169,11 +169,12 @@
     <ClInclude Include="src\Mesh\unitCube\UnitCube.h" />
     <ClInclude Include="src\Mesh\unitLine\UnitLine.h" />
     <ClInclude Include="src\Models\gridLines\Grid.h" />
+    <ClInclude Include="src\Models\Letter\Letter.h" />
     <ClInclude Include="src\Models\modelBase\ModelBase.h" />
     <ClInclude Include="src\Models\modelElijah\ModelElijah.h" />
     <ClInclude Include="src\Models\Wall\Wall.h" />
     <ClInclude Include="src\Models\WorldCube\WorldCube.h" />
-    <ClInclude Include="src\Scene\ObjectNode.h" />
+    <ClInclude Include="src\Application\ObjectNode.h" />
     <ClInclude Include="src\Shader\Shader.h" />
   </ItemGroup>
   <ItemGroup>
@@ -186,11 +187,12 @@
     <ClCompile Include="src\Mesh\unitCube\UnitCube.cpp" />
     <ClCompile Include="src\Mesh\unitLine\UnitLine.cpp" />
     <ClCompile Include="src\Models\gridLines\Grid.cpp" />
+    <ClCompile Include="src\Models\Letter\Letter.cpp" />
     <ClCompile Include="src\Models\modelBase\ModelBase.cpp" />
     <ClCompile Include="src\Models\modelElijah\ModelElijah.cpp" />
     <ClCompile Include="src\Models\Wall\Wall.cpp" />
     <ClCompile Include="src\Models\WorldCube\WorldCube.cpp" />
-    <ClCompile Include="src\Scene\ObjectNode.cpp" />
+    <ClCompile Include="src\Application\ObjectNode.cpp" />
     <ClCompile Include="src\Shader\Shader.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

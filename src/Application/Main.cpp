@@ -1,4 +1,15 @@
 #include "Main.h"
+/*
+	Elijah Mon
+	40078229
+	COMP-371
+	Quiz 1
+
+
+*/
+
+
+
 
 void processInput(GLFWwindow* window);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -20,17 +31,24 @@ ModelBase* activeModel;
 // -------------------
 // DECLARE MODELS HERE
 // -------------------
-ModelBase* unitCube;
 ModelElijah* modelElijah;
 WorldCube* worldCube;
 Wall* wall;
+
+ObjectNode* scene;
+
+Letter* letterE;
+Letter* letterL;
+Letter* letterI;
+Letter* letterJ;
+Letter* letterA;
 
 // ===================
 ObjectNode root;
 
 int main()
 {
-	#pragma region Window/Input Setup
+#pragma region Window/Input Setup
 
 	// Initialise GLFW
 	if (!glfwInit())
@@ -85,7 +103,7 @@ int main()
 	// Create Viewport
 	glViewport(0, 0, WIDTH, HEIGHT);
 
-	#pragma endregion
+#pragma endregion
 
 
 	// ----------------------------------
@@ -94,35 +112,54 @@ int main()
 	Axes unitAxes;
 	Grid gridLines;
 
-	unitCube = new ModelBase();
-	unitCube->initialize();
+	// Create scene graph
+	scene = new ObjectNode();
 
-	modelElijah = new ModelElijah();
+
+	/*modelElijah = new ModelElijah();
 	modelElijah->initialize();
+	scene->AddChild(new ObjectNode(modelElijah));*/
 
+	// Create world cube and wall -> add them to the scene graph
 	worldCube = new WorldCube();
+	scene->AddChild(new ObjectNode(worldCube));
 	wall = new Wall();
+	scene->AddChild(new ObjectNode(wall));
+
+	// create Letter models
+	letterE = new Letter();
+	letterL = new Letter();
+	letterI = new Letter();
+	letterJ = new Letter();
+	letterA = new Letter();
+
+	// Add all character models to the scene graph
+	scene->AddChild(new ObjectNode(letterE));
+	scene->AddChild(new ObjectNode(letterL));
+	scene->AddChild(new ObjectNode(letterI));
+	scene->AddChild(new ObjectNode(letterJ));
+	scene->AddChild(new ObjectNode(letterA));
+	
+	// Set Models to the appropriate character shape
+	letterE->GenerateE();
+	letterL->GenerateL();
+	letterI->GenerateI();
+	letterJ->GenerateJ();
+	letterA->GenerateA();
+
 
 
 
 	// ==================================
 
-	// directional lighting values
-	glm::vec3 dirLighting[4] = {
-		glm::vec3(-0.2f, -1.0f, -0.3f), //direction
-		glm::vec3(0.05f, 0.05f, 0.05f), // ambient
-		glm::vec3(0.4f, 0.4f, 0.4f), // diffuse
-		glm::vec3(0.5f, 0.5f, 0.5f) // specular
-	};
-
 	// initialize active model
-	activeModel = modelElijah;
+	activeModel = letterE;
 	Shader shader = Shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
 	shader.use();
 	shader.setVec3("dirLight.direction", glm::vec3(-0.2f, -1.0f, -0.3f));
-	shader.setVec3("dirLight.ambient", glm::vec3(0.05f, 0.05f, 0.05f));
-	shader.setVec3("dirLight.diffuse", glm::vec3(0.4f, 0.4f, 0.4f));
-	shader.setVec3("dirLight.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+	shader.setVec3("dirLight.ambient",	 glm::vec3(0.05f, 0.05f, 0.05f));
+	shader.setVec3("dirLight.diffuse",	 glm::vec3(0.4f, 0.4f, 0.4f));
+	shader.setVec3("dirLight.specular",	 glm::vec3(0.5f, 0.5f, 0.5f));
 	// Main Loop
 	while (!glfwWindowShouldClose(mainWindow))
 	{
@@ -156,9 +193,8 @@ int main()
 		shader.use();
 		shader.setMat4("projection", projection);
 		shader.setMat4("view", view);
-		//modelElijah->Draw(shader);
-		worldCube->Draw(shader);
-		wall->Draw(shader);
+		//Cascade down the scene graph and draw all models
+		scene->Draw(shader);
 		
 
 		// ==================================
@@ -235,21 +271,26 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		switch (key) {
 
 			// choose which model is "active" aka which model will be manipulated
-		case GLFW_KEY_0:
-			activeModel = unitCube;
-			break;
 		case GLFW_KEY_1:
-			activeModel = modelElijah;
+			activeModel = letterE;
+			camera.SetPosition(letterE->transform.GetPosition());
 			break;
-		/*case GLFW_KEY_2:
-			activeModel = modelElijah;
+		case GLFW_KEY_2:
+			activeModel = letterL;
+			camera.SetPosition(letterL->transform.GetPosition());
 			break;
 		case GLFW_KEY_3:
-			activeModel = modelThomas;
+			activeModel = letterI;
+			camera.SetPosition(letterI->transform.GetPosition());
 			break;
 		case GLFW_KEY_4:
-			activeModel = modelKayla;
-			break;*/
+			activeModel = letterJ;
+			camera.SetPosition(letterJ->transform.GetPosition());
+			break;
+		case GLFW_KEY_5:
+			activeModel = letterA;
+			camera.SetPosition(letterA->transform.GetPosition());
+			break;
 
 			// select render mode
 		case GLFW_KEY_T:
@@ -276,54 +317,44 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 			if (mods == GLFW_MOD_SHIFT) {
 				activeModel->translate(TRANS_LEFT);
-
-				// if boundary collision occurs undo left translation
-				if (activeModel->boundaryCollision()) {
-					activeModel->translate(TRANS_RIGHT);
-				}
 			}
 			else {
 				activeModel->rotate(ROTATE_LEFT);
-
-				// if boundary collision occurs undo left rotation
-				if (activeModel->boundaryCollision()) {
-					activeModel->rotate(ROTATE_RIGHT);
-				}
 			}
 			break;
 
 		case  GLFW_KEY_D:
 
-			if (mods == GLFW_MOD_SHIFT) {
+			if (mods == GLFW_MOD_SHIFT) 
+				{
 				activeModel->translate(TRANS_RIGHT);
 
-				// if boundary collision occurs undo right translation
-				if (activeModel->boundaryCollision()) {
-					activeModel->translate(TRANS_LEFT);
 				}
-			}
-			else {
+			else 
+			{
 				activeModel->rotate(ROTATE_RIGHT);
-
-				// if boundary collision occurs undo right rotation
-				if (activeModel->boundaryCollision()) {
-					activeModel->rotate(ROTATE_LEFT);
-				}
 			}
 			break;
 
-			// translate models up/down
+			// translate models up/down & forward/back
 		case GLFW_KEY_W:
-			activeModel->translate(TRANS_UP);
+			if (mods == GLFW_MOD_SHIFT)
+			{
+				activeModel->translate(TRANS_FORWARD);
+
+			}
+			else
+				activeModel->translate(TRANS_UP);
 			return;
 
 		case  GLFW_KEY_S:
+			if (mods == GLFW_MOD_SHIFT)
+			{
+				activeModel->translate(TRANS_BACKWARD);
 
-			if (activeModel->boundaryCollision()) {
-				return;
 			}
-
-			activeModel->translate(TRANS_DOWN);
+			else
+				activeModel->translate(TRANS_DOWN);
 			break;
 
 		case GLFW_KEY_HOME:

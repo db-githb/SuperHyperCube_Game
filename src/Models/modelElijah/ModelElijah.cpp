@@ -106,7 +106,7 @@ void ModelElijah::Draw(Shader& shader)
 	// activate the shader
 	shader.use();
 
-	// world transformation: glm::translate moves the model around the world
+	// set cube transform relative to the local transform of the origin
 	for (int c = 0; c < sizeX; c++)
 	{
 		for (int r = 0; r < sizeY; r++)

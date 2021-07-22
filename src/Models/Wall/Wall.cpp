@@ -2,6 +2,11 @@
 
 Wall::Wall()
 {
+	transform = Transform();
+	/*transform.SetPosition(glm::vec3(0,0,0));
+	transform.SetRotation(glm::vec3(0,0,0));
+	transform.SetScale(glm::vec3(1.0f,1.0f,1.0f));*/
+
 	generateWall();
 }
 
