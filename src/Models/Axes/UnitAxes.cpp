@@ -1,11 +1,11 @@
-#include "Axes.h"
+#include "UnitAxes.h"
 
-Axes::Axes() {
+UnitAxes::UnitAxes() {
 	unitLine = UnitLine();
 	axesShader =  Shader("res/shaders/axisShader.vert", "res/shaders/axisShader.frag");
 }
 
-void Axes::draw(Camera camera, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
+void UnitAxes::draw(Camera camera, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
 	
 	axesShader.use();
 

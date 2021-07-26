@@ -1,9 +1,9 @@
 #pragma once
 #include "../../Application/Main.h"
 
-class Axes {
+class UnitAxes {
 public:
-	Axes();
+	UnitAxes();
 	void draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model);
 
 private:

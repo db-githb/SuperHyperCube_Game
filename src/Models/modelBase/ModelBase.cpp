@@ -49,11 +49,6 @@ void ModelBase::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, gl
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
-void ModelBase::Draw(Shader& shader)
-{
-
-}
-
 void ModelBase::scale(int scaleDirection) {
 	if (scaleDirection == SCALE_UP && scaleFactor < SCALE_MAX) {
 		scaleFactor += 0.1f;

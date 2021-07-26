@@ -14,7 +14,7 @@ void ModelElijah::initialize()
 void ModelElijah::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
 	
 	// Set the world position of the model
-	transform.SetPosition(glm::vec3(xTranslation * scaleFactor, yTranslation * scaleFactor, -7.0f));
+	transform.SetPosition(glm::vec3(-5.0f, 0.5f, -7.0f) + glm::vec3(xTranslation * scaleFactor, yTranslation * scaleFactor, 0.0f));
 	
 	// activate the shader
 	baseShader.use();
@@ -82,80 +82,6 @@ void ModelElijah::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 				
 				// pass the model matrix to the vertex shader
 				baseShader.setMat4("model", model);
-
-				// render the cube
-				glBindVertexArray(unitCube.getVAO());
-				glDrawArrays(renderMode, 0, 36);
-
-				glBindVertexArray(unitCube.getVAO());
-				/*baseShader.setMat4("model", transform.matrix);
-				baseShader.setVec3("dirLight.ambient", glm::vec3(1.0f, 1.0f, 1.0f));
-				glDrawArrays(renderMode, 0, 36);*/
-
-			}
-
-		}
-	}
-}
-
-void ModelElijah::Draw(Shader& shader)
-{
-	// Set the world position of the model
-	transform.SetPosition(glm::vec3(xTranslation * scaleFactor, yTranslation * scaleFactor + 0.5f, -7.0f));
-
-	// activate the shader
-	shader.use();
-
-	// world transformation: glm::translate moves the model around the world
-	for (int c = 0; c < sizeX; c++)
-	{
-		for (int r = 0; r < sizeY; r++)
-		{
-			for (int p = 0; p < sizeZ; p++)
-			{
-
-				if (modelData[c][r][p] == NONE)
-				{
-					continue;
-				}
-
-				// scale position of each unitCube
-				float x = (float)c * scaleFactor;
-				float y = (float)r * scaleFactor;
-				float z = (float)p * scaleFactor;
-
-				// The XYZ coordinate vector of a given cube relative to the model's root/origin
-				glm::vec3 translation = glm::vec3(x, y, z);
-				//transform.matrix = glm::scale(transform.matrix, glm::vec3(1.0f) * scaleFactor);
-				// Set the model's origin relative to the scene origin
-				glm::mat4 model = glm::mat4(1.0f);
-				// Apply rotation to a given unit cube relative to the whole model's origin
-				model = glm::rotate(transform.GetModel(), orientation, glm::vec3(0.0f, 1.0f, 0.0f));
-
-				if (modelData[c][r][p] == WALL)
-					shader.setVec3("dirLight.ambient", glm::vec3(0.5f, 0.5f, 0.5f)); // shader colors the wall unit cube grey
-				else
-				{
-					// if-else statement colors the object cubes either red or blue
-					if (modelData[c][r][p] == RED)
-					{
-						shader.setVec3("dirLight.ambient", glm::vec3(0.9f, 0.7f, 0.5f));
-					}
-					else
-					{
-						shader.setVec3("dirLight.ambient", glm::vec3(0.5f, 0.1f, 0.5f));
-					}
-				}
-
-				// translation vector to move unit cube from base position
-				model = glm::translate(model, translation + glm::vec3(scaleFactor * (-sizeX / 2), 0.0f, scaleFactor * (-sizeZ / 2)));
-
-				// Scale the size of each cube uniformly
-				model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
-
-
-				// pass the model matrix to the vertex shader
-				shader.setMat4("model", model);
 
 				// render the cube
 				glBindVertexArray(unitCube.getVAO());
