@@ -76,6 +76,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 
 		// shader Program
 		ID = glCreateProgram();
+		std::cout << ID << std::endl;
 		glAttachShader(ID, vertex);
 		glAttachShader(ID, fragment);
 		glLinkProgram(ID);

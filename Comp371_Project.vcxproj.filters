@@ -43,6 +43,9 @@
     <Filter Include="src\modelThomas">
       <UniqueIdentifier>{c03432c7-a564-4eae-a89b-a825ccc5f20f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\modelKayla">
+      <UniqueIdentifier>{5d8d394c-a4ef-41cc-8cc2-425854aa2fa3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\axisShader.frag">
@@ -104,7 +107,9 @@
     <ClCompile Include="src\modelThomas\ModelThomas.cpp">
       <Filter>src\modelThomas</Filter>
     </ClCompile>
-    <ClCompile Include="src\modelKayla\ModelKayla.cpp" />
+    <ClCompile Include="src\modelKayla\ModelKayla.cpp">
+      <Filter>src\modelKayla</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">
@@ -140,6 +145,8 @@
     <ClInclude Include="src\modelThomas\ModelThomas.h">
       <Filter>src\modelThomas</Filter>
     </ClInclude>
-    <ClInclude Include="src\modelKayla\ModelKayla.h" />
+    <ClInclude Include="src\modelKayla\ModelKayla.h">
+      <Filter>src\modelKayla</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

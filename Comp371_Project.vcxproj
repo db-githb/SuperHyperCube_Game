@@ -160,13 +160,13 @@
     <None Include="res\shaders\gridLineShader.vert" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\modelKayla\ModelKayla.cpp" />
     <ClCompile Include="src\camera\Camera.cpp" />
     <ClCompile Include="src\gridLines\GridLines.cpp" />
     <ClCompile Include="src\main\Main.cpp" />
     <ClCompile Include="src\modelBase\ModelBase.cpp" />
     <ClCompile Include="src\modelDamian\ModelDamian.cpp" />
     <ClCompile Include="src\modelElijah\ModelElijah.cpp" />
+    <ClCompile Include="src\modelKayla\ModelKayla.cpp" />
     <ClCompile Include="src\modelThomas\ModelThomas.cpp" />
     <ClCompile Include="src\shader\Shader.cpp" />
     <ClCompile Include="src\unitAxes\UnitAxes.cpp" />
@@ -174,13 +174,13 @@
     <ClCompile Include="src\unitLine\UnitLine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\modelKayla\ModelKayla.h" />
     <ClInclude Include="src\camera\Camera.h" />
     <ClInclude Include="src\gridLines\GridLines.h" />
     <ClInclude Include="src\main\Main.h" />
     <ClInclude Include="src\modelBase\ModelBase.h" />
     <ClInclude Include="src\modelDamian\ModelDamian.h" />
     <ClInclude Include="src\modelElijah\ModelElijah.h" />
+    <ClInclude Include="src\modelKayla\ModelKayla.h" />
     <ClInclude Include="src\modelThomas\ModelThomas.h" />
     <ClInclude Include="src\shader\Shader.h" />
     <ClInclude Include="src\unitAxes\UnitAxes.h" />

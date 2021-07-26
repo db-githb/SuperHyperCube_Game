@@ -36,6 +36,7 @@ public:
 	virtual void translate(int translationDirection);
 	virtual void rotate(int rotation);
 	virtual void setRenderMode(int mode);
+	virtual void restartModel();
 	virtual bool inBound(int direction);
 	virtual void generateRandomModel();
 	virtual void generateOriginalObject();
