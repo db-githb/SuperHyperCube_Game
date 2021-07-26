@@ -14,7 +14,6 @@ void ModelDamian::initialize() {
 	generateOriginalObject();
 }
 
-
 void ModelDamian::generateRandomModel() {
 	
 	resetModel();
@@ -82,7 +81,7 @@ void ModelDamian::resetModel() {
 		for (int c = 0; c < columns; c++) {
 			for (int p = 0; p < planes; p++)
 				if (p == 0) {
-					modelData[r][c][p] = WALL;
+					modelData[r][c][p] = GRAY;
 				}
 				else {
 					modelData[r][c][p] = NONE;

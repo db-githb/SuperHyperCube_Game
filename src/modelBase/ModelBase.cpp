@@ -42,9 +42,16 @@ void ModelBase::initialize() {
 }
 
 void ModelBase::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
+	
+	// TODO: move shader set up to scene afterwards
 	shaderSetUp(inCam, projection, view);
 
-	// world transformation: glm::translate moves the model around the world
+	// compute world position of parent (model<name>)
+	model = glm::translate(model, (modelBasePosition + glm::vec3(xTranslation * scaleFactor, yTranslation * scaleFactor, 0.0f)));
+	model = glm::rotate(model, orientation, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
+
+	// compute world position of child cubes
 	for (int r = 0; r < rows; r++) {
 		for (int c = 0; c < columns; c++) {
 			for (int p = 0; p < planes; p++) {
@@ -53,43 +60,11 @@ void ModelBase::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::ma
 					continue;
 				}
 
-				// scale position of each unitCube
-				float x = (float)c * scaleFactor;
-				float y = (float)r * scaleFactor;
-				float z = (float)p * scaleFactor;
+				// color value applied through enums
+				baseShader.setVec3("dirLight.ambient", ModelBase::colorPalette[modelData[r][c][p]]);
 
-				// ensure that the model matrix passed is an identity matrix
-				model = glm::mat4(1.0f);
-
-				// translation vector to move unit cube from base position
-				glm::vec3 translation = glm::vec3(x, y, z);
-
-				model = glm::translate(model, (modelBasePosition + glm::vec3(xTranslation * scaleFactor, yTranslation * scaleFactor, 0.0f)));
-
-				// apply any rotation to the model
-				model = glm::rotate(model, orientation, glm::vec3(0.0f, 1.0f, 0.0f));
-
-				// wall cubes are offset from a different base position then the object cubes
-				if (modelData[r][c][p] == WALL) {
-
-					// shader colors the wall unit cube grey
-					baseShader.setVec3("dirLight.ambient", LIGHT_AMBIENT);
-
-				}
-				else {
-
-					// color value applied through enums
-					baseShader.setVec3("dirLight.ambient", ModelBase::colorPalette[modelData[r][c][p]]);
-
-				}
-
-				model = glm::translate(model, translation + glm::vec3(scaleFactor * (-columns * 0.5), 0.0f, scaleFactor * (-planes / 2)));
-
-				// scale the size of each cube
-				model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
-
-				// pass the model matrix to the vertex shader
-				baseShader.setMat4("model", model);
+				// move unit cube relative to parent base position and pass the model matrix to the vertex shader
+				baseShader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, (float)p) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
 
 				// render the cube
 				glBindVertexArray(unitCube.getVAO());
@@ -126,7 +101,7 @@ void ModelBase::shaderSetUp(Camera inCam, glm::mat4 projection, glm::mat4 view) 
 
 void ModelBase::setColorPalette() {
 
-	ModelBase::colorPalette[GRAY] = glm::vec3(0.5f, 0.5f, 0.5f);;
+	ModelBase::colorPalette[GRAY] = glm::vec3(0.5f, 0.5f, 0.5f);
 
 	ModelBase::colorPalette[RED] = glm::vec3(.9f, 0.1f, 0.15f);
 	ModelBase::colorPalette[BLUE] = glm::vec3(0.15f, 0.1f, 0.9f);
