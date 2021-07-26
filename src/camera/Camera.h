@@ -71,6 +71,8 @@ public:
 
 	void sendHome();
 
+	void SetPosition(glm::vec3 pos);
+
 	// returns the view matrix calculated using Euler Angles and the LookAt Matrix
 	glm::mat4 GetViewMatrix();
 
