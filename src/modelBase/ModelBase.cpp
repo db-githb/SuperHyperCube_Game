@@ -118,6 +118,17 @@ bool ModelBase::inBound(int direction) {
 	return true;
 }
 
+void ModelBase::restartModel() {
+	scaleFactor = 0.5f;
+
+	xTranslation = 0.0f;
+	yTranslation = 0.0f;
+
+	orientation = 0.0f;
+
+	renderMode = GL_TRIANGLES;
+}
+
 void ModelBase::generateRandomModel()
 {
 	return;

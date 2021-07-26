@@ -188,6 +188,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			activeModel->translate(TRANS_DOWN);
 			break;
 
+		case GLFW_KEY_SPACE:
+			activeModel->restartModel();
+			break;
+
 		case GLFW_KEY_HOME:
 			camera.sendHome();
 			break;
