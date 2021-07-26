@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Mesh/unitCube/UnitCube.h"
+#include "../unitCube/UnitCube.h"
 #include <stdlib.h>
 
 #define LIGHT_DIRECTION 0 

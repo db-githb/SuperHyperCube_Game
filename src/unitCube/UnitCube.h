@@ -1,5 +1,5 @@
 #pragma once
-//#include "../../Application/Main.h"
+
 #include <iostream>
 #include <stdio.h>
 #include <string.h>
@@ -8,19 +8,16 @@
 #include "../../glm/glm.hpp"
 #include "../../glm/gtc/matrix_transform.hpp"
 #include "../../glm/gtc/type_ptr.hpp"
-#include "../../Shader/Shader.h"
-#include "../../Camera/Camera.h"
+#include "../shader/Shader.h"
+#include "../camera/Camera.h"
 
-
-class UnitLine {
+class UnitCube {
 public:
-	UnitLine();
-	void createLine();
-	void draw(Camera inCam, glm::mat4 inProj, glm::mat4 inView, glm::mat4 inModel);
+	UnitCube();
+	void createCube();
 	GLuint getVAO();
 	GLuint getVBO();
 
 private:
-	GLuint unitLineVBO, unitLineVAO;
-	Shader lineShader;
+	GLuint unitCubeVBO, unitCubeVAO;
 };

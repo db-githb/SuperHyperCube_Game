@@ -8,16 +8,9 @@
 #include "../../glm/glm.hpp"
 #include "../../glm/gtc/matrix_transform.hpp"
 #include "../../glm/gtc/type_ptr.hpp"
-#include "../../Shader/Shader.h"
-#include "../../Camera/Camera.h"
+#include "../shader/Shader.h"
+#include "../camera/Camera.h"
 
-class UnitCube {
-public:
-	UnitCube();
-	void createCube();
-	GLuint getVAO();
-	GLuint getVBO();
-
-private:
-	GLuint unitCubeVBO, unitCubeVAO;
-};
+// window size
+#define WIDTH 1024
+#define HEIGHT 768
