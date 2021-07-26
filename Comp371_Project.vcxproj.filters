@@ -4,11 +4,44 @@
     <Filter Include="src">
       <UniqueIdentifier>{5fa3368d-72f6-4ec8-bcd9-5806c970d6da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\main">
+      <UniqueIdentifier>{1ff297e4-e3e0-4d8d-b5b0-f0a71ebe38a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\camera">
+      <UniqueIdentifier>{4bb2cb94-066c-4ec4-8182-bda5cfb347fc}</UniqueIdentifier>
+    </Filter>
     <Filter Include="res">
       <UniqueIdentifier>{91da0847-b820-4301-894a-fcbcf205ec46}</UniqueIdentifier>
     </Filter>
     <Filter Include="res\shaders">
       <UniqueIdentifier>{cfcc7b23-20c9-40c3-bb94-092678c72c1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\shaderObj">
+      <UniqueIdentifier>{a80cba0d-7a8f-48a9-b89d-2f59b013c10c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\unitCube">
+      <UniqueIdentifier>{869cac29-dafc-4aa9-8c90-3f44a12181a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\unitLine">
+      <UniqueIdentifier>{a3ce5c5c-3710-4851-ba0e-dd1498e731fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\unitAxes">
+      <UniqueIdentifier>{ec839972-83e8-4202-b316-6d520b22deec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\gridLines">
+      <UniqueIdentifier>{08fb71d1-6d1b-41b3-8890-2c643f1cef3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\modelDamian">
+      <UniqueIdentifier>{f30fbe5b-4dfa-4759-a390-95825e904215}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\modelBase">
+      <UniqueIdentifier>{d441b9a4-bbdb-40f7-9ef4-c160e84009f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\modelElijah">
+      <UniqueIdentifier>{e335ef80-6227-4015-b86b-060daa5e0d37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\modelThomas">
+      <UniqueIdentifier>{c03432c7-a564-4eae-a89b-a825ccc5f20f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -38,39 +71,75 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Application\Main.h" />
-    <ClInclude Include="src\Camera\Camera.h" />
-    <ClInclude Include="src\Mesh\unitCube\UnitCube.h" />
-    <ClInclude Include="src\Mesh\unitLine\UnitLine.h" />
-    <ClInclude Include="src\Mesh\Mesh.h" />
-    <ClInclude Include="src\Models\gridLines\GridLines.h" />
-    <ClInclude Include="src\Models\modelBase\ModelBase.h" />
-    <ClInclude Include="src\Models\modelDamian\ModelDamian.h" />
-    <ClInclude Include="src\Models\modelElijah\ModelElijah.h" />
-    <ClInclude Include="src\Models\modelKayla\ModelKayla.h" />
-    <ClInclude Include="src\Models\modelThomas\ModelThomas.h" />
-    <ClInclude Include="src\Scene\ObjectNode.h" />
-    <ClInclude Include="src\Shader\Shader.h" />
-    <ClInclude Include="src\Models\Axes\UnitAxes.h" />
-    <ClInclude Include="src\Application\Renderer.h" />
-    <ClInclude Include="src\Application\Transform.h" />
+    <ClCompile Include="src\camera\Camera.cpp">
+      <Filter>src\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\Main.cpp">
+      <Filter>src\main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shader\Shader.cpp">
+      <Filter>src\shaderObj</Filter>
+    </ClCompile>
+    <ClCompile Include="src\unitCube\UnitCube.cpp">
+      <Filter>src\unitCube</Filter>
+    </ClCompile>
+    <ClCompile Include="src\unitLine\UnitLine.cpp">
+      <Filter>src\unitLine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\unitAxes\UnitAxes.cpp">
+      <Filter>src\unitAxes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gridLines\GridLines.cpp">
+      <Filter>src\gridLines</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modelDamian\ModelDamian.cpp">
+      <Filter>src\modelDamian</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modelBase\ModelBase.cpp">
+      <Filter>src\modelBase</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modelElijah\ModelElijah.cpp">
+      <Filter>src\modelElijah</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modelThomas\ModelThomas.cpp">
+      <Filter>src\modelThomas</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modelKayla\ModelKayla.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Application\Main.cpp" />
-    <ClCompile Include="src\Camera\Camera.cpp" />
-    <ClCompile Include="src\Mesh\unitCube\UnitCube.cpp" />
-    <ClCompile Include="src\Mesh\unitLine\UnitLine.cpp" />
-    <ClCompile Include="src\Models\gridLines\GridLines.cpp" />
-    <ClCompile Include="src\Models\modelBase\ModelBase.cpp" />
-    <ClCompile Include="src\Models\modelDamian\ModelDamian.cpp" />
-    <ClCompile Include="src\Models\modelElijah\ModelElijah.cpp" />
-    <ClCompile Include="src\Models\modelKayla\ModelKayla.cpp" />
-    <ClCompile Include="src\Models\modelThomas\ModelThomas.cpp" />
-    <ClCompile Include="src\Scene\ObjectNode.cpp" />
-    <ClCompile Include="src\Shader\Shader.cpp" />
-    <ClCompile Include="src\Mesh\Mesh.cpp" />
-    <ClCompile Include="src\Models\Axes\UnitAxes.cpp" />
-    <ClCompile Include="src\Application\Renderer.cpp" />
-    <ClCompile Include="src\Application\Transform.cpp" />
+    <ClInclude Include="src\camera\Camera.h">
+      <Filter>src\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\Main.h">
+      <Filter>src\main</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shader\Shader.h">
+      <Filter>src\shaderObj</Filter>
+    </ClInclude>
+    <ClInclude Include="src\unitCube\UnitCube.h">
+      <Filter>src\unitCube</Filter>
+    </ClInclude>
+    <ClInclude Include="src\unitLine\UnitLine.h">
+      <Filter>src\unitLine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\unitAxes\UnitAxes.h">
+      <Filter>src\unitAxes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gridLines\GridLines.h">
+      <Filter>src\gridLines</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modelDamian\ModelDamian.h">
+      <Filter>src\modelDamian</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modelBase\ModelBase.h">
+      <Filter>src\modelBase</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modelElijah\ModelElijah.h">
+      <Filter>src\modelElijah</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modelThomas\ModelThomas.h">
+      <Filter>src\modelThomas</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modelKayla\ModelKayla.h" />
   </ItemGroup>
 </Project>

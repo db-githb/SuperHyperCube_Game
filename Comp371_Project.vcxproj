@@ -160,40 +160,32 @@
     <None Include="res\shaders\gridLineShader.vert" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Application\Main.h" />
-    <ClInclude Include="src\Application\Renderer.h" />
-    <ClInclude Include="src\Application\Transform.h" />
-    <ClInclude Include="src\Camera\Camera.h" />
-    <ClInclude Include="src\Mesh\Mesh.h" />
-    <ClInclude Include="src\Models\Axes\UnitAxes.h" />
-    <ClInclude Include="src\Mesh\unitCube\UnitCube.h" />
-    <ClInclude Include="src\Mesh\unitLine\UnitLine.h" />
-    <ClInclude Include="src\Models\gridLines\GridLines.h" />
-    <ClInclude Include="src\Models\modelBase\ModelBase.h" />
-    <ClInclude Include="src\Models\modelDamian\ModelDamian.h" />
-    <ClInclude Include="src\Models\modelElijah\ModelElijah.h" />
-    <ClInclude Include="src\Models\modelKayla\ModelKayla.h" />
-    <ClInclude Include="src\Models\modelThomas\ModelThomas.h" />
-    <ClInclude Include="src\Scene\ObjectNode.h" />
-    <ClInclude Include="src\Shader\Shader.h" />
+    <ClCompile Include="src\modelKayla\ModelKayla.cpp" />
+    <ClCompile Include="src\camera\Camera.cpp" />
+    <ClCompile Include="src\gridLines\GridLines.cpp" />
+    <ClCompile Include="src\main\Main.cpp" />
+    <ClCompile Include="src\modelBase\ModelBase.cpp" />
+    <ClCompile Include="src\modelDamian\ModelDamian.cpp" />
+    <ClCompile Include="src\modelElijah\ModelElijah.cpp" />
+    <ClCompile Include="src\modelThomas\ModelThomas.cpp" />
+    <ClCompile Include="src\shader\Shader.cpp" />
+    <ClCompile Include="src\unitAxes\UnitAxes.cpp" />
+    <ClCompile Include="src\unitCube\UnitCube.cpp" />
+    <ClCompile Include="src\unitLine\UnitLine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Application\Main.cpp" />
-    <ClCompile Include="src\Application\Renderer.cpp" />
-    <ClCompile Include="src\Application\Transform.cpp" />
-    <ClCompile Include="src\Camera\Camera.cpp" />
-    <ClCompile Include="src\Mesh\Mesh.cpp" />
-    <ClCompile Include="src\Models\Axes\UnitAxes.cpp" />
-    <ClCompile Include="src\Mesh\unitCube\UnitCube.cpp" />
-    <ClCompile Include="src\Mesh\unitLine\UnitLine.cpp" />
-    <ClCompile Include="src\Models\gridLines\GridLines.cpp" />
-    <ClCompile Include="src\Models\modelBase\ModelBase.cpp" />
-    <ClCompile Include="src\Models\modelDamian\ModelDamian.cpp" />
-    <ClCompile Include="src\Models\modelElijah\ModelElijah.cpp" />
-    <ClCompile Include="src\Models\modelKayla\ModelKayla.cpp" />
-    <ClCompile Include="src\Models\modelThomas\ModelThomas.cpp" />
-    <ClCompile Include="src\Scene\ObjectNode.cpp" />
-    <ClCompile Include="src\Shader\Shader.cpp" />
+    <ClInclude Include="src\modelKayla\ModelKayla.h" />
+    <ClInclude Include="src\camera\Camera.h" />
+    <ClInclude Include="src\gridLines\GridLines.h" />
+    <ClInclude Include="src\main\Main.h" />
+    <ClInclude Include="src\modelBase\ModelBase.h" />
+    <ClInclude Include="src\modelDamian\ModelDamian.h" />
+    <ClInclude Include="src\modelElijah\ModelElijah.h" />
+    <ClInclude Include="src\modelThomas\ModelThomas.h" />
+    <ClInclude Include="src\shader\Shader.h" />
+    <ClInclude Include="src\unitAxes\UnitAxes.h" />
+    <ClInclude Include="src\unitCube\UnitCube.h" />
+    <ClInclude Include="src\unitLine\UnitLine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
