@@ -13,29 +13,28 @@
 #include "../Camera/Camera.h"
 #include "../Mesh/Mesh.h"
 #include "../Application/Renderer.h"
-#include "Transform.h"
-#include "../Models/modelBase/ModelBase.h"
 
 class ObjectNode
 {
 
 public:
-	ObjectNode();
+	ObjectNode(Mesh* m = NULL, glm::vec4 col = glm::vec4(1, 1, 1, 1));
 	~ObjectNode(void);
-	ObjectNode(ModelBase* model);
 
-
-	void SetModel(ModelBase* m);
 	void AddChild(ObjectNode* objectNode);
 
 	virtual void Update(float ms);
-	virtual void Draw(Shader &shader);
-
+	virtual void Draw(const Renderer &renderer);
 
 protected:
 	ObjectNode* parent;
-	ModelBase* m_model;
-	Transform transform;
+	Mesh* mesh;
+
+	glm::mat4 worldTransform;
+	glm::mat4 localTransform;
+	glm::vec3 scale;
+	glm::vec4 colour;
+
 	std::vector<ObjectNode*> children;
 
 

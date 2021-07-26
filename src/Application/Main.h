@@ -20,8 +20,7 @@
 
 #include "../Models/WorldCube/WorldCube.h"
 #include "../Models/Wall/Wall.h"
-#include "ObjectNode.h"
-#include "../Models/Letter/Letter.h"
+#include "../Scene/ObjectNode.h"
 
 // window size
 #define WIDTH 1024

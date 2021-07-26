@@ -35,14 +35,6 @@ void Camera::sendHome() {
 	Pitch = HOME_PITCH;
 	updateCameraVectors();
 }
-
-void Camera::SetPosition(glm::vec3 pos)
-{
-	Position = pos + glm::vec3(0,10,10.0f);
-	WorldUp = HOME_UP;
-	Yaw = HOME_YAW;
-	Pitch = HOME_PITCH;
-}
 	// returns the view matrix calculated using Euler Angles and the LookAt Matrix
 	glm::mat4 Camera::GetViewMatrix()
 	{

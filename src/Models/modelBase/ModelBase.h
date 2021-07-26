@@ -14,8 +14,6 @@
 #define TRANS_LEFT 1
 #define TRANS_UP 2
 #define TRANS_DOWN 3
-#define TRANS_FORWARD 4
-#define TRANS_BACKWARD 5
 
 #define ROTATE_RIGHT 0
 #define ROTATE_LEFT 1
@@ -39,6 +37,7 @@ public:
 	virtual void translate(int translationDirection);
 	virtual void rotate(int rotation);
 	virtual void setRenderMode(int mode);
+	virtual bool inBound(int direction);
 	virtual void generateRandomModel();
 	virtual void generateOriginalObject();
 	virtual bool boundaryCollision();
@@ -50,7 +49,6 @@ protected:
 	float scaleFactor;
 	float xTranslation;
 	float yTranslation;
-	float zTranslation;
 	int renderMode;
 
 	/* orientation in radians */
