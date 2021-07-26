@@ -20,6 +20,9 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+// instantiate (assign memory) for static variable
+glm::vec3* ModelBase::colorPalette = new glm::vec3[NUM_COLORS];
+
 ModelBase* activeModel;
 
 // -------------------
@@ -257,6 +260,9 @@ int main()
 	// Create Viewport
 	glViewport(0, 0, WIDTH, HEIGHT);
 
+	// intializing static variable
+	ModelBase::setColorPalette();
+
 	// ----------------------------------
 	// INSTANTIATE AND INITIALIZE MODELS HERE
 	// ----------------------------------
@@ -321,10 +327,10 @@ int main()
 		// ----------------------------------
 
 		//unitCube->draw(camera, dirLighting, projection, view, model);
-		modelDamian->draw(camera, dirLighting, projection, view, model);
-		modelElijah->draw(camera, dirLighting, projection, view, model);
-		modelThomas->draw(camera, dirLighting, projection, view, model);
-		modelKayla->draw(camera, dirLighting, projection, view, model);
+		modelDamian->draw(camera, projection, view, model);
+		modelElijah->draw(camera, projection, view, model);
+		modelThomas->draw(camera, projection, view, model);
+		modelKayla->draw(camera, projection, view, model);
 
 		// ==================================
 
@@ -332,5 +338,5 @@ int main()
 		
 	}
 
-	return 0;
+	exit(0);
 }

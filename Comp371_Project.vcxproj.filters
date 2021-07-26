@@ -66,10 +66,10 @@
     <None Include="res\shaders\gridLineShader.vert">
       <Filter>res\shaders</Filter>
     </None>
-    <None Include="res\shaders\baseShader.frag">
+    <None Include="res\shaders\baseShader.vert">
       <Filter>res\shaders</Filter>
     </None>
-    <None Include="res\shaders\baseShader.vert">
+    <None Include="res\shaders\baseShader.frag">
       <Filter>res\shaders</Filter>
     </None>
   </ItemGroup>
@@ -95,9 +95,6 @@
     <ClCompile Include="src\gridLines\GridLines.cpp">
       <Filter>src\gridLines</Filter>
     </ClCompile>
-    <ClCompile Include="src\modelDamian\ModelDamian.cpp">
-      <Filter>src\modelDamian</Filter>
-    </ClCompile>
     <ClCompile Include="src\modelBase\ModelBase.cpp">
       <Filter>src\modelBase</Filter>
     </ClCompile>
@@ -109,6 +106,9 @@
     </ClCompile>
     <ClCompile Include="src\modelKayla\ModelKayla.cpp">
       <Filter>src\modelKayla</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modelDamian\ModelDamian.cpp">
+      <Filter>src\modelDamian</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,9 +133,6 @@
     <ClInclude Include="src\gridLines\GridLines.h">
       <Filter>src\gridLines</Filter>
     </ClInclude>
-    <ClInclude Include="src\modelDamian\ModelDamian.h">
-      <Filter>src\modelDamian</Filter>
-    </ClInclude>
     <ClInclude Include="src\modelBase\ModelBase.h">
       <Filter>src\modelBase</Filter>
     </ClInclude>
@@ -147,6 +144,9 @@
     </ClInclude>
     <ClInclude Include="src\modelKayla\ModelKayla.h">
       <Filter>src\modelKayla</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modelDamian\ModelDamian.h">
+      <Filter>src\modelDamian</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -7,23 +7,9 @@ void ModelKayla::initialize() {
 }
 
 // draw method works by rendering each unit cube in the model
-void ModelKayla::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
+void ModelKayla::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
 
-	// activate the shader
-	baseShader.use();
-
-	// pass the camera position to the fragment shader.  This determines what is "shadowed" and what isn't relative to the camera.
-	baseShader.setVec3("viewPos", inCam.Position);
-
-	// pass the color/lighting values to the fragment shader (at this point in time outside of some shadowing on the faces of the unit cube not directly facing the light this pretty much colors the unit cubes.
-	baseShader.setVec3("dirLight.direction", dirLight[LIGHT_DIRECTION]);
-	baseShader.setVec3("dirLight.ambient", dirLight[LIGHT_AMBIENT]);
-	baseShader.setVec3("dirLight.diffuse", dirLight[LIGHT_DIFFUSE]);
-	baseShader.setVec3("dirLight.specular", dirLight[LIGHT_SPECULAR]);
-
-	// pass transformation matrices to the vertex shader.  The model matrix is passed at the end after all the world transformations are applied to the unit cube.
-	baseShader.setMat4("projection", projection);
-	baseShader.setMat4("view", view);
+	shaderSetUp(inCam, projection, view);
 
 	// put this in base class or leave 
 
@@ -65,7 +51,7 @@ void ModelKayla::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, g
 				if (modelData[r][c][p] == WALL) {
 
 					// shader colors the wall unit cube grey
-					baseShader.setVec3("dirLight.ambient", dirLight[LIGHT_AMBIENT]);
+					baseShader.setVec3("dirLight.ambient", LIGHT_AMBIENT);
 
 					// TODO: make base position a variable (currently it's a constant)
 					model = glm::translate(model, modelBasePosition + translation);

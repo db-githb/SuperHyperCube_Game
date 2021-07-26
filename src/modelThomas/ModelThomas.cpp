@@ -132,22 +132,8 @@ void ModelThomas::generateRandomModel() {
 
 }
 
-void ModelThomas::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
-	// activate the shader
-	baseShader.use();
-
-	// pass the camera position to the fragment shader.  This determines what is "shadowed" and what isn't relative to the camera.
-	baseShader.setVec3("viewPos", inCam.Position);
-
-	// pass the color/lighting values to the fragment shader (at this point in time outside of some shadowing on the faces of the unit cube not directly facing the light this pretty much colors the unit cubes.
-	baseShader.setVec3("dirLight.direction", dirLight[LIGHT_DIRECTION]);
-	baseShader.setVec3("dirLight.ambient", dirLight[LIGHT_AMBIENT]);
-	baseShader.setVec3("dirLight.diffuse", dirLight[LIGHT_DIFFUSE]);
-	baseShader.setVec3("dirLight.specular", dirLight[LIGHT_SPECULAR]);
-
-	// pass transformation matrices to the vertex shader.  The model matrix is passed at the end after all the world transformations are applied to the unit cube.
-	baseShader.setMat4("projection", projection);
-	baseShader.setMat4("view", view);
+void ModelThomas::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
+	shaderSetUp(inCam, projection, view);
 
 	// world transformation: glm::translate moves the model around the world
 	for (int r = 0; r < ROWS; r++) {
@@ -178,12 +164,12 @@ void ModelThomas::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, 
 				if (modelData[r][c][p] == WALL) {
 
 					// shader colors the wall unit cube grey
-					baseShader.setVec3("dirLight.ambient", dirLight[LIGHT_AMBIENT]);
+					baseShader.setVec3("dirLight.ambient", LIGHT_AMBIENT);
 
 				}
 				else {
 					// color value applied through enums
-					baseShader.setVec3("dirLight.ambient", colorPalette[modelData[r][c][p]]);
+					baseShader.setVec3("dirLight.ambient", ModelBase::colorPalette[modelData[r][c][p]]);
 					
 				}
 

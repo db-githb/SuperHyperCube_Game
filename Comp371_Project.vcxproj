@@ -152,10 +152,10 @@
   <ItemGroup>
     <None Include="res\shaders\axisShader.frag" />
     <None Include="res\shaders\axisShader.vert" />
+    <None Include="res\shaders\baseShader.frag" />
     <None Include="res\shaders\baseShader.vert" />
     <None Include="res\shaders\cubeShader.frag" />
     <None Include="res\shaders\cubeShader.vert" />
-    <None Include="res\shaders\baseShader.frag" />
     <None Include="res\shaders\gridLineShader.frag" />
     <None Include="res\shaders\gridLineShader.vert" />
   </ItemGroup>
