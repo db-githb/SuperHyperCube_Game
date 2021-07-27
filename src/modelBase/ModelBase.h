@@ -44,6 +44,12 @@
 class ModelBase {
 
 public:
+
+	struct Component {
+		int*** modelData;
+		Shader shader;
+	};
+
 	ModelBase();
 	virtual void initialize();
 	virtual void draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model);
@@ -63,17 +69,18 @@ public:
 
 protected:
 
-	void allocateModelData();
+	void allocateObjectData();
+	void allocateWallData();
 
 	UnitCube unitCube;
-	Shader baseShader;
+	Component wall;
+	Component object;
+
 	glm::vec3 modelBasePosition;
 
 	int rows;
 	int columns;
 	int planes;
-
-	int*** modelData;
 
 	float scaleFactor;
 	float xTranslation;
@@ -84,4 +91,7 @@ protected:
 
 	/* orientation in radians */
 	float orientation;
+
+	void drawWall(glm::mat4 model);
+	void drawObject(glm::mat4 model);
 };

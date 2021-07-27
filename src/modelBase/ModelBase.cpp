@@ -2,7 +2,8 @@
 
 ModelBase::ModelBase() {
 	unitCube = UnitCube();
-	baseShader = Shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
+	wall.shader = Shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
+	object.shader = Shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
 
 	rows = 1;
 	columns = 1;
@@ -19,17 +20,31 @@ ModelBase::ModelBase() {
 	renderMode = GL_TRIANGLES;
 }
 
-void ModelBase::allocateModelData() {
+void ModelBase::allocateObjectData() {
 
-	modelData = new int** [rows];
+	object.modelData = new int** [rows];
 
 	for (int r = 0; r < rows; r++) {
-		modelData[r] = new int* [columns];
+		object.modelData[r] = new int* [columns];
 		for (int c = 0; c < columns; c++) {
-			modelData[r][c] = new int[planes];
+			object.modelData[r][c] = new int[planes];
 			for (int p = 0; p < planes; p++) {
-				modelData[r][c][p] = NONE;
+				object.modelData[r][c][p] = NONE;
 			}
+		}
+	}
+
+	return;
+}
+
+void ModelBase::allocateWallData() {
+
+	wall.modelData = new int** [rows];
+
+	for (int r = 0; r < rows; r++) {
+		wall.modelData[r] = new int* [columns];
+		for (int c = 0; c < columns; c++) {
+			wall.modelData[r][c] = GRAY;
 		}
 	}
 
@@ -38,7 +53,8 @@ void ModelBase::allocateModelData() {
 
 void ModelBase::initialize() {
 	
-	allocateModelData();
+	allocateObjectData();
+	allocateWallData();
 }
 
 void ModelBase::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
@@ -51,31 +67,62 @@ void ModelBase::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::ma
 	model = glm::rotate(model, orientation, glm::vec3(0.0f, 1.0f, 0.0f));
 	model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
 
+	// need to incorporate shader context established for each draw call 
+	drawWall(model);
+	drawObject(model);
+}
+
+void ModelBase::drawWall(glm::mat4 model) {
 	// compute world position of child cubes
 	for (int r = 0; r < rows; r++) {
 		for (int c = 0; c < columns; c++) {
 			for (int p = 0; p < planes; p++) {
 
-				if (modelData[r][c][p] == NONE) {
+				if (wall.modelData[r][c][p] == NONE) {
 					continue;
 				}
 
-				// color value applied through enums
-				baseShader.setVec3("dirLight.ambient", ModelBase::colorPalette[modelData[r][c][p]]);
+				// color value applied via color palette
+				wall.shader.setVec3("dirLight.ambient", ModelBase::colorPalette[wall.modelData[r][c][p]]);
 
 				// move unit cube relative to parent base position and pass the model matrix to the vertex shader
-				baseShader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, (float)p) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
+				wall.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, (float)p) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
 
 				// render the cube
 				glBindVertexArray(unitCube.getVAO());
 				glDrawArrays(renderMode, 0, 36);
 
 			}
-
 		}
 	}
 }
 
+void ModelBase::drawObject(glm::mat4 model) {
+	// compute world position of child cubes
+	for (int r = 0; r < rows; r++) {
+		for (int c = 0; c < columns; c++) {
+			for (int p = 0; p < planes; p++) {
+
+				if (object.modelData[r][c][p] == NONE) {
+					continue;
+				}
+
+				// color value applied via color palette
+				object.shader.setVec3("dirLight.ambient", ModelBase::colorPalette[object.modelData[r][c][p]]);
+
+				// move unit cube relative to parent base position and pass the model matrix to the vertex shader
+				object.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, (float)p) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
+
+				// render the cube
+				glBindVertexArray(unitCube.getVAO());
+				glDrawArrays(renderMode, 0, 36);
+
+			}
+		}
+	}
+}
+
+// component struct will have the shader and the material will be an attribute of the component struct
 void ModelBase::shaderSetUp(Camera inCam, glm::mat4 projection, glm::mat4 view) {
 	// specify the shader being used
 	baseShader.use();
