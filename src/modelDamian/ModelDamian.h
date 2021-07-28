@@ -6,9 +6,8 @@ class ModelDamian : public ModelBase {
 public:
 	void initialize();
 	void generateRandomModel();
-	void generateOriginalObject();
+	void allocateObjectData();
 	bool boundaryCollision();
 
 private:
-	void resetModel();
 };

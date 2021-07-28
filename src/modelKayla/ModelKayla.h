@@ -21,8 +21,6 @@ public:
 	void resetModel();
 
 	void generateCube(int rowStart, int rowEnd, int columnStart, int columnEnd, int planeStart, int planeEnd, int color);
-	
-	void draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model);
 
 	void positionModel(float x, float y, float z);
 

@@ -25,10 +25,10 @@ void ModelThomas::resetModel() {
 		for (int c = 0; c < COLUMNS; c++) {
 			for (int p = 0; p < PLANES; p++) {
 				if (p == 0) {
-					modelData[r][c][p] = WALL;
+					wall.modelData[r][c][p] = WALL;
 				}
 				else {
-					modelData[r][c][p] = NONE;
+					object.modelData[r][c][p] = NONE;
 				}
 			}
 		}
@@ -40,37 +40,37 @@ void ModelThomas::generateOriginalObject() {
 	resetModel();
 
 	for (int r = 2; r < 8; r++) {
-		modelData[r][1][PLANES - 3] = YELLOW;
-		modelData[r][1][0] = NONE;
+		object.modelData[r][1][PLANES - 3] = YELLOW;
+		wall.modelData[r][1][0] = NONE;
 	}
 
 	for (int c = 1; c < 6; c++) {
-		modelData[1][c][PLANES - 3] = YELLOW;
-		modelData[1][c][0] = NONE;
+		object.modelData[1][c][PLANES - 3] = YELLOW;
+		wall.modelData[1][c][0] = NONE;
 	}
 
 	for (int r = 2; r < 8; r++) {
-		modelData[r][1][PLANES - 2] = YELLOW;
-		modelData[r][1][0] = NONE;
+		object.modelData[r][1][PLANES - 2] = YELLOW;
+		wall.modelData[r][1][0] = NONE;
 	}
 
 	for (int c = 1; c < 6; c++) {
-		modelData[1][c][PLANES - 2] = YELLOW;
-		modelData[1][c][0] = NONE;
+		object.modelData[1][c][PLANES - 2] = YELLOW;
+		wall.modelData[1][c][0] = NONE;
 	}
 
 	modelData[2][2][0] = NONE;
 	for (int p = 2; p < 6; p++) {
-		modelData[2][2][p] = ORANGE;
+		object.modelData[2][2][p] = ORANGE;
 	}
 
 	modelData[5][2][0] = NONE;
 	for (int p = 2; p < 6; p++) {
-		modelData[5][2][p] = ORANGE;
+		object.modelData[5][2][p] = ORANGE;
 	}
 
 	for (int r = 2; r < 6; r++) {
-		modelData[r][1][PLANES - 1] = ORANGE;
+		object.modelData[r][1][PLANES - 1] = ORANGE;
 	}
 }
 
@@ -80,7 +80,7 @@ void ModelThomas::generateRandomModel() {
 
 	for (int r = 2; r < 8; r++) {
 		
-		modelData[r][1][0] = NONE;
+		wall.modelData[r][1][0] = NONE;
 
 		if ((rand() % 10 == 0)) {
 			continue;
@@ -88,12 +88,12 @@ void ModelThomas::generateRandomModel() {
 
 		for (int p = 2; p < PLANES; p++)
 			if ((rand() % 2 == 1)) {
-				modelData[r][1][p] = rand() % NUM_COLORS;
+				object.modelData[r][1][p] = rand() % NUM_COLORS;
 			}
 	}
 
 	for (int c = 1; c < 6; c++) {
-		modelData[1][c][0] = NONE;
+		wall.modelData[1][c][0] = NONE;
 
 		if ((rand() % 10 == 0)) {
 			continue;
@@ -101,11 +101,11 @@ void ModelThomas::generateRandomModel() {
 
 		for (int p = 2; p < PLANES; p++)
 			if ((rand() % 2 == 1)) {
-				modelData[1][c][p] =  rand() % NUM_COLORS;
+				object.modelData[1][c][p] =  rand() % NUM_COLORS;
 			}
 	}
 
-	modelData[2][2][0] = NONE;
+	wall.modelData[2][2][0] = NONE;
 	modelData[5][2][0] = NONE;
 
 	for (int p = 2; p < PLANES; p++) {
@@ -114,7 +114,7 @@ void ModelThomas::generateRandomModel() {
 		}
 
 		if ((rand() % 2 == 1)) {
-			modelData[2][2][p] = rand() % NUM_COLORS;
+			wall.modelData[2][2][p] = rand() % NUM_COLORS;
 		}
 	}
 
@@ -125,69 +125,10 @@ void ModelThomas::generateRandomModel() {
 		}
 
 		if ((rand() % 2 == 1)) {
-			modelData[5][2][p] = rand() % NUM_COLORS;
+			object.modelData[5][2][p] = rand() % NUM_COLORS;
 		}
 	}
 
 
-}
-
-void ModelThomas::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
-	shaderSetUp(inCam, projection, view);
-
-	// world transformation: glm::translate moves the model around the world
-	for (int r = 0; r < ROWS; r++) {
-		for (int c = 0; c < COLUMNS; c++) {
-			for (int p = 0; p < PLANES; p++) {
-
-				if (modelData[r][c][p] == NONE) {
-					continue;
-				}
-
-				// scale position of each unitCube
-				float x = (float)c * scaleFactor;
-				float y = (float)r * scaleFactor;
-				float z = (float)p * scaleFactor;
-
-				// ensure that the model matrix passed is an identity matrix
-				model = glm::mat4(1.0f);
-
-				// translation vector to move unit cube from base position
-				glm::vec3 translation = glm::vec3(x, y, z);
-
-				model = glm::translate(model, (modelBasePosition + glm::vec3(xTranslation * scaleFactor, yTranslation * scaleFactor, 0.0f)));
-
-				// apply any rotation to the model
-				model = glm::rotate(model, orientation, glm::vec3(0.0f, 1.0f, 0.0f));
-
-				// wall cubes are offset from a different base position then the object cubes
-				if (modelData[r][c][p] == WALL) {
-
-					// shader colors the wall unit cube grey
-					baseShader.setVec3("dirLight.ambient", LIGHT_AMBIENT);
-
-				}
-				else {
-					// color value applied through enums
-					baseShader.setVec3("dirLight.ambient", ModelBase::colorPalette[modelData[r][c][p]]);
-					
-				}
-
-				model = glm::translate(model, translation+ glm::vec3(scaleFactor*(-COLUMNS*0.5),0.0f,scaleFactor*(-PLANES/2)));
-
-				// scale the size of each cube
-				model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
-
-				// pass the model matrix to the vertex shader
-				baseShader.setMat4("model", model);
-
-				// render the cube
-				glBindVertexArray(unitCube.getVAO());
-				glDrawArrays(renderMode, 0, 36);
-
-			}
-
-		}
-	}
 }
 

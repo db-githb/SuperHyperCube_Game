@@ -14,6 +14,7 @@
 #define CYAN 6
 #define YELLOW 7
 #define ORANGE 8
+#define BLACK 9
 #define NUM_COLORS 9
 
 #define LIGHT_DIRECTION glm::vec3(-0.2f, -1.0f, -0.3f)
@@ -47,7 +48,11 @@ public:
 
 	struct Component {
 		int*** modelData;
+		
 		Shader shader;
+
+		unsigned int diffuseMap;
+		unsigned int specularMap;
 	};
 
 	ModelBase();
@@ -62,7 +67,7 @@ public:
 	virtual void generateOriginalObject();
 	virtual bool boundaryCollision();
 
-	void shaderSetUp(Camera inCam, glm::mat4 projection, glm::mat4 view);
+	void shaderSetUp(Camera inCam, glm::mat4 projection, glm::mat4 view, Component component);
 
 	static glm::vec3* colorPalette;
 	static void setColorPalette();
@@ -71,6 +76,7 @@ protected:
 
 	void allocateObjectData();
 	void allocateWallData();
+	void allocateShaderData();
 
 	UnitCube unitCube;
 	Component wall;

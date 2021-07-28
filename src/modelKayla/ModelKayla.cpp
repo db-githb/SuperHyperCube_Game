@@ -6,89 +6,6 @@ void ModelKayla::initialize() {
 	generateOriginalObject();
 }
 
-// draw method works by rendering each unit cube in the model
-void ModelKayla::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
-
-	shaderSetUp(inCam, projection, view);
-
-	// put this in base class or leave 
-
-	const glm::mat3 rotationMatrix = glm::mat3(
-		glm::vec3(glm::cos(orientation), 0.0f, -glm::sin(orientation)),
-		glm::vec3(0.0f, 1.0f, 0.0f),
-		glm::vec3(glm::sin(orientation), 0.0f, glm::cos(orientation))
-	);
-
-	// world transformation: glm::translate moves the model around the world
-	for (int r = 0; r < ROWS; r++) {
-		for (int c = 0; c < COLUMNS; c++) {
-			for (int p = 0; p < PLANES; p++) {
-
-				if (modelData[r][c][p] == NONE) {
-					continue;
-				}
-
-				// scale position of each unitCube
-				// positions of each cube are relative to the axis of rotation
-				float x = ((float)c - (COLUMNS * 0.5f)) * scaleFactor;
-				float y = (float)r * scaleFactor;
-				float z = ((float)p - 0.5f) * scaleFactor;
-
-				// translation vector to move unit cube from base position
-				glm::vec3 translation = glm::vec3(x, y, z);
-
-				// apply a rotation to the translation vector so that the position of the unit cube is synchronized with the orientation of the cube
-				translation = rotationMatrix * translation;
-
-
-				// ensure that the model matrix passed is an identity matrix
-				model = glm::mat4(1.0f);
-
-				// apply any x or y translations
-				model = glm::translate(model, glm::vec3(xTranslation, yTranslation, 0.0f));
-
-				// wall cubes are offset from a different base position then the object cubes
-				if (modelData[r][c][p] == WALL) {
-
-					// shader colors the wall unit cube grey
-					baseShader.setVec3("dirLight.ambient", LIGHT_AMBIENT);
-
-					// TODO: make base position a variable (currently it's a constant)
-					model = glm::translate(model, modelBasePosition + translation);
-
-				}
-				else {
-
-					// translation vector to move unit cube from base position
-					model = glm::translate(model, modelBasePosition + translation);
-
-					// if-else statement colors the object cubes either red or blue
-					if (modelData[r][c][p] == RED) {
-						baseShader.setVec3("dirLight.ambient", glm::vec3(0.0f, 3.0f, 1.0f));
-					}
-					else {
-						baseShader.setVec3("dirLight.ambient", glm::vec3(1.0f, 0.0f, 1.0f));
-					}
-				}
-
-				// scale the size of each cube
-				model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
-
-				// apply the unit cube so that the cube's orientation is aligned with the model's orientation
-				model = glm::rotate(model, orientation, glm::vec3(0.0f, 1.0f, 0.0f));
-
-				// pass the model matrix to the vertex shader
-				baseShader.setMat4("model", model);
-
-				// render the cube
-				glBindVertexArray(unitCube.getVAO());
-				glDrawArrays(renderMode, 0, 36);
-
-			}
-		}
-	}
-}
-
 void ModelKayla::positionModel(float x, float y, float z)
 {
 	modelBasePosition = glm::vec3(x, y, z);
@@ -120,10 +37,10 @@ void ModelKayla::resetModel()
 		for (int c = 0; c < COLUMNS; c++) {
 			for (int p = 0; p < PLANES; p++)
 				if (p == 0) {
-					modelData[r][c][p] = WALL;
+					wall.modelData[r][c][p] = WALL;
 				}
 				else {
-					modelData[r][c][p] = NONE;
+					object.modelData[r][c][p] = NONE;
 				}
 		}
 	}
@@ -136,10 +53,10 @@ void ModelKayla::generateCube(int rowStart, int rowEnd, int columnStart, int col
 		for (int c = columnStart; c < columnEnd+1; c++) {
 			for (int r = rowStart; r < rowEnd+1; r++) {
 				for (int p = planeStart; p < planeEnd+1; p++) {
-					modelData[r][c][PLANES - p] = color;
+					object.modelData[r][c][PLANES - p] = color;
 				}
 				//Make hole
-				modelData[r][c][0] = NONE;
+				wall.modelData[r][c][0] = NONE;
 			}
 		}
 	}

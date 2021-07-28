@@ -24,6 +24,8 @@ public:
 	Shader();
 	// constructor reads and builds the shader
 	Shader(const char* vertexPath, const char* fragmentPath);
+	// loads texture image into gpu
+	unsigned int loadTexture(char const* path);
 	// use/activate the shader
 	void use();
 	// utility uniform fucntions

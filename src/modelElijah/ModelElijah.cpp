@@ -13,78 +13,6 @@ void ModelElijah::initialize() {
 
 }
 
-// draw method works by rendering each unit cube in the model
-void ModelElijah::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
-
-	shaderSetUp(inCam, projection, view);
-
-	// world transformation: glm::translate moves the model around the world
-	for (int c = 0; c < sizeX; c++)
-	{
-		for (int r = 0; r < sizeY; r++)
-		{
-			for (int p = 0; p < sizeZ; p++) 
-			{
-
-				if (modelData[c][r][p] == NONE) 
-				{
-					continue;
-				}
-
-				// scale position of each unitCube
-				float x = (float)c * scaleFactor;
-				float y = (float)r * scaleFactor;
-				float z = (float)p * scaleFactor;
-
-				// The XYZ coordinate vector of a given cube relative to the model's root/origin
-				glm::vec3 translation = glm::vec3(x, y, z);
-				//transform.matrix = glm::scale(transform.matrix, glm::vec3(1.0f) * scaleFactor);
-				// Set the model's origin relative to the scene origin
-				transform.matrix = glm::translate(glm::mat4(1.0f) , (transform.position +  glm::vec3(xTranslation*scaleFactor, yTranslation*scaleFactor, 0.0f)));
-				
-				// Apply rotation to a given unit cube relative to the whole model's origin
-				model = glm::rotate(transform.matrix, orientation, glm::vec3(0.0f, 1.0f, 0.0f));
-				
-				if (modelData[c][r][p] == WALL) 
-					baseShader.setVec3("dirLight.ambient", LIGHT_AMBIENT); // shader colors the wall unit cube grey
-				else 
-				{
-					// if-else statement colors the object cubes either red or blue
-					if (modelData[c][r][p] == RED) 
-					{
-						baseShader.setVec3("dirLight.ambient", glm::vec3(0.1f, 0.7f, 0.5f));
-					}
-					else 
-					{
-						baseShader.setVec3("dirLight.ambient", glm::vec3(0.5f, 0.1f, 0.5f));
-					}
-				}
-
-				// translation vector to move unit cube from base position
-				model = glm::translate(model, translation + glm::vec3(scaleFactor*(-sizeX / 2), 0.0f, scaleFactor * (-sizeZ / 2)));
-				
-				// Scale the size of each cube uniformly
-				model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
-				
-				
-				// pass the model matrix to the vertex shader
-				baseShader.setMat4("model", model);
-
-				// render the cube
-				glBindVertexArray(unitCube.getVAO());
-				glDrawArrays(renderMode, 0, 36);
-
-				glBindVertexArray(unitCube.getVAO());
-				/*baseShader.setMat4("model", transform.matrix);
-				baseShader.setVec3("dirLight.ambient", glm::vec3(1.0f, 1.0f, 1.0f));
-				glDrawArrays(renderMode, 0, 36);*/
-
-			}
-
-		}
-	}
-}
-
 void ModelElijah::generateRandomModel()
 {
 	// initialize entire model to a wall or none (no unit cube)
@@ -96,11 +24,11 @@ void ModelElijah::generateRandomModel()
 			{
 				if (z == 0)
 				{
-					modelData[x][y][z] = WALL;
+					wall.modelData[x][y][z] = WALL;
 				}
 				else
 				{
-					modelData[x][y][z] = NONE;
+					object.modelData[x][y][z] = NONE;
 				}
 			}
 		}
@@ -116,11 +44,11 @@ void ModelElijah::generateRandomModel()
 				if (rand() % 100 > 80 && z != 0)
 				{
 					if (rand() % 100 > 50)
-						modelData[x][y][z] = RED;
+						object.modelData[x][y][z] = RED;
 					else
-						modelData[x][y][z] = BLUE;
+						object.modelData[x][y][z] = BLUE;
 					
-					modelData[x][y][0] = NONE;
+						wall.modelData[x][y][0] = NONE;
 				}
 			}
 		}
@@ -143,11 +71,11 @@ void ModelElijah::generateOriginalObject()
 			{
 				if (z == 0)
 				{
-					modelData[x][y][z] = WALL;
+					wall.modelData[x][y][z] = WALL;
 				}
 				else
 				{
-					modelData[x][y][z] = NONE;
+					object.modelData[x][y][z] = NONE;
 				}
 			}
 		}
@@ -161,23 +89,23 @@ void ModelElijah::generateOriginalObject()
 			{
 				if (y == 1 || y == sizeY - 2)
 				{
-					modelData[x][y][z] = BLUE;
-					modelData[x][y][0] = NONE;
+					object.modelData[x][y][z] = BLUE;
+					wall.modelData[x][y][0] = NONE;
 				}
 				if ((y == 2 || y == sizeY - 3) && (x >=2 && x <= sizeX - 3))
 				{
-					modelData[x][y][z] = BLUE;
-					modelData[x][y][0] = NONE;
+					object.modelData[x][y][z] = BLUE;
+					wall.modelData[x][y][0] = NONE;
 				}
 				if ((y == 3 || y == sizeY - 4) && (x >= 3 && x <= sizeX - 4))
 				{
-					modelData[x][y][z] = BLUE;
-					modelData[x][y][0] = NONE;
+					object.modelData[x][y][z] = BLUE;
+					wall.modelData[x][y][0] = NONE;
 				}
 				if ((y == 4 || y == sizeY - 5))
 				{
-					modelData[x][y][z] = BLUE;
-					modelData[x][y][0] = NONE;
+					object.modelData[x][y][z] = BLUE;
+					wall.modelData[x][y][0] = NONE;
 				}
 
 			}
