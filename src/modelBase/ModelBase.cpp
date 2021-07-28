@@ -63,13 +63,15 @@ void ModelBase::allocateShaderData() {
 
 	// load textures
 	wall.diffuseMap = wall.shader.loadTexture("res/images/brick.png");
+	wall.specularMap = wall.shader.loadTexture("res/images/brick_spec_map.png");
 
-	object.diffuseMap = object.shader.loadTexture("res/images/metal.jpg");
-	object.specularMap = object.shader.loadTexture("res/images/metal.jpg");
+	object.diffuseMap = object.shader.loadTexture("res/images/metal.png");
+	object.specularMap = object.shader.loadTexture("res/images/metal_spec_map.jpg");
 
 	// shader configuration
 	wall.shader.use();
 	wall.shader.setInt("material.diffuse", 0);
+	wall.shader.setInt("material.specular", 1);
 
 	object.shader.use();
 	object.shader.setInt("material.diffuse", 0);
@@ -98,6 +100,8 @@ void ModelBase::drawWall(glm::mat4 model) {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, wall.diffuseMap);
 
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, wall.specularMap);
 	
 	glBindVertexArray(unitCube.getVAO());
 
@@ -109,14 +113,11 @@ void ModelBase::drawWall(glm::mat4 model) {
 				continue;
 			}
 
-				// color value applied via color palette
-				wall.shader.setVec3("dirLight.ambient", ModelBase::colorPalette[wall.modelData[r][c][0]]);
+			// move unit cube relative to parent base position and pass the model matrix to the vertex shader
+			wall.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, 0.0f) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
 
-				// move unit cube relative to parent base position and pass the model matrix to the vertex shader
-				wall.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, 0.0f) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
-
-				// render the cube
-				glDrawArrays(renderMode, 0, 36);
+			// render the cube
+			glDrawArrays(renderMode, 0, 36);
 		}
 	}
 }
@@ -141,9 +142,6 @@ void ModelBase::drawObject(glm::mat4 model) {
 					continue;
 				}
 
-				// color value applied via color palette
-				object.shader.setVec3("dirLight.ambient", ModelBase::colorPalette[BLACK]);
-
 				// move unit cube relative to parent base position and pass the model matrix to the vertex shader
 				object.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, (float)p) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
 
@@ -162,18 +160,18 @@ void ModelBase::shaderSetUp(Camera inCam, glm::mat4 projection, glm::mat4 view, 
 	
 	component.shader.setVec3("viewPos", inCam.Position);
 	
-	component.shader.setVec3("dirLight.direction", LIGHT_DIRECTION);
-	component.shader.setVec3("dirLight.ambient", LIGHT_AMBIENT);
-	component.shader.setVec3("dirLight.diffuse", LIGHT_DIFFUSE);
-	component.shader.setVec3("dirLight.specular", LIGHT_SPECULAR);
+	component.shader.setVec3("dirLight.direction", 0.0f, 0.0f, -5.5f);
+	component.shader.setVec3("dirLight.ambient", 0.05f, 0.05f, 0.05f);
+	component.shader.setVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
+	component.shader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
 	
-	component.shader.setVec3("pointLight.position", POINT_LIGHT_POSITION);
-	component.shader.setVec3("pointLight.ambient", 0.05f, 0.05f, 0.05f);
-	component.shader.setVec3("pointLight.diffuse", 0.8f, 0.8f, 0.8f);
+	component.shader.setVec3("pointLight.position", 0.0f, 5.5f, -5.5f);
+	component.shader.setVec3("pointLight.ambient", 1.0f, 1.0f, 1.0f);
+	component.shader.setVec3("pointLight.diffuse", 1.0f, 1.0f, 1.0f);
 	component.shader.setVec3("pointLight.specular", 1.0f, 1.0f, 1.0f);
 	component.shader.setFloat("pointLight.constant", 1.0f);
 	component.shader.setFloat("pointLight.linear", 0.09f);
-	component.shader.setFloat("pointLight.quadratic", 0.032);
+	component.shader.setFloat("pointLight.quadratic", 0.032f);
 
 	component.shader.setFloat("material.shininess", 32.0f);
 
@@ -277,4 +275,17 @@ void ModelBase::generateOriginalObject() {
 
 bool ModelBase::boundaryCollision() {
 	return false;
+}
+
+ModelBase::~ModelBase() {
+	for (int r = 0; r < rows; r++) {
+		for (int c = 0; c < columns; c++) {
+			delete[] object.modelData[r][c];
+			delete[] wall.modelData[r][c];
+		}
+		delete[] object.modelData[r];
+		delete[] wall.modelData[r];
+	}
+	delete[] object.modelData;
+	delete[] wall.modelData;
 }

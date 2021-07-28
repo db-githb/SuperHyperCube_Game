@@ -346,5 +346,6 @@ int main()
 		
 	}
 
+	delete modelDamian;
 	exit(0);
 }

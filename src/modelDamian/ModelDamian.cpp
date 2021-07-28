@@ -4,7 +4,9 @@ void ModelDamian::initialize() {
 	
 	allocateShaderData();
 
-	modelBasePosition = glm::vec3(-5.0f, 0.5f, 7.0f);
+	//modelBasePosition = glm::vec3(-5.0f, 0.5f, 7.0f);
+
+	modelBasePosition = glm::vec3(0.0f, 0.5f, 0.0f);
 
 	rows = 9;
 	columns = 7;

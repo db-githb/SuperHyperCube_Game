@@ -47,12 +47,12 @@ void main()
 	vec3 norm = normalize(Normal);
 	vec3 viewDir = normalize(viewPos-FragPos);
 	
+	vec3 result = vec3(0.0, 0.0, 0.0);
 
 	// phase 1: Directional lighting
-	vec3 result = CalcDirLight(dirLight, norm, viewDir);
+	result = CalcDirLight(dirLight, norm, viewDir);
 	
 	// phase 2: Point lights
-
 	result += CalcPointLight(pointLight, norm, FragPos, viewDir);
 
 	FragColor = vec4(result, 1.0);
@@ -91,8 +91,8 @@ vec3 CalcPointLight (PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 	
 	// attenuation
 	float distance = length(light.position - fragPos);
-	float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
-	
+	float attenuation = 0.5; //1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));	
+
 	// combine results
 	vec3 ambient = light.ambient * vec3(texture(material.diffuse, TexCoords));
 	vec3 diffuse = light.diffuse * diff *vec3(texture(material.diffuse, TexCoords));
@@ -100,7 +100,8 @@ vec3 CalcPointLight (PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 	
 	ambient *= attenuation;
 	diffuse *= attenuation;
-	specular *= attenuation;
+	// no attentuation for specular to ensure shininess from a far distance
+	//specular *= attenuation;
 
 	return (ambient+ diffuse + specular);
 }
