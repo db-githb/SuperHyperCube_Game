@@ -42,6 +42,10 @@ public:
 	virtual void generateOriginalObject();
 	virtual bool boundaryCollision();
 
+	unsigned int diffuseMap;
+	unsigned int specularMap;
+
+
 protected:
 	UnitCube unitCube;
 	Shader baseShader;

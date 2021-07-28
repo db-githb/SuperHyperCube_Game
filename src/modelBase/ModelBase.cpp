@@ -4,6 +4,15 @@ ModelBase::ModelBase() {
 	unitCube = UnitCube();
 	baseShader = Shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
 
+	// load textures
+	diffuseMap = baseShader.loadTexture("res/images/metal.png");
+	specularMap = baseShader.loadTexture("res/images/container2_specular2.png");
+
+	// shader configuration
+	baseShader.use();
+	baseShader.setInt("material.diffuse", 0);
+	baseShader.setInt("material.specular", 1);
+
 	scaleFactor = 0.5f;
 
 	xTranslation = 0.0f;

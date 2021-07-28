@@ -267,12 +267,13 @@ int main()
 	UnitAxes unitAxes;
 	GridLines gridLines;
 
-	unitCube = new ModelBase();
-	unitCube->initialize();
+	//unitCube = new ModelBase();
+	//unitCube->initialize();
 
 	modelDamian = new ModelDamian();
 	modelDamian->initialize();
 
+	/*
 	modelElijah = new ModelElijah();
 	modelElijah->initialize();
 
@@ -281,12 +282,13 @@ int main()
 
 	modelKayla = new ModelKayla();
 	modelKayla->initialize();
+	*/
 
 	// ==================================
 
 	// directional lighting values
 	glm::vec3 dirLighting[4] = {
-		glm::vec3(-0.2f, -1.0f, -0.3f), //direction
+		glm::vec3(0.0f, 30.0f, 0.0), //direction
 		glm::vec3(0.05f, 0.05f, 0.05f), // ambient
 		glm::vec3(0.4f, 0.4f, 0.4f), // diffuse
 		glm::vec3(0.5f, 0.5f, 0.5f) // specular
@@ -326,10 +328,12 @@ int main()
 
 		//unitCube->draw(camera, dirLighting, projection, view, model);
 		modelDamian->draw(camera, dirLighting, projection, view, model);
+		
+		/*
 		modelElijah->draw(camera, dirLighting, projection, view, model);
 		modelThomas->draw(camera, dirLighting, projection, view, model);
 		modelKayla->draw(camera, dirLighting, projection, view, model);
-
+		*/
 		// ==================================
 
 		glfwSwapBuffers(mainWindow);
