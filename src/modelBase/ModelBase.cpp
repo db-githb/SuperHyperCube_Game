@@ -93,6 +93,14 @@ void ModelBase::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::ma
 }
 
 void ModelBase::drawWall(glm::mat4 model) {
+
+	// bind texture maps
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, wall.diffuseMap);
+
+	
+	glBindVertexArray(unitCube.getVAO());
+
 	// compute world position of child cubes
 	for (int r = 0; r < rows; r++) {
 		for (int c = 0; c < columns; c++) {
@@ -107,18 +115,23 @@ void ModelBase::drawWall(glm::mat4 model) {
 				// move unit cube relative to parent base position and pass the model matrix to the vertex shader
 				wall.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, 0.0f) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
 
-				// bind texture maps
-				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, wall.diffuseMap);
-
 				// render the cube
-				glBindVertexArray(unitCube.getVAO());
 				glDrawArrays(renderMode, 0, 36);
 		}
 	}
 }
 
 void ModelBase::drawObject(glm::mat4 model) {
+
+	// bind texture maps
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, object.diffuseMap);
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, object.specularMap);
+
+	glBindVertexArray(unitCube.getVAO());
+
 	// compute world position of child cubes
 	for (int r = 0; r < rows; r++) {
 		for (int c = 0; c < columns; c++) {
@@ -134,15 +147,7 @@ void ModelBase::drawObject(glm::mat4 model) {
 				// move unit cube relative to parent base position and pass the model matrix to the vertex shader
 				object.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, (float)p) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
 
-				// bind texture maps
-				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, object.diffuseMap);
-
-				glActiveTexture(GL_TEXTURE1);
-				glBindTexture(GL_TEXTURE_2D, object.specularMap);
-
 				// render the cube
-				glBindVertexArray(unitCube.getVAO());
 				glDrawArrays(renderMode, 0, 36);
 
 			}
@@ -170,7 +175,7 @@ void ModelBase::shaderSetUp(Camera inCam, glm::mat4 projection, glm::mat4 view, 
 	component.shader.setFloat("pointLight.linear", 0.09f);
 	component.shader.setFloat("pointLight.quadratic", 0.032);
 
-
+	component.shader.setFloat("material.shininess", 32.0f);
 
 	component.shader.setMat4("projection", projection);
 	component.shader.setMat4("view", view);

@@ -22,7 +22,7 @@
 #define LIGHT_DIFFUSE glm::vec3(0.4f, 0.4f, 0.4f)
 #define LIGHT_SPECULAR glm::vec3(0.5f, 0.5f, 0.5f)
 
-#define POINT_LIGHT_POSITION glm::vec3(0.0f, 30.0f, 0.0)
+#define POINT_LIGHT_POSITION 0.0f, 30.0f, 0.0f
 
 #define SCALE_UP 0
 #define SCALE_DOWN 1
