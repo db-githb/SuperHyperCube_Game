@@ -2,6 +2,10 @@
 #include "../unitCube/UnitCube.h"
 #include <stdlib.h>
 
+#define ROWS 9
+#define COLUMNS 7
+#define PLANES 6
+
 #define NONE -2
 #define WALL -1
 
@@ -15,7 +19,7 @@
 #define YELLOW 7
 #define ORANGE 8
 #define BLACK 9
-#define NUM_COLORS 9
+#define NUM_COLORS 10
 
 #define LIGHT_DIRECTION glm::vec3(-0.2f, -1.0f, -0.3f)
 #define LIGHT_AMBIENT glm::vec3(0.05f, 0.05f, 0.05f)
@@ -31,9 +35,15 @@
 #define TRANS_LEFT 1
 #define TRANS_UP 2
 #define TRANS_DOWN 3
+#define TRANS_FORWARD 4
+#define TRANS_BACKWARD 5
 
-#define ROTATE_RIGHT 0
-#define ROTATE_LEFT 1
+#define ROTATE_X_CLOCKWISE 0
+#define ROTATE_X_COUNTER 1
+#define ROTATE_Y_CLOCKWISE 2
+#define ROTATE_Y_COUNTER 3
+#define ROTATE_Z_CLOCKWISE 4
+#define ROTATE_Z_COUNTER 5
 
 #define SCALE_MAX 2.0f
 #define SCALE_MIN 0.1f
@@ -96,7 +106,9 @@ protected:
 	int renderMode;
 
 	/* orientation in radians */
-	float orientation;
+	float xRotation;
+	float yRotation;
+	float zRotation;
 
 	void drawWall(glm::mat4 model);
 	void drawObject(glm::mat4 model);
