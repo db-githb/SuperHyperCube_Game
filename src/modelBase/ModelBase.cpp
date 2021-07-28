@@ -15,7 +15,9 @@ ModelBase::ModelBase() {
 	yTranslation = 0.0f;
 	zTranslation = 0.0f;
 
-	orientation = 0.0f;
+	xRotation = 0.0f;
+	yRotation = 0.0f;
+	zRotation = 0.0f;
 
 	renderMode = GL_TRIANGLES;
 }
@@ -80,15 +82,25 @@ void ModelBase::allocateShaderData() {
 
 void ModelBase::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
 
-
-	// compute world position of parent (model<name>)
-	model = glm::translate(model, (modelBasePosition + glm::vec3(xTranslation * scaleFactor, yTranslation * scaleFactor, 0.0f)));
-	model = glm::rotate(model, orientation, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::translate(model, modelBasePosition);
 	model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
+
+
 
 	// TODO: move shader set up to scene afterwards
 	shaderSetUp(inCam, projection, view, wall);
 	drawWall(model);
+
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, (modelBasePosition + glm::vec3(xTranslation * scaleFactor, yTranslation * scaleFactor, zTranslation * scaleFactor)));
+
+	model = glm::translate(model, glm::vec3(0.0f, 2.0f, 0.0f));
+	model = glm::rotate(model, xRotation, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, yRotation, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, zRotation, glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
+
+	model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
 
 	shaderSetUp(inCam, projection, view, object);
 	drawObject(model);
@@ -143,7 +155,7 @@ void ModelBase::drawObject(glm::mat4 model) {
 				}
 
 				// move unit cube relative to parent base position and pass the model matrix to the vertex shader
-				object.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, (float)p) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
+				object.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, (float)p) + glm::vec3((0.3f +(-columns * 0.5)), 0.0f, (-0.3f +(-planes * 0.5)))));
 
 				// render the cube
 				glDrawArrays(renderMode, 0, 36);
@@ -181,8 +193,9 @@ void ModelBase::shaderSetUp(Camera inCam, glm::mat4 projection, glm::mat4 view, 
 
 void ModelBase::setColorPalette() {
 
-	ModelBase::colorPalette[GRAY] = glm::vec3(0.5f, 0.5f, 0.5f);
+	ModelBase::colorPalette = new glm::vec3[NUM_COLORS];
 
+	ModelBase::colorPalette[GRAY] = glm::vec3(0.5f, 0.5f, 0.5f);
 	ModelBase::colorPalette[RED] = glm::vec3(.9f, 0.1f, 0.15f);
 	ModelBase::colorPalette[BLUE] = glm::vec3(0.15f, 0.1f, 0.9f);
 	ModelBase::colorPalette[VIOLET] = glm::vec3(0.25f, 0.1f, 0.85f);
@@ -220,16 +233,38 @@ void ModelBase::translate(int translationDirection) {
 			break;
 		case TRANS_DOWN:
 			yTranslation -= 0.1f;
+			break;
+		case TRANS_FORWARD:
+			zTranslation -= 0.1f;
+			break;
+		case TRANS_BACKWARD:
+			zTranslation += 0.1f;
+			break;
 		}
 	}
 }
 
 void ModelBase::rotate(int rotation) {
-	if (rotation == ROTATE_LEFT) {
-		orientation += glm::radians(5.0f);
-	}
-	else {
-		orientation -= glm::radians(5.0f);
+
+	switch (rotation) {
+	case ROTATE_X_CLOCKWISE:
+		xRotation -= glm::radians(5.0f);
+		break;
+	case ROTATE_X_COUNTER:
+		xRotation += glm::radians(5.0f);
+		break;
+	case ROTATE_Y_CLOCKWISE:
+		yRotation -= glm::radians(5.0f);
+		break;
+	case ROTATE_Y_COUNTER:
+		yRotation += glm::radians(5.0f);
+		break;
+	case ROTATE_Z_CLOCKWISE:
+		zRotation -= glm::radians(5.0f);
+		break;
+	case ROTATE_Z_COUNTER:
+		zRotation += glm::radians(5.0f);
+		break;
 	}
 }
 

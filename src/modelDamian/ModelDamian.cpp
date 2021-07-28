@@ -14,8 +14,6 @@ void ModelDamian::initialize() {
 
 	allocateWallData();
 	allocateObjectData();
-
-	generateOriginalObject();
 }
 
 void ModelDamian::generateRandomModel() {
@@ -150,9 +148,9 @@ bool ModelDamian::boundaryCollision() {
 	localSpaceCorners[3] = glm::vec3(((float)(columns - 1) *-0.5) - 0.5f, 0.0f, (float) planes - 0.5f);
 
 	const glm::mat3 rotationMatrix = glm::mat3(
-		glm::vec3(glm::cos(orientation), 0.0f, -glm::sin(orientation)),
+		glm::vec3(glm::cos(yRotation), 0.0f, -glm::sin(yRotation)),
 		glm::vec3(0.0f, 1.0f, 0.0f),
-		glm::vec3(glm::sin(orientation), 0.0f, glm::cos(orientation))
+		glm::vec3(glm::sin(yRotation), 0.0f, glm::cos(yRotation))
 	);
 	
 	for (int i = 0; i < 4; i++) {

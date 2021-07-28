@@ -2,22 +2,63 @@
 
 void ModelThomas::initialize() {
 
+	allocateShaderData();
+
 	modelBasePosition = glm::vec3(5.0f, 0.5f, -5.0f);
 
-	resetModel();
-	generateOriginalObject();
+	rows = 9;
+	columns = 7;
+	planes = 7;
 
 	colorPalette = new glm::vec3[NUM_COLORS];
-	initializeColorPalette();
+	setColorPalette();
+
+	allocateWallData();
+	allocateObjectData();
 
 }
 
-void ModelThomas::initializeColorPalette() {
 
-	colorPalette[YELLOW] = glm::vec3(1.0f, 1.0f, 0.0f);
-	colorPalette[ORANGE] = glm::vec3(1.0f, 0.5f, 0.0f);
+void ModelThomas::allocateObjectData() {
+
+	ModelBase::allocateObjectData();
+
+	for (int r = 2; r < 8; r++) {
+		object.modelData[r][1][PLANES - 3] = YELLOW;
+		wall.modelData[r][1][0] = NONE;
+	}
+
+	for (int c = 1; c < 6; c++) {
+		object.modelData[1][c][PLANES - 3] = YELLOW;
+		wall.modelData[1][c][0] = NONE;
+	}
+
+	for (int r = 2; r < 8; r++) {
+		object.modelData[r][1][PLANES - 2] = YELLOW;
+		wall.modelData[r][1][0] = NONE;
+	}
+
+	for (int c = 1; c < 6; c++) {
+		object.modelData[1][c][PLANES - 2] = YELLOW;
+		wall.modelData[1][c][0] = NONE;
+	}
+
+	wall.modelData[2][2][0] = NONE;
+	for (int p = 2; p < 6; p++) {
+		object.modelData[2][2][p] = ORANGE;
+	}
+
+	wall.modelData[5][2][0] = NONE;
+	for (int p = 2; p < 6; p++) {
+		object.modelData[5][2][p] = ORANGE;
+	}
+
+	for (int r = 2; r < 6; r++) {
+		object.modelData[r][1][PLANES - 1] = ORANGE;
+	}
 
 }
+
 
 void ModelThomas::resetModel() {
 	// initialize wall and empty space
@@ -34,6 +75,8 @@ void ModelThomas::resetModel() {
 		}
 	}
 }
+
+
 
 void ModelThomas::generateOriginalObject() {
 
@@ -59,12 +102,12 @@ void ModelThomas::generateOriginalObject() {
 		wall.modelData[1][c][0] = NONE;
 	}
 
-	modelData[2][2][0] = NONE;
+	wall.modelData[2][2][0] = NONE;
 	for (int p = 2; p < 6; p++) {
 		object.modelData[2][2][p] = ORANGE;
 	}
 
-	modelData[5][2][0] = NONE;
+	wall.modelData[5][2][0] = NONE;
 	for (int p = 2; p < 6; p++) {
 		object.modelData[5][2][p] = ORANGE;
 	}
@@ -106,7 +149,7 @@ void ModelThomas::generateRandomModel() {
 	}
 
 	wall.modelData[2][2][0] = NONE;
-	modelData[5][2][0] = NONE;
+	wall.modelData[5][2][0] = NONE;
 
 	for (int p = 2; p < PLANES; p++) {
 		if ((rand() % 10 == 0)) {

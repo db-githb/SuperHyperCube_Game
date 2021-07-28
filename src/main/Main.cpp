@@ -150,7 +150,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				*/
 			}
 			else {
-				activeModel->rotate(ROTATE_LEFT);
+				activeModel->rotate(ROTATE_Y_COUNTER);
 
 				// if boundary collision occurs undo left rotation
 				/*
@@ -174,7 +174,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				*/
 			}
 			else {
-				activeModel->rotate(ROTATE_RIGHT);
+				activeModel->rotate(ROTATE_Y_CLOCKWISE);
 
 				// if boundary collision occurs undo right rotation
 				/*
@@ -199,6 +199,28 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			activeModel->translate(TRANS_DOWN);
 			break;
 
+		case GLFW_KEY_Z:
+			activeModel->translate(TRANS_FORWARD);
+			break;
+
+		case GLFW_KEY_X:
+			activeModel->translate(TRANS_BACKWARD);
+			break;
+
+		// rotate along X and Z axis, maybe map y rotation to G and V keys
+		case GLFW_KEY_F:
+			activeModel->rotate(ROTATE_X_CLOCKWISE);
+			break;
+		case GLFW_KEY_C:
+			activeModel->rotate(ROTATE_X_COUNTER);
+			break;
+		case GLFW_KEY_H:
+			activeModel->rotate(ROTATE_Z_CLOCKWISE);
+			break;
+		case GLFW_KEY_B:
+			activeModel->rotate(ROTATE_Z_COUNTER);
+			break;
+
 		case GLFW_KEY_HOME:
 			camera.sendHome();
 			break;
@@ -207,7 +229,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			activeModel->generateRandomModel();
 			break;
 
-		case GLFW_KEY_F:
+		case GLFW_KEY_O:
 			activeModel->generateOriginalObject();
 			break;
 		}
@@ -287,7 +309,7 @@ int main()
 	//modelElijah->initialize();
 
 	modelThomas = new ModelThomas();
-	//modelThomas->initialize();
+	modelThomas->initialize();
 
 	modelKayla = new ModelKayla();
 	//modelKayla->initialize();
@@ -337,7 +359,7 @@ int main()
 		//unitCube->draw(camera, dirLighting, projection, view, model);
 		modelDamian->draw(camera, projection, view, model);
 		//modelElijah->draw(camera, projection, view, model);
-		//modelThomas->draw(camera, projection, view, model);
+		modelThomas->draw(camera, projection, view, model);
 		//modelKayla->draw(camera, projection, view, model);
 
 		// ==================================
