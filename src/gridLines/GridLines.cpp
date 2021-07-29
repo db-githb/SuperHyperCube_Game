@@ -2,10 +2,12 @@
 
 GridLines::GridLines() {
 	UnitCube unitCube= UnitCube();
-	gridLinesShader =  Shader("res/shaders/cubeShader.vert", "res/shaders/cubeShader.frag");
+	gridLinesShader =  Shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
 
-	//diffuseMap = gridLinesShader.loadTexture("res/images/tile.jpg");
+	//diffuseMap = gridLinesShader.loadTexture("res/images/tile_a.png");
 	diffuseMap = gridLinesShader.loadTexture("res/images/tile3.png");
+	specularMap = gridLinesShader.loadTexture("res/images/single_white_tile.jpg");
+	
 	// shader configuration
 	gridLinesShader.use();
 	gridLinesShader.setInt("material.diffuse", 0);
@@ -17,9 +19,23 @@ GridLines::GridLines() {
 	gridLinesShader.setVec3("dirLight.specular", UnitCube::dirLight[LIGHT_SPECULAR]);
 
 	// material properties
+	/*
 	gridLinesShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
-	gridLinesShader.setFloat("material.shininess", 64.0f);
+	gridLinesShader.setFloat("material.shininess", 64.0f); 
+	*/
+
+	gridLinesShader.setVec3("pointLight.position", 0.0f, 8.5f, -5.5f);
+	gridLinesShader.setVec3("pointLight.ambient", 1.0f, 1.0f, 1.0f);
+	gridLinesShader.setVec3("pointLight.diffuse", 1.0f, 1.0f, 1.0f);
+	gridLinesShader.setVec3("pointLight.specular", 1.0f, 1.0f, 1.0f);
+	gridLinesShader.setFloat("pointLight.constant", 1.0f);
+	gridLinesShader.setFloat("pointLight.linear", 0.09f);
+	gridLinesShader.setFloat("pointLight.quadratic", 0.032f);
+
+	gridLinesShader.setFloat("material.shininess", 32.0f);
 }
+
+// USE WITH TILE A
 /*
 void GridLines::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
 	
@@ -32,6 +48,9 @@ void GridLines::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::ma
 	// bind texture maps
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, diffuseMap);
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, specularMap);
 
 	glBindVertexArray(unitCube.getVAO());
 
@@ -64,8 +83,11 @@ void GridLines::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::ma
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, diffuseMap);
 
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, specularMap);
+
 	glBindVertexArray(unitCube.getVAO());
 
 	glDrawArrays(GL_TRIANGLES, 0, 36);
-
+	
 }

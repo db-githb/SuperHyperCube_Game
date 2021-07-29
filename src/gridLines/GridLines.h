@@ -10,4 +10,5 @@ private:
 	UnitCube unitCube;
 	Shader gridLinesShader;
 	unsigned int diffuseMap;
+	unsigned int specularMap;
 };
