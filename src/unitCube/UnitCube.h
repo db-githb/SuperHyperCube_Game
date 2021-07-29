@@ -11,12 +11,20 @@
 #include "../shader/Shader.h"
 #include "../camera/Camera.h"
 
+#define LIGHT_DIRECTION 0
+#define LIGHT_AMBIENT 1
+#define LIGHT_DIFFUSE 2
+#define LIGHT_SPECULAR 3
+
 class UnitCube {
 public:
 	UnitCube();
 	void createCube();
 	GLuint getVAO();
 	GLuint getVBO();
+
+	// directional lighting values
+	static glm::vec3* dirLight;
 
 private:
 	GLuint unitCubeVBO, unitCubeVAO;

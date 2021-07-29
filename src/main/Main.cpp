@@ -1,4 +1,3 @@
-#include "Main.h"
 #include "../unitCube/UnitCube.h"
 #include "../unitLine/UnitLine.h"
 #include "../unitAxes/UnitAxes.h"
@@ -8,6 +7,10 @@
 #include "../modelElijah/modelElijah.h"
 #include "../modelThomas/modelThomas.h"
 #include "../modelKayla/modelKayla.h"
+
+// window size
+#define WIDTH 1024
+#define HEIGHT 768
 
 // instantiate camera
 Camera camera;
@@ -20,14 +23,16 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-// instantiate (assign memory) for static variable
+// -------------------
+// INSTANTIATE STATIC VARIABLES (assign memory) for static variable
+// -------------------
 glm::vec3* ModelBase::colorPalette = new glm::vec3[NUM_COLORS];
-
-ModelBase* activeModel;
+glm::vec3* UnitCube::dirLight = new glm::vec3[4];
 
 // -------------------
 // DECLARE MODELS HERE
 // -------------------
+ModelBase* activeModel;
 ModelBase* unitCube;
 ModelDamian* modelDamian;
 ModelElijah* modelElijah;
@@ -290,8 +295,17 @@ int main()
 	// Create Viewport
 	glViewport(0, 0, WIDTH, HEIGHT);
 
-	// intializing static variable
+	// ----------------------------------
+	// INITIALIZE STATIC VARIABLES
+	// ----------------------------------
+
 	ModelBase::setColorPalette();
+
+	// directional lighting values
+	UnitCube::dirLight[0] = glm::vec3(0.0f, 30.0f, 0.5f); //direction
+	UnitCube::dirLight[1] = glm::vec3(0.05f, 0.05f, 0.05f); // ambient
+	UnitCube::dirLight[2] = glm::vec3(0.4f, 0.4f, 0.4f); // diffuse
+	UnitCube::dirLight[3] = glm::vec3(0.5f, 0.5f, 0.5f); // specular
 
 	// ----------------------------------
 	// INSTANTIATE AND INITIALIZE MODELS HERE
@@ -309,20 +323,12 @@ int main()
 	//modelElijah->initialize();
 
 	modelThomas = new ModelThomas();
-	modelThomas->initialize();
+	//modelThomas->initialize();
 
 	modelKayla = new ModelKayla();
 	//modelKayla->initialize();
 
 	// ==================================
-
-	// directional lighting values
-	glm::vec3 dirLighting[4] = {
-		glm::vec3(-0.2f, -1.0f, -0.3f), //direction
-		glm::vec3(0.05f, 0.05f, 0.05f), // ambient
-		glm::vec3(0.4f, 0.4f, 0.4f), // diffuse
-		glm::vec3(0.5f, 0.5f, 0.5f) // specular
-	};
 
 	// initialize active model
 	activeModel = modelDamian;
@@ -356,10 +362,10 @@ int main()
 		// DRAW MODELS HERE
 		// ----------------------------------
 
-		//unitCube->draw(camera, dirLighting, projection, view, model);
+		//unitCube->draw(camera, projection, view, model);
 		modelDamian->draw(camera, projection, view, model);
 		//modelElijah->draw(camera, projection, view, model);
-		modelThomas->draw(camera, projection, view, model);
+		//modelThomas->draw(camera, projection, view, model);
 		//modelKayla->draw(camera, projection, view, model);
 
 		// ==================================

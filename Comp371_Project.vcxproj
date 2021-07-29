@@ -176,7 +176,6 @@
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h" />
     <ClInclude Include="src\gridLines\GridLines.h" />
-    <ClInclude Include="src\main\Main.h" />
     <ClInclude Include="src\modelBase\ModelBase.h" />
     <ClInclude Include="src\modelDamian\ModelDamian.h" />
     <ClInclude Include="src\modelElijah\ModelElijah.h" />

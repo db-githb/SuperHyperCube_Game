@@ -21,11 +21,6 @@
 #define BLACK 9
 #define NUM_COLORS 10
 
-#define LIGHT_DIRECTION glm::vec3(-0.2f, -1.0f, -0.3f)
-#define LIGHT_AMBIENT glm::vec3(0.05f, 0.05f, 0.05f)
-#define LIGHT_DIFFUSE glm::vec3(0.4f, 0.4f, 0.4f)
-#define LIGHT_SPECULAR glm::vec3(0.5f, 0.5f, 0.5f)
-
 #define POINT_LIGHT_POSITION 0.0f, 30.0f, 0.0f
 
 #define SCALE_UP 0

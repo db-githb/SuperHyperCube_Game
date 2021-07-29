@@ -1,5 +1,4 @@
 #pragma once
-#include "../main/Main.h"
 
 class UnitLine {
 public:

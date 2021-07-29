@@ -85,8 +85,6 @@ void ModelBase::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::ma
 	model = glm::translate(model, modelBasePosition);
 	model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
 
-
-
 	// TODO: move shader set up to scene afterwards
 	shaderSetUp(inCam, projection, view, wall);
 	drawWall(model);
@@ -172,10 +170,10 @@ void ModelBase::shaderSetUp(Camera inCam, glm::mat4 projection, glm::mat4 view, 
 	
 	component.shader.setVec3("viewPos", inCam.Position);
 	
-	component.shader.setVec3("dirLight.direction", 0.0f, 0.0f, -5.5f);
-	component.shader.setVec3("dirLight.ambient", 0.05f, 0.05f, 0.05f);
-	component.shader.setVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
-	component.shader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
+	component.shader.setVec3("dirLight.direction", UnitCube::dirLight[LIGHT_DIRECTION]);
+	component.shader.setVec3("dirLight.ambient", UnitCube::dirLight[LIGHT_AMBIENT]);
+	component.shader.setVec3("dirLight.diffuse", UnitCube::dirLight[LIGHT_DIFFUSE]);
+	component.shader.setVec3("dirLight.specular", UnitCube::dirLight[LIGHT_SPECULAR]);
 	
 	component.shader.setVec3("pointLight.position", 0.0f, 8.5f, -5.5f);
 	component.shader.setVec3("pointLight.ambient", 1.0f, 1.0f, 1.0f);
