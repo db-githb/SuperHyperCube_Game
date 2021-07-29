@@ -18,6 +18,7 @@ void ModelDamian::initialize() {
 
 void ModelDamian::generateRandomModel() {
 
+	resetObject();
 
 	// reset unitCubes in the model to their respective colors
 	for (int r = 1; r < 8; r++) {

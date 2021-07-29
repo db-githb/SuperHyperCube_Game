@@ -39,6 +39,18 @@ void ModelBase::allocateObjectData() {
 	return;
 }
 
+void ModelBase::resetObject() {
+	for (int r = 0; r < rows; r++) {
+		for (int c = 0; c < columns; c++) {
+			for (int p = 0; p < planes; p++) {
+				object.modelData[r][c][p] = NONE;
+			}
+		}
+	}
+
+	return;
+}
+
 void ModelBase::allocateWallData() {
 
 	wall.modelData = new int** [rows];

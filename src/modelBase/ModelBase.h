@@ -70,6 +70,7 @@ public:
 	virtual void generateRandomModel();
 	virtual void generateOriginalObject();
 	virtual bool boundaryCollision();
+	virtual void resetObject();
 
 	void shaderSetUp(Camera inCam, glm::mat4 projection, glm::mat4 view, Component component);
 
