@@ -194,7 +194,7 @@ void ModelBase::setColorPalette() {
 	ModelBase::colorPalette = new glm::vec3[NUM_COLORS];
 
 	ModelBase::colorPalette[GRAY] = glm::vec3(0.5f, 0.5f, 0.5f);
-	ModelBase::colorPalette[RED] = glm::vec3(.9f, 0.1f, 0.15f);
+	ModelBase::colorPalette[RED] = glm::vec3(0.9f, 0.1f, 0.15f);
 	ModelBase::colorPalette[BLUE] = glm::vec3(0.15f, 0.1f, 0.9f);
 	ModelBase::colorPalette[VIOLET] = glm::vec3(0.25f, 0.1f, 0.85f);
 	ModelBase::colorPalette[MINT] = glm::vec3(0.1f, 0.7f, 0.5f);

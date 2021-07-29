@@ -6,7 +6,7 @@ GridLines::GridLines() {
 
 	//diffuseMap = gridLinesShader.loadTexture("res/images/tile_a.png");
 	diffuseMap = gridLinesShader.loadTexture("res/images/tile3.png");
-	specularMap = gridLinesShader.loadTexture("res/images/single_white_tile.jpg");
+	specularMap = gridLinesShader.loadTexture("res/images/brick_spec_map.png");
 	
 	// shader configuration
 	gridLinesShader.use();
@@ -18,20 +18,6 @@ GridLines::GridLines() {
 	gridLinesShader.setVec3("dirLight.diffuse", UnitCube::dirLight[LIGHT_DIFFUSE]);
 	gridLinesShader.setVec3("dirLight.specular", UnitCube::dirLight[LIGHT_SPECULAR]);
 
-	// material properties
-	/*
-	gridLinesShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
-	gridLinesShader.setFloat("material.shininess", 64.0f); 
-	*/
-
-	gridLinesShader.setVec3("pointLight.position", UnitCube::pointLight[POINT_LIGHT_POSITION]);
-	gridLinesShader.setVec3("pointLight.ambient", UnitCube::pointLight[POINT_LIGHT_AMBIENT]);
-	gridLinesShader.setVec3("pointLight.diffuse", UnitCube::pointLight[POINT_LIGHT_DIFFUSE]);
-	gridLinesShader.setVec3("pointLight.specular", UnitCube::pointLight[POINT_LIGHT_SPECULAR]);
-	gridLinesShader.setFloat("pointLight.constant", UnitCube::pointLight[POINT_LIGHT_SPECULAR].x);
-	gridLinesShader.setFloat("pointLight.linear", UnitCube::pointLight[POINT_LIGHT_SPECULAR].y);
-	gridLinesShader.setFloat("pointLight.quadratic", UnitCube::pointLight[POINT_LIGHT_SPECULAR].z);
-
 	gridLinesShader.setFloat("material.shininess", 32.0f);
 }
 
@@ -40,6 +26,7 @@ GridLines::GridLines() {
 void GridLines::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
 	
 	gridLinesShader.use();
+	pointLightProperties();
 	gridLinesShader.setMat4("projection", projection);
 	gridLinesShader.setMat4("view", view);
 
@@ -71,6 +58,8 @@ void GridLines::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::ma
 void GridLines::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
 
 	gridLinesShader.use();
+	pointLightProperties();
+
 	gridLinesShader.setMat4("projection", projection);
 	gridLinesShader.setMat4("view", view);
 
@@ -90,4 +79,14 @@ void GridLines::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::ma
 
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	
+}
+
+void GridLines::pointLightProperties() {
+	gridLinesShader.setVec3("pointLight.position", UnitCube::pointLight[POINT_LIGHT_POSITION]);
+	gridLinesShader.setVec3("pointLight.ambient", UnitCube::pointLight[POINT_LIGHT_AMBIENT]);
+	gridLinesShader.setVec3("pointLight.diffuse", UnitCube::pointLight[POINT_LIGHT_DIFFUSE]);
+	gridLinesShader.setVec3("pointLight.specular", UnitCube::pointLight[POINT_LIGHT_SPECULAR]);
+	gridLinesShader.setFloat("pointLight.constant", UnitCube::pointLight[POINT_LIGHT_SPECULAR].x);
+	gridLinesShader.setFloat("pointLight.linear", UnitCube::pointLight[POINT_LIGHT_SPECULAR].y);
+	gridLinesShader.setFloat("pointLight.quadratic", UnitCube::pointLight[POINT_LIGHT_SPECULAR].z);
 }

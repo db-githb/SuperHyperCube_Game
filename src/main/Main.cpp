@@ -320,7 +320,7 @@ int main()
 	UnitCube::pointLight[1] = glm::vec3(1.0f, 1.0f, 1.0f); // ambient
 	UnitCube::pointLight[2] = glm::vec3(1.0f, 1.0f, 1.0f); // diffuse
 	UnitCube::pointLight[3] = glm::vec3(1.0f, 1.0f, 1.0f); // specular
-	UnitCube::pointLight[4] = glm::vec3(1.0f, 0.09f, 0.032f); // constant, linear, quadratic
+	UnitCube::pointLight[4] = glm::vec3(1.0f, 0.14f, 0.032f); // constant, linear, quadratic
 
 	// ----------------------------------
 	// INSTANTIATE AND INITIALIZE MODELS HERE
