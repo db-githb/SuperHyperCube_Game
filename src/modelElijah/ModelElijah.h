@@ -1,10 +1,6 @@
 #pragma once
 #include "../modelBase/ModelBase.h"
 
-#define WALL 1
-#define BLUE 2
-#define RED 3
-#define NONE 0
 
 #define ROWS 7
 #define COLUMNS 9

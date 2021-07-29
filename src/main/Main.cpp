@@ -320,13 +320,13 @@ int main()
 	//modelDamian->initialize();
 
 	modelElijah = new ModelElijah();
-	//modelElijah->initialize();
+	modelElijah->initialize();
 
 	modelThomas = new ModelThomas();
 	//modelThomas->initialize();
 
 	modelMichael = new ModelMichael();
-	modelMichael->initialize();
+	//modelMichael->initialize();
 
 	// ==================================
 
@@ -364,9 +364,9 @@ int main()
 
 		//unitCube->draw(camera, projection, view, model);
 		//modelDamian->draw(camera, projection, view, model);
-		//modelElijah->draw(camera, projection, view, model);
+		modelElijah->draw(camera, projection, view, model);
 		//modelThomas->draw(camera, projection, view, model);
-		modelMichael->draw(camera, projection, view, model);
+		//modelMichael->draw(camera, projection, view, model);
 
 		// ==================================
 

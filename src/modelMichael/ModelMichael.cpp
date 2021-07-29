@@ -8,6 +8,9 @@ void ModelMichael::initialize() {
 	columns = 7;
 	planes = 7;
 
+	allocateWallData();
+	allocateObjectData();
+
 	positionModel(5.0f, 0.5f, 5.0f);
 	generateOriginalObject();
 
@@ -21,8 +24,7 @@ void ModelMichael::positionModel(float x, float y, float z)
 void ModelMichael::generateOriginalObject()
 {
 	// initialize entire model to a wall or none (no unit cube)
-	allocateWallData();
-	allocateObjectData();
+
 	// reset unitCubes in the model to their respective colors
 	resetUnitCubes();
 }
