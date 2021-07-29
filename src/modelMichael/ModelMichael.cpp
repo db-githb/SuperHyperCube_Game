@@ -21,7 +21,6 @@ void ModelMichael::positionModel(float x, float y, float z)
 void ModelMichael::generateOriginalObject()
 {
 	// initialize entire model to a wall or none (no unit cube)
-	//resetModel();
 	allocateWallData();
 	allocateObjectData();
 	// reset unitCubes in the model to their respective colors

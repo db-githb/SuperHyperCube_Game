@@ -9,7 +9,6 @@
 #define WALL 0
 #define BLUE 1
 #define RED 2
-#define NONE 3
 
 class ModelMichael : public ModelBase {
 

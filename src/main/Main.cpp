@@ -316,8 +316,8 @@ int main()
 	unitCube = new ModelBase();
 	unitCube->initialize();
 
-	modelDamian = new ModelDamian();
-	modelDamian->initialize();
+	//modelDamian = new ModelDamian();
+	//modelDamian->initialize();
 
 	modelElijah = new ModelElijah();
 	//modelElijah->initialize();

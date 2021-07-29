@@ -6,9 +6,9 @@
 #define RED 3
 #define NONE 0
 
-#define sizeX 7
-#define sizeY 9
-#define sizeZ 7
+#define ROWS 7
+#define COLUMNS 9
+#define PLANES 7
 
 class ModelElijah : public ModelBase {
 
@@ -30,6 +30,6 @@ public:
 	void generateOriginalObject();
 
 private:
-	int modelData[sizeX][sizeY][sizeZ];
+	int modelData[ROWS][COLUMNS][PLANES];
 	glm::mat4 positionMat;
 };
