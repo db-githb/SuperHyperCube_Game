@@ -1,6 +1,6 @@
-#include "ModelKayla.h"
+#include "ModelMichael.h"
 
-void ModelKayla::initialize() {
+void ModelMichael::initialize() {
 
 	allocateShaderData();
 
@@ -13,12 +13,12 @@ void ModelKayla::initialize() {
 
 }
 
-void ModelKayla::positionModel(float x, float y, float z)
+void ModelMichael::positionModel(float x, float y, float z)
 {
 	modelBasePosition = glm::vec3(x, y, z);
 }
 
-void ModelKayla::generateOriginalObject()
+void ModelMichael::generateOriginalObject()
 {
 	// initialize entire model to a wall or none (no unit cube)
 	//resetModel();
@@ -28,7 +28,7 @@ void ModelKayla::generateOriginalObject()
 	resetUnitCubes();
 }
 
-void ModelKayla::generateRandomModel() 
+void ModelMichael::generateRandomModel() 
 {
 	resetModel();
 	//Generate a random number of cubes
@@ -39,7 +39,7 @@ void ModelKayla::generateRandomModel()
 	}
 }
 
-void ModelKayla::resetModel()
+void ModelMichael::resetModel()
 {
 	for (int r = 0; r < ROWS; r++) {
 		for (int c = 0; c < COLUMNS; c++) {
@@ -54,7 +54,7 @@ void ModelKayla::resetModel()
 	}
 }
 
-void ModelKayla::generateCube(int rowStart, int rowEnd, int columnStart, int columnEnd, int planeStart, int planeEnd, int color)
+void ModelMichael::generateCube(int rowStart, int rowEnd, int columnStart, int columnEnd, int planeStart, int planeEnd, int color)
 {
 	//Validating cube values
 	if (!((rowStart > rowEnd) || (columnStart > columnEnd) || (planeStart > planeEnd))) {
@@ -70,7 +70,7 @@ void ModelKayla::generateCube(int rowStart, int rowEnd, int columnStart, int col
 	}
 }
 
-void ModelKayla::resetUnitCubes()
+void ModelMichael::resetUnitCubes()
 {
 	generateCube(5, 7, 1, 2, 3, 4, RED);
 	generateCube(2, 2, 1, 5, 2, 2, BLUE);

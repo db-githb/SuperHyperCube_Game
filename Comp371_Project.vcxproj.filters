@@ -43,7 +43,7 @@
     <Filter Include="src\modelThomas">
       <UniqueIdentifier>{c03432c7-a564-4eae-a89b-a825ccc5f20f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\modelKayla">
+    <Filter Include="src\modelMichael">
       <UniqueIdentifier>{07f1961d-9a82-44bf-ad6f-cf2ff10939aa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -101,14 +101,14 @@
     <ClCompile Include="src\modelThomas\ModelThomas.cpp">
       <Filter>src\modelThomas</Filter>
     </ClCompile>
-    <ClCompile Include="src\modelKayla\ModelKayla.cpp">
-      <Filter>src\modelKayla</Filter>
-    </ClCompile>
     <ClCompile Include="src\modelDamian\ModelDamian.cpp">
       <Filter>src\modelDamian</Filter>
     </ClCompile>
     <ClCompile Include="src\modelElijah\ModelElijah.cpp">
       <Filter>src\modelElijah</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modelMichael\ModelMichael.cpp">
+      <Filter>src\modelMichael</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,9 +136,6 @@
     <ClInclude Include="src\modelThomas\ModelThomas.h">
       <Filter>src\modelThomas</Filter>
     </ClInclude>
-    <ClInclude Include="src\modelKayla\ModelKayla.h">
-      <Filter>src\modelKayla</Filter>
-    </ClInclude>
     <ClInclude Include="src\modelDamian\ModelDamian.h">
       <Filter>src\modelDamian</Filter>
     </ClInclude>
@@ -147,6 +144,9 @@
     </ClInclude>
     <ClInclude Include="src\modelElijah\ModelElijah.h">
       <Filter>src\modelElijah</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modelMichael\ModelMichael.h">
+      <Filter>src\modelMichael</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

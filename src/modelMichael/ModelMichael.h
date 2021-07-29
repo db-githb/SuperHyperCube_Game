@@ -11,7 +11,7 @@
 #define RED 2
 #define NONE 3
 
-class ModelKayla : public ModelBase {
+class ModelMichael : public ModelBase {
 
 public:
 	void initialize();

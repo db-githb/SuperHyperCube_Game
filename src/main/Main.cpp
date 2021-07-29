@@ -6,7 +6,7 @@
 #include "../modelDamian/modelDamian.h"
 #include "../modelElijah/modelElijah.h"
 #include "../modelThomas/modelThomas.h"
-#include "../modelKayla/modelKayla.h"
+#include "../modelMichael/modelMichael.h"
 
 // window size
 #define WIDTH 1024
@@ -37,7 +37,7 @@ ModelBase* unitCube;
 ModelDamian* modelDamian;
 ModelElijah* modelElijah;
 ModelThomas* modelThomas;
-ModelKayla* modelKayla;
+ModelMichael* modelMichael;
 // ===================
 
 void processInput(GLFWwindow* window)
@@ -118,7 +118,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			activeModel = modelThomas;
 			break;
 		case GLFW_KEY_4:
-			activeModel = modelKayla;
+			activeModel = modelMichael;
 			break;
 
 		// select render mode
@@ -325,8 +325,8 @@ int main()
 	modelThomas = new ModelThomas();
 	//modelThomas->initialize();
 
-	modelKayla = new ModelKayla();
-	modelKayla->initialize();
+	modelMichael = new ModelMichael();
+	modelMichael->initialize();
 
 	// ==================================
 
@@ -366,7 +366,7 @@ int main()
 		//modelDamian->draw(camera, projection, view, model);
 		//modelElijah->draw(camera, projection, view, model);
 		//modelThomas->draw(camera, projection, view, model);
-		modelKayla->draw(camera, projection, view, model);
+		modelMichael->draw(camera, projection, view, model);
 
 		// ==================================
 
