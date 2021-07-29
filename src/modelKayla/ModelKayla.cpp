@@ -2,8 +2,15 @@
 
 void ModelKayla::initialize() {
 
+	allocateShaderData();
+
+	rows = 9;
+	columns = 7;
+	planes = 7;
+
 	positionModel(5.0f, 0.5f, 5.0f);
 	generateOriginalObject();
+
 }
 
 void ModelKayla::positionModel(float x, float y, float z)
@@ -14,8 +21,9 @@ void ModelKayla::positionModel(float x, float y, float z)
 void ModelKayla::generateOriginalObject()
 {
 	// initialize entire model to a wall or none (no unit cube)
-	resetModel();
-
+	//resetModel();
+	allocateWallData();
+	allocateObjectData();
 	// reset unitCubes in the model to their respective colors
 	resetUnitCubes();
 }

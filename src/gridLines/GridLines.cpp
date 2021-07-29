@@ -4,8 +4,8 @@ GridLines::GridLines() {
 	UnitCube unitCube= UnitCube();
 	gridLinesShader =  Shader("res/shaders/cubeShader.vert", "res/shaders/cubeShader.frag");
 
-	diffuseMap = gridLinesShader.loadTexture("res/images/tile.jpg");
-	//diffuseMap = gridLinesShader.loadTexture("res/images/tile3.png");
+	//diffuseMap = gridLinesShader.loadTexture("res/images/tile.jpg");
+	diffuseMap = gridLinesShader.loadTexture("res/images/tile3.png");
 	// shader configuration
 	gridLinesShader.use();
 	gridLinesShader.setInt("material.diffuse", 0);
@@ -20,7 +20,7 @@ GridLines::GridLines() {
 	gridLinesShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
 	gridLinesShader.setFloat("material.shininess", 64.0f);
 }
-
+/*
 void GridLines::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
 	
 	gridLinesShader.use();
@@ -46,8 +46,9 @@ void GridLines::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::ma
 		}
 	}	
 }
+*/
 
-/* USE WITH TILE3.PNG
+//USE WITH TILE3.PNG
 void GridLines::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
 
 	gridLinesShader.use();
@@ -68,4 +69,3 @@ void GridLines::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::ma
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 
 }
-*/
