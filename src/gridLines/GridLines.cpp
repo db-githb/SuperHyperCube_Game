@@ -24,13 +24,13 @@ GridLines::GridLines() {
 	gridLinesShader.setFloat("material.shininess", 64.0f); 
 	*/
 
-	gridLinesShader.setVec3("pointLight.position", 0.0f, 8.5f, -5.5f);
-	gridLinesShader.setVec3("pointLight.ambient", 1.0f, 1.0f, 1.0f);
-	gridLinesShader.setVec3("pointLight.diffuse", 1.0f, 1.0f, 1.0f);
-	gridLinesShader.setVec3("pointLight.specular", 1.0f, 1.0f, 1.0f);
-	gridLinesShader.setFloat("pointLight.constant", 1.0f);
-	gridLinesShader.setFloat("pointLight.linear", 0.09f);
-	gridLinesShader.setFloat("pointLight.quadratic", 0.032f);
+	gridLinesShader.setVec3("pointLight.position", UnitCube::pointLight[POINT_LIGHT_POSITION]);
+	gridLinesShader.setVec3("pointLight.ambient", UnitCube::pointLight[POINT_LIGHT_AMBIENT]);
+	gridLinesShader.setVec3("pointLight.diffuse", UnitCube::pointLight[POINT_LIGHT_DIFFUSE]);
+	gridLinesShader.setVec3("pointLight.specular", UnitCube::pointLight[POINT_LIGHT_SPECULAR]);
+	gridLinesShader.setFloat("pointLight.constant", UnitCube::pointLight[POINT_LIGHT_SPECULAR].x);
+	gridLinesShader.setFloat("pointLight.linear", UnitCube::pointLight[POINT_LIGHT_SPECULAR].y);
+	gridLinesShader.setFloat("pointLight.quadratic", UnitCube::pointLight[POINT_LIGHT_SPECULAR].z);
 
 	gridLinesShader.setFloat("material.shininess", 32.0f);
 }

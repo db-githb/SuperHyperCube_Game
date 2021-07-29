@@ -118,19 +118,15 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		case GLFW_KEY_1:
 			activeModel = modelDamian;
-			lightCube->position = modelDamian->modelBasePosition;
 			break;
 		case GLFW_KEY_2:
 			activeModel = modelElijah;
-			lightCube->position = modelElijah->modelBasePosition;
 			break;
 		case GLFW_KEY_3:
 			activeModel = modelThomas;
-			lightCube->position = modelThomas->modelBasePosition;
 			break;
 		case GLFW_KEY_4:
 			activeModel = modelMichael;
-			lightCube->position = modelMichael->modelBasePosition;
 			break;
 
 		// select render mode
@@ -332,7 +328,7 @@ int main()
 	UnitAxes unitAxes;
 	GridLines gridLines;
 
-	//lightCube = new LightCube();
+	lightCube = new LightCube();
 
 	unitCube = new ModelBase();
 	unitCube->initialize();
@@ -376,14 +372,16 @@ int main()
 		glm::mat4 view = camera.GetViewMatrix();
 		glm::mat4 model = glm::mat4(1.0f);
 
+		glm::vec3 activeLightPosition = activeModel->modelBasePosition + glm::vec3(0.0f, 30.0f, 0.0f);
+		UnitCube::pointLight[POINT_LIGHT_POSITION] = activeLightPosition;
+
 		unitAxes.draw(camera, projection, view, model);
 		gridLines.draw(camera, projection, view, model);
 
 		// ----------------------------------
 		// DRAW MODELS HERE
 		// ----------------------------------
-
-		//lightCube->draw(projection, view, model, *activeModel);
+		lightCube->draw(projection, view, model, activeLightPosition);
 		modelDamian->draw(camera, projection, view, model);
 		modelElijah->draw(camera, projection, view, model);
 		modelThomas->draw(camera, projection, view, model);

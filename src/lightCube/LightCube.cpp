@@ -10,7 +10,7 @@ LightCube::LightCube() {
 	lightCubeShader.setVec3("color", glm::vec3(1.0f, 1.0f, 1.0f));
 }
 
-void LightCube::draw(glm::mat4 projection, glm::mat4 view, glm::mat4 model, ModelBase activeModel) {
+void LightCube::draw(glm::mat4 projection, glm::mat4 view, glm::mat4 model, glm::vec3 activePosition) {
 
 	lightCubeShader.use();
 	
@@ -18,7 +18,7 @@ void LightCube::draw(glm::mat4 projection, glm::mat4 view, glm::mat4 model, Mode
 	lightCubeShader.setMat4("view", view);
 
 	// translate each axis line up .05 along the y-axis so they are visible against the grid lines
-	model = glm::translate(model, activeModel.modelBasePosition + glm::vec3(0.0f, 30.0f, 0.0f));
+	model = glm::translate(model, activePosition);
 
 	lightCubeShader.setMat4("model", model);
 	glBindVertexArray(unitCube.getVAO());
