@@ -175,13 +175,13 @@ void ModelBase::shaderSetUp(Camera inCam, glm::mat4 projection, glm::mat4 view, 
 	component.shader.setVec3("dirLight.diffuse", UnitCube::dirLight[LIGHT_DIFFUSE]);
 	component.shader.setVec3("dirLight.specular", UnitCube::dirLight[LIGHT_SPECULAR]);
 	
-	component.shader.setVec3("pointLight.position", 0.0f, 8.5f, -5.5f);
-	component.shader.setVec3("pointLight.ambient", 1.0f, 1.0f, 1.0f);
-	component.shader.setVec3("pointLight.diffuse", 1.0f, 1.0f, 1.0f);
-	component.shader.setVec3("pointLight.specular", 1.0f, 1.0f, 1.0f);
-	component.shader.setFloat("pointLight.constant", 1.0f);
-	component.shader.setFloat("pointLight.linear", 0.09f);
-	component.shader.setFloat("pointLight.quadratic", 0.032f);
+	component.shader.setVec3("pointLight.position", UnitCube::pointLight[POINT_LIGHT_POSITION]);
+	component.shader.setVec3("pointLight.ambient", UnitCube::pointLight[POINT_LIGHT_AMBIENT]);
+	component.shader.setVec3("pointLight.diffuse", UnitCube::pointLight[POINT_LIGHT_DIFFUSE]);
+	component.shader.setVec3("pointLight.specular", UnitCube::pointLight[POINT_LIGHT_SPECULAR]);
+	component.shader.setFloat("pointLight.constant", UnitCube::pointLight[POINT_LIGHT_SPECULAR].x);
+	component.shader.setFloat("pointLight.linear", UnitCube::pointLight[POINT_LIGHT_SPECULAR].y);
+	component.shader.setFloat("pointLight.quadratic", UnitCube::pointLight[POINT_LIGHT_SPECULAR].z);
 
 	component.shader.setFloat("material.shininess", 32.0f);
 

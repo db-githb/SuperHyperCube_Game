@@ -16,6 +16,13 @@
 #define LIGHT_DIFFUSE 2
 #define LIGHT_SPECULAR 3
 
+#define POINT_LIGHT_POSITION 0
+#define POINT_LIGHT_AMBIENT 1
+#define POINT_LIGHT_DIFFUSE 2
+#define POINT_LIGHT_SPECULAR 3
+#define POINT_LIGHT_ATTENUATION 3
+
+
 class UnitCube {
 public:
 	UnitCube();
@@ -25,6 +32,7 @@ public:
 
 	// directional lighting values
 	static glm::vec3* dirLight;
+	static glm::vec3* pointLight;
 
 private:
 	GLuint unitCubeVBO, unitCubeVAO;

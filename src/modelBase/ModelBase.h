@@ -21,8 +21,6 @@
 #define BLACK 9
 #define NUM_COLORS 10
 
-#define POINT_LIGHT_POSITION 0.0f, 30.0f, 0.0f
-
 #define SCALE_UP 0
 #define SCALE_DOWN 1
 
@@ -78,6 +76,8 @@ public:
 	static glm::vec3* colorPalette;
 	static void setColorPalette();
 
+	glm::vec3 modelBasePosition;
+
 protected:
 
 	void allocateObjectData();
@@ -87,8 +87,6 @@ protected:
 	UnitCube unitCube;
 	Component wall;
 	Component object;
-
-	glm::vec3 modelBasePosition;
 
 	int rows;
 	int columns;

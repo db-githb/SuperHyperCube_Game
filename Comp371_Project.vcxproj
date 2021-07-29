@@ -162,6 +162,7 @@
   <ItemGroup>
     <ClCompile Include="src\camera\Camera.cpp" />
     <ClCompile Include="src\gridLines\GridLines.cpp" />
+    <ClCompile Include="src\lightCube\LightCube.cpp" />
     <ClCompile Include="src\main\Main.cpp" />
     <ClCompile Include="src\modelBase\ModelBase.cpp" />
     <ClCompile Include="src\modelDamian\ModelDamian.cpp" />
@@ -176,6 +177,7 @@
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h" />
     <ClInclude Include="src\gridLines\GridLines.h" />
+    <ClInclude Include="src\lightCube\LightCube.h" />
     <ClInclude Include="src\modelBase\ModelBase.h" />
     <ClInclude Include="src\modelDamian\ModelDamian.h" />
     <ClInclude Include="src\modelElijah\ModelElijah.h" />

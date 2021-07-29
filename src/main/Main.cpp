@@ -2,11 +2,16 @@
 #include "../unitLine/UnitLine.h"
 #include "../unitAxes/UnitAxes.h"
 #include "../gridLines/GridLines.h"
-#include "../modelBase/modelBase.h"
+//#include "../modelBase/modelBase.h"
 #include "../modelDamian/modelDamian.h"
 #include "../modelElijah/modelElijah.h"
 #include "../modelThomas/modelThomas.h"
 #include "../modelMichael/modelMichael.h"
+#include "../lightCube/LightCube.h"
+
+// -------------------
+// BUILDS WITHOUT INCLUDING MODEL BASE????
+// -------------------
 
 // window size
 #define WIDTH 1024
@@ -28,6 +33,7 @@ float lastFrame = 0.0f;
 // -------------------
 glm::vec3* ModelBase::colorPalette = new glm::vec3[NUM_COLORS];
 glm::vec3* UnitCube::dirLight = new glm::vec3[4];
+glm::vec3* UnitCube::pointLight = new glm::vec3[5];
 
 // -------------------
 // DECLARE MODELS HERE
@@ -38,6 +44,8 @@ ModelDamian* modelDamian;
 ModelElijah* modelElijah;
 ModelThomas* modelThomas;
 ModelMichael* modelMichael;
+
+LightCube* lightCube;
 // ===================
 
 void processInput(GLFWwindow* window)
@@ -110,15 +118,19 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		case GLFW_KEY_1:
 			activeModel = modelDamian;
+			lightCube->position = modelDamian->modelBasePosition;
 			break;
 		case GLFW_KEY_2:
 			activeModel = modelElijah;
+			lightCube->position = modelElijah->modelBasePosition;
 			break;
 		case GLFW_KEY_3:
 			activeModel = modelThomas;
+			lightCube->position = modelThomas->modelBasePosition;
 			break;
 		case GLFW_KEY_4:
 			activeModel = modelMichael;
+			lightCube->position = modelMichael->modelBasePosition;
 			break;
 
 		// select render mode
@@ -307,11 +319,20 @@ int main()
 	UnitCube::dirLight[2] = glm::vec3(0.4f, 0.4f, 0.4f); // diffuse
 	UnitCube::dirLight[3] = glm::vec3(0.5f, 0.5f, 0.5f); // specular
 
+	// point light values
+	UnitCube::pointLight[0] = glm::vec3(0.0f, 30.5f, 0.0); // position 
+	UnitCube::pointLight[1] = glm::vec3(1.0f, 1.0f, 1.0f); // ambient
+	UnitCube::pointLight[2] = glm::vec3(1.0f, 1.0f, 1.0f); // diffuse
+	UnitCube::pointLight[3] = glm::vec3(1.0f, 1.0f, 1.0f); // specular
+	UnitCube::pointLight[4] = glm::vec3(1.0f, 0.09f, 0.032f); // constant, linear, quadratic
+
 	// ----------------------------------
 	// INSTANTIATE AND INITIALIZE MODELS HERE
 	// ----------------------------------
 	UnitAxes unitAxes;
 	GridLines gridLines;
+
+	//lightCube = new LightCube();
 
 	unitCube = new ModelBase();
 	unitCube->initialize();
@@ -320,13 +341,13 @@ int main()
 	modelDamian->initialize();
 
 	modelElijah = new ModelElijah();
-	//modelElijah->initialize();
+	modelElijah->initialize();
 
 	modelThomas = new ModelThomas();
-	//modelThomas->initialize();
+	modelThomas->initialize();
 
 	modelMichael = new ModelMichael();
-	//modelMichael->initialize();
+	modelMichael->initialize();
 
 	// ==================================
 
@@ -362,11 +383,11 @@ int main()
 		// DRAW MODELS HERE
 		// ----------------------------------
 
-		//unitCube->draw(camera, projection, view, model);
+		//lightCube->draw(projection, view, model, *activeModel);
 		modelDamian->draw(camera, projection, view, model);
-		//modelElijah->draw(camera, projection, view, model);
-		//modelThomas->draw(camera, projection, view, model);
-		//modelMichael->draw(camera, projection, view, model);
+		modelElijah->draw(camera, projection, view, model);
+		modelThomas->draw(camera, projection, view, model);
+		modelMichael->draw(camera, projection, view, model);
 
 		// ==================================
 

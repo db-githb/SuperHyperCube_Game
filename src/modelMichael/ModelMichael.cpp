@@ -11,7 +11,7 @@ void ModelMichael::initialize() {
 	allocateWallData();
 	allocateObjectData();
 
-	positionModel(5.0f, 0.5f, 5.0f);
+	positionModel(15.0f, 0.5f, 15.0f);
 	generateOriginalObject();
 
 }

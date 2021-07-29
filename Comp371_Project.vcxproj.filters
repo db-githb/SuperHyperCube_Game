@@ -46,6 +46,9 @@
     <Filter Include="src\modelMichael">
       <UniqueIdentifier>{07f1961d-9a82-44bf-ad6f-cf2ff10939aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\lightCube">
+      <UniqueIdentifier>{9dcef14b-9f6e-41a0-85b7-f630d9717666}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\axisShader.frag">
@@ -110,6 +113,9 @@
     <ClCompile Include="src\modelMichael\ModelMichael.cpp">
       <Filter>src\modelMichael</Filter>
     </ClCompile>
+    <ClCompile Include="src\lightCube\LightCube.cpp">
+      <Filter>src\lightCube</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">
@@ -147,6 +153,9 @@
     </ClInclude>
     <ClInclude Include="src\modelMichael\ModelMichael.h">
       <Filter>src\modelMichael</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lightCube\LightCube.h">
+      <Filter>src\lightCube</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
