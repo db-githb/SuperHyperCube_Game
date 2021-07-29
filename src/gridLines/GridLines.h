@@ -1,5 +1,5 @@
 #pragma once
-#include "../unitLine/UnitLine.h"
+#include "../unitCube/UnitCube.h"
 
 class GridLines {
 public:
@@ -7,6 +7,6 @@ public:
 	void draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model);
 
 private:
-	UnitLine unitLine;
+	UnitCube unitCube;
 	Shader gridLinesShader;
 };

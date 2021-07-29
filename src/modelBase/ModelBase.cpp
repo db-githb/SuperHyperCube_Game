@@ -9,7 +9,7 @@ ModelBase::ModelBase() {
 	columns = 1;
 	planes = 1;
 
-	scaleFactor = 0.5f;
+	scaleFactor = 1.0f;
 
 	xTranslation = 0.0f;
 	yTranslation = 0.0f;
@@ -177,7 +177,7 @@ void ModelBase::shaderSetUp(Camera inCam, glm::mat4 projection, glm::mat4 view, 
 	component.shader.setVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
 	component.shader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
 	
-	component.shader.setVec3("pointLight.position", 0.0f, 5.5f, -5.5f);
+	component.shader.setVec3("pointLight.position", 0.0f, 8.5f, -5.5f);
 	component.shader.setVec3("pointLight.ambient", 1.0f, 1.0f, 1.0f);
 	component.shader.setVec3("pointLight.diffuse", 1.0f, 1.0f, 1.0f);
 	component.shader.setVec3("pointLight.specular", 1.0f, 1.0f, 1.0f);
