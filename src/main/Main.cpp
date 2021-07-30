@@ -32,7 +32,6 @@ float lastFrame = 0.0f;
 // INSTANTIATE STATIC VARIABLES (assign memory) for static variable
 // -------------------
 glm::vec3* ModelBase::colorPalette = new glm::vec3[NUM_COLORS];
-glm::vec3* UnitCube::dirLight = new glm::vec3[4];
 glm::vec3* UnitCube::pointLight = new glm::vec3[5];
 
 // -------------------
@@ -296,9 +295,12 @@ int main()
 
 	glfwSetInputMode(mainWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-	// configure global opengl state (GL_DEPTH_TEST = ensure things behind solid objects are not drawn)
+	// configure global opengl state:
+	//  -GL_DEPTH_TEST = ensure things behind solid objects are not drawn
+	//  -GL_CULL_FACE = ensure that faces of objects not visible are not drawn
 	// -----------------------------
 	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_CULL_FACE);
 
 	// Create Viewport
 	glViewport(0, 0, WIDTH, HEIGHT);
@@ -308,12 +310,6 @@ int main()
 	// ----------------------------------
 
 	ModelBase::setColorPalette();
-
-	// directional lighting values
-	UnitCube::dirLight[0] = glm::vec3(0.0f, 30.0f, 0.5f); //direction
-	UnitCube::dirLight[1] = glm::vec3(0.05f, 0.05f, 0.05f); // ambient
-	UnitCube::dirLight[2] = glm::vec3(0.4f, 0.4f, 0.4f); // diffuse
-	UnitCube::dirLight[3] = glm::vec3(0.5f, 0.5f, 0.5f); // specular
 
 	// point light values
 	UnitCube::pointLight[0] = glm::vec3(0.0f, 30.5f, 0.0); // position 
@@ -349,7 +345,6 @@ int main()
 
 	// initialize active model
 	activeModel = modelDamian;
-
 
 	// display/render loop
 	while (!glfwWindowShouldClose(mainWindow))
@@ -394,5 +389,6 @@ int main()
 	}
 
 	delete modelDamian;
+	glfwTerminate();
 	exit(0);
 }

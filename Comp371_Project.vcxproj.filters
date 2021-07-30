@@ -75,6 +75,15 @@
     <None Include="res\shaders\baseShader.frag">
       <Filter>res\shaders</Filter>
     </None>
+    <None Include="res\shaders\shadowMapShader.frag">
+      <Filter>res\shaders</Filter>
+    </None>
+    <None Include="res\shaders\shadowMapShader.geom">
+      <Filter>res\shaders</Filter>
+    </None>
+    <None Include="res\shaders\shadowMapShader.vert">
+      <Filter>res\shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera\Camera.cpp">

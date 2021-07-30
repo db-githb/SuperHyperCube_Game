@@ -158,6 +158,9 @@
     <None Include="res\shaders\cubeShader.vert" />
     <None Include="res\shaders\gridLineShader.frag" />
     <None Include="res\shaders\gridLineShader.vert" />
+    <None Include="res\shaders\shadowMapShader.frag" />
+    <None Include="res\shaders\shadowMapShader.geom" />
+    <None Include="res\shaders\shadowMapShader.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera\Camera.cpp" />

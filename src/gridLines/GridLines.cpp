@@ -12,12 +12,6 @@ GridLines::GridLines() {
 	gridLinesShader.use();
 	gridLinesShader.setInt("material.diffuse", 0);
 
-	// light properties
-	gridLinesShader.setVec3("dirLight.direction", UnitCube::dirLight[LIGHT_DIRECTION]);
-	gridLinesShader.setVec3("dirLight.ambient", UnitCube::dirLight[LIGHT_AMBIENT]);
-	gridLinesShader.setVec3("dirLight.diffuse", UnitCube::dirLight[LIGHT_DIFFUSE]);
-	gridLinesShader.setVec3("dirLight.specular", UnitCube::dirLight[LIGHT_SPECULAR]);
-
 	gridLinesShader.setFloat("material.shininess", 32.0f);
 }
 

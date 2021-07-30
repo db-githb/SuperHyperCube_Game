@@ -23,9 +23,11 @@ public:
 	unsigned int ID;
 	Shader();
 	// constructor reads and builds the shader
-	Shader(const char* vertexPath, const char* fragmentPath);
+	Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
 	// loads texture image into gpu
 	unsigned int loadTexture(char const* path);
+	// check that the shader's compiled correctly
+	void checkCompileErrors(GLuint shader, std::string type);
 	// use/activate the shader
 	void use();
 	// utility uniform fucntions

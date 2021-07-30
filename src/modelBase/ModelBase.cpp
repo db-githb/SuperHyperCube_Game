@@ -181,12 +181,7 @@ void ModelBase::shaderSetUp(Camera inCam, glm::mat4 projection, glm::mat4 view, 
 	component.shader.use();
 	
 	component.shader.setVec3("viewPos", inCam.Position);
-	
-	component.shader.setVec3("dirLight.direction", UnitCube::dirLight[LIGHT_DIRECTION]);
-	component.shader.setVec3("dirLight.ambient", UnitCube::dirLight[LIGHT_AMBIENT]);
-	component.shader.setVec3("dirLight.diffuse", UnitCube::dirLight[LIGHT_DIFFUSE]);
-	component.shader.setVec3("dirLight.specular", UnitCube::dirLight[LIGHT_SPECULAR]);
-	
+
 	component.shader.setVec3("pointLight.position", UnitCube::pointLight[POINT_LIGHT_POSITION]);
 	component.shader.setVec3("pointLight.ambient", UnitCube::pointLight[POINT_LIGHT_AMBIENT]);
 	component.shader.setVec3("pointLight.diffuse", UnitCube::pointLight[POINT_LIGHT_DIFFUSE]);

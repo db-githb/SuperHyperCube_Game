@@ -31,7 +31,6 @@ public:
 	GLuint getVBO();
 
 	// directional lighting values
-	static glm::vec3* dirLight;
 	static glm::vec3* pointLight;
 
 private:
