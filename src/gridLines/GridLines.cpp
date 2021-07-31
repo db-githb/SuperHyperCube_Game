@@ -49,7 +49,7 @@ void GridLines::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::ma
 */
 
 //USE WITH TILE3.PNG
-void GridLines::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
+void GridLines::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model, const Shader &shadowMapShader) {
 
 	gridLinesShader.use();
 	pointLightProperties();
@@ -60,7 +60,14 @@ void GridLines::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::ma
 	gridLinesShader.setVec3("viewPos", inCam.Position);
 
 	model = glm::scale(model, glm::vec3(100.0, 0.01, 100.0));
-	gridLinesShader.setMat4("model", model);
+
+	if (&shadowMapShader == NULL) {
+		gridLinesShader.setMat4("model", model);
+	}
+	else {
+		shadowMapShader.setMat4("model", model);
+	}
+	
 
 	// bind texture maps
 	glActiveTexture(GL_TEXTURE0);

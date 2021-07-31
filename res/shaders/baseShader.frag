@@ -28,7 +28,12 @@ uniform Material material;
 uniform PointLight pointLight;
 uniform vec3 viewPos;
 
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
+uniform samplerCube depthMap;
+uniform float far_plane;
+uniform bool shadows;
+
+vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, float shadow);
+float ShadowCalculation(vec3 fragPos);
 
 void main()
 {	
@@ -39,13 +44,35 @@ void main()
 	
 	vec3 result = vec3(0.0, 0.0, 0.0);
 	
+	// Shadows
+	float shadow = shadows ? ShadowCalculation(FragPos) : 0.0;        
+
 	// Point light 
-	result += CalcPointLight(pointLight, norm, FragPos, viewDir);
+	result += CalcPointLight(pointLight, norm, FragPos, viewDir, shadow);
 
 	FragColor = vec4(result, 1.0);
 };
 
-vec3 CalcPointLight (PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
+float ShadowCalculation(vec3 fragPos)
+{
+    // get vector between fragment position and light position
+    vec3 fragToLight = fragPos - pointLight.position;
+    // ise the fragment to light vector to sample from the depth map    
+    float closestDepth = texture(depthMap, fragToLight).r;
+    // it is currently in linear range between [0,1], let's re-transform it back to original depth value
+    closestDepth *= far_plane;
+    // now get current linear depth as the length between the fragment and light position
+    float currentDepth = length(fragToLight);
+    // test for shadows
+    float bias = 0.05; // we use a much larger bias since depth is now in [near_plane, far_plane] range
+    float shadow = currentDepth -  bias > closestDepth ? 1.0 : 0.0;        
+    // display closestDepth as debug (to visualize depth cubemap)
+    // FragColor = vec4(vec3(closestDepth / far_plane), 1.0);    
+        
+    return shadow;
+}
+
+vec3 CalcPointLight (PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, float shadow)
 {
 	vec3 lightDir = normalize(light.position - fragPos);
 	
@@ -70,5 +97,5 @@ vec3 CalcPointLight (PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 	// no attentuation for specular to ensure shininess from a far distance
 	//specular *= attenuation;
 
-	return (ambient+ diffuse + specular);
+	return (ambient + (1.0 - shadow) * (diffuse + specular));
 }

@@ -51,7 +51,7 @@ public:
 
 	struct Component {
 		int*** modelData;
-		
+
 		Shader shader;
 
 		unsigned int diffuseMap;
@@ -61,7 +61,7 @@ public:
 	ModelBase();
 	~ModelBase();
 	virtual void initialize();
-	virtual void draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model);
+	virtual void draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model, const Shader &shadowMapShader);
 	virtual void scale(int scaleDirection);
 	virtual void translate(int translationDirection);
 	virtual void rotate(int rotation);
@@ -105,6 +105,6 @@ protected:
 	float yRotation;
 	float zRotation;
 
-	void drawWall(glm::mat4 model);
-	void drawObject(glm::mat4 model);
+	void drawWall(glm::mat4 model, const Shader& shadowMapShader);
+	void drawObject(glm::mat4 model, const Shader& shadowMapShader);
 };

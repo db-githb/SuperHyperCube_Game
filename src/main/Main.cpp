@@ -37,6 +37,9 @@ glm::vec3* UnitCube::pointLight = new glm::vec3[5];
 // -------------------
 // DECLARE MODELS HERE
 // -------------------
+UnitAxes* unitAxes;
+GridLines* gridLines;
+
 ModelBase* activeModel;
 ModelBase* unitCube;
 ModelDamian* modelDamian;
@@ -248,6 +251,30 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	}
 }
 
+void renderScene(const Shader *shader) {
+
+	glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
+	glm::mat4 view = camera.GetViewMatrix();
+	glm::mat4 model = glm::mat4(1.0f);
+
+	glm::vec3 activeLightPosition = activeModel->modelBasePosition + glm::vec3(0.0f, 30.0f, 0.0f);
+	UnitCube::pointLight[POINT_LIGHT_POSITION] = activeLightPosition;
+
+	unitAxes->draw(camera, projection, view, model);
+	gridLines->draw(camera, projection, view, model, *shader);
+
+	// ----------------------------------
+	// DRAW MODELS HERE
+	// ----------------------------------
+	lightCube->draw(projection, view, model, activeLightPosition);
+	modelDamian->draw(camera, projection, view, model, *shader);
+	modelElijah->draw(camera, projection, view, model, *shader);
+	modelThomas->draw(camera, projection, view, model, *shader);
+	modelMichael->draw(camera, projection, view, model, *shader);
+
+	// ==================================
+}
+
 int main()
 {
 	// Initialise GLFW
@@ -321,8 +348,9 @@ int main()
 	// ----------------------------------
 	// INSTANTIATE AND INITIALIZE MODELS HERE
 	// ----------------------------------
-	UnitAxes unitAxes;
-	GridLines gridLines;
+
+	unitAxes = new UnitAxes();
+	gridLines = new GridLines();
 
 	lightCube = new LightCube();
 
@@ -346,6 +374,42 @@ int main()
 	// initialize active model
 	activeModel = modelDamian;
 
+	Shader shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
+	Shader shadowMapShader("res/shaders/shadowMapShader.vert", "res/shaders/shadowMapShader.frag", "res/shaders/shadowMapShader.geom");
+
+	// configure depth map FBO
+  // -----------------------
+	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+	unsigned int depthMapFBO;
+	glGenFramebuffers(1, &depthMapFBO);
+	// create depth cubemap texture
+	unsigned int depthCubemap;
+	glGenTextures(1, &depthCubemap);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
+	for (unsigned int i = 0; i < 6; ++i)
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	// attach depth texture as FBO's depth buffer
+	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthCubemap, 0);
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+	// shader configuration
+	// --------------------
+	shader.use();
+	shader.setInt("depthMap", 0);
+
+	// lighting info
+	// -------------
+	glm::vec3 lightPos = UnitCube::pointLight[0];
+
 	// display/render loop
 	while (!glfwWindowShouldClose(mainWindow))
 	{
@@ -360,29 +424,38 @@ int main()
 		// input
 		processInput(mainWindow);
 
+		// 0. create depth cubemap transformation matrices
+	  // -----------------------------------------------
+		float near_plane = 0.1f;
+		float far_plane = 200.0f;
+		glm::mat4 shadowProj = glm::perspective(glm::radians(90.0f), (float)SHADOW_WIDTH / (float)SHADOW_HEIGHT, near_plane, far_plane);
+		std::vector<glm::mat4> shadowTransforms;
+		shadowTransforms.push_back(shadowProj* glm::lookAt(lightPos, lightPos + glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
+		shadowTransforms.push_back(shadowProj* glm::lookAt(lightPos, lightPos + glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
+		shadowTransforms.push_back(shadowProj* glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f)));
+		shadowTransforms.push_back(shadowProj* glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f)));
+		shadowTransforms.push_back(shadowProj* glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
+		shadowTransforms.push_back(shadowProj* glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
+
+		// 1. render scene to depth cubemap
+		// --------------------------------
+		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+		glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+		glClear(GL_DEPTH_BUFFER_BIT);
+		shadowMapShader.use();
+		for (unsigned int i = 0; i < 6; ++i)
+			shadowMapShader.setMat4("shadowMatrices[" + std::to_string(i) + "]", shadowTransforms[i]);
+		shadowMapShader.setFloat("far_plane", far_plane);
+		shadowMapShader.setVec3("lightPos", lightPos);
+		renderScene(&shadowMapShader);
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 		//Clear the Window
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
-		glm::mat4 view = camera.GetViewMatrix();
-		glm::mat4 model = glm::mat4(1.0f);
-
-		glm::vec3 activeLightPosition = activeModel->modelBasePosition + glm::vec3(0.0f, 30.0f, 0.0f);
-		UnitCube::pointLight[POINT_LIGHT_POSITION] = activeLightPosition;
-
-		unitAxes.draw(camera, projection, view, model);
-		gridLines.draw(camera, projection, view, model);
-
-		// ----------------------------------
-		// DRAW MODELS HERE
-		// ----------------------------------
-		lightCube->draw(projection, view, model, activeLightPosition);
-		modelDamian->draw(camera, projection, view, model);
-		modelElijah->draw(camera, projection, view, model);
-		modelThomas->draw(camera, projection, view, model);
-		modelMichael->draw(camera, projection, view, model);
-
-		// ==================================
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
+		renderScene(nullptr);
 
 		glfwSwapBuffers(mainWindow);
 		
