@@ -346,7 +346,7 @@ int main()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	// Create the window
-	GLFWwindow* mainWindow = glfwCreateWindow(WIDTH, HEIGHT, "Comp 371: Assignment 1 - Team 7", NULL, NULL);
+	GLFWwindow* mainWindow = glfwCreateWindow(windowWidth, windowHeight, "Comp 371: Assignment 2 - Team 7", NULL, NULL);
 	if (!mainWindow)
 	{
 		printf("GLFW window creation failed!");
@@ -381,7 +381,7 @@ int main()
 	//glEnable(GL_CULL_FACE);
 
 	// Create Viewport
-	glViewport(0, 0, WIDTH, HEIGHT);
+	glViewport(0, 0, windowWidth, windowWidth);
 
 	// ----------------------------------
 	// INITIALIZE STATIC VARIABLES
@@ -524,10 +524,10 @@ int main()
 
 		// 2. render scene as normal 
 		// -------------------------
-		glViewport(0, 0, WIDTH, HEIGHT);
+		glViewport(0, 0, windowWidth, windowHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		shader.use();
-		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)WIDTH / (float)HEIGHT, 0.1f, 200.0f);
+		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)windowWidth / (float)windowHeight, 0.1f, 200.0f);
 		glm::mat4 view = camera.GetViewMatrix();
 		shader.setMat4("projection", projection);
 		shader.setMat4("view", view);
