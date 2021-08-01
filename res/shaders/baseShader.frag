@@ -56,9 +56,8 @@ void main()
     spec = pow(max(dot(normal, halfwayDir), 0.0), 64.0);
     vec3 specular =  spec * lightColor * specBias;    
     // calculate shadow
-    float shadow = ShadowCalculation(FragPos);// shadows ? ShadowCalculation(FragPos) : 0.0;                      
+    float shadow = shadows ? ShadowCalculation(FragPos) : 0.0;                      
     vec3 lighting = (ambient + (1.0 - shadow) * (diffuse + specular)) * color;    
-	//vec3 lighting = (ambient + (diffuse + specular)) * color;    
     
 	FragColor = vec4(lighting, 1.0);
 };
@@ -75,7 +74,7 @@ float ShadowCalculation(vec3 fragPos)
     float currentDepth = length(fragToLight);
     // test for shadows
     float bias = 0.05; // we use a much larger bias since depth is now in [near_plane, far_plane] range
-    float shadow = currentDepth -  bias > closestDepth ? 1.0 : 0.0;        
+    float shadow = currentDepth -  bias > closestDepth ? 1.0 : 0.0;    
     // display closestDepth as debug (to visualize depth cubemap)
 	//FragColor = vec4(vec3(closestDepth / far_plane), 1.0);    
         

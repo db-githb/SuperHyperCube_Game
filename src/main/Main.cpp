@@ -28,6 +28,9 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+// shadows
+bool shadows = true;
+
 // -------------------
 // INSTANTIATE STATIC VARIABLES (assign memory) for static variable
 // -------------------
@@ -250,7 +253,20 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_O:
 			activeModel->generateOriginalObject();
 			break;
+
+		case GLFW_KEY_SPACE:
+			
+			if (shadows == true) {
+				shadows = false;
+			}
+			else {
+				shadows = true;
+			}
+
+			break;
+
 		}
+
 	}
 }
 
@@ -432,7 +448,7 @@ int main()
 		processInput(mainWindow);
 
 		//Clear the Window
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// 0. create depth cubemap transformation matrices
@@ -483,7 +499,7 @@ int main()
 		// set lighting uniforms
 		shader.setVec3("pointLight.position", lightPos);
 		shader.setVec3("viewPos", camera.Position);
-		//shader.setInt("shadows", 0); // enable/disable shadows by pressing 'SPACE'
+		shader.setInt("shadows",shadows); // enable/disable shadows by pressing 'SPACE'
 		shader.setFloat("far_plane", far_plane);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
