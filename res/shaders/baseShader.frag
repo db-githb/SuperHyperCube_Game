@@ -59,9 +59,19 @@ void main()
     vec3 specular =  spec * lightColor * specBias;    
     // calculate shadow
     float shadow = shadows ? ShadowCalculation(FragPos) : 0.0;                      
-    vec3 lighting = (ambient + (1.0 - shadow) * (diffuse + specular)) * color;    
+    vec3 lighting = (ambient + (1.0 - shadow) * (diffuse + specular)) * color;   
+	
+
+	vec2 uv = abs(TexCoords - 0.5) * 2.0;
+	uv = pow(uv, vec2(10)) - 0.3;
+	
+	float c = clamp(uv.x + uv.y, 0.0, 1.0) * 10.0;
+	if(c > 0)
+		FragColor = vec4(lighting * c * 4, 1.0);
+	else
+		FragColor = vec4(lighting, 1.0);
+
     
-	FragColor = vec4(lighting, 1.0);
 };
 
 float ShadowCalculation(vec3 fragPos)
