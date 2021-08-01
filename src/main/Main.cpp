@@ -364,7 +364,6 @@ int main()
 	// ==================================
 
 	// initialize active model
-	//activeModel = unitCube; // modelDamian;
 	//glm::vec3 lightPos = activeModel->modelBasePosition + glm::vec3(0.0f, 1.5f, -2.0f);
 
 	// configure depth map FBO
@@ -416,6 +415,8 @@ int main()
 	unitCube = new ModelBase(shader);
 	modelDamian = new ModelDamian(shader);
 
+
+	activeModel = modelDamian;
 	glm::vec3 lightPos = glm::vec3(-15.0f, 5.5f, -2.0f);
 
 	// display/render loop

@@ -108,6 +108,8 @@ void ModelBase::draw(glm::mat4 model, Shader* inShader) {
 
 	model = glm::translate(model, modelBasePosition);
 	model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
+	//model = glm::translate(model, (modelBasePosition + glm::vec3(xTranslation * scaleFactor, yTranslation * scaleFactor, zTranslation * scaleFactor)));
+
 
 	if (inShader == NULL) {
 		wall.shader.use();
@@ -182,7 +184,17 @@ void ModelBase::drawObject(glm::mat4 model) {
 	//glActiveTexture(GL_TEXTURE2);
 	//glBindTexture(GL_TEXTURE_2D, object.specularMap);
 
-	
+	// model = glm::translate(model, (modelBasePosition + glm::vec3(xTranslation * scaleFactor, yTranslation * scaleFactor, zTranslation * scaleFactor)));
+	model = glm::translate(model, (glm::vec3(xTranslation, yTranslation, zTranslation)));
+
+	//model = glm::translate(model, glm::vec3(0.0f, 2.0f, 0.0f));
+	model = glm::rotate(model, xRotation, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, yRotation, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, zRotation, glm::vec3(0.0f, 0.0f, 1.0f));
+	//model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
+
+	//model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
+
 
 	// compute world position of child cubes
 	for (int r = 0; r < rows; r++) {
@@ -320,6 +332,8 @@ void ModelBase::setRenderMode(int mode) {
 };
 
 bool ModelBase::inBound(int direction) {
+
+	return true;
 
 	switch (direction) {
 	case TRANS_RIGHT:
