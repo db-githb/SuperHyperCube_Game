@@ -2,8 +2,8 @@
 #include "../modelBase/ModelBase.h"
 
 
-#define ROWS 7
 #define COLUMNS 9
+#define ROWS 7
 #define PLANES 7
 
 class ModelElijah : public ModelBase {
@@ -25,6 +25,6 @@ public:
 	void generateOriginalObject();
 
 private:
-	int modelData[ROWS][COLUMNS][PLANES];
+	int modelData[9][7][7];
 	glm::mat4 positionMat;
 };
