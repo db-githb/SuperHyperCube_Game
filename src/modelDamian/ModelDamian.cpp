@@ -1,7 +1,9 @@
 #include "ModelDamian.h"
 
-void ModelDamian::initialize() {
-	
+ModelDamian::ModelDamian(Shader &inShader) : ModelBase(inShader){
+	//wall.diffuseMap = wall.shader.loadTexture("res/images/brick.png");
+	//object.diffuseMap = object.shader.loadTexture("res/images/metal.png");
+
 	//allocateShaderData();
 
 	modelBasePosition = glm::vec3(-15.0f, 0.5f, 15.0f);
@@ -14,6 +16,10 @@ void ModelDamian::initialize() {
 
 	allocateWallData();
 	allocateObjectData();
+}
+
+void ModelDamian::initialize() {
+	
 }
 
 void ModelDamian::generateRandomModel() {

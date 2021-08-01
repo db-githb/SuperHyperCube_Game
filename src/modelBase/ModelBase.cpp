@@ -7,6 +7,8 @@ ModelBase::ModelBase(Shader &inShader) {
 	unitCube = UnitCube();
 	wall.shader = inShader;
 	object.shader = inShader;
+	wall.diffuseMap = wall.shader.loadTexture("res/images/brick.png");
+	object.diffuseMap = object.shader.loadTexture("res/images/metal.png");
 
 	rows = 1;
 	columns = 1;
@@ -22,6 +24,13 @@ ModelBase::ModelBase(Shader &inShader) {
 	yRotation = 0.0f;
 	zRotation = 0.0f;
 
+
+	modelBasePosition = glm::vec3(0.0f, 0.5f, 0.0f);
+
+	allocateObjectData();
+	allocateWallData();
+	allocateShaderData();
+
 	renderMode = GL_TRIANGLES;
 }
 
@@ -34,7 +43,7 @@ void ModelBase::allocateObjectData() {
 		for (int c = 0; c < columns; c++) {
 			object.modelData[r][c] = new int[planes];
 			for (int p = 0; p < planes; p++) {
-				object.modelData[r][c][p] = GRAY;
+				object.modelData[r][c][p] = NONE;
 			}
 		}
 	}
@@ -71,14 +80,6 @@ void ModelBase::allocateWallData() {
 
 void ModelBase::initialize() {
 	
-	wall.diffuseMap = wall.shader.loadTexture("res/images/brick.png");
-	object.diffuseMap = object.shader.loadTexture("res/images/metal.png");
-
-	modelBasePosition = glm::vec3(0.0f, 0.5f, 0.0f);
-
-	allocateObjectData();
-	allocateWallData();
-	allocateShaderData();
 }
 
 void ModelBase::allocateShaderData() {
@@ -191,8 +192,8 @@ void ModelBase::drawObject(glm::mat4 model) {
 				if (object.modelData[r][c][p] == NONE) {
 					continue;
 				}
-
-				object.shader.setMat4("model", glm::translate(model, glm::vec3((float)c+3.0f, (float)r, (float)p) + glm::vec3((0.3f + (-columns * 0.5)), 0.0f, (-0.3f + (-planes * 0.5)))));
+	
+				object.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, (float)p) + glm::vec3((0.3f + (-columns * 0.5)), 0.0f, (-0.3f + (-planes * 0.5)))));
 				
 				// render the cube
 				glBindVertexArray(unitCube.getVAO());

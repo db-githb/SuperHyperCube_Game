@@ -351,11 +351,6 @@ int main()
 	
 	//gridLines = new GridLines(shader);
 	
-	//unitCube = new ModelBase();
-	//unitCube->initialize();
-
-	//modelDamian = new ModelDamian();
-	//modelDamian->initialize();
 
 	//modelElijah = new ModelElijah();
 	//modelElijah->initialize();
@@ -418,10 +413,10 @@ int main()
 	// OBJECTS
 	//-----------
 	GridLines floor(shader);
-	ModelBase unitCube(shader);
-	unitCube.initialize();
+	unitCube = new ModelBase(shader);
+	modelDamian = new ModelDamian(shader);
 
-	glm::vec3 lightPos = glm::vec3(0.0f, 1.5f, -2.0f);
+	glm::vec3 lightPos = glm::vec3(-15.0f, 5.5f, -2.0f);
 
 	// display/render loop
 	while (!glfwWindowShouldClose(mainWindow))
@@ -467,20 +462,10 @@ int main()
 
 		// render scene
 		glm::mat4 model = glm::mat4(1.0f);
-		//floor
-		floor.draw(model, shadowMapShader);
 
-		// unit cube
-		unitCube.draw(model, &shadowMapShader);
-		/*
-		UnitCube unitCube = UnitCube();
-		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0, 0.5, 0.0));
-		model = glm::scale(model, glm::vec3(1.0, 1.0, 1.0));
-		shadowMapShader.setMat4("model", model);
-		glBindVertexArray(unitCube.getVAO());
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		*/
+		floor.draw(model, shadowMapShader);
+		unitCube->draw(model, &shadowMapShader);
+		modelDamian->draw(model, &shadowMapShader);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	
@@ -509,26 +494,12 @@ int main()
 
 		// OBJECTS
 		floor.draw(model, shader);
-		unitCube.draw(model, nullptr);
+		unitCube->draw(model, nullptr);
+		modelDamian->draw(model, nullptr);
 
 		// unitAxes and lightCube -- THEY USE DIFFERENT SHADERS
 		unitAxes->draw(camera, projection, view, model);
 		lightCube->draw(projection, view, model, lightPos);
-
-
-		// unit cube
-		/*
-		shader.use();
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, diffuseMapBlock);
-		model = glm::mat4(1.0f);
-		model=glm::translate(model, glm::vec3(0.0, 0.5, 0.0));
-		model = glm::scale(model, glm::vec3(1.0, 1.0, 1.0));
-		shader.setMat4("model", model);
-		glBindVertexArray(unitCube.getVAO());
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		*/
-		//unitCube->draw(model, shader);
 
 		glfwSwapBuffers(mainWindow);
 		
