@@ -418,7 +418,7 @@ int main()
 	// ==================================
 
 	// initialize active model
-	activeModel = modelDamian;
+	activeModel = modelRichard;
 
 	// display/render loop
 	while (!glfwWindowShouldClose(mainWindow))
@@ -500,6 +500,7 @@ int main()
 		// OBJECTS
 		floor.draw(model, shader);
 		unitCube->draw(model, nullptr);
+
 		modelDamian->draw(model, nullptr);
 		modelElijah->draw(model, nullptr);
 		modelThomas->draw(model, nullptr);
