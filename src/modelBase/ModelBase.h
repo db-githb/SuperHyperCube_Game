@@ -59,9 +59,10 @@ public:
 	};
 
 	ModelBase();
+	ModelBase(Shader &inShader);
 	~ModelBase();
 	virtual void initialize();
-	virtual void draw(glm::mat4 model, const Shader &shadowMapShader);
+	virtual void draw(glm::mat4 model, Shader* inShader);
 	virtual void scale(int scaleDirection);
 	virtual void translate(int translationDirection);
 	virtual void rotate(int rotation);
@@ -105,6 +106,6 @@ protected:
 	float yRotation;
 	float zRotation;
 
-	void drawWall(glm::mat4 model, const Shader& shadowMapShader);
+	void drawWall(glm::mat4 model);
 	void drawObject(glm::mat4 model, const Shader& shadowMapShader);
 };

@@ -1,9 +1,12 @@
 #include "ModelBase.h"
 
 ModelBase::ModelBase() {
+}
+
+ModelBase::ModelBase(Shader &inShader) {
 	unitCube = UnitCube();
-	//wall.shader = Shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
-	//object.shader = Shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
+	wall.shader = inShader;
+	//object.shader = inShader;
 
 	rows = 1;
 	columns = 1;
@@ -68,6 +71,8 @@ void ModelBase::allocateWallData() {
 
 void ModelBase::initialize() {
 	
+	wall.diffuseMap = wall.shader.loadTexture("res/images/brick.png");
+
 	modelBasePosition = glm::vec3(0.0f, 0.5f, 0.0f);
 
 	allocateObjectData();
@@ -97,14 +102,22 @@ void ModelBase::allocateShaderData() {
 	*/
 }
 
-void ModelBase::draw(glm::mat4 model, const Shader &shadowMapShader) {
+void ModelBase::draw(glm::mat4 model, Shader* inShader) {
 
 	model = glm::translate(model, modelBasePosition);
 	model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
 
+	if (inShader == NULL) {
+		wall.shader.use();
+	}
+	else {
+		inShader->use();
+	}
+	
+
 	// TODO: move shader set up to scene afterwards
 	//shaderSetUp(inCam, projection, view, wall);
-	drawWall(model, shadowMapShader);
+	drawWall(model);
 
 	/*
 	model = glm::mat4(1.0f);
@@ -123,16 +136,15 @@ void ModelBase::draw(glm::mat4 model, const Shader &shadowMapShader) {
 	*/
 }
 
-void ModelBase::drawWall(glm::mat4 model, const Shader &inShader) {
+void ModelBase::drawWall(glm::mat4 model) {
 
 	// bind texture maps
-	//glActiveTexture(GL_TEXTURE1);
-	//glBindTexture(GL_TEXTURE_2D, wall.diffuseMap);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, wall.diffuseMap);
 
 	//glActiveTexture(GL_TEXTURE2);
 	//glBindTexture(GL_TEXTURE_2D, wall.specularMap);
-	
-	
+
 
 	// compute world position of child cubes
 	for (int r = 0; r < rows; r++) {
@@ -142,7 +154,7 @@ void ModelBase::drawWall(glm::mat4 model, const Shader &inShader) {
 				continue;
 			}
 
-			inShader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, 0.0f) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
+			wall.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, 0.0f) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
 			
 			// render the cube
 			glBindVertexArray(unitCube.getVAO());
@@ -188,6 +200,8 @@ void ModelBase::drawObject(glm::mat4 model, const Shader &shadowMapShader) {
 }
 
 // component struct will have the shader and the material will be an attribute of the component struct
+
+
 void ModelBase::shaderSetUp(Camera inCam, glm::mat4 projection, glm::mat4 view, Component component) {
 	// specify the shader being used
 	component.shader.use();

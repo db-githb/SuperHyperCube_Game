@@ -351,7 +351,6 @@ int main()
 	
 	//gridLines = new GridLines(shader);
 	
-	
 	//unitCube = new ModelBase();
 	//unitCube->initialize();
 
@@ -403,7 +402,9 @@ int main()
 	unitAxes = new UnitAxes();
 	lightCube = new LightCube();
 
+	//-----------
 	// SHADERS
+	//-----------
 	Shader shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
 	
 	unsigned int diffuseMapBlock = shader.loadTexture("res/images/brick.png");
@@ -413,8 +414,12 @@ int main()
 
 	Shader shadowMapShader("res/shaders/shadowMapShader.vert", "res/shaders/shadowMapShader.frag", "res/shaders/shadowMapShader.geom");
 
+	//-----------
 	// OBJECTS
+	//-----------
 	GridLines floor(shader);
+	ModelBase unitCube(shader);
+	unitCube.initialize();
 
 	glm::vec3 lightPos = glm::vec3(0.0f, 1.5f, -2.0f);
 
@@ -466,6 +471,8 @@ int main()
 		floor.draw(model, shadowMapShader);
 
 		// unit cube
+		unitCube.draw(model, &shadowMapShader);
+		/*
 		UnitCube unitCube = UnitCube();
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0, 0.5, 0.0));
@@ -473,6 +480,7 @@ int main()
 		shadowMapShader.setMat4("model", model);
 		glBindVertexArray(unitCube.getVAO());
 		glDrawArrays(GL_TRIANGLES, 0, 36);
+		*/
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	
@@ -499,8 +507,9 @@ int main()
 		// render scene
 		model = glm::mat4(1.0f);
 
-		//floor
+		// OBJECTS
 		floor.draw(model, shader);
+		unitCube.draw(model, nullptr);
 
 		// unitAxes and lightCube -- THEY USE DIFFERENT SHADERS
 		unitAxes->draw(camera, projection, view, model);
@@ -508,6 +517,7 @@ int main()
 
 
 		// unit cube
+		/*
 		shader.use();
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, diffuseMapBlock);
@@ -517,7 +527,7 @@ int main()
 		shader.setMat4("model", model);
 		glBindVertexArray(unitCube.getVAO());
 		glDrawArrays(GL_TRIANGLES, 0, 36);
-		
+		*/
 		//unitCube->draw(model, shader);
 
 		glfwSwapBuffers(mainWindow);
