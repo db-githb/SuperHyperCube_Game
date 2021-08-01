@@ -49,6 +49,9 @@
     <Filter Include="src\lightCube">
       <UniqueIdentifier>{9dcef14b-9f6e-41a0-85b7-f630d9717666}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\modelRichard">
+      <UniqueIdentifier>{0b350755-3a6f-47dc-938b-4c524494a472}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\axisShader.frag">
@@ -125,6 +128,9 @@
     <ClCompile Include="src\lightCube\LightCube.cpp">
       <Filter>src\lightCube</Filter>
     </ClCompile>
+    <ClCompile Include="src\modelRichard\ModelRichard.cpp">
+      <Filter>src\modelRichard</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">
@@ -165,6 +171,9 @@
     </ClInclude>
     <ClInclude Include="src\lightCube\LightCube.h">
       <Filter>src\lightCube</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modelRichard\ModelRichard.h">
+      <Filter>src\modelRichard</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

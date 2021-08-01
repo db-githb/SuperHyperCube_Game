@@ -209,6 +209,15 @@ void ModelBase::drawObject(glm::mat4 model) {
 				case BLACK:
 					object.shader.setVec3("colour", colorPalette[BLACK]);
 					break;
+				case GREEN:
+					object.shader.setVec3("colour", colorPalette[GREEN]);
+					break;
+				case BROWN:
+					object.shader.setVec3("colour", colorPalette[BROWN]);
+					break;
+				case WHITE:
+					object.shader.setVec3("colour", colorPalette[WHITE]);
+					break;
 				}
 
 				// move unit cube relative to parent base position and pass the model matrix to the vertex shader
@@ -257,6 +266,9 @@ void ModelBase::setColorPalette() {
 	ModelBase::colorPalette[YELLOW] = glm::vec3(1.0f, 1.0f, 0.0f);
 	ModelBase::colorPalette[ORANGE] = glm::vec3(1.0f, 0.5f, 0.0f);
 	ModelBase::colorPalette[BLACK] = glm::vec3(0.0f, 0.0f, 0.0f);
+	ModelBase::colorPalette[GREEN] = glm::vec3(0.349f, 0.553f, 0.243f);
+	ModelBase::colorPalette[BROWN] = glm::vec3(0.651f, 0.357f, 0.192f);
+	ModelBase::colorPalette[WHITE] = glm::vec3(1.0f, 1.0f, 1.0f);
 	return;
 }
 

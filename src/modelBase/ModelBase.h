@@ -19,7 +19,10 @@
 #define YELLOW 7
 #define ORANGE 8
 #define BLACK 9
-#define NUM_COLORS 10
+#define GREEN 10
+#define BROWN 11
+#define WHITE 12
+#define NUM_COLORS 13
 
 #define SCALE_UP 0
 #define SCALE_DOWN 1

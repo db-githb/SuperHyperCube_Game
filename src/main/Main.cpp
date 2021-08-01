@@ -7,6 +7,7 @@
 #include "../modelElijah/modelElijah.h"
 #include "../modelThomas/modelThomas.h"
 #include "../modelMichael/modelMichael.h"
+#include "../modelRichard/modelRichard.h"
 #include "../lightCube/LightCube.h"
 
 // -------------------
@@ -46,6 +47,7 @@ ModelDamian* modelDamian;
 ModelElijah* modelElijah;
 ModelThomas* modelThomas;
 ModelMichael* modelMichael;
+ModelRichard* modelRichard;
 
 LightCube* lightCube;
 // ===================
@@ -129,6 +131,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		case GLFW_KEY_4:
 			activeModel = modelMichael;
+			break;
+		case GLFW_KEY_5:
+			activeModel = modelRichard;
 			break;
 
 		// select render mode
@@ -358,6 +363,9 @@ int main()
 	modelMichael = new ModelMichael();
 	modelMichael->initialize();
 
+	modelRichard = new ModelRichard();
+	modelRichard->initialize();
+
 	// ==================================
 
 	// initialize active model
@@ -398,7 +406,7 @@ int main()
 		modelElijah->draw(camera, projection, view, model);
 		modelThomas->draw(camera, projection, view, model);
 		modelMichael->draw(camera, projection, view, model);
-
+		modelRichard->draw(camera, projection, view, model);
 		// ==================================
 
 		glfwSwapBuffers(mainWindow);
