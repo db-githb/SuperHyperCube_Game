@@ -27,6 +27,8 @@ in vec2 TexCoords;
 uniform Material material;
 uniform PointLight pointLight;
 uniform vec3 viewPos;
+uniform vec3 colour;
+uniform int textureOn;
 
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 
@@ -60,10 +62,22 @@ vec3 CalcPointLight (PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 	float distance = length(light.position - fragPos);
 	float attenuation = 0.5; //1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));	
 
-	// combine results
-	vec3 ambient = light.ambient * vec3(texture(material.diffuse, TexCoords));
-	vec3 diffuse = light.diffuse * diff *vec3(texture(material.diffuse, TexCoords));
-	vec3 specular = light.specular * spec * vec3(texture(material.specular, TexCoords));
+	vec3 ambient = vec3(0.0f,0.0f,0.0f);
+	vec3 diffuse = vec3(0.0f,0.0f,0.0f);
+	vec3 specular= vec3(0.0f,0.0f,0.0f);
+
+
+	if (textureOn == 1){
+		// combine results
+		 ambient = light.ambient * vec3(texture(material.diffuse, TexCoords));
+		 diffuse = light.diffuse * diff *vec3(texture(material.diffuse, TexCoords));
+		 specular = light.specular * spec * vec3(texture(material.specular, TexCoords));
+	}else{
+		ambient = light.ambient * colour;
+		diffuse = light.diffuse * diff * colour;
+		specular = light.specular * spec * colour;
+	}
+
 	
 	ambient *= attenuation;
 	diffuse *= attenuation;

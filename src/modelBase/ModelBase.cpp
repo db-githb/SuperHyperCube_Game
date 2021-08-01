@@ -20,6 +20,13 @@ ModelBase::ModelBase() {
 	zRotation = 0.0f;
 
 	renderMode = GL_TRIANGLES;
+
+	textureOn = 1;
+
+	ModelBase::colorPalette = new glm::vec3[NUM_COLORS];
+
+	setColorPalette();
+
 }
 
 void ModelBase::allocateObjectData() {
@@ -71,6 +78,7 @@ void ModelBase::initialize() {
 	allocateObjectData();
 	allocateWallData();
 	allocateShaderData();
+	setColorPalette();
 }
 
 void ModelBase::allocateShaderData() {
@@ -87,15 +95,18 @@ void ModelBase::allocateShaderData() {
 	wall.shader.setInt("material.diffuse", 0);
 	wall.shader.setInt("material.specular", 1);
 
+
 	object.shader.use();
 	object.shader.setInt("material.diffuse", 0);
 	object.shader.setInt("material.specular", 1);
+
 }
 
 void ModelBase::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
 
 	model = glm::translate(model, modelBasePosition);
 	model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
+
 
 	// TODO: move shader set up to scene afterwards
 	shaderSetUp(inCam, projection, view, wall);
@@ -135,6 +146,8 @@ void ModelBase::drawWall(glm::mat4 model) {
 				continue;
 			}
 
+			wall.shader.setVec3("colour", colorPalette[GRAY]);
+
 			// move unit cube relative to parent base position and pass the model matrix to the vertex shader
 			wall.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, 0.0f) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
 
@@ -164,6 +177,40 @@ void ModelBase::drawObject(glm::mat4 model) {
 					continue;
 				}
 
+
+				switch (object.modelData[r][c][p]) {
+				case YELLOW:
+					object.shader.setVec3("colour", colorPalette[YELLOW]);
+					break;
+				case ORANGE:
+					object.shader.setVec3("colour", colorPalette[ORANGE]);
+					break;
+				case GRAY:
+					object.shader.setVec3("colour", colorPalette[GRAY]);
+					break;
+				case RED:
+					object.shader.setVec3("colour", colorPalette[RED]);
+					break;
+				case BLUE:
+					object.shader.setVec3("colour", colorPalette[BLUE]);
+					break;
+				case VIOLET:
+					object.shader.setVec3("colour", colorPalette[VIOLET]);
+					break;
+				case MINT:
+					object.shader.setVec3("colour", colorPalette[MINT]);
+					break;
+				case PINK:
+					object.shader.setVec3("colour", colorPalette[PINK]);
+					break;
+				case CYAN:
+					object.shader.setVec3("colour", colorPalette[CYAN]);
+					break;
+				case BLACK:
+					object.shader.setVec3("colour", colorPalette[BLACK]);
+					break;
+				}
+
 				// move unit cube relative to parent base position and pass the model matrix to the vertex shader
 				object.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, (float)p) + glm::vec3((0.3f +(-columns * 0.5)), 0.0f, (-0.3f +(-planes * 0.5)))));
 
@@ -182,6 +229,8 @@ void ModelBase::shaderSetUp(Camera inCam, glm::mat4 projection, glm::mat4 view, 
 	
 	component.shader.setVec3("viewPos", inCam.Position);
 
+	component.shader.setInt("textureOn", textureOn);
+
 	component.shader.setVec3("pointLight.position", UnitCube::pointLight[POINT_LIGHT_POSITION]);
 	component.shader.setVec3("pointLight.ambient", UnitCube::pointLight[POINT_LIGHT_AMBIENT]);
 	component.shader.setVec3("pointLight.diffuse", UnitCube::pointLight[POINT_LIGHT_DIFFUSE]);
@@ -197,8 +246,6 @@ void ModelBase::shaderSetUp(Camera inCam, glm::mat4 projection, glm::mat4 view, 
 }
 
 void ModelBase::setColorPalette() {
-
-	ModelBase::colorPalette = new glm::vec3[NUM_COLORS];
 
 	ModelBase::colorPalette[GRAY] = glm::vec3(0.5f, 0.5f, 0.5f);
 	ModelBase::colorPalette[RED] = glm::vec3(0.9f, 0.1f, 0.15f);
@@ -287,6 +334,17 @@ void ModelBase::setRenderMode(int mode) {
 			renderMode = GL_POINTS;
 	}
 };
+
+void ModelBase::toggleTextures() {
+
+	if (textureOn == 0) {
+		textureOn = 1;
+	}
+	else {
+		textureOn = 0;
+	}
+
+}
 
 bool ModelBase::inBound(int direction) {
 

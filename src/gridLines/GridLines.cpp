@@ -57,6 +57,8 @@ void GridLines::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::ma
 	gridLinesShader.setMat4("projection", projection);
 	gridLinesShader.setMat4("view", view);
 
+	gridLinesShader.setInt("textureOn", 1);
+
 	gridLinesShader.setVec3("viewPos", inCam.Position);
 
 	model = glm::scale(model, glm::vec3(100.0, 0.01, 100.0));

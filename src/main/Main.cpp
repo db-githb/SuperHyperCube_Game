@@ -17,6 +17,9 @@
 #define WIDTH 1024
 #define HEIGHT 768
 
+float windowWidth = 1024.0f;
+float windowHeight = 768.0f;
+
 // instantiate camera
 Camera camera;
 
@@ -137,6 +140,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		case GLFW_KEY_L:
 			activeModel->setRenderMode(GL_LINES);
+			break;
+
+		// toggle textures
+		case GLFW_KEY_X:
+			activeModel->toggleTextures();
+			break;
 
 
 		// scale models up and down
@@ -215,15 +224,15 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			activeModel->translate(TRANS_FORWARD);
 			break;
 
-		case GLFW_KEY_X:
+		case GLFW_KEY_C:
 			activeModel->translate(TRANS_BACKWARD);
 			break;
 
 		// rotate along X and Z axis, maybe map y rotation to G and V keys
-		case GLFW_KEY_F:
+		case GLFW_KEY_V:
 			activeModel->rotate(ROTATE_X_CLOCKWISE);
 			break;
-		case GLFW_KEY_C:
+		case GLFW_KEY_G:
 			activeModel->rotate(ROTATE_X_COUNTER);
 			break;
 		case GLFW_KEY_H:
@@ -246,6 +255,13 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		}
 	}
+}
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
+	windowWidth = width;
+	windowHeight = height;
 }
 
 int main()
@@ -286,6 +302,7 @@ int main()
 	glfwSetCursorPosCallback(mainWindow, mouse_callback);
 	glfwSetMouseButtonCallback(mainWindow, mouse_button_callback);
 	glfwSetKeyCallback(mainWindow, key_callback);
+	glfwSetFramebufferSizeCallback(mainWindow, framebuffer_size_callback);
 
 	// glad: load all OpenGl function pointers
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
@@ -293,7 +310,7 @@ int main()
 		return -1;
 	}
 
-	glfwSetInputMode(mainWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(mainWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	// configure global opengl state:
 	//  -GL_DEPTH_TEST = ensure things behind solid objects are not drawn
@@ -363,7 +380,7 @@ int main()
 		//Clear the Window
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
+		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)windowWidth / (float)windowHeight, 0.1f, 100.0f);
 		glm::mat4 view = camera.GetViewMatrix();
 		glm::mat4 model = glm::mat4(1.0f);
 
