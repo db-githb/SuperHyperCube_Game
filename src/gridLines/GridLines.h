@@ -3,9 +3,9 @@
 
 class GridLines {
 public:
-	GridLines();
-	void draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model, const Shader &shadowMapShader);
-	void pointLightProperties();
+	GridLines(Shader& gridLinesShader);
+	void draw(glm::mat4 model, Shader &shadowMapShader);
+	void pointLightProperties(const Shader& gridLinesShader);
 
 private:
 	UnitCube unitCube;

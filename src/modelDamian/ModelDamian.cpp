@@ -2,7 +2,7 @@
 
 void ModelDamian::initialize() {
 	
-	allocateShaderData();
+	//allocateShaderData();
 
 	modelBasePosition = glm::vec3(-15.0f, 0.5f, 15.0f);
 

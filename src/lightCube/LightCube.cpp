@@ -21,7 +21,8 @@ void LightCube::draw(glm::mat4 projection, glm::mat4 view, glm::mat4 model, glm:
 	model = glm::translate(model, activePosition);
 
 	lightCubeShader.setMat4("model", model);
-	glBindVertexArray(unitCube.getVAO());
 
+	glBindVertexArray(unitCube.getVAO());
 	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glBindVertexArray(0);
 }

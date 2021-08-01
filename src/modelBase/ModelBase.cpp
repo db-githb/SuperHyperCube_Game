@@ -2,8 +2,8 @@
 
 ModelBase::ModelBase() {
 	unitCube = UnitCube();
-	wall.shader = Shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
-	object.shader = Shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
+	//wall.shader = Shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
+	//object.shader = Shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
 
 	rows = 1;
 	columns = 1;
@@ -68,6 +68,8 @@ void ModelBase::allocateWallData() {
 
 void ModelBase::initialize() {
 	
+	modelBasePosition = glm::vec3(0.0f, 0.5f, 0.0f);
+
 	allocateObjectData();
 	allocateWallData();
 	allocateShaderData();
@@ -75,6 +77,7 @@ void ModelBase::initialize() {
 
 void ModelBase::allocateShaderData() {
 
+	/*
 	// load textures
 	wall.diffuseMap = wall.shader.loadTexture("res/images/brick.png");
 	wall.specularMap = wall.shader.loadTexture("res/images/brick_spec_map.png");
@@ -84,23 +87,26 @@ void ModelBase::allocateShaderData() {
 
 	// shader configuration
 	wall.shader.use();
-	wall.shader.setInt("material.diffuse", 0);
-	wall.shader.setInt("material.specular", 1);
+	wall.shader.setInt("material.diffuse", 1);
+	wall.shader.setInt("material.specular", 2);
 
+	
 	object.shader.use();
-	object.shader.setInt("material.diffuse", 0);
-	object.shader.setInt("material.specular", 1);
+	object.shader.setInt("material.diffuse", 1);
+	object.shader.setInt("material.specular", 2);
+	*/
 }
 
-void ModelBase::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model, const Shader &shadowMapShader) {
+void ModelBase::draw(glm::mat4 model, const Shader &shadowMapShader) {
 
 	model = glm::translate(model, modelBasePosition);
 	model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
 
 	// TODO: move shader set up to scene afterwards
-	shaderSetUp(inCam, projection, view, wall);
+	//shaderSetUp(inCam, projection, view, wall);
 	drawWall(model, shadowMapShader);
 
+	/*
 	model = glm::mat4(1.0f);
 	model = glm::translate(model, (modelBasePosition + glm::vec3(xTranslation * scaleFactor, yTranslation * scaleFactor, zTranslation * scaleFactor)));
 
@@ -114,18 +120,19 @@ void ModelBase::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::ma
 
 	shaderSetUp(inCam, projection, view, object);
 	drawObject(model, shadowMapShader);
+	*/
 }
 
-void ModelBase::drawWall(glm::mat4 model, const Shader &shadowMapShader) {
+void ModelBase::drawWall(glm::mat4 model, const Shader &inShader) {
 
 	// bind texture maps
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, wall.diffuseMap);
+	//glActiveTexture(GL_TEXTURE1);
+	//glBindTexture(GL_TEXTURE_2D, wall.diffuseMap);
 
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, wall.specularMap);
+	//glActiveTexture(GL_TEXTURE2);
+	//glBindTexture(GL_TEXTURE_2D, wall.specularMap);
 	
-	glBindVertexArray(unitCube.getVAO());
+	
 
 	// compute world position of child cubes
 	for (int r = 0; r < rows; r++) {
@@ -135,28 +142,23 @@ void ModelBase::drawWall(glm::mat4 model, const Shader &shadowMapShader) {
 				continue;
 			}
 
-			if (&shadowMapShader == NULL) {
-				// move unit cube relative to parent base position and pass the model matrix to the vertex shader
-				wall.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, 0.0f) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
-			}
-			else {
-				shadowMapShader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, 0.0f) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
-			}
+			inShader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, 0.0f) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
 			
-
 			// render the cube
+			glBindVertexArray(unitCube.getVAO());
 			glDrawArrays(renderMode, 0, 36);
 		}
 	}
+	glBindVertexArray(0);
 }
 
 void ModelBase::drawObject(glm::mat4 model, const Shader &shadowMapShader) {
 
 	// bind texture maps
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, object.diffuseMap);
 
-	glActiveTexture(GL_TEXTURE1);
+	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, object.specularMap);
 
 	glBindVertexArray(unitCube.getVAO());
@@ -200,10 +202,10 @@ void ModelBase::shaderSetUp(Camera inCam, glm::mat4 projection, glm::mat4 view, 
 	component.shader.setFloat("pointLight.linear", UnitCube::pointLight[POINT_LIGHT_SPECULAR].y);
 	component.shader.setFloat("pointLight.quadratic", UnitCube::pointLight[POINT_LIGHT_SPECULAR].z);
 
-	component.shader.setFloat("material.shininess", 32.0f);
+	//component.shader.setFloat("material.shininess", 32.0f);
 
-	component.shader.setMat4("projection", projection);
-	component.shader.setMat4("view", view);
+	//component.shader.setMat4("projection", projection);
+	//component.shader.setMat4("view", view);
 }
 
 void ModelBase::setColorPalette() {

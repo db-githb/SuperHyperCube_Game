@@ -4,8 +4,8 @@ out vec4 FragColor;
 
 struct Material {
 	sampler2D diffuse;
-	sampler2D specular;
-	float shininess;
+	//sampler2D specular;
+	//float shininess;
 };
 
 struct PointLight {
@@ -37,20 +37,28 @@ float ShadowCalculation(vec3 fragPos);
 
 void main()
 {	
-
-	// properties
-	vec3 norm = normalize(Normal);
-	vec3 viewDir = normalize(viewPos-FragPos);
-	
-	vec3 result = vec3(0.0, 0.0, 0.0);
-	
-	// Shadows
-	float shadow = shadows ? ShadowCalculation(FragPos) : 0.0;        
-
-	// Point light 
-	result += CalcPointLight(pointLight, norm, FragPos, viewDir, shadow);
-
-	FragColor = vec4(result, 1.0);
+	vec3 color = texture(material.diffuse, TexCoords).rgb;
+    vec3 normal = normalize(Normal);
+    vec3 lightColor = vec3(0.3);
+    // ambient
+    vec3 ambient = 0.3 * color;
+    // diffuse
+    vec3 lightDir = normalize(pointLight.position - FragPos);
+    float diff = max(dot(lightDir, normal), 0.0);
+    vec3 diffuse = diff * lightColor;
+    // specular
+    vec3 viewDir = normalize(viewPos - FragPos);
+    vec3 reflectDir = reflect(-lightDir, normal);
+    float spec = 0.0;
+    vec3 halfwayDir = normalize(lightDir + viewDir);  
+    spec = pow(max(dot(normal, halfwayDir), 0.0), 64.0);
+    vec3 specular = spec * lightColor;    
+    // calculate shadow
+    float shadow = ShadowCalculation(FragPos);// shadows ? ShadowCalculation(FragPos) : 0.0;                      
+    vec3 lighting = (ambient + (1.0 - shadow) * (diffuse + specular)) * color;    
+	//vec3 lighting = (ambient + (diffuse + specular)) * color;    
+    
+	FragColor = vec4(lighting, 1.0);
 };
 
 float ShadowCalculation(vec3 fragPos)
@@ -67,11 +75,12 @@ float ShadowCalculation(vec3 fragPos)
     float bias = 0.05; // we use a much larger bias since depth is now in [near_plane, far_plane] range
     float shadow = currentDepth -  bias > closestDepth ? 1.0 : 0.0;        
     // display closestDepth as debug (to visualize depth cubemap)
-    // FragColor = vec4(vec3(closestDepth / far_plane), 1.0);    
+	//FragColor = vec4(vec3(closestDepth / far_plane), 1.0);    
         
     return shadow;
 }
 
+/*
 vec3 CalcPointLight (PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, float shadow)
 {
 	vec3 lightDir = normalize(light.position - fragPos);
@@ -97,5 +106,6 @@ vec3 CalcPointLight (PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, 
 	// no attentuation for specular to ensure shininess from a far distance
 	//specular *= attenuation;
 
-	return (ambient + (1.0 - shadow) * (diffuse + specular));
+	return (ambient + (1.0 - shadow) + (diffuse + specular));
 }
+*/
