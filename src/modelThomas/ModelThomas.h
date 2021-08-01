@@ -4,7 +4,7 @@
 class ModelThomas : public ModelBase {
 
 public:
-	void initialize();
+	ModelThomas(Shader& inShader);
 	void generateRandomModel();
 	void generateOriginalObject();
 	void allocateObjectData();

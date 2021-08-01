@@ -1,9 +1,7 @@
 #include "ModelDamian.h"
 
-void ModelDamian::initialize() {
+ModelDamian::ModelDamian(Shader &inShader) : ModelBase(inShader){
 	
-	allocateShaderData();
-
 	modelBasePosition = glm::vec3(-15.0f, 0.5f, 15.0f);
 
 	//modelBasePosition = glm::vec3(0.0f, 0.5f, 0.0f);

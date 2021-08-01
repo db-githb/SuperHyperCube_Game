@@ -1,18 +1,18 @@
 #include "GridLines.h"
 
-GridLines::GridLines() {
-	UnitCube unitCube= UnitCube();
+GridLines::GridLines(Shader &inShader) {
+	unitCube = UnitCube();
 	gridLinesShader =  Shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
 
-	//diffuseMap = gridLinesShader.loadTexture("res/images/tile_a.png");
-	diffuseMap = gridLinesShader.loadTexture("res/images/tile3.png");
-	specularMap = gridLinesShader.loadTexture("res/images/brick_spec_map.png");
+	//diffuseMap = inShader.loadTexture("res/images/tile_a.png");
+	diffuseMap = inShader.loadTexture("res/images/tile3.png");
+	//specularMap = inShader.loadTexture("res/images/brick_spec_map.png");
 	
 	// shader configuration
-	gridLinesShader.use();
-	gridLinesShader.setInt("material.diffuse", 0);
+	inShader.use();
+	inShader.setInt("material.diffuse", 0);
 
-	gridLinesShader.setFloat("material.shininess", 32.0f);
+	//inShader.setFloat("material.shininess", 32.0f);
 }
 
 // USE WITH TILE A
@@ -49,28 +49,21 @@ void GridLines::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::ma
 */
 
 //USE WITH TILE3.PNG
-void GridLines::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
+void GridLines::draw(glm::mat4 model, Shader &inShader) {
 
-	gridLinesShader.use();
-	pointLightProperties();
+	inShader.use();
 
-	gridLinesShader.setMat4("projection", projection);
-	gridLinesShader.setMat4("view", view);
-
-	gridLinesShader.setInt("textureOn", 1);
-
-	gridLinesShader.setVec3("viewPos", inCam.Position);
-
-	model = glm::scale(model, glm::vec3(100.0, 0.01, 100.0));
-	gridLinesShader.setMat4("model", model);
+	inShader.setFloat("specBias", 2.0);
 
 	// bind texture maps
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, diffuseMap);
 
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, specularMap);
+	//	glActiveTexture(GL_TEXTURE1);
+	// glBindTexture(GL_TEXTURE_2D, specularMap);
 
+	model = glm::scale(model, glm::vec3(100.0, 0.01, 100.0));	
+	inShader.setMat4("model", model);
 	glBindVertexArray(unitCube.getVAO());
 
 	glDrawArrays(GL_TRIANGLES, 0, 36);

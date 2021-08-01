@@ -1,9 +1,11 @@
 #include "ModelBase.h"
 
-ModelBase::ModelBase() {
+ModelBase::ModelBase(Shader &inShader) {
 	unitCube = UnitCube();
-	wall.shader = Shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
-	object.shader = Shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
+	wall.shader = inShader;
+	object.shader = inShader;
+	wall.diffuseMap = wall.shader.loadTexture("res/images/brick.png");
+	object.diffuseMap = object.shader.loadTexture("res/images/metal.png");
 
 	rows = 1;
 	columns = 1;
@@ -19,6 +21,10 @@ ModelBase::ModelBase() {
 	yRotation = 0.0f;
 	zRotation = 0.0f;
 
+	modelBasePosition = glm::vec3(0.0f, 0.5f, 0.0f);
+	allocateObjectData();
+	allocateWallData();
+	allocateShaderData();
 	renderMode = GL_TRIANGLES;
 
 	textureOn = 1;
@@ -73,16 +79,9 @@ void ModelBase::allocateWallData() {
 	return;
 }
 
-void ModelBase::initialize() {
-	
-	allocateObjectData();
-	allocateWallData();
-	allocateShaderData();
-	setColorPalette();
-}
-
 void ModelBase::allocateShaderData() {
 
+	/*
 	// load textures
 	wall.diffuseMap = wall.shader.loadTexture("res/images/brick.png");
 	wall.specularMap = wall.shader.loadTexture("res/images/brick_spec_map.png");
@@ -99,19 +98,29 @@ void ModelBase::allocateShaderData() {
 	object.shader.use();
 	object.shader.setInt("material.diffuse", 0);
 	object.shader.setInt("material.specular", 1);
-
+	*/
 }
 
-void ModelBase::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
+void ModelBase::draw(glm::mat4 model, Shader* inShader) {
 
 	model = glm::translate(model, modelBasePosition);
 	model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
+	//model = glm::translate(model, (modelBasePosition + glm::vec3(xTranslation * scaleFactor, yTranslation * scaleFactor, zTranslation * scaleFactor)));
 
 
-	// TODO: move shader set up to scene afterwards
-	shaderSetUp(inCam, projection, view, wall);
-	drawWall(model);
+	if (inShader == NULL) {
+		wall.shader.use();
+		drawWall(model);
 
+		object.shader.use();
+		drawObject(model);
+	}
+	else {
+		inShader->use();
+		drawWall(model);
+		drawObject(model);
+	}
+	/*
 	model = glm::mat4(1.0f);
 	model = glm::translate(model, (modelBasePosition + glm::vec3(xTranslation * scaleFactor, yTranslation * scaleFactor, zTranslation * scaleFactor)));
 
@@ -125,16 +134,18 @@ void ModelBase::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::ma
 
 	shaderSetUp(inCam, projection, view, object);
 	drawObject(model);
+	*/
 }
 
 void ModelBase::drawWall(glm::mat4 model) {
 
+	wall.shader.setFloat("specBias", 0.0);
 	// bind texture maps
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, wall.diffuseMap);
 
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, wall.specularMap);
+	//glActiveTexture(GL_TEXTURE2);
+	//glBindTexture(GL_TEXTURE_2D, wall.specularMap);
 	
 	glBindVertexArray(unitCube.getVAO());
 
@@ -159,6 +170,7 @@ void ModelBase::drawWall(glm::mat4 model) {
 
 void ModelBase::drawObject(glm::mat4 model) {
 
+	object.shader.setFloat("specBias", 8.0);
 	// bind texture maps
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, object.diffuseMap);
@@ -167,6 +179,10 @@ void ModelBase::drawObject(glm::mat4 model) {
 	glBindTexture(GL_TEXTURE_2D, object.specularMap);
 
 	glBindVertexArray(unitCube.getVAO());
+	model = glm::translate(model, (glm::vec3(xTranslation, yTranslation, zTranslation)));
+	model = glm::rotate(model, xRotation, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, yRotation, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, zRotation, glm::vec3(0.0f, 0.0f, 1.0f));
 
 	// compute world position of child cubes
 	for (int r = 0; r < rows; r++) {
@@ -248,10 +264,10 @@ void ModelBase::shaderSetUp(Camera inCam, glm::mat4 projection, glm::mat4 view, 
 	component.shader.setFloat("pointLight.linear", UnitCube::pointLight[POINT_LIGHT_SPECULAR].y);
 	component.shader.setFloat("pointLight.quadratic", UnitCube::pointLight[POINT_LIGHT_SPECULAR].z);
 
-	component.shader.setFloat("material.shininess", 32.0f);
+	//component.shader.setFloat("material.shininess", 32.0f);
 
-	component.shader.setMat4("projection", projection);
-	component.shader.setMat4("view", view);
+	//component.shader.setMat4("projection", projection);
+	//component.shader.setMat4("view", view);
 }
 
 void ModelBase::setColorPalette() {
@@ -359,6 +375,7 @@ void ModelBase::toggleTextures() {
 }
 
 bool ModelBase::inBound(int direction) {
+	return true;
 
 	switch (direction) {
 	case TRANS_RIGHT:

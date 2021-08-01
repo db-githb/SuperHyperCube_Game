@@ -2,7 +2,7 @@
 
 #define COLUMNS 9
 
-void ModelRichard::initialize() {
+ModelRichard::ModelRichard(Shader& inShader) : ModelBase(inShader) {
 
 	allocateShaderData();
 

@@ -18,8 +18,7 @@ class ModelElijah : public ModelBase {
 
 public:
 	Transform transform;
-	ModelElijah();
-	void initialize();
+	ModelElijah(Shader &inShader);
 
 	void generateRandomModel();
 

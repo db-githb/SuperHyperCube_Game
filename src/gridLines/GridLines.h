@@ -3,13 +3,13 @@
 
 class GridLines {
 public:
-	GridLines();
-	void draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model);
+	GridLines(Shader& gridLinesShader);
+	void draw(glm::mat4 model, Shader &shadowMapShader);
 	void pointLightProperties();
 
 private:
 	UnitCube unitCube;
 	Shader gridLinesShader;
 	unsigned int diffuseMap;
-	unsigned int specularMap;
+	//unsigned int specularMap;
 };

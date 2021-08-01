@@ -27,12 +27,12 @@ class UnitCube {
 public:
 	UnitCube();
 	void createCube();
-	GLuint getVAO();
-	GLuint getVBO();
+	static GLuint getVAO();
+	static GLuint getVBO();
 
 	// directional lighting values
 	static glm::vec3* pointLight;
 
 private:
-	GLuint unitCubeVBO, unitCubeVAO;
+	static GLuint unitCubeVBO, unitCubeVAO;
 };

@@ -13,7 +13,7 @@
 class ModelMichael : public ModelBase {
 
 public:
-	void initialize();
+	ModelMichael(Shader& inShader);
 	void generateOriginalObject();
 	void generateRandomModel();
 	void resetUnitCubes();

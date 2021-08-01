@@ -1,6 +1,6 @@
 #include "ModelMichael.h"
 
-void ModelMichael::initialize() {
+ModelMichael::ModelMichael(Shader& inShader) : ModelBase(inShader) {
 
 	allocateShaderData();
 

@@ -1,12 +1,9 @@
 #include "ModelElijah.h"
 
-  ModelElijah::ModelElijah()
+ModelElijah::ModelElijah(Shader& inShader) : ModelBase(inShader)
 {
+
 	transform.position = glm::vec3(-5.0f, 0.5f, -5.0f);
-}
-
-void ModelElijah::initialize() {
-
 
 	modelBasePosition = glm::vec3(-15.0f, 0.5f, -15.0f);
 
@@ -20,7 +17,6 @@ void ModelElijah::initialize() {
 	allocateObjectData();
 
 	generateOriginalObject();
-
 }
 
 void ModelElijah::generateRandomModel()

@@ -61,10 +61,9 @@ public:
 		unsigned int specularMap;
 	};
 
-	ModelBase();
+	ModelBase(Shader &inShader);
 	~ModelBase();
-	virtual void initialize();
-	virtual void draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model);
+	virtual void draw(glm::mat4 model, Shader* inShader);
 	virtual void scale(int scaleDirection);
 	virtual void translate(int translationDirection);
 	virtual void rotate(int rotation);

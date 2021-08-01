@@ -1,6 +1,6 @@
 #include "ModelThomas.h"
 
-void ModelThomas::initialize() {
+ModelThomas::ModelThomas(Shader& inShader) : ModelBase(inShader) {
 
 	allocateShaderData();
 

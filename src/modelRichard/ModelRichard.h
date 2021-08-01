@@ -34,7 +34,7 @@
 class ModelRichard : public ModelBase {
 
 public:
-	void initialize();
+	ModelRichard(Shader& inShader);
 	void generateRandomModel();
 	void generateOriginalObject();
 	void allocateObjectData();
