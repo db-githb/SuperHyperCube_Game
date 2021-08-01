@@ -52,6 +52,8 @@ void GridLines::draw(glm::mat4 model, Shader &inShader) {
 
 	inShader.use();
 
+	inShader.setFloat("specBias", 2.0);
+
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, diffuseMap);
 

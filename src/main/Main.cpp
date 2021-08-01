@@ -417,7 +417,7 @@ int main()
 
 
 	activeModel = modelDamian;
-	glm::vec3 lightPos = glm::vec3(-15.0f, 5.5f, -2.0f);
+	glm::vec3 lightPos = glm::vec3(-15.0f, 12.5f, 8.0f);
 
 	// display/render loop
 	while (!glfwWindowShouldClose(mainWindow))

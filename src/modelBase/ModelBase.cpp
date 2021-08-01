@@ -149,6 +149,8 @@ void ModelBase::draw(glm::mat4 model, Shader* inShader) {
 
 void ModelBase::drawWall(glm::mat4 model) {
 
+	wall.shader.setFloat("specBias", 0.0);
+
 	// bind texture maps
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, wall.diffuseMap);
@@ -176,6 +178,8 @@ void ModelBase::drawWall(glm::mat4 model) {
 }
 
 void ModelBase::drawObject(glm::mat4 model) {
+
+	object.shader.setFloat("specBias", 8.0);
 
 	// bind texture maps
 	glActiveTexture(GL_TEXTURE0);
