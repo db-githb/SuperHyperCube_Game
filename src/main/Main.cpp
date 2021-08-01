@@ -470,8 +470,11 @@ int main()
 		// 0. create depth cubemap transformation matrices
 	  // -----------------------------------------------
 		
+		// when 30 < far_plane shadow acne appears
+		// when far_plane < 70 spotlight effect occurs
+		// Note: near_plane and far_plane only used in shadow mapping (far_plane passed to frag shader)
 		float near_plane = 1;
-		float far_plane = 25.0;
+		float far_plane = 75.0;
 		
 		glm::mat4 shadowProj = glm::perspective(glm::radians(90.0f), (float)SHADOW_WIDTH / (float)SHADOW_HEIGHT, near_plane, far_plane);
 		std::vector<glm::mat4> shadowTransforms;
@@ -497,7 +500,7 @@ int main()
 		glm::mat4 model = glm::mat4(1.0f);
 
 		gridLines->draw(model, shadowMapShader);
-		unitCube->draw(model, &shadowMapShader);
+		//unitCube->draw(model, &shadowMapShader);
 		modelDamian->draw(model, &shadowMapShader);
 		modelElijah->draw(model, &shadowMapShader);
 		modelThomas->draw(model, &shadowMapShader);
@@ -511,7 +514,7 @@ int main()
 		glViewport(0, 0, WIDTH, HEIGHT);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		shader.use();
-		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
+		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)WIDTH / (float)HEIGHT, 0.1f, 200.0f);
 		glm::mat4 view = camera.GetViewMatrix();
 		shader.setMat4("projection", projection);
 		shader.setMat4("view", view);
@@ -527,7 +530,7 @@ int main()
 
 		// OBJECTS
 		gridLines->draw(model, shader);
-		unitCube->draw(model, nullptr);
+		// unitCube->draw(model, nullptr);
 
 		modelDamian->draw(model, nullptr);
 		modelElijah->draw(model, nullptr);
