@@ -10,8 +10,8 @@ void ModelElijah::initialize() {
 
 	modelBasePosition = glm::vec3(-15.0f, 0.5f, -15.0f);
 
-	rows = 7;
-	columns = 9;
+	rows = 9;
+	columns = 7;
 	planes = 7;
 
 	allocateShaderData();
@@ -34,11 +34,11 @@ void ModelElijah::generateRandomModel()
 			{
 				if (z == 0)
 				{
-					wall.modelData[x][y][z] = WALL;
+					wall.modelData[y][x][z] = WALL;
 				}
 				else
 				{
-					object.modelData[x][y][z] = NONE;
+					object.modelData[y][x][z] = NONE;
 				}
 			}
 		}
@@ -54,11 +54,11 @@ void ModelElijah::generateRandomModel()
 				if (rand() % 100 > 80 && z != 0)
 				{
 					if (rand() % 100 > 50)
-						object.modelData[x][y][z] = RED;
+						object.modelData[y][x][z] = RED;
 					else
-						object.modelData[x][y][z] = BLUE;
+						object.modelData[y][x][z] = BLUE;
 					
-						wall.modelData[x][y][0] = NONE;
+					wall.modelData[y][x][0] = NONE;
 				}
 			}
 		}
@@ -77,23 +77,23 @@ void ModelElijah::generateOriginalObject()
 			{
 				if (y == 1 || y == COLUMNS - 2)
 				{
-					object.modelData[x][y][z] = BLUE;
-					wall.modelData[x][y][0] = NONE;
+					object.modelData[y][x][z] = BLUE;
+					wall.modelData[y][x][0] = NONE;
 				}
 				if ((y == 2 || y == COLUMNS - 3) && (x >=2 && x <= ROWS - 3))
 				{
-					object.modelData[x][y][z] = BLUE;
-					wall.modelData[x][y][0] = NONE;
+					object.modelData[y][x][z] = BLUE;
+					wall.modelData[y][x][0] = NONE;
 				}
 				if ((y == 3 || y == COLUMNS - 4) && (x >= 3 && x <= ROWS - 4))
 				{
-					object.modelData[x][y][z] = BLUE;
-					wall.modelData[x][y][0] = NONE;
+					object.modelData[y][x][z] = BLUE;
+					wall.modelData[y][x][0] = NONE;
 				}
 				if ((y == 4 || y == COLUMNS - 5))
 				{
-					object.modelData[x][y][z] = BLUE;
-					wall.modelData[x][y][0] = NONE;
+					object.modelData[y][x][z] = BLUE;
+					wall.modelData[y][x][0] = NONE;
 				}
 
 			}
@@ -107,9 +107,9 @@ void ModelElijah::generateOriginalObject()
 			for (int z = 2; z < PLANES; z++)
 			{
 				if ((x == 1 || x == ROWS - 2) && z != 4)
-					object.modelData[x][y][z] = NONE;
+					object.modelData[y][x][z] = NONE;
 				if ((x == 2 || x == ROWS - 3) && (z == 2 || z == 6))
-					object.modelData[x][y][z] = NONE;
+					object.modelData[y][x][z] = NONE;
 
 			}
 		}
@@ -122,11 +122,11 @@ void ModelElijah::generateOriginalObject()
 			for (int z = 2; z < PLANES; z++)
 			{
 				if((y == 2 || y == 6) && (z == 2 || z == 6))
-					object.modelData[x][y][z] = NONE;
+					object.modelData[y][x][z] = NONE;
 				if ((y == 3 || y == 5) && (z == 2 || z == 3 || z == 5 || z == 6))
-					object.modelData[x][y][z] = NONE;
+					object.modelData[y][x][z] = NONE;
 				if ((y == 2 || y == 6) && (x == 2 || x == 4) && (z==3 || z==5))
-					object.modelData[x][y][z] = NONE;
+					object.modelData[y][x][z] = NONE;
 			}
 		}
 	}
@@ -137,10 +137,10 @@ void ModelElijah::generateOriginalObject()
 		{
 			for (int z = 2; z < PLANES; z++)
 			{
-				if (modelData[x][y][z] == BLUE && y % 2 == 0)
+				if (modelData[y][x][z] == BLUE && y % 2 == 0)
 				{
-					object.modelData[x][y][z] = RED;
-					wall.modelData[x][y][0] = NONE;
+					object.modelData[y][x][z] = RED;
+					wall.modelData[y][x][0] = NONE;
 				}
 			}
 		}
