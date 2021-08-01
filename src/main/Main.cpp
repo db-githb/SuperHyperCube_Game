@@ -419,7 +419,6 @@ int main()
 
 	// initialize active model
 	activeModel = modelDamian;
-	glm::vec3 lightPos = glm::vec3(-15.0f, 12.5f, 8.0f); 	//glm::vec3 lightPos = activeModel->modelBasePosition + glm::vec3(0.0f, 1.5f, -2.0f);
 
 	// display/render loop
 	while (!glfwWindowShouldClose(mainWindow))
@@ -437,6 +436,8 @@ int main()
 
 		//Clear the Window
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		glm::vec3 lightPos = activeModel->modelBasePosition + glm::vec3(0.0f, 15.5f, -2.0f);
 
 		// 0. create depth cubemap transformation matrices
 	  // -----------------------------------------------
