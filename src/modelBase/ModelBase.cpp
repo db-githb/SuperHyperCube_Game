@@ -11,15 +11,7 @@ ModelBase::ModelBase(Shader &inShader) {
 	columns = 1;
 	planes = 1;
 
-	scaleFactor = 1.0f;
-
-	xTranslation = 0.0f;
-	yTranslation = 0.0f;
-	zTranslation = 0.0f;
-
-	xRotation = 0.0f;
-	yRotation = 0.0f;
-	zRotation = 0.0f;
+	resetPOS();
 
 	modelBasePosition = glm::vec3(0.0f, 0.5f, 0.0f);
 	allocateObjectData();
@@ -29,11 +21,25 @@ ModelBase::ModelBase(Shader &inShader) {
 
 	textureOn = true;
 	borderOn = false;
+	continuousOn = false;
 
 	ModelBase::colorPalette = new glm::vec3[NUM_COLORS];
 
 	setColorPalette();
 
+}
+
+void ModelBase::resetPOS(){
+
+	scaleFactor = 1.0f;
+
+	xTranslation = 0.0f;
+	yTranslation = 0.0f;
+	zTranslation = 0.0f;
+
+	xRotation = 0.0f;
+	yRotation = 0.0f;
+	zRotation = 0.0f;
 }
 
 void ModelBase::allocateObjectData() {
@@ -185,7 +191,14 @@ void ModelBase::drawObject(glm::mat4 model) {
 	glBindTexture(GL_TEXTURE_2D, object.specularMap);
 
 	glBindVertexArray(unitCube.getVAO());
+
+	if (continuousOn) {
+
+		zTranslation = sin(glfwGetTime()-continuousStartTime) * 7;
+	}
+
 	model = glm::translate(model, (glm::vec3(xTranslation, yTranslation, zTranslation)));
+	
 	model = glm::rotate(model, xRotation, glm::vec3(1.0f, 0.0f, 0.0f));
 	model = glm::rotate(model, yRotation, glm::vec3(0.0f, 1.0f, 0.0f));
 	model = glm::rotate(model, zRotation, glm::vec3(0.0f, 0.0f, 1.0f));
@@ -199,49 +212,8 @@ void ModelBase::drawObject(glm::mat4 model) {
 					continue;
 				}
 
-
-				switch (object.modelData[r][c][p]) {
-				case YELLOW:
-					object.shader.setVec3("colour", colorPalette[YELLOW]);
-					break;
-				case ORANGE:
-					object.shader.setVec3("colour", colorPalette[ORANGE]);
-					break;
-				case GRAY:
-					object.shader.setVec3("colour", colorPalette[GRAY]);
-					break;
-				case RED:
-					object.shader.setVec3("colour", colorPalette[RED]);
-					break;
-				case BLUE:
-					object.shader.setVec3("colour", colorPalette[BLUE]);
-					break;
-				case VIOLET:
-					object.shader.setVec3("colour", colorPalette[VIOLET]);
-					break;
-				case MINT:
-					object.shader.setVec3("colour", colorPalette[MINT]);
-					break;
-				case PINK:
-					object.shader.setVec3("colour", colorPalette[PINK]);
-					break;
-				case CYAN:
-					object.shader.setVec3("colour", colorPalette[CYAN]);
-					break;
-				case BLACK:
-					object.shader.setVec3("colour", colorPalette[BLACK]);
-					break;
-				case GREEN:
-					object.shader.setVec3("colour", colorPalette[GREEN]);
-					break;
-				case BROWN:
-					object.shader.setVec3("colour", colorPalette[BROWN]);
-					break;
-				case WHITE:
-					object.shader.setVec3("colour", colorPalette[WHITE]);
-					break;
-				}
-
+				object.shader.setVec3("colour", colorPalette[object.modelData[r][c][p]]);
+					
 				// move unit cube relative to parent base position and pass the model matrix to the vertex shader
 				object.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, (float)p) + glm::vec3((0.3f +(-columns * 0.5)), 0.0f, (-0.3f +(-planes * 0.5)))));
 
@@ -377,6 +349,13 @@ void ModelBase::toggleTexture() {
 
 void ModelBase::toggleBorder() {
 	borderOn = !borderOn;
+}
+
+void ModelBase::toggleContinuous() {
+
+	continuousOn = !continuousOn;
+
+	continuousStartTime = glfwGetTime();
 }
 
 bool ModelBase::inBound(int direction) {

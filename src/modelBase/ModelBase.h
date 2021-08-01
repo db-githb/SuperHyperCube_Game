@@ -70,11 +70,13 @@ public:
 	virtual void setRenderMode(int mode);
 	virtual void toggleTexture();
 	virtual void toggleBorder();
+	virtual void toggleContinuous();
 	virtual bool inBound(int direction);
 	virtual void generateRandomModel();
 	virtual void generateOriginalObject();
 	virtual bool boundaryCollision();
 	virtual void resetObject();
+	virtual void resetPOS();
 
 	void shaderSetUp(Camera inCam, glm::mat4 projection, glm::mat4 view, Component component);
 
@@ -106,6 +108,8 @@ protected:
 
 	bool textureOn;
 	bool borderOn;
+	bool continuousOn;
+	double continuousStartTime;
 
 	/* orientation in radians */
 	float xRotation;

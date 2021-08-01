@@ -250,7 +250,14 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 
 		case GLFW_KEY_Z:
-			activeModel->translate(TRANS_FORWARD);
+
+			if (mods == GLFW_MOD_SHIFT) {
+				activeModel->toggleContinuous();
+			}
+			else {
+				activeModel->translate(TRANS_FORWARD);
+			}
+			
 			break;
 
 		case GLFW_KEY_C:
@@ -283,7 +290,13 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 
 		case GLFW_KEY_R:
-			activeModel->generateRandomModel();
+
+			if (mods == GLFW_MOD_SHIFT) {
+				activeModel->resetPOS();
+			}
+			else {
+				activeModel->generateRandomModel();
+			}
 			break;
 
 		case GLFW_KEY_O:
