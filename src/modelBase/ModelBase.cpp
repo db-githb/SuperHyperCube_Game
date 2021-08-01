@@ -27,7 +27,8 @@ ModelBase::ModelBase(Shader &inShader) {
 	allocateShaderData();
 	renderMode = GL_TRIANGLES;
 
-	textureOn = 1;
+	textureOn = true;
+	borderOn = false;
 
 	ModelBase::colorPalette = new glm::vec3[NUM_COLORS];
 
@@ -140,7 +141,8 @@ void ModelBase::draw(glm::mat4 model, Shader* inShader) {
 void ModelBase::drawWall(glm::mat4 model) {
 
 	wall.shader.setFloat("specBias", 0.0);
-	wall.shader.setInt("textureOn", textureOn);
+	wall.shader.setBool("textureOn", textureOn);
+	wall.shader.setBool("borderOn", false);
 	// bind texture maps
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, wall.diffuseMap);
@@ -172,7 +174,8 @@ void ModelBase::drawWall(glm::mat4 model) {
 void ModelBase::drawObject(glm::mat4 model) {
 
 	object.shader.setFloat("specBias", 8.0);
-	object.shader.setInt("textureOn", textureOn);
+	object.shader.setBool("textureOn", textureOn);
+	object.shader.setBool("borderOn", borderOn);
 
 	// bind texture maps
 	glActiveTexture(GL_TEXTURE0);
@@ -366,15 +369,14 @@ void ModelBase::setRenderMode(int mode) {
 	}
 };
 
-void ModelBase::toggleTextures() {
+void ModelBase::toggleTexture() {
 
-	if (textureOn == 0) {
-		textureOn = 1;
-	}
-	else {
-		textureOn = 0;
-	}
+	textureOn = !textureOn;
 
+}
+
+void ModelBase::toggleBorder() {
+	borderOn = !borderOn;
 }
 
 bool ModelBase::inBound(int direction) {

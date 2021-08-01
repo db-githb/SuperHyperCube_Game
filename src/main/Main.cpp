@@ -115,6 +115,22 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	return;
 }
 
+void toggleBorders() {
+	modelDamian->toggleBorder();
+	modelElijah->toggleBorder();
+	modelThomas->toggleBorder();
+	modelMichael->toggleBorder();
+	modelRichard->toggleBorder();
+}
+
+void toggleTextures() {
+	modelDamian->toggleTexture();
+	modelElijah->toggleTexture();
+	modelThomas->toggleTexture();
+	modelMichael->toggleTexture();
+	modelRichard->toggleTexture();
+}
+
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if (action == GLFW_RELEASE) {
@@ -153,7 +169,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 		// toggle textures
 		case GLFW_KEY_X:
-			activeModel->toggleTextures();
+			toggleTextures();
 			break;
 
 
@@ -248,7 +264,14 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			activeModel->rotate(ROTATE_Z_CLOCKWISE);
 			break;
 		case GLFW_KEY_B:
-			activeModel->rotate(ROTATE_Z_COUNTER);
+
+			if (mods == GLFW_MOD_SHIFT) {
+				toggleBorders();
+			}
+			else {
+				activeModel->rotate(ROTATE_Z_COUNTER);
+			}
+			
 			break;
 
 		case GLFW_KEY_HOME:

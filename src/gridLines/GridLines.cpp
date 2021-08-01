@@ -54,8 +54,8 @@ void GridLines::draw(glm::mat4 model, Shader &inShader) {
 	inShader.use();
 
 	// hardcode floor texture on
-	inShader.setInt("textureOn", 1);
-
+	inShader.setBool("textureOn", true);
+	inShader.setBool("borderOn", false);
 	inShader.setFloat("specBias", 2.0);
 
 	// bind texture maps

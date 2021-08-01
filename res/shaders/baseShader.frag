@@ -32,7 +32,8 @@ uniform float far_plane;
 uniform bool shadows;
 
 uniform vec3 colour;
-uniform int textureOn;
+uniform bool textureOn;
+uniform bool borderOn;
 uniform float specBias;
 
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
@@ -40,7 +41,7 @@ float ShadowCalculation(vec3 fragPos);
 
 void main()
 {	
-	vec3 color = (textureOn == 1) ? texture(material.diffuse, TexCoords).rgb : colour;
+	vec3 color = textureOn ? texture(material.diffuse, TexCoords).rgb : colour;
 
     vec3 normal = normalize(Normal);
     vec3 lightColor = vec3(0.3);
@@ -66,7 +67,7 @@ void main()
 	uv = pow(uv, vec2(10)) - 0.3;
 	
 	float c = clamp(uv.x + uv.y, 0.0, 1.0) * 10.0;
-	if(c > 0)
+	if(c > 0 && borderOn)
 		FragColor = vec4(lighting * c * 4, 1.0);
 	else
 		FragColor = vec4(lighting, 1.0);

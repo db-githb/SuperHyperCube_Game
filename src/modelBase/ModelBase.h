@@ -68,7 +68,8 @@ public:
 	virtual void translate(int translationDirection);
 	virtual void rotate(int rotation);
 	virtual void setRenderMode(int mode);
-	virtual void toggleTextures();
+	virtual void toggleTexture();
+	virtual void toggleBorder();
 	virtual bool inBound(int direction);
 	virtual void generateRandomModel();
 	virtual void generateOriginalObject();
@@ -103,7 +104,8 @@ protected:
 
 	int renderMode;
 
-	int textureOn;
+	bool textureOn;
+	bool borderOn;
 
 	/* orientation in radians */
 	float xRotation;
