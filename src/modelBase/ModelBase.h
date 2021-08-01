@@ -107,5 +107,5 @@ protected:
 	float zRotation;
 
 	void drawWall(glm::mat4 model);
-	void drawObject(glm::mat4 model, const Shader& shadowMapShader);
+	void drawObject(glm::mat4 model);
 };

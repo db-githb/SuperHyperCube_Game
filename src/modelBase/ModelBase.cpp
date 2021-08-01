@@ -6,7 +6,7 @@ ModelBase::ModelBase() {
 ModelBase::ModelBase(Shader &inShader) {
 	unitCube = UnitCube();
 	wall.shader = inShader;
-	//object.shader = inShader;
+	object.shader = inShader;
 
 	rows = 1;
 	columns = 1;
@@ -34,7 +34,7 @@ void ModelBase::allocateObjectData() {
 		for (int c = 0; c < columns; c++) {
 			object.modelData[r][c] = new int[planes];
 			for (int p = 0; p < planes; p++) {
-				object.modelData[r][c][p] = NONE;
+				object.modelData[r][c][p] = GRAY;
 			}
 		}
 	}
@@ -72,6 +72,7 @@ void ModelBase::allocateWallData() {
 void ModelBase::initialize() {
 	
 	wall.diffuseMap = wall.shader.loadTexture("res/images/brick.png");
+	object.diffuseMap = object.shader.loadTexture("res/images/metal.png");
 
 	modelBasePosition = glm::vec3(0.0f, 0.5f, 0.0f);
 
@@ -109,15 +110,22 @@ void ModelBase::draw(glm::mat4 model, Shader* inShader) {
 
 	if (inShader == NULL) {
 		wall.shader.use();
+		drawWall(model);
+
+		object.shader.use();
+		drawObject(model);
 	}
 	else {
 		inShader->use();
+		drawWall(model);
+		drawObject(model);
 	}
 	
 
 	// TODO: move shader set up to scene afterwards
 	//shaderSetUp(inCam, projection, view, wall);
-	drawWall(model);
+	
+
 
 	/*
 	model = glm::mat4(1.0f);
@@ -164,16 +172,16 @@ void ModelBase::drawWall(glm::mat4 model) {
 	glBindVertexArray(0);
 }
 
-void ModelBase::drawObject(glm::mat4 model, const Shader &shadowMapShader) {
+void ModelBase::drawObject(glm::mat4 model) {
 
 	// bind texture maps
-	glActiveTexture(GL_TEXTURE1);
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, object.diffuseMap);
 
-	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, object.specularMap);
+	//glActiveTexture(GL_TEXTURE2);
+	//glBindTexture(GL_TEXTURE_2D, object.specularMap);
 
-	glBindVertexArray(unitCube.getVAO());
+	
 
 	// compute world position of child cubes
 	for (int r = 0; r < rows; r++) {
@@ -184,14 +192,10 @@ void ModelBase::drawObject(glm::mat4 model, const Shader &shadowMapShader) {
 					continue;
 				}
 
-				if (&shadowMapShader == NULL) {
-					// move unit cube relative to parent base position and pass the model matrix to the vertex shader
-					object.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, (float)p) + glm::vec3((0.3f + (-columns * 0.5)), 0.0f, (-0.3f + (-planes * 0.5)))));
-				}
-				else {
-					shadowMapShader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, (float)p) + glm::vec3((0.3f + (-columns * 0.5)), 0.0f, (-0.3f + (-planes * 0.5)))));
-				}
+				object.shader.setMat4("model", glm::translate(model, glm::vec3((float)c+3.0f, (float)r, (float)p) + glm::vec3((0.3f + (-columns * 0.5)), 0.0f, (-0.3f + (-planes * 0.5)))));
+				
 				// render the cube
+				glBindVertexArray(unitCube.getVAO());
 				glDrawArrays(renderMode, 0, 36);
 
 			}
