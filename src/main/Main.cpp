@@ -251,17 +251,18 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 		case GLFW_KEY_Z:
 
-			if (mods == GLFW_MOD_SHIFT) {
-				activeModel->toggleContinuous();
-			}
-			else {
-				activeModel->translate(TRANS_FORWARD);
-			}
+			activeModel->translate(TRANS_FORWARD);
 			
 			break;
 
 		case GLFW_KEY_C:
-			activeModel->translate(TRANS_BACKWARD);
+
+			if (mods == GLFW_MOD_SHIFT) {
+				activeModel->toggleContinuous();
+			}
+			else {
+				activeModel->translate(TRANS_BACKWARD);
+			}
 			break;
 
 		// rotate along X and Z axis, maybe map y rotation to G and V keys

@@ -16,6 +16,8 @@ z = translate forwards (translate along -z axis)
 
 c = translate backwards (translate alone +z axis)
 
+shift+c = toggle continuous motion along z axis
+
 a = rotate anti-clockwise (around the y-axis)
 
 d = rotate clockwise (around the y-axis)
@@ -35,6 +37,8 @@ u = scale up
 j = scale down
 
 r = shuffle model's object (generate random object for model)
+
+shift+r = reset object position, orientation, and scale
 
 o = return to original object
 
