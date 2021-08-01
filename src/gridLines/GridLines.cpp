@@ -4,8 +4,8 @@ GridLines::GridLines(Shader &inShader) {
 	unitCube = UnitCube();
 	gridLinesShader =  Shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
 
-	//diffuseMap = inShader.loadTexture("res/images/tile_a.png");
-	diffuseMap = inShader.loadTexture("res/images/tile3.png");
+	diffuseMap = inShader.loadTexture("res/images/tile1.png");
+	//diffuseMap = inShader.loadTexture("res/images/tile3.png");
 	//specularMap = inShader.loadTexture("res/images/brick_spec_map.png");
 	
 	// shader configuration
@@ -13,25 +13,26 @@ GridLines::GridLines(Shader &inShader) {
 	inShader.setInt("material.diffuse", 0);
 
 	//inShader.setFloat("material.shininess", 32.0f);
+
+	textureOn = true;
 }
 
 // USE WITH TILE A
-/*
-void GridLines::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
-	
-	gridLinesShader.use();
-	pointLightProperties();
-	gridLinesShader.setMat4("projection", projection);
-	gridLinesShader.setMat4("view", view);
 
-	gridLinesShader.setVec3("viewPos", inCam.Position);;
+void GridLines::draw(glm::mat4 model, Shader &inShader) {
 	
+	inShader.use();
+	
+	inShader.setBool("textureOn", textureOn);
+	inShader.setBool("borderOn", false);
+	inShader.setFloat("specBias", 2.0);
+	inShader.setVec3("colour", glm::vec3(0.8f, 0.0f, 0.8f));
 	// bind texture maps
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, diffuseMap);
 
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, specularMap);
+	//glActiveTexture(GL_TEXTURE1);
+	//glBindTexture(GL_TEXTURE_2D, specularMap);
 
 	glBindVertexArray(unitCube.getVAO());
 
@@ -40,21 +41,27 @@ void GridLines::draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::ma
 			model = glm::mat4(1.0f);
 			model = glm::translate(model, glm::vec3(x, 0.0f, z));
 			model = glm::scale(model, glm::vec3(1.0, 0.01, 1.0));
-			gridLinesShader.setMat4("model", model);
+			inShader.setMat4("model", model);
 
-			glDrawArrays(GL_TRIANGLES, 0, 36);
+			if (textureOn) {
+				glDrawArrays(GL_TRIANGLES, 0, 36);
+			}
+			else {
+				glDrawArrays(GL_LINES, 0, 36);
+			}
+			
 		}
 	}	
 }
-*/
+
 
 //USE WITH TILE3.PNG
+/*
 void GridLines::draw(glm::mat4 model, Shader &inShader) {
 
 	inShader.use();
 
-	// hardcode floor texture on
-	inShader.setBool("textureOn", true);
+	inShader.setBool("textureOn", textureOn);
 	inShader.setBool("borderOn", false);
 	inShader.setFloat("specBias", 2.0);
 
@@ -71,6 +78,12 @@ void GridLines::draw(glm::mat4 model, Shader &inShader) {
 
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	
+}
+*/
+
+void GridLines::toggleTexture() {
+
+	textureOn = !textureOn;
 }
 
 void GridLines::pointLightProperties() {

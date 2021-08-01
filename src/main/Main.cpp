@@ -42,8 +42,10 @@ GLuint UnitCube::unitCubeVBO = 0;
 // -------------------
 // DECLARE MODELS HERE
 // -------------------
-UnitAxes* unitAxes;
+
+// would've called this floor but it's a conflict in a library somewhere (probably GLM)
 GridLines* gridLines;
+UnitAxes* unitAxes;
 
 ModelBase* activeModel;
 ModelBase* unitCube;
@@ -129,6 +131,8 @@ void toggleTextures() {
 	modelThomas->toggleTexture();
 	modelMichael->toggleTexture();
 	modelRichard->toggleTexture();
+
+	gridLines->toggleTexture();
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -421,7 +425,8 @@ int main()
 	//-----------
 	// OBJECTS
 	//-----------
-	GridLines floor(shader);
+	gridLines = new GridLines(shader);
+
 	unitCube = new ModelBase(shader);
 
 	modelDamian = new ModelDamian(shader);
@@ -491,7 +496,7 @@ int main()
 		// render scene
 		glm::mat4 model = glm::mat4(1.0f);
 
-		floor.draw(model, shadowMapShader);
+		gridLines->draw(model, shadowMapShader);
 		unitCube->draw(model, &shadowMapShader);
 		modelDamian->draw(model, &shadowMapShader);
 		modelElijah->draw(model, &shadowMapShader);
@@ -521,7 +526,7 @@ int main()
 		model = glm::mat4(1.0f);
 
 		// OBJECTS
-		floor.draw(model, shader);
+		gridLines->draw(model, shader);
 		unitCube->draw(model, nullptr);
 
 		modelDamian->draw(model, nullptr);
@@ -529,7 +534,7 @@ int main()
 		modelThomas->draw(model, nullptr);
 		modelMichael->draw(model, nullptr);
 		modelRichard->draw(model, nullptr);
-
+		
 		// unitAxes and lightCube -- THEY USE DIFFERENT SHADERS
 		unitAxes->draw(camera, projection, view, model);
 		lightCube->draw(projection, view, model, lightPos);
