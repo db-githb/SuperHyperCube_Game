@@ -41,9 +41,9 @@ void ModelElijah::generateRandomModel()
 	}
 
 	// Create random model
-	for (int y = 1; y < ROWS - 1; y++)
+	for (int x = 1; x < ROWS - 1; x++)
 	{
-		for (int x = 1; x < COLUMNS - 1; x++)
+		for (int y = 1; y < COLUMNS - 1; y++)
 		{
 			for (int z = 2; z < PLANES; z++)
 			{
