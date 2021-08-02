@@ -1,6 +1,8 @@
 #include "ModelRichard.h"
 
+#define ROWS 9
 #define COLUMNS 9
+#define PLANES 6
 
 ModelRichard::ModelRichard(Shader& inShader) : ModelBase(inShader) {
 

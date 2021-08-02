@@ -24,22 +24,22 @@ void ModelThomas::allocateObjectData() {
 	ModelBase::allocateObjectData();
 
 	for (int r = 2; r < 8; r++) {
-		object.modelData[r][1][PLANES - 3] = YELLOW;
+		object.modelData[r][1][planes - 3] = YELLOW;
 		wall.modelData[r][1][0] = NONE;
 	}
 
 	for (int c = 1; c < 6; c++) {
-		object.modelData[1][c][PLANES - 3] = YELLOW;
+		object.modelData[1][c][planes - 3] = YELLOW;
 		wall.modelData[1][c][0] = NONE;
 	}
 
 	for (int r = 2; r < 8; r++) {
-		object.modelData[r][1][PLANES - 2] = YELLOW;
+		object.modelData[r][1][planes - 2] = YELLOW;
 		wall.modelData[r][1][0] = NONE;
 	}
 
 	for (int c = 1; c < 6; c++) {
-		object.modelData[1][c][PLANES - 2] = YELLOW;
+		object.modelData[1][c][planes - 2] = YELLOW;
 		wall.modelData[1][c][0] = NONE;
 	}
 
@@ -54,7 +54,7 @@ void ModelThomas::allocateObjectData() {
 	}
 
 	for (int r = 2; r < 6; r++) {
-		object.modelData[r][1][PLANES - 1] = ORANGE;
+		object.modelData[r][1][planes - 1] = ORANGE;
 	}
 
 }
@@ -62,9 +62,9 @@ void ModelThomas::allocateObjectData() {
 
 void ModelThomas::resetModel() {
 	// initialize wall and empty space
-	for (int r = 0; r < ROWS; r++) {
-		for (int c = 0; c < COLUMNS; c++) {
-			for (int p = 0; p < PLANES; p++) {
+	for (int r = 0; r < rows; r++) {
+		for (int c = 0; c < columns; c++) {
+			for (int p = 0; p < planes; p++) {
 				if (p == 0) {
 					wall.modelData[r][c][p] = WALL;
 				}
@@ -83,22 +83,22 @@ void ModelThomas::generateOriginalObject() {
 	resetModel();
 
 	for (int r = 2; r < 8; r++) {
-		object.modelData[r][1][PLANES - 3] = YELLOW;
+		object.modelData[r][1][planes - 3] = YELLOW;
 		wall.modelData[r][1][0] = NONE;
 	}
 
 	for (int c = 1; c < 6; c++) {
-		object.modelData[1][c][PLANES - 3] = YELLOW;
+		object.modelData[1][c][planes - 3] = YELLOW;
 		wall.modelData[1][c][0] = NONE;
 	}
 
 	for (int r = 2; r < 8; r++) {
-		object.modelData[r][1][PLANES - 2] = YELLOW;
+		object.modelData[r][1][planes - 2] = YELLOW;
 		wall.modelData[r][1][0] = NONE;
 	}
 
 	for (int c = 1; c < 6; c++) {
-		object.modelData[1][c][PLANES - 2] = YELLOW;
+		object.modelData[1][c][planes - 2] = YELLOW;
 		wall.modelData[1][c][0] = NONE;
 	}
 
@@ -113,7 +113,7 @@ void ModelThomas::generateOriginalObject() {
 	}
 
 	for (int r = 2; r < 6; r++) {
-		object.modelData[r][1][PLANES - 1] = ORANGE;
+		object.modelData[r][1][planes - 1] = ORANGE;
 	}
 }
 
@@ -129,7 +129,7 @@ void ModelThomas::generateRandomModel() {
 			continue;
 		}
 
-		for (int p = 2; p < PLANES; p++)
+		for (int p = 2; p < planes; p++)
 			if ((rand() % 2 == 1)) {
 				object.modelData[r][1][p] = rand() % NUM_COLORS;
 			}
@@ -142,7 +142,7 @@ void ModelThomas::generateRandomModel() {
 			continue;
 		}
 
-		for (int p = 2; p < PLANES; p++)
+		for (int p = 2; p < planes; p++)
 			if ((rand() % 2 == 1)) {
 				object.modelData[1][c][p] =  rand() % NUM_COLORS;
 			}
@@ -151,7 +151,7 @@ void ModelThomas::generateRandomModel() {
 	wall.modelData[2][2][0] = NONE;
 	wall.modelData[5][2][0] = NONE;
 
-	for (int p = 2; p < PLANES; p++) {
+	for (int p = 2; p < planes; p++) {
 		if ((rand() % 10 == 0)) {
 			continue;
 		}
@@ -162,7 +162,7 @@ void ModelThomas::generateRandomModel() {
 	}
 
 	
-	for (int p = 2; p < PLANES; p++) {
+	for (int p = 2; p < planes; p++) {
 		if ((rand() % 10 == 0)) {
 			continue;
 		}

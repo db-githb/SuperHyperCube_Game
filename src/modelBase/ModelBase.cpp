@@ -194,7 +194,7 @@ void ModelBase::drawObject(glm::mat4 model) {
 
 	if (continuousOn) {
 
-		zTranslation = sin(glfwGetTime()-continuousStartTime) * 7;
+		zTranslation = (float)(sin(glfwGetTime()-continuousStartTime) * 7);
 	}
 
 	model = glm::translate(model, (glm::vec3(xTranslation, yTranslation, zTranslation)));

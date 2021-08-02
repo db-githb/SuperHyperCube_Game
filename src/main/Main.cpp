@@ -13,8 +13,8 @@
 #define WIDTH 1024
 #define HEIGHT 768
 
-float windowWidth = 1024.0f;
-float windowHeight = 768.0f;
+int windowWidth = WIDTH;
+int windowHeight = HEIGHT;
 
 // instantiate camera
 Camera camera;
@@ -479,16 +479,16 @@ int main()
 		//Clear the Window
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::vec3 lightPos = activeModel->modelBasePosition + glm::vec3(0.0f, 15.5f, -2.0f);
+		glm::vec3 lightPos = activeModel->modelBasePosition + glm::vec3(0.0f, 30.5f, 0.0f);
 
 		// 0. create depth cubemap transformation matrices
 	  // -----------------------------------------------
 		
 		// when 30 < far_plane shadow acne appears
-		// when far_plane < 70 spotlight effect occurs
+		// when far_plane < 100 spotlight effect occurs
 		// Note: near_plane and far_plane only used in shadow mapping (far_plane passed to frag shader)
 		float near_plane = 1;
-		float far_plane = 75.0;
+		float far_plane = 100.0;
 		
 		glm::mat4 shadowProj = glm::perspective(glm::radians(90.0f), (float)SHADOW_WIDTH / (float)SHADOW_HEIGHT, near_plane, far_plane);
 		std::vector<glm::mat4> shadowTransforms;

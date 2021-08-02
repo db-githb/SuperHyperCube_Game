@@ -2,10 +2,6 @@
 #include "../unitCube/UnitCube.h"
 #include <stdlib.h>
 
-#define ROWS 9
-#define COLUMNS 7
-#define PLANES 6
-
 #define NONE -2
 #define WALL -1
 

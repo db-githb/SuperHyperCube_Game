@@ -42,9 +42,9 @@ void ModelMichael::generateRandomModel()
 
 void ModelMichael::resetModel()
 {
-	for (int r = 0; r < ROWS; r++) {
-		for (int c = 0; c < COLUMNS; c++) {
-			for (int p = 0; p < PLANES; p++)
+	for (int r = 0; r < rows; r++) {
+		for (int c = 0; c < columns; c++) {
+			for (int p = 0; p < planes; p++)
 				if (p == 0) {
 					wall.modelData[r][c][p] = WALL;
 				}
@@ -62,7 +62,7 @@ void ModelMichael::generateCube(int rowStart, int rowEnd, int columnStart, int c
 		for (int c = columnStart; c < columnEnd+1; c++) {
 			for (int r = rowStart; r < rowEnd+1; r++) {
 				for (int p = planeStart; p < planeEnd+1; p++) {
-					object.modelData[r][c][PLANES - p] = color;
+					object.modelData[r][c][planes - p] = color;
 				}
 				//Make hole
 				wall.modelData[r][c][0] = NONE;
