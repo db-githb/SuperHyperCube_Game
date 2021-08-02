@@ -1,4 +1,12 @@
 //Fragment Shader Code
+
+/*
+ * Fragment shader class is adapted the learnOpenGL.com code repostitory on github: https://github.com/JoeyDeVries/LearnOpenGL
+   License:
+ * All code samples, unless explicitly stated otherwise, are licensed under the terms of the CC BY-NC 4.0 license as published by Creative Commons, either version 4 of the License, or (at your option) any later version.
+ * Link to license:  https://github.com/JoeyDeVries/LearnOpenGL/blob/master/LICENSE.md
+*/
+
 // This shader adapts from an online resource for it's edge outline effect.
 // Resource: Tron Shader by SketchPunkLabs on Youtube (Bonus edge outline feature)
 // Link: https://www.youtube.com/watch?v=DI498yX-6XM&ab_channel=SketchpunkLabs
