@@ -4,8 +4,8 @@ ModelBase::ModelBase(Shader &inShader) {
 	unitCube = UnitCube();
 	wall.shader = inShader;
 	object.shader = inShader;
-	wall.diffuseMap = wall.shader.loadTexture("res/images/brick.png");
-	object.diffuseMap = object.shader.loadTexture("res/images/metal.png");
+	wall.diffuseMap = wall.shader.loadTexture("res/images/brick2.jpg");
+	object.diffuseMap = object.shader.loadTexture("res/images/metal4.jpg");
 
 	rows = 1;
 	columns = 1;

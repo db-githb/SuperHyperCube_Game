@@ -5,13 +5,14 @@ UnitAxes::UnitAxes() {
 	axesShader =  Shader("res/shaders/axisShader.vert", "res/shaders/axisShader.frag");
 }
 
-void UnitAxes::draw(Camera camera, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
+void UnitAxes::draw(Camera camera, glm::mat4 projection, glm::mat4 view) {
 	
 	axesShader.use();
 
 	axesShader.setMat4("projection", projection);
 	axesShader.setMat4("view", view);
 
+	glm::mat4 model = glm::mat4(1.0f);
 	// translate each axis line up .028 along the y-axis so they are visible against the grid lines
 	model = glm::translate(model, glm::vec3(0.0f, .028f, 0.0f));
 	model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));

@@ -293,6 +293,24 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	windowHeight = height;
 }
 
+void renderScene(Shader &inShader, bool shadowMap) {
+	glm::mat4 model = glm::mat4(1.0f);
+	
+	gridLines->draw(model, inShader);
+
+	Shader* shader = nullptr;
+	
+	if (shadowMap) {
+		shader = &inShader;
+	}
+	// unitCube->draw(model, shader);
+	modelDamian->draw(model, shader);
+	modelElijah->draw(model, shader);
+	modelThomas->draw(model, shader);
+	modelMichael->draw(model, shader);
+	modelRichard->draw(model, shader);
+}
+
 int main()
 {
 	// Initialise GLFW
@@ -449,7 +467,7 @@ int main()
 		glm::vec3 lightPos = activeModel->modelBasePosition + glm::vec3(0.0f, 30.5f, 0.0f);
 
 		// 0. create depth cubemap transformation matrices
-	  // -----------------------------------------------
+		// -----------------------------------------------
 		
 		// when 30 < far_plane shadow acne appears
 		// when far_plane < 100 spotlight effect occurs
@@ -477,16 +495,8 @@ int main()
 		shadowMapShader.setFloat("far_plane", far_plane);
 		shadowMapShader.setVec3("lightPos", lightPos);
 
-		// render scene
-		glm::mat4 model = glm::mat4(1.0f);
+		renderScene(shadowMapShader, true);
 
-		gridLines->draw(model, shadowMapShader);
-		//unitCube->draw(model, &shadowMapShader);
-		modelDamian->draw(model, &shadowMapShader);
-		modelElijah->draw(model, &shadowMapShader);
-		modelThomas->draw(model, &shadowMapShader);
-		modelMichael->draw(model, &shadowMapShader);
-		modelRichard->draw(model, &shadowMapShader);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	
 
@@ -507,21 +517,11 @@ int main()
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
 
-		model = glm::mat4(1.0f);
-
-		// OBJECTS
-		gridLines->draw(model, shader);
-		// unitCube->draw(model, nullptr);
-
-		modelDamian->draw(model, nullptr);
-		modelElijah->draw(model, nullptr);
-		modelThomas->draw(model, nullptr);
-		modelMichael->draw(model, nullptr);
-		modelRichard->draw(model, nullptr);
+		renderScene(shader, false);
 		
-		// unitAxes and lightCube -- THEY USE DIFFERENT SHADERS
-		unitAxes->draw(camera, projection, view, model);
-		lightCube->draw(projection, view, model, lightPos);
+		// unitAxes and lightCube -- USE DIFFERENT SHADERS -- that's why they're not in the render scene function (also different draw signature)
+		unitAxes->draw(camera, projection, view);
+		lightCube->draw(projection, view, lightPos);
 
 		glfwSwapBuffers(mainWindow);
 		

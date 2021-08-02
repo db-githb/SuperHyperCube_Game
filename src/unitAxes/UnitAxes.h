@@ -16,7 +16,7 @@
 class UnitAxes {
 public:
 	UnitAxes();
-	void draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model);
+	void draw(Camera inCam, glm::mat4 projection, glm::mat4 view);
 
 private:
 	UnitLine unitLine;
