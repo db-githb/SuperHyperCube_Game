@@ -86,8 +86,11 @@ float ShadowCalculation(vec3 fragPos)
     // now get current linear depth as the length between the fragment and light position
     float currentDepth = length(fragToLight);
     // test for shadows
+
+	// bias and the shadow line are used to handle the shadow acne
     float bias = 0.05; // we use a much larger bias since depth is now in [near_plane, far_plane] range
-    float shadow = currentDepth -  bias > closestDepth ? 1.0 : 0.0;    
+    float shadow = currentDepth -  bias > closestDepth ? 1.0 : 0.0;   
+
     // display closestDepth as debug (to visualize depth cubemap)
 	//FragColor = vec4(vec3(closestDepth / far_plane), 1.0);    
         

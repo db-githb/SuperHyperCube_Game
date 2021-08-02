@@ -12,9 +12,6 @@ ModelRichard::ModelRichard(Shader& inShader) : ModelBase(inShader) {
 	columns = 9;
 	planes = 7;
 
-	colorPalette = new glm::vec3[NUM_COLORS];
-	setColorPalette();
-
 	allocateWallData();
 	allocateObjectData();
 }
@@ -116,56 +113,20 @@ void ModelRichard::generateOriginalObject() {
 
 void ModelRichard::generateRandomModel() {
 
-	resetModel();
+	resetObject();
 
-	for (int r = 2; r < 8; r++) {
+	for (int r = 0; r < rows; r++) {
+		for (int c = 0; c < columns; c++) {
 
-		wall.modelData[r][1][0] = NONE;
+			// 5% chance of empty slot across all planes
+			if (wall.modelData[r][c][0] == NONE && (rand() % 100 > 5)) {
+				int start = rand() % (planes - 1);
+				int end = rand() % (planes - start) + start;
+				for (int p = start; p < end; p++) {
+					object.modelData[r][c][p] = (rand() % (NUM_COLORS - 1)) + 1;
+				}
 
-		if ((rand() % 10 == 0)) {
-			continue;
-		}
-
-		for (int p = 2; p < PLANES; p++)
-			if ((rand() % 2 == 1)) {
-				object.modelData[r][1][p] = rand() % NUM_COLORS;
 			}
-	}
-
-	for (int c = 1; c < 6; c++) {
-		wall.modelData[1][c][0] = NONE;
-
-		if ((rand() % 10 == 0)) {
-			continue;
-		}
-
-		for (int p = 2; p < PLANES; p++)
-			if ((rand() % 2 == 1)) {
-				object.modelData[1][c][p] = rand() % NUM_COLORS;
-			}
-	}
-
-	wall.modelData[2][2][0] = NONE;
-	wall.modelData[5][2][0] = NONE;
-
-	for (int p = 2; p < PLANES; p++) {
-		if ((rand() % 10 == 0)) {
-			continue;
-		}
-
-		if ((rand() % 2 == 1)) {
-			wall.modelData[2][2][p] = rand() % NUM_COLORS;
-		}
-	}
-
-
-	for (int p = 2; p < PLANES; p++) {
-		if ((rand() % 10 == 0)) {
-			continue;
-		}
-
-		if ((rand() % 2 == 1)) {
-			object.modelData[5][2][p] = rand() % NUM_COLORS;
 		}
 	}
 }
