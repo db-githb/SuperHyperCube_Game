@@ -11,13 +11,25 @@
 #include "../shader/Shader.h"
 #include "../camera/Camera.h"
 
+#define LIGHT_DIRECTION 0
+#define LIGHT_AMBIENT 1
+#define LIGHT_DIFFUSE 2
+#define LIGHT_SPECULAR 3
+
+#define POINT_LIGHT_POSITION 0
+#define POINT_LIGHT_AMBIENT 1
+#define POINT_LIGHT_DIFFUSE 2
+#define POINT_LIGHT_SPECULAR 3
+#define POINT_LIGHT_ATTENUATION 3
+
+
 class UnitCube {
 public:
 	UnitCube();
 	void createCube();
-	GLuint getVAO();
-	GLuint getVBO();
+	static GLuint getVAO();
+	static GLuint getVBO();
 
 private:
-	GLuint unitCubeVBO, unitCubeVAO;
+	static GLuint unitCubeVBO, unitCubeVAO;
 };

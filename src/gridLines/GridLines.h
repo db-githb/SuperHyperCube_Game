@@ -1,13 +1,17 @@
 #pragma once
-#include "../main/Main.h"
-#include "../unitLine/UnitLine.h"
+#include "../unitCube/UnitCube.h"
 
 class GridLines {
 public:
-	GridLines();
-	void draw(Camera inCam, glm::mat4 projection, glm::mat4 view, glm::mat4 model);
+	GridLines(Shader& inShader);
+	void draw(glm::mat4 model, Shader &shadowMapShader);
+	void pointLightProperties();
+	void toggleTexture();
 
 private:
-	UnitLine unitLine;
+	UnitCube unitCube;
 	Shader gridLinesShader;
+	unsigned int diffuseMap;
+	bool textureOn;
+	//unsigned int specularMap;
 };

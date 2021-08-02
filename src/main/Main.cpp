@@ -1,13 +1,20 @@
-#include "Main.h"
 #include "../unitCube/UnitCube.h"
 #include "../unitLine/UnitLine.h"
 #include "../unitAxes/UnitAxes.h"
 #include "../gridLines/GridLines.h"
-#include "../modelBase/modelBase.h"
 #include "../modelDamian/modelDamian.h"
 #include "../modelElijah/modelElijah.h"
 #include "../modelThomas/modelThomas.h"
-#include "../modelKayla/modelKayla.h"
+#include "../modelMichael/modelMichael.h"
+#include "../modelRichard/modelRichard.h"
+#include "../lightCube/LightCube.h"
+
+// window size
+#define WIDTH 1024
+#define HEIGHT 768
+
+int windowWidth = WIDTH;
+int windowHeight = HEIGHT;
 
 // instantiate camera
 Camera camera;
@@ -20,16 +27,34 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-ModelBase* activeModel;
+// shadows
+bool shadows = true;
+
+// -------------------
+// INSTANTIATE STATIC VARIABLES (assign memory) for static variable
+// -------------------
+glm::vec3* ModelBase::colorPalette = new glm::vec3[NUM_COLORS];
+
+GLuint UnitCube::unitCubeVAO = 0;
+GLuint UnitCube::unitCubeVBO = 0;
 
 // -------------------
 // DECLARE MODELS HERE
 // -------------------
+
+// would've called this floor but it's a conflict in a library somewhere (probably GLM)
+GridLines* gridLines;
+UnitAxes* unitAxes;
+
+ModelBase* activeModel;
 ModelBase* unitCube;
 ModelDamian* modelDamian;
 ModelElijah* modelElijah;
 ModelThomas* modelThomas;
-ModelKayla* modelKayla;
+ModelMichael* modelMichael;
+ModelRichard* modelRichard;
+
+LightCube* lightCube;
 // ===================
 
 void processInput(GLFWwindow* window)
@@ -91,6 +116,24 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	return;
 }
 
+void toggleBorders() {
+	modelDamian->toggleBorder();
+	modelElijah->toggleBorder();
+	modelThomas->toggleBorder();
+	modelMichael->toggleBorder();
+	modelRichard->toggleBorder();
+}
+
+void toggleTextures() {
+	modelDamian->toggleTexture();
+	modelElijah->toggleTexture();
+	modelThomas->toggleTexture();
+	modelMichael->toggleTexture();
+	modelRichard->toggleTexture();
+
+	gridLines->toggleTexture();
+}
+
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if (action == GLFW_RELEASE) {
@@ -110,7 +153,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			activeModel = modelThomas;
 			break;
 		case GLFW_KEY_4:
-			activeModel = modelKayla;
+			activeModel = modelMichael;
+			break;
+		case GLFW_KEY_5:
+			activeModel = modelRichard;
 			break;
 
 		// select render mode
@@ -122,6 +168,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		case GLFW_KEY_L:
 			activeModel->setRenderMode(GL_LINES);
+			break;
+
+		// toggle textures
+		case GLFW_KEY_X:
+			toggleTextures();
+			break;
 
 
 		// scale models up and down
@@ -138,19 +190,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 			if (mods == GLFW_MOD_SHIFT) {
 				activeModel->translate(TRANS_LEFT);
-
-				// if boundary collision occurs undo left translation
-				if (activeModel->boundaryCollision()) {
-					activeModel->translate(TRANS_RIGHT);
-				}
 			}
 			else {
-				activeModel->rotate(ROTATE_LEFT);
-
-				// if boundary collision occurs undo left rotation
-				if (activeModel->boundaryCollision()) {
-					activeModel->rotate(ROTATE_RIGHT);
-				}
+				activeModel->rotate(ROTATE_Y_COUNTER);
 			}
 			break;
 
@@ -158,19 +200,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 			if (mods == GLFW_MOD_SHIFT) {
 				activeModel->translate(TRANS_RIGHT);
-
-				// if boundary collision occurs undo right translation
-				if (activeModel->boundaryCollision()) {
-					activeModel->translate(TRANS_LEFT);
-				}
 			}
 			else {
-				activeModel->rotate(ROTATE_RIGHT);
-
-				// if boundary collision occurs undo right rotation
-				if (activeModel->boundaryCollision()) {
-					activeModel->rotate(ROTATE_LEFT);
-				}
+				activeModel->rotate(ROTATE_Y_CLOCKWISE);
 			}
 			break;
 
@@ -180,12 +212,44 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			return;
 
 		case  GLFW_KEY_S:
-
-			if (activeModel->boundaryCollision()) {
-				return;
-			}
-
 			activeModel->translate(TRANS_DOWN);
+			break;
+
+		case GLFW_KEY_Z:
+
+			activeModel->translate(TRANS_FORWARD);
+			
+			break;
+
+		case GLFW_KEY_C:
+
+			if (mods == GLFW_MOD_SHIFT) {
+				activeModel->toggleContinuous();
+			}
+			else {
+				activeModel->translate(TRANS_BACKWARD);
+			}
+			break;
+
+		// rotate along X and Z axis, maybe map y rotation to G and V keys
+		case GLFW_KEY_V:
+			activeModel->rotate(ROTATE_X_CLOCKWISE);
+			break;
+		case GLFW_KEY_G:
+			activeModel->rotate(ROTATE_X_COUNTER);
+			break;
+		case GLFW_KEY_H:
+			activeModel->rotate(ROTATE_Z_CLOCKWISE);
+			break;
+		case GLFW_KEY_B:
+
+			if (mods == GLFW_MOD_SHIFT) {
+				toggleBorders();
+			}
+			else {
+				activeModel->rotate(ROTATE_Z_COUNTER);
+			}
+			
 			break;
 		
 		case GLFW_KEY_SPACE:
@@ -197,14 +261,57 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 
 		case GLFW_KEY_R:
-			activeModel->generateRandomModel();
+
+			if (mods == GLFW_MOD_SHIFT) {
+				activeModel->resetPOS();
+			}
+			else {
+				activeModel->generateRandomModel();
+			}
 			break;
 
-		case GLFW_KEY_F:
+		case GLFW_KEY_O:
 			activeModel->generateOriginalObject();
 			break;
+
+		case GLFW_KEY_SPACE:
+			
+			if (shadows == true) {
+				shadows = false;
+			}
+			else {
+				shadows = true;
+			}
+
+			break;
+
 		}
 	}
+}
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
+	windowWidth = width;
+	windowHeight = height;
+}
+
+void renderScene(Shader &inShader, bool shadowMap) {
+	glm::mat4 model = glm::mat4(1.0f);
+	
+	gridLines->draw(model, inShader);
+
+	Shader* shader = nullptr;
+	
+	if (shadowMap) {
+		shader = &inShader;
+	}
+	// unitCube->draw(model, shader);
+	modelDamian->draw(model, shader);
+	modelElijah->draw(model, shader);
+	modelThomas->draw(model, shader);
+	modelMichael->draw(model, shader);
+	modelRichard->draw(model, shader);
 }
 
 int main()
@@ -228,7 +335,7 @@ int main()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	// Create the window
-	GLFWwindow* mainWindow = glfwCreateWindow(WIDTH, HEIGHT, "Comp 371: Assignment 1 - Team 7", NULL, NULL);
+	GLFWwindow* mainWindow = glfwCreateWindow(windowWidth, windowHeight, "Comp 371: Assignment 2 - Team 7", NULL, NULL);
 	if (!mainWindow)
 	{
 		printf("GLFW window creation failed!");
@@ -245,6 +352,7 @@ int main()
 	glfwSetCursorPosCallback(mainWindow, mouse_callback);
 	glfwSetMouseButtonCallback(mainWindow, mouse_button_callback);
 	glfwSetKeyCallback(mainWindow, key_callback);
+	glfwSetFramebufferSizeCallback(mainWindow, framebuffer_size_callback);
 
 	// glad: load all OpenGl function pointers
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
@@ -252,49 +360,88 @@ int main()
 		return -1;
 	}
 
-	glfwSetInputMode(mainWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(mainWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-	// configure global opengl state (GL_DEPTH_TEST = ensure things behind solid objects are not drawn)
+	// configure global opengl state:
+	//  -GL_DEPTH_TEST = ensure things behind solid objects are not drawn
+	//  -GL_CULL_FACE = ensure that faces of objects not visible are not drawn
 	// -----------------------------
 	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_CULL_FACE);
 
 	// Create Viewport
-	glViewport(0, 0, WIDTH, HEIGHT);
+	glViewport(0, 0, windowWidth, windowWidth);
 
 	// ----------------------------------
-	// INSTANTIATE AND INITIALIZE MODELS HERE
+	// INITIALIZE STATIC VARIABLES
 	// ----------------------------------
-	UnitAxes unitAxes;
-	GridLines gridLines;
 
-	unitCube = new ModelBase();
-	unitCube->initialize();
+	ModelBase::setColorPalette();
 
-	modelDamian = new ModelDamian();
-	modelDamian->initialize();
 
-	modelElijah = new ModelElijah();
-	modelElijah->initialize();
+	// configure depth map FBO
+	// -----------------------
+	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+	unsigned int depthMapFBO;
+	glGenFramebuffers(1, &depthMapFBO);
+	// create depth cubemap texture
+	unsigned int depthCubemap;
+	glGenTextures(1, &depthCubemap);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
+	for (unsigned int i = 0; i < 6; ++i) {
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	}
+		
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-	modelThomas = new ModelThomas();
-	modelThomas->initialize();
+	// attach depth texture as FBO's depth buffer
+	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthCubemap, 0);
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	modelKayla = new ModelKayla();
-	modelKayla->initialize();
+	//-----------
+	// SHADERS
+	//-----------
+	Shader shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
+	
+	unsigned int diffuseMapBlock = shader.loadTexture("res/images/brick.png");
+	shader.use();
+	shader.setInt("material.diffuse", 0);
+	shader.setInt("depthMap", 1);
+
+	Shader shadowMapShader("res/shaders/shadowMapShader.vert", "res/shaders/shadowMapShader.frag", "res/shaders/shadowMapShader.geom");
+
+	//-----------
+	// OBJECTS
+	//-----------
+	gridLines = new GridLines(shader);
+
+	unitCube = new ModelBase(shader);
+
+	modelDamian = new ModelDamian(shader);
+
+	modelElijah = new ModelElijah(shader);
+
+	modelThomas = new ModelThomas(shader);
+
+	modelMichael = new ModelMichael(shader);
+
+	modelRichard = new ModelRichard(shader);
+
+	// UNIT AXES / LIGHT CUBE
+	unitAxes = new UnitAxes();
+	lightCube = new LightCube();
 
 	// ==================================
 
-	// directional lighting values
-	glm::vec3 dirLighting[4] = {
-		glm::vec3(-0.2f, -1.0f, -0.3f), //direction
-		glm::vec3(0.05f, 0.05f, 0.05f), // ambient
-		glm::vec3(0.4f, 0.4f, 0.4f), // diffuse
-		glm::vec3(0.5f, 0.5f, 0.5f) // specular
-	};
-
 	// initialize active model
-	activeModel = modelDamian;
-
+	activeModel = modelRichard;
 
 	// display/render loop
 	while (!glfwWindowShouldClose(mainWindow))
@@ -313,28 +460,70 @@ int main()
 		//Clear the Window
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
+		glm::vec3 lightPos = activeModel->modelBasePosition + glm::vec3(0.0f, 30.5f, 0.0f);
+
+		// 0. create depth cubemap transformation matrices
+		// -----------------------------------------------
+		
+		// when 30 < far_plane shadow acne appears
+		// when far_plane < 100 spotlight effect occurs
+		// Note: near_plane and far_plane only used in shadow mapping (far_plane passed to frag shader)
+		float near_plane = 1;
+		float far_plane = 100.0;
+		
+		glm::mat4 shadowProj = glm::perspective(glm::radians(90.0f), (float)SHADOW_WIDTH / (float)SHADOW_HEIGHT, near_plane, far_plane);
+		std::vector<glm::mat4> shadowTransforms;
+		shadowTransforms.push_back(shadowProj* glm::lookAt(lightPos, lightPos + glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
+		shadowTransforms.push_back(shadowProj* glm::lookAt(lightPos, lightPos + glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
+		shadowTransforms.push_back(shadowProj* glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f)));
+		shadowTransforms.push_back(shadowProj* glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f)));
+		shadowTransforms.push_back(shadowProj* glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
+		shadowTransforms.push_back(shadowProj* glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
+		
+		// 1. render scene to depth cubemap
+		// --------------------------------
+		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+		glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+		glClear(GL_DEPTH_BUFFER_BIT);
+		shadowMapShader.use();
+		for (unsigned int i = 0; i < 6; ++i)
+			shadowMapShader.setMat4("shadowMatrices[" + std::to_string(i) + "]", shadowTransforms[i]);
+		shadowMapShader.setFloat("far_plane", far_plane);
+		shadowMapShader.setVec3("lightPos", lightPos);
+
+		renderScene(shadowMapShader, true);
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	
+
+		// 2. render scene as normal 
+		// -------------------------
+		glViewport(0, 0, windowWidth, windowHeight);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		shader.use();
+		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)windowWidth / (float)windowHeight, 0.1f, 200.0f);
 		glm::mat4 view = camera.GetViewMatrix();
-		glm::mat4 model = glm::mat4(1.0f);
+		shader.setMat4("projection", projection);
+		shader.setMat4("view", view);
+		// set lighting uniforms
+		shader.setVec3("pointLight.position", lightPos);
+		shader.setVec3("viewPos", camera.Position);
+		shader.setInt("shadows",shadows); // enable/disable shadows by pressing 'SPACE'
+		shader.setFloat("far_plane", far_plane);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
 
-		unitAxes.draw(camera, projection, view, model);
-		gridLines.draw(camera, projection, view, model);
-
-		// ----------------------------------
-		// DRAW MODELS HERE
-		// ----------------------------------
-
-		//unitCube->draw(camera, dirLighting, projection, view, model);
-		modelDamian->draw(camera, dirLighting, projection, view, model);
-		modelElijah->draw(camera, dirLighting, projection, view, model);
-		modelThomas->draw(camera, dirLighting, projection, view, model);
-		modelKayla->draw(camera, dirLighting, projection, view, model);
-
-		// ==================================
+		renderScene(shader, false);
+		
+		// unitAxes and lightCube -- USE DIFFERENT SHADERS -- that's why they're not in the render scene function (also different draw signature)
+		unitAxes->draw(camera, projection, view);
+		lightCube->draw(projection, view, lightPos);
 
 		glfwSwapBuffers(mainWindow);
 		
 	}
 
-	return 0;
+	delete modelDamian;
+	glfwTerminate();
+	exit(0);
 }

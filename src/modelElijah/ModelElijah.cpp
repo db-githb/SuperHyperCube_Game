@@ -1,244 +1,140 @@
 #include "ModelElijah.h"
 
-     ModelElijah::ModelElijah()
-	{
-		transform.position = glm::vec3(-5.0f, 0.5f, -5.0f);
-	}
+ModelElijah::ModelElijah(Shader& inShader) : ModelBase(inShader)
+{
 
-void ModelElijah::initialize() {
+	transform.position = glm::vec3(-5.0f, 0.5f, -5.0f);
 
-	modelBasePosition = glm::vec3(-5.0f, 0.5f, -5.0f);
+	modelBasePosition = glm::vec3(-15.0f, 0.5f, -15.0f);
+
+	rows = 9;
+	columns = 7;
+	planes = 7;
+
+	allocateWallData();
+	allocateObjectData();
 
 	generateOriginalObject();
-
-}
-
-// draw method works by rendering each unit cube in the model
-void ModelElijah::draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, glm::mat4 view, glm::mat4 model) {
-
-	// activate the shader
-	baseShader.use();
-
-	// pass the camera position to the fragment shader.  This determines what is "shadowed" and what isn't relative to the camera.
-	baseShader.setVec3("viewPos", inCam.Position);
-
-	// pass the color/lighting values to the fragment shader (at this point in time outside of some shadowing on the faces of the unit cube not directly facing the light this pretty much colors the unit cubes.
-	baseShader.setVec3("dirLight.direction", dirLight[LIGHT_DIRECTION]);
-	baseShader.setVec3("dirLight.ambient", dirLight[LIGHT_AMBIENT]);
-	baseShader.setVec3("dirLight.diffuse", dirLight[LIGHT_DIFFUSE]);
-	baseShader.setVec3("dirLight.specular", dirLight[LIGHT_SPECULAR]);
-
-	// pass transformation matrices to the vertex shader.  The model matrix is passed at the end after all the world transformations are applied to the unit cube.
-	baseShader.setMat4("projection", projection);
-	baseShader.setMat4("view", view);
-
-	// world transformation: glm::translate moves the model around the world
-	for (int c = 0; c < sizeX; c++)
-	{
-		for (int r = 0; r < sizeY; r++)
-		{
-			for (int p = 0; p < sizeZ; p++) 
-			{
-
-				if (modelData[c][r][p] == NONE) 
-				{
-					continue;
-				}
-
-				// scale position of each unitCube
-				float x = (float)c * scaleFactor;
-				float y = (float)r * scaleFactor;
-				float z = (float)p * scaleFactor;
-
-				// The XYZ coordinate vector of a given cube relative to the model's root/origin
-				glm::vec3 translation = glm::vec3(x, y, z);
-				//transform.matrix = glm::scale(transform.matrix, glm::vec3(1.0f) * scaleFactor);
-				// Set the model's origin relative to the scene origin
-				transform.matrix = glm::translate(glm::mat4(1.0f) , (transform.position +  glm::vec3(xTranslation*scaleFactor, yTranslation*scaleFactor, 0.0f)));
-				
-				// Apply rotation to a given unit cube relative to the whole model's origin
-				model = glm::rotate(transform.matrix, orientation, glm::vec3(0.0f, 1.0f, 0.0f));
-				
-				if (modelData[c][r][p] == WALL) 
-					baseShader.setVec3("dirLight.ambient", dirLight[LIGHT_AMBIENT]); // shader colors the wall unit cube grey
-				else 
-				{
-					// if-else statement colors the object cubes either red or blue
-					if (modelData[c][r][p] == RED) 
-					{
-						baseShader.setVec3("dirLight.ambient", glm::vec3(0.1f, 0.7f, 0.5f));
-					}
-					else 
-					{
-						baseShader.setVec3("dirLight.ambient", glm::vec3(0.5f, 0.1f, 0.5f));
-					}
-				}
-
-				// translation vector to move unit cube from base position
-				model = glm::translate(model, translation + glm::vec3(scaleFactor*(-sizeX / 2), 0.0f, scaleFactor * (-sizeZ / 2)));
-				
-				// Scale the size of each cube uniformly
-				model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
-				
-				
-				// pass the model matrix to the vertex shader
-				baseShader.setMat4("model", model);
-
-				// render the cube
-				glBindVertexArray(unitCube.getVAO());
-				glDrawArrays(renderMode, 0, 36);
-
-				glBindVertexArray(unitCube.getVAO());
-				/*baseShader.setMat4("model", transform.matrix);
-				baseShader.setVec3("dirLight.ambient", glm::vec3(1.0f, 1.0f, 1.0f));
-				glDrawArrays(renderMode, 0, 36);*/
-
-			}
-
-		}
-	}
 }
 
 void ModelElijah::generateRandomModel()
 {
 	// initialize entire model to a wall or none (no unit cube)
-	for (int x = 0; x < sizeX; x++)
+	for (int x = 0; x < ROWS; x++)
 	{
-		for (int y = 0; y < sizeY; y++)
+		for (int y = 0; y < COLUMNS; y++)
 		{
-			for (int z = 0; z < sizeZ; z++)
+			for (int z = 0; z < PLANES; z++)
 			{
 				if (z == 0)
 				{
-					modelData[x][y][z] = WALL;
+					wall.modelData[y][x][z] = WALL;
 				}
 				else
 				{
-					modelData[x][y][z] = NONE;
+					object.modelData[y][x][z] = NONE;
 				}
 			}
 		}
 	}
 
 	// Create random model
-	for (int y = 1; y < sizeY - 1; y++)
+	for (int x = 1; x < ROWS - 1; x++)
 	{
-		for (int x = 1; x < sizeX - 1; x++)
+		for (int y = 1; y < COLUMNS - 1; y++)
 		{
-			for (int z = 2; z < sizeZ; z++)
+			for (int z = 2; z < PLANES; z++)
 			{
 				if (rand() % 100 > 80 && z != 0)
 				{
 					if (rand() % 100 > 50)
-						modelData[x][y][z] = RED;
+						object.modelData[y][x][z] = RED;
 					else
-						modelData[x][y][z] = BLUE;
+						object.modelData[y][x][z] = BLUE;
 					
-					modelData[x][y][0] = NONE;
+					wall.modelData[y][x][0] = NONE;
 				}
 			}
 		}
 	}
-
-
-
-	
 
 }
 
 void ModelElijah::generateOriginalObject()
 {
-// initialize entire model to a wall or none (no unit cube)
-	for (int x = 0; x < sizeX; x++) 
-	{
-		for (int y = 0; y < sizeY; y++) 
-		{
-			for (int z = 0; z < sizeZ; z++)
-			{
-				if (z == 0)
-				{
-					modelData[x][y][z] = WALL;
-				}
-				else
-				{
-					modelData[x][y][z] = NONE;
-				}
-			}
-		}
-	}
 
-	for (int y = 1; y < sizeY - 1; y++)
+	for (int y = 1; y < COLUMNS - 1; y++)
 	{
-		for (int x = 1; x < sizeX - 1; x++)
+		for (int x = 1; x < ROWS - 1; x++)
 		{
-			for (int z = 2; z < sizeZ; z++)
+			for (int z = 2; z < PLANES; z++)
 			{
-				if (y == 1 || y == sizeY - 2)
+				if (y == 1 || y == COLUMNS - 2)
 				{
-					modelData[x][y][z] = BLUE;
-					modelData[x][y][0] = NONE;
+					object.modelData[y][x][z] = BLUE;
+					wall.modelData[y][x][0] = NONE;
 				}
-				if ((y == 2 || y == sizeY - 3) && (x >=2 && x <= sizeX - 3))
+				if ((y == 2 || y == COLUMNS - 3) && (x >=2 && x <= ROWS - 3))
 				{
-					modelData[x][y][z] = BLUE;
-					modelData[x][y][0] = NONE;
+					object.modelData[y][x][z] = BLUE;
+					wall.modelData[y][x][0] = NONE;
 				}
-				if ((y == 3 || y == sizeY - 4) && (x >= 3 && x <= sizeX - 4))
+				if ((y == 3 || y == COLUMNS - 4) && (x >= 3 && x <= ROWS - 4))
 				{
-					modelData[x][y][z] = BLUE;
-					modelData[x][y][0] = NONE;
+					object.modelData[y][x][z] = BLUE;
+					wall.modelData[y][x][0] = NONE;
 				}
-				if ((y == 4 || y == sizeY - 5))
+				if ((y == 4 || y == COLUMNS - 5))
 				{
-					modelData[x][y][z] = BLUE;
-					modelData[x][y][0] = NONE;
+					object.modelData[y][x][z] = BLUE;
+					wall.modelData[y][x][0] = NONE;
 				}
 
 			}
 		}	
 	}
-
-	for (int y = 1; y < sizeY - 1; y++)
+	
+	for (int y = 1; y < COLUMNS - 1; y++)
 	{
-		for (int x = 1; x < sizeX - 1; x++)
+		for (int x = 1; x < ROWS - 1; x++)
 		{
-			for (int z = 2; z < sizeZ; z++)
+			for (int z = 2; z < PLANES; z++)
 			{
-				if ((x == 1 || x == sizeX - 2) && z != 4)
-					modelData[x][y][z] = NONE;
-				if ((x == 2 || x == sizeX - 3) && (z == 2 || z == 6))
-					modelData[x][y][z] = NONE;
+				if ((x == 1 || x == ROWS - 2) && z != 4)
+					object.modelData[y][x][z] = NONE;
+				if ((x == 2 || x == ROWS - 3) && (z == 2 || z == 6))
+					object.modelData[y][x][z] = NONE;
 
 			}
 		}
 	}
 	
-	for (int y = 1; y < sizeY - 1; y++)
+	for (int y = 1; y < COLUMNS - 1; y++)
 	{
-		for (int x = 1; x < sizeX - 1; x++)
+		for (int x = 1; x < ROWS - 1; x++)
 		{
-			for (int z = 2; z < sizeZ; z++)
+			for (int z = 2; z < PLANES; z++)
 			{
 				if((y == 2 || y == 6) && (z == 2 || z == 6))
-					modelData[x][y][z] = NONE;
+					object.modelData[y][x][z] = NONE;
 				if ((y == 3 || y == 5) && (z == 2 || z == 3 || z == 5 || z == 6))
-					modelData[x][y][z] = NONE;
+					object.modelData[y][x][z] = NONE;
 				if ((y == 2 || y == 6) && (x == 2 || x == 4) && (z==3 || z==5))
-					modelData[x][y][z] = NONE;
+					object.modelData[y][x][z] = NONE;
 			}
 		}
 	}
-
-	for (int y = 1; y < sizeY - 1; y++)
+	
+	for (int y = 1; y < COLUMNS - 1; y++)
 	{
-		for (int x = 1; x < sizeX - 1; x++)
+		for (int x = 1; x < ROWS - 1; x++)
 		{
-			for (int z = 2; z < sizeZ; z++)
+			for (int z = 2; z < PLANES; z++)
 			{
-				if (modelData[x][y][z] == BLUE && y % 2 == 0)
+				if (modelData[y][x][z] == BLUE && y % 2 == 0)
 				{
-					modelData[x][y][z] = RED;
-					modelData[x][y][0] = NONE;
+					object.modelData[y][x][z] = RED;
+					wall.modelData[y][x][0] = NONE;
 				}
 			}
 		}

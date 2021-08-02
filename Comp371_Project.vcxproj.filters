@@ -43,8 +43,14 @@
     <Filter Include="src\modelThomas">
       <UniqueIdentifier>{c03432c7-a564-4eae-a89b-a825ccc5f20f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\modelKayla">
-      <UniqueIdentifier>{5d8d394c-a4ef-41cc-8cc2-425854aa2fa3}</UniqueIdentifier>
+    <Filter Include="src\modelMichael">
+      <UniqueIdentifier>{07f1961d-9a82-44bf-ad6f-cf2ff10939aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\lightCube">
+      <UniqueIdentifier>{9dcef14b-9f6e-41a0-85b7-f630d9717666}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\modelRichard">
+      <UniqueIdentifier>{0b350755-3a6f-47dc-938b-4c524494a472}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -66,10 +72,19 @@
     <None Include="res\shaders\gridLineShader.vert">
       <Filter>res\shaders</Filter>
     </None>
+    <None Include="res\shaders\baseShader.vert">
+      <Filter>res\shaders</Filter>
+    </None>
     <None Include="res\shaders\baseShader.frag">
       <Filter>res\shaders</Filter>
     </None>
-    <None Include="res\shaders\baseShader.vert">
+    <None Include="res\shaders\shadowMapShader.frag">
+      <Filter>res\shaders</Filter>
+    </None>
+    <None Include="res\shaders\shadowMapShader.geom">
+      <Filter>res\shaders</Filter>
+    </None>
+    <None Include="res\shaders\shadowMapShader.vert">
       <Filter>res\shaders</Filter>
     </None>
   </ItemGroup>
@@ -95,28 +110,31 @@
     <ClCompile Include="src\gridLines\GridLines.cpp">
       <Filter>src\gridLines</Filter>
     </ClCompile>
-    <ClCompile Include="src\modelDamian\ModelDamian.cpp">
-      <Filter>src\modelDamian</Filter>
-    </ClCompile>
     <ClCompile Include="src\modelBase\ModelBase.cpp">
       <Filter>src\modelBase</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modelElijah\ModelElijah.cpp">
-      <Filter>src\modelElijah</Filter>
     </ClCompile>
     <ClCompile Include="src\modelThomas\ModelThomas.cpp">
       <Filter>src\modelThomas</Filter>
     </ClCompile>
-    <ClCompile Include="src\modelKayla\ModelKayla.cpp">
-      <Filter>src\modelKayla</Filter>
+    <ClCompile Include="src\modelDamian\ModelDamian.cpp">
+      <Filter>src\modelDamian</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modelElijah\ModelElijah.cpp">
+      <Filter>src\modelElijah</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modelMichael\ModelMichael.cpp">
+      <Filter>src\modelMichael</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lightCube\LightCube.cpp">
+      <Filter>src\lightCube</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modelRichard\ModelRichard.cpp">
+      <Filter>src\modelRichard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">
       <Filter>src\camera</Filter>
-    </ClInclude>
-    <ClInclude Include="src\main\Main.h">
-      <Filter>src\main</Filter>
     </ClInclude>
     <ClInclude Include="src\shader\Shader.h">
       <Filter>src\shaderObj</Filter>
@@ -133,20 +151,29 @@
     <ClInclude Include="src\gridLines\GridLines.h">
       <Filter>src\gridLines</Filter>
     </ClInclude>
-    <ClInclude Include="src\modelDamian\ModelDamian.h">
-      <Filter>src\modelDamian</Filter>
-    </ClInclude>
     <ClInclude Include="src\modelBase\ModelBase.h">
       <Filter>src\modelBase</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modelElijah\ModelElijah.h">
-      <Filter>src\modelElijah</Filter>
     </ClInclude>
     <ClInclude Include="src\modelThomas\ModelThomas.h">
       <Filter>src\modelThomas</Filter>
     </ClInclude>
-    <ClInclude Include="src\modelKayla\ModelKayla.h">
-      <Filter>src\modelKayla</Filter>
+    <ClInclude Include="src\modelDamian\ModelDamian.h">
+      <Filter>src\modelDamian</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shader\stb_image.h">
+      <Filter>src\shaderObj</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modelElijah\ModelElijah.h">
+      <Filter>src\modelElijah</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modelMichael\ModelMichael.h">
+      <Filter>src\modelMichael</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lightCube\LightCube.h">
+      <Filter>src\lightCube</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modelRichard\ModelRichard.h">
+      <Filter>src\modelRichard</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

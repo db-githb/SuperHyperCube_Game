@@ -1,14 +1,10 @@
 #pragma once
 #include "../modelBase/ModelBase.h"
 
-#define WALL 1
-#define BLUE 2
-#define RED 3
-#define NONE 0
 
-#define sizeX 7
-#define sizeY 9
-#define sizeZ 7
+#define COLUMNS 9
+#define ROWS 7
+#define PLANES 7
 
 class ModelElijah : public ModelBase {
 
@@ -22,15 +18,13 @@ class ModelElijah : public ModelBase {
 
 public:
 	Transform transform;
-	ModelElijah();
-	void initialize();
-	void draw(Camera inCam, glm::vec3* dirLight, glm::mat4 projection, glm::mat4 view, glm::mat4 model);
+	ModelElijah(Shader &inShader);
 
 	void generateRandomModel();
 
 	void generateOriginalObject();
 
 private:
-	int modelData[sizeX][sizeY][sizeZ];
+	int modelData[9][7][7];
 	glm::mat4 positionMat;
 };
