@@ -11,8 +11,6 @@ ModelElijah::ModelElijah(Shader& inShader) : ModelBase(inShader)
 	columns = 7;
 	planes = 7;
 
-	allocateShaderData();
-
 	allocateWallData();
 	allocateObjectData();
 

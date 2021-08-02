@@ -16,7 +16,6 @@ ModelBase::ModelBase(Shader &inShader) {
 	modelBasePosition = glm::vec3(0.0f, 0.5f, 0.0f);
 	allocateObjectData();
 	allocateWallData();
-	allocateShaderData();
 	renderMode = GL_TRIANGLES;
 
 	textureOn = true;
@@ -86,33 +85,10 @@ void ModelBase::allocateWallData() {
 	return;
 }
 
-void ModelBase::allocateShaderData() {
-
-	/*
-	// load textures
-	wall.diffuseMap = wall.shader.loadTexture("res/images/brick.png");
-	wall.specularMap = wall.shader.loadTexture("res/images/brick_spec_map.png");
-
-	object.diffuseMap = object.shader.loadTexture("res/images/metal.png");
-	object.specularMap = object.shader.loadTexture("res/images/metal_spec_map.jpg");
-
-	// shader configuration
-	wall.shader.use();
-	wall.shader.setInt("material.diffuse", 0);
-	wall.shader.setInt("material.specular", 1);
-
-
-	object.shader.use();
-	object.shader.setInt("material.diffuse", 0);
-	object.shader.setInt("material.specular", 1);
-	*/
-}
-
 void ModelBase::draw(glm::mat4 model, Shader* inShader) {
 
 	model = glm::translate(model, modelBasePosition);
 	model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
-	//model = glm::translate(model, (modelBasePosition + glm::vec3(xTranslation * scaleFactor, yTranslation * scaleFactor, zTranslation * scaleFactor)));
 
 
 	if (inShader == NULL) {
@@ -127,21 +103,6 @@ void ModelBase::draw(glm::mat4 model, Shader* inShader) {
 		drawWall(model);
 		drawObject(model);
 	}
-	/*
-	model = glm::mat4(1.0f);
-	model = glm::translate(model, (modelBasePosition + glm::vec3(xTranslation * scaleFactor, yTranslation * scaleFactor, zTranslation * scaleFactor)));
-
-	model = glm::translate(model, glm::vec3(0.0f, 2.0f, 0.0f));
-	model = glm::rotate(model, xRotation, glm::vec3(1.0f, 0.0f, 0.0f));
-	model = glm::rotate(model, yRotation, glm::vec3(0.0f, 1.0f, 0.0f));
-	model = glm::rotate(model, zRotation, glm::vec3(0.0f, 0.0f, 1.0f));
-	model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
-
-	model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
-
-	shaderSetUp(inCam, projection, view, object);
-	drawObject(model);
-	*/
 }
 
 void ModelBase::drawWall(glm::mat4 model) {
@@ -223,29 +184,6 @@ void ModelBase::drawObject(glm::mat4 model) {
 			}
 		}
 	}
-}
-
-// component struct will have the shader and the material will be an attribute of the component struct
-void ModelBase::shaderSetUp(Camera inCam, glm::mat4 projection, glm::mat4 view, Component component) {
-	// specify the shader being used
-	component.shader.use();
-	
-	component.shader.setVec3("viewPos", inCam.Position);
-
-	component.shader.setInt("textureOn", textureOn);
-
-	component.shader.setVec3("pointLight.position", UnitCube::pointLight[POINT_LIGHT_POSITION]);
-	component.shader.setVec3("pointLight.ambient", UnitCube::pointLight[POINT_LIGHT_AMBIENT]);
-	component.shader.setVec3("pointLight.diffuse", UnitCube::pointLight[POINT_LIGHT_DIFFUSE]);
-	component.shader.setVec3("pointLight.specular", UnitCube::pointLight[POINT_LIGHT_SPECULAR]);
-	component.shader.setFloat("pointLight.constant", UnitCube::pointLight[POINT_LIGHT_SPECULAR].x);
-	component.shader.setFloat("pointLight.linear", UnitCube::pointLight[POINT_LIGHT_SPECULAR].y);
-	component.shader.setFloat("pointLight.quadratic", UnitCube::pointLight[POINT_LIGHT_SPECULAR].z);
-
-	//component.shader.setFloat("material.shininess", 32.0f);
-
-	//component.shader.setMat4("projection", projection);
-	//component.shader.setMat4("view", view);
 }
 
 void ModelBase::setColorPalette() {

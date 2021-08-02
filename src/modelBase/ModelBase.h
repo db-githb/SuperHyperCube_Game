@@ -74,8 +74,6 @@ public:
 	virtual void resetObject();
 	virtual void resetPOS();
 
-	void shaderSetUp(Camera inCam, glm::mat4 projection, glm::mat4 view, Component component);
-
 	static glm::vec3* colorPalette;
 	static void setColorPalette();
 
@@ -85,7 +83,6 @@ protected:
 
 	void allocateObjectData();
 	void allocateWallData();
-	void allocateShaderData();
 
 	UnitCube unitCube;
 	Component wall;

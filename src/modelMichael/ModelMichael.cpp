@@ -2,8 +2,6 @@
 
 ModelMichael::ModelMichael(Shader& inShader) : ModelBase(inShader) {
 
-	allocateShaderData();
-
 	rows = 9;
 	columns = 7;
 	planes = 7;
