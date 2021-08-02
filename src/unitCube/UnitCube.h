@@ -30,9 +30,6 @@ public:
 	static GLuint getVAO();
 	static GLuint getVBO();
 
-	// directional lighting values
-	static glm::vec3* pointLight;
-
 private:
 	static GLuint unitCubeVBO, unitCubeVAO;
 };

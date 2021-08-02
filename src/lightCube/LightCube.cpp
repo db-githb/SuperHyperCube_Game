@@ -4,8 +4,6 @@ LightCube::LightCube() {
 	unitCube = UnitCube();
 	lightCubeShader = Shader("res/shaders/cubeShader.vert", "res/shaders/cubeShader.frag");
 
-	position = UnitCube::pointLight[POINT_LIGHT_POSITION];
-
 	lightCubeShader.use();
 	lightCubeShader.setVec3("color", glm::vec3(1.0f, 1.0f, 1.0f));
 }

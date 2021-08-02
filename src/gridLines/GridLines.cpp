@@ -63,44 +63,7 @@ void GridLines::draw(glm::mat4 model, Shader &inShader) {
 
 }
 
-
-//USE WITH TILE3.PNG
-/*
-void GridLines::draw(glm::mat4 model, Shader &inShader) {
-
-	inShader.use();
-
-	inShader.setBool("textureOn", textureOn);
-	inShader.setBool("borderOn", false);
-	inShader.setFloat("specBias", 2.0);
-
-	// bind texture maps
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, diffuseMap);
-
-	//	glActiveTexture(GL_TEXTURE1);
-	// glBindTexture(GL_TEXTURE_2D, specularMap);
-
-	model = glm::scale(model, glm::vec3(100.0, 0.01, 100.0));	
-	inShader.setMat4("model", model);
-	glBindVertexArray(unitCube.getVAO());
-
-	glDrawArrays(GL_TRIANGLES, 0, 36);
-	
-}
-*/
-
 void GridLines::toggleTexture() {
 
 	textureOn = !textureOn;
-}
-
-void GridLines::pointLightProperties() {
-	gridLinesShader.setVec3("pointLight.position", UnitCube::pointLight[POINT_LIGHT_POSITION]);
-	gridLinesShader.setVec3("pointLight.ambient", UnitCube::pointLight[POINT_LIGHT_AMBIENT]);
-	gridLinesShader.setVec3("pointLight.diffuse", UnitCube::pointLight[POINT_LIGHT_DIFFUSE]);
-	gridLinesShader.setVec3("pointLight.specular", UnitCube::pointLight[POINT_LIGHT_SPECULAR]);
-	gridLinesShader.setFloat("pointLight.constant", UnitCube::pointLight[POINT_LIGHT_SPECULAR].x);
-	gridLinesShader.setFloat("pointLight.linear", UnitCube::pointLight[POINT_LIGHT_SPECULAR].y);
-	gridLinesShader.setFloat("pointLight.quadratic", UnitCube::pointLight[POINT_LIGHT_SPECULAR].z);
 }

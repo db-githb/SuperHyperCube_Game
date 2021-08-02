@@ -34,7 +34,6 @@ bool shadows = true;
 // INSTANTIATE STATIC VARIABLES (assign memory) for static variable
 // -------------------
 glm::vec3* ModelBase::colorPalette = new glm::vec3[NUM_COLORS];
-glm::vec3* UnitCube::pointLight = new glm::vec3[5];
 
 GLuint UnitCube::unitCubeVAO = 0;
 GLuint UnitCube::unitCubeVBO = 0;
@@ -374,13 +373,6 @@ int main()
 	// ----------------------------------
 
 	ModelBase::setColorPalette();
-
-	// point light values
-	UnitCube::pointLight[0] = glm::vec3(0.0f, 30.5f, 0.0); // position 
-	UnitCube::pointLight[1] = glm::vec3(1.0f, 1.0f, 1.0f); // ambient
-	UnitCube::pointLight[2] = glm::vec3(1.0f, 1.0f, 1.0f); // diffuse
-	UnitCube::pointLight[3] = glm::vec3(1.0f, 1.0f, 1.0f); // specular
-	UnitCube::pointLight[4] = glm::vec3(1.0f, 0.14f, 0.032f); // constant, linear, quadratic
 
 
 	// configure depth map FBO

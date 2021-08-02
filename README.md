@@ -1,5 +1,11 @@
 # Comp371_Project
 
+** MUST BE BUILT IN X86 (WIN32) !!!! **
+
+** executable is in the debug folder **
+
+** it must be run from the Quiz1_21875841 folder **
+
 **Model Manipulation**:
 
 1,2,3,4,5 = select individual models
