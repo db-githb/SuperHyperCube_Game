@@ -1,4 +1,8 @@
 //Fragment Shader Code
+// This shader adapts from an online resource for it's edge outline effect.
+// Resource: Tron Shader by SketchPunkLabs on Youtube (Bonus edge outline feature)
+// Link: https://www.youtube.com/watch?v=DI498yX-6XM&ab_channel=SketchpunkLabs
+//
 #version 420
 out vec4 FragColor;
 
