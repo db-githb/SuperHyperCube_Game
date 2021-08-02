@@ -67,10 +67,8 @@ public:
 	virtual void toggleTexture();
 	virtual void toggleBorder();
 	virtual void toggleContinuous();
-	virtual bool inBound(int direction);
 	virtual void generateRandomModel();
 	virtual void generateOriginalObject();
-	virtual bool boundaryCollision();
 	virtual void resetObject();
 	virtual void resetPOS();
 

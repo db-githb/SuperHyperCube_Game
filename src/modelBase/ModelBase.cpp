@@ -214,10 +214,8 @@ void ModelBase::scale(int scaleDirection) {
 }
 
 void ModelBase::translate(int translationDirection) {
-	
-	if (inBound(translationDirection)) {
 
-		switch (translationDirection) {
+	switch (translationDirection) {
 		case TRANS_RIGHT:
 			xTranslation += 0.1f;
 			break;
@@ -236,7 +234,6 @@ void ModelBase::translate(int translationDirection) {
 		case TRANS_BACKWARD:
 			zTranslation += 0.1f;
 			break;
-		}
 	}
 }
 
@@ -296,23 +293,6 @@ void ModelBase::toggleContinuous() {
 	continuousStartTime = glfwGetTime();
 }
 
-bool ModelBase::inBound(int direction) {
-	return true;
-
-	switch (direction) {
-	case TRANS_RIGHT:
-		return modelBasePosition.x + xTranslation < BOUND_X_MAX;
-	case TRANS_LEFT:
-		return modelBasePosition.x + xTranslation > BOUND_X_MIN;
-	case TRANS_UP:
-		return true; // no y max let user rise to infinity
-	case TRANS_DOWN:
-		return modelBasePosition.y + yTranslation > BOUND_Y_MIN;
-	}
-
-	return true;
-}
-
 void ModelBase::generateRandomModel()
 {
 	return;
@@ -320,10 +300,6 @@ void ModelBase::generateRandomModel()
 
 void ModelBase::generateOriginalObject() {
 	return;
-}
-
-bool ModelBase::boundaryCollision() {
-	return false;
 }
 
 ModelBase::~ModelBase() {

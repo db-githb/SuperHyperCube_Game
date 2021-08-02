@@ -8,7 +8,4 @@ public:
 	void initialize();
 	void generateRandomModel();
 	void allocateObjectData();
-	bool boundaryCollision();
-
-private:
 };

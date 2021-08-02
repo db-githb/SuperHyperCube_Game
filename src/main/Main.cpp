@@ -191,23 +191,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 			if (mods == GLFW_MOD_SHIFT) {
 				activeModel->translate(TRANS_LEFT);
-
-				// if boundary collision occurs undo left translation
-				/*
-				if (activeModel->boundaryCollision()) {
-					activeModel->translate(TRANS_RIGHT);
-				}
-				*/
 			}
 			else {
 				activeModel->rotate(ROTATE_Y_COUNTER);
-
-				// if boundary collision occurs undo left rotation
-				/*
-				if (activeModel->boundaryCollision()) {
-					activeModel->rotate(ROTATE_RIGHT);
-				}
-				*/
 			}
 			break;
 
@@ -215,23 +201,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 			if (mods == GLFW_MOD_SHIFT) {
 				activeModel->translate(TRANS_RIGHT);
-
-				// if boundary collision occurs undo right translation
-				/*
-				if (activeModel->boundaryCollision()) {
-					activeModel->translate(TRANS_LEFT);
-				}
-				*/
 			}
 			else {
 				activeModel->rotate(ROTATE_Y_CLOCKWISE);
-
-				// if boundary collision occurs undo right rotation
-				/*
-				if (activeModel->boundaryCollision()) {
-					activeModel->rotate(ROTATE_LEFT);
-				}
-				*/
 			}
 			break;
 
@@ -241,11 +213,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			return;
 
 		case  GLFW_KEY_S:
-			/*
-			if (activeModel->boundaryCollision()) {
-				return;
-			}
-			*/
 			activeModel->translate(TRANS_DOWN);
 			break;
 
