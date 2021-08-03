@@ -92,45 +92,44 @@
     <ClCompile Include="src\camera\Camera.cpp">
       <Filter>src\camera</Filter>
     </ClCompile>
-    <ClCompile Include="src\main\Main.cpp">
-      <Filter>src\main</Filter>
-    </ClCompile>
     <ClCompile Include="src\shader\Shader.cpp">
       <Filter>src\shaderObj</Filter>
     </ClCompile>
-    <ClCompile Include="src\unitCube\UnitCube.cpp">
-      <Filter>src\unitCube</Filter>
-    </ClCompile>
-    <ClCompile Include="src\unitLine\UnitLine.cpp">
-      <Filter>src\unitLine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\unitAxes\UnitAxes.cpp">
-      <Filter>src\unitAxes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gridLines\GridLines.cpp">
-      <Filter>src\gridLines</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modelBase\ModelBase.cpp">
-      <Filter>src\modelBase</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modelThomas\ModelThomas.cpp">
-      <Filter>src\modelThomas</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modelDamian\ModelDamian.cpp">
-      <Filter>src\modelDamian</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modelElijah\ModelElijah.cpp">
-      <Filter>src\modelElijah</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modelMichael\ModelMichael.cpp">
-      <Filter>src\modelMichael</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lightCube\LightCube.cpp">
+    <ClCompile Include="src\Models\lightCube\LightCube.cpp">
       <Filter>src\lightCube</Filter>
     </ClCompile>
-    <ClCompile Include="src\modelRichard\ModelRichard.cpp">
+    <ClCompile Include="src\Models\modelBase\ModelBase.cpp">
+      <Filter>src\modelBase</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Models\modelDamian\ModelDamian.cpp">
+      <Filter>src\modelDamian</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Models\modelElijah\ModelElijah.cpp">
+      <Filter>src\modelElijah</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Models\modelRichard\ModelRichard.cpp">
       <Filter>src\modelRichard</Filter>
     </ClCompile>
+    <ClCompile Include="src\Models\modelMichael\ModelMichael.cpp">
+      <Filter>src\modelMichael</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Models\modelThomas\ModelThomas.cpp">
+      <Filter>src\modelThomas</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mesh\unitCube\UnitCube.cpp">
+      <Filter>src\unitCube</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mesh\unitLine\UnitLine.cpp">
+      <Filter>src\unitLine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Models\unitAxes\UnitAxes.cpp">
+      <Filter>src\unitAxes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Application\ObjectNode.cpp" />
+    <ClCompile Include="src\Application\Transform.cpp" />
+    <ClCompile Include="src\Mesh\Mesh.cpp" />
+    <ClCompile Include="src\Models\gridLines\GridLines.cpp" />
+    <ClCompile Include="src\Application\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">
@@ -139,41 +138,42 @@
     <ClInclude Include="src\shader\Shader.h">
       <Filter>src\shaderObj</Filter>
     </ClInclude>
-    <ClInclude Include="src\unitCube\UnitCube.h">
-      <Filter>src\unitCube</Filter>
-    </ClInclude>
-    <ClInclude Include="src\unitLine\UnitLine.h">
-      <Filter>src\unitLine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\unitAxes\UnitAxes.h">
-      <Filter>src\unitAxes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gridLines\GridLines.h">
-      <Filter>src\gridLines</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modelBase\ModelBase.h">
-      <Filter>src\modelBase</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modelThomas\ModelThomas.h">
-      <Filter>src\modelThomas</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modelDamian\ModelDamian.h">
-      <Filter>src\modelDamian</Filter>
-    </ClInclude>
     <ClInclude Include="src\shader\stb_image.h">
       <Filter>src\shaderObj</Filter>
     </ClInclude>
-    <ClInclude Include="src\modelElijah\ModelElijah.h">
-      <Filter>src\modelElijah</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modelMichael\ModelMichael.h">
-      <Filter>src\modelMichael</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lightCube\LightCube.h">
+    <ClInclude Include="src\Models\lightCube\LightCube.h">
       <Filter>src\lightCube</Filter>
     </ClInclude>
-    <ClInclude Include="src\modelRichard\ModelRichard.h">
+    <ClInclude Include="src\Models\modelBase\ModelBase.h">
+      <Filter>src\modelBase</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Models\modelDamian\ModelDamian.h">
+      <Filter>src\modelDamian</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Models\modelElijah\ModelElijah.h">
+      <Filter>src\modelElijah</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Models\modelRichard\ModelRichard.h">
       <Filter>src\modelRichard</Filter>
     </ClInclude>
+    <ClInclude Include="src\Models\modelMichael\ModelMichael.h">
+      <Filter>src\modelMichael</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Models\modelThomas\ModelThomas.h">
+      <Filter>src\modelThomas</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mesh\unitCube\UnitCube.h">
+      <Filter>src\unitCube</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mesh\unitLine\UnitLine.h">
+      <Filter>src\unitLine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Models\unitAxes\UnitAxes.h">
+      <Filter>src\unitAxes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\Transform.h" />
+    <ClInclude Include="src\Application\ObjectNode.h" />
+    <ClInclude Include="src\Mesh\Mesh.h" />
+    <ClInclude Include="src\Models\gridLines\GridLines.h" />
   </ItemGroup>
 </Project>

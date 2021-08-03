@@ -3,6 +3,7 @@
 ModelThomas::ModelThomas(Shader& inShader) : ModelBase(inShader) {
 
 	modelBasePosition = glm::vec3(15.0f, 0.5f, -15.0f);
+	transform->SetPosition(modelBasePosition);
 
 	rows = 9;
 	columns = 7;

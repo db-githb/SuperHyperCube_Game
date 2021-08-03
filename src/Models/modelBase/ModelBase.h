@@ -1,5 +1,6 @@
 #pragma once
-#include "../unitCube/UnitCube.h"
+#include "../../Mesh/unitCube/UnitCube.h"
+#include "../../Application/Transform.h"
 #include <stdlib.h>
 
 #define NONE -2
@@ -58,6 +59,7 @@ public:
 	};
 
 	ModelBase(Shader &inShader);
+	ModelBase(Shader &inShader, Transform& trans);
 	~ModelBase();
 	virtual void draw(glm::mat4 model, Shader* inShader);
 	virtual void scale(int scaleDirection);
@@ -71,6 +73,7 @@ public:
 	virtual void generateOriginalObject();
 	virtual void resetObject();
 	virtual void resetPOS();
+	virtual void SetTransform(Transform& trans);
 
 	static glm::vec3* colorPalette;
 	static void setColorPalette();
@@ -82,6 +85,7 @@ protected:
 	void allocateObjectData();
 	void allocateWallData();
 
+	Transform* transform;
 	UnitCube unitCube;
 	Component wall;
 	Component object;

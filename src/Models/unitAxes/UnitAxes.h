@@ -8,10 +8,10 @@
 #include "../../glm/glm.hpp"
 #include "../../glm/gtc/matrix_transform.hpp"
 #include "../../glm/gtc/type_ptr.hpp"
-#include "../shader/Shader.h"
-#include "../camera/Camera.h"
+#include "../../Shader/Shader.h"
+#include "../../Camera/Camera.h"
 
-#include "../unitLine/UnitLine.h"
+#include "../../Mesh/unitLine/UnitLine.h"
 
 class UnitAxes {
 public:

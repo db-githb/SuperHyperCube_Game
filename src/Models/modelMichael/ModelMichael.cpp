@@ -17,6 +17,7 @@ ModelMichael::ModelMichael(Shader& inShader) : ModelBase(inShader) {
 void ModelMichael::positionModel(float x, float y, float z)
 {
 	modelBasePosition = glm::vec3(x, y, z);
+	transform->SetPosition(modelBasePosition);
 }
 
 void ModelMichael::generateOriginalObject()

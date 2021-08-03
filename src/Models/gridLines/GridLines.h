@@ -1,5 +1,5 @@
 #pragma once
-#include "../unitCube/UnitCube.h"
+#include "../../Mesh/unitCube/UnitCube.h"
 
 class GridLines {
 public:

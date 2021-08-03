@@ -14,6 +14,8 @@ ModelBase::ModelBase(Shader &inShader) {
 	resetPOS();
 
 	modelBasePosition = glm::vec3(0.0f, 0.5f, 0.0f);
+	transform = new Transform();
+	transform->SetPosition(modelBasePosition);
 	allocateObjectData();
 	allocateWallData();
 	renderMode = GL_TRIANGLES;
@@ -25,8 +27,8 @@ ModelBase::ModelBase(Shader &inShader) {
 	ModelBase::colorPalette = new glm::vec3[NUM_COLORS];
 
 	setColorPalette();
-
 }
+
 
 void ModelBase::resetPOS(){
 
@@ -87,7 +89,7 @@ void ModelBase::allocateWallData() {
 
 void ModelBase::draw(glm::mat4 model, Shader* inShader) {
 
-	model = glm::translate(model, modelBasePosition);
+	model = transform->GetModel();
 	model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
 
 
@@ -158,12 +160,13 @@ void ModelBase::drawObject(glm::mat4 model) {
 		zTranslation = (float)(sin(glfwGetTime()-continuousStartTime) * 7);
 	}
 
-	model = glm::translate(model, (glm::vec3(xTranslation, yTranslation, zTranslation)));
+	/*model = glm::translate(model, (glm::vec3(xTranslation, yTranslation, zTranslation)));
 	
 	model = glm::rotate(model, xRotation, glm::vec3(1.0f, 0.0f, 0.0f));
 	model = glm::rotate(model, yRotation, glm::vec3(0.0f, 1.0f, 0.0f));
-	model = glm::rotate(model, zRotation, glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::rotate(model, zRotation, glm::vec3(0.0f, 0.0f, 1.0f));*/
 
+	
 	// compute world position of child cubes
 	for (int r = 0; r < rows; r++) {
 		for (int c = 0; c < columns; c++) {
@@ -172,11 +175,11 @@ void ModelBase::drawObject(glm::mat4 model) {
 				if (object.modelData[r][c][p] == NONE) {
 					continue;
 				}
-
+				
 				object.shader.setVec3("colour", colorPalette[object.modelData[r][c][p]]);
 					
 				// move unit cube relative to parent base position and pass the model matrix to the vertex shader
-				object.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, (float)p) + glm::vec3((0.3f +(-columns * 0.5)), 0.0f, (-0.3f +(-planes * 0.5)))));
+				object.shader.setMat4("model", glm::translate(transform->GetModel(), glm::vec3((float)c, (float)r, (float)p) + glm::vec3((0.3f +(-columns * 0.5)), 0.0f, (-0.3f +(-planes * 0.5)))));
 
 				// render the cube
 				glDrawArrays(renderMode, 0, 36);
@@ -313,4 +316,9 @@ ModelBase::~ModelBase() {
 	}
 	delete[] object.modelData;
 	delete[] wall.modelData;
+}
+
+void ModelBase::SetTransform(Transform& trans)
+{
+	transform = &trans;
 }
