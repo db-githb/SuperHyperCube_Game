@@ -8,8 +8,8 @@
 #include "../../glm/glm.hpp"
 #include "../../glm/gtc/matrix_transform.hpp"
 #include "../../glm/gtc/type_ptr.hpp"
-#include "../../shader/Shader.h"
-#include "../../camera/Camera.h"
+#include "../shader/Shader.h"
+#include "../camera/Camera.h"
 
 #define LIGHT_DIRECTION 0
 #define LIGHT_AMBIENT 1

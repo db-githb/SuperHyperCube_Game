@@ -131,21 +131,6 @@
     <ClCompile Include="src\modelRichard\ModelRichard.cpp">
       <Filter>src\modelRichard</Filter>
     </ClCompile>
-    <ClCompile Include="src\Models\modelDamian\ModelDamian.cpp" />
-    <ClCompile Include="src\Models\modelMichael\ModelMichael.cpp" />
-    <ClCompile Include="src\Models\modelRichard\ModelRichard.cpp" />
-    <ClCompile Include="src\Models\modelThomas\ModelThomas.cpp" />
-    <ClCompile Include="src\Models\unitAxes\UnitAxes.cpp" />
-    <ClCompile Include="src\Application\Main.cpp" />
-    <ClCompile Include="src\Application\ObjectNode.cpp" />
-    <ClCompile Include="src\Application\Transform.cpp" />
-    <ClCompile Include="src\Mesh\unitCube\UnitCube.cpp" />
-    <ClCompile Include="src\Mesh\unitLine\UnitLine.cpp" />
-    <ClCompile Include="src\Mesh\Mesh.cpp" />
-    <ClCompile Include="src\Models\gridLines\GridLines.cpp" />
-    <ClCompile Include="src\Models\lightCube\LightCube.cpp" />
-    <ClCompile Include="src\Models\modelBase\ModelBase.cpp" />
-    <ClCompile Include="src\Models\modelElijah\ModelElijah.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">
@@ -190,19 +175,5 @@
     <ClInclude Include="src\modelRichard\ModelRichard.h">
       <Filter>src\modelRichard</Filter>
     </ClInclude>
-    <ClInclude Include="src\Models\modelDamian\ModelDamian.h" />
-    <ClInclude Include="src\Models\modelMichael\ModelMichael.h" />
-    <ClInclude Include="src\Models\modelRichard\ModelRichard.h" />
-    <ClInclude Include="src\Models\modelThomas\ModelThomas.h" />
-    <ClInclude Include="src\Models\unitAxes\UnitAxes.h" />
-    <ClInclude Include="src\Application\ObjectNode.h" />
-    <ClInclude Include="src\Application\Transform.h" />
-    <ClInclude Include="src\Mesh\unitCube\UnitCube.h" />
-    <ClInclude Include="src\Mesh\unitLine\UnitLine.h" />
-    <ClInclude Include="src\Mesh\Mesh.h" />
-    <ClInclude Include="src\Models\gridLines\GridLines.h" />
-    <ClInclude Include="src\Models\lightCube\LightCube.h" />
-    <ClInclude Include="src\Models\modelBase\ModelBase.h" />
-    <ClInclude Include="src\Models\modelElijah\ModelElijah.h" />
   </ItemGroup>
 </Project>
