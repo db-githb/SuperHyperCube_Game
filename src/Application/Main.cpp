@@ -1,13 +1,13 @@
-#include "../unitCube/UnitCube.h"
-#include "../unitLine/UnitLine.h"
-#include "../unitAxes/UnitAxes.h"
-#include "../gridLines/GridLines.h"
-#include "../modelDamian/modelDamian.h"
-#include "../modelElijah/modelElijah.h"
-#include "../modelThomas/modelThomas.h"
-#include "../modelMichael/modelMichael.h"
-#include "../modelRichard/modelRichard.h"
-#include "../lightCube/LightCube.h"
+#include "../Mesh/unitCube/UnitCube.h"
+#include "../Mesh/unitLine/UnitLine.h"
+#include "../Models/unitAxes/UnitAxes.h"
+#include "../Models/gridLines/GridLines.h"
+#include "../Models/modelDamian/modelDamian.h"
+#include "../Models/modelElijah/modelElijah.h"
+#include "../Models/modelThomas/modelThomas.h"
+#include "../Models/modelMichael/modelMichael.h"
+#include "../Models/modelRichard/modelRichard.h"
+#include "../Models/lightCube/LightCube.h"
 
 // window size
 #define WIDTH 1024
