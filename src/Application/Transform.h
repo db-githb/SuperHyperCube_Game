@@ -27,6 +27,7 @@ public:
 	void AddScale(glm::vec3 scale);
 
 	glm::mat4 GetModel() const;
+	glm::mat4 GetModel(glm::mat4 parentTransform) const;
 
 
 protected:

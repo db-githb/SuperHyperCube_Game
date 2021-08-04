@@ -211,7 +211,6 @@ int main()
 	scene->AddChild(nodeThomas);
 	scene->AddChild(nodeRichard);
 	scene->AddChild(nodeMichael);
-
 	// UNIT AXES / LIGHT CUBE
 	unitAxes = new UnitAxes();
 	lightCube = new LightCube();
@@ -436,11 +435,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 			// scale models up and down
 		case GLFW_KEY_U:
-			activeModel->scale(SCALE_UP);
+			activeNode->AddScale(glm::vec3(0.1, 0.1, 0.1));
 			break;
 
 		case GLFW_KEY_J:
-			activeModel->scale(SCALE_DOWN);
+			activeNode->AddScale(glm::vec3(-0.1, -0.1, -0.1));
 			break;
 
 			// translate models up/down
@@ -449,7 +448,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			{
 				//activeModel->translate(TRANS_FORWARD);
 				activeNode->AddPosition(glm::vec3(0, 0, -1));
-
 			}
 			else
 			{
@@ -465,20 +463,17 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				activeNode->AddPosition(glm::vec3(-1, 0, 0));
 			}
 			else {
-				activeNode->AddRotation(glm::vec3(0, -0.1, 1));
+				activeNode->AddRotation(glm::vec3(0, 0.1, 0));
 			}
 			break;
 
 		case  GLFW_KEY_S:
 			if (mods == GLFW_MOD_SHIFT)
 			{
-				//activeModel->translate(TRANS_BACKWARD);
 				activeNode->AddPosition(glm::vec3(0, 0, 1));
-
 			}
 			else
 			{
-				//activeModel->translate(TRANS_DOWN);
 				activeNode->AddPosition(glm::vec3(0, -1, 0));
 			}
 			break;
@@ -489,35 +484,23 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				activeNode->AddPosition(glm::vec3(1, 0, 0));
 			}
 			else {
-				activeNode->AddRotation(glm::vec3(0, glm::radians(5.0f), 1));
+				activeNode->AddRotation(glm::vec3(0, -0.1, 0 ));
 			}
-			break;
-
-		case GLFW_KEY_Z:
-
-			activeModel->translate(TRANS_FORWARD);
-
 			break;
 
 		case GLFW_KEY_C:
-
-			if (mods == GLFW_MOD_SHIFT) {
-				activeModel->toggleContinuous();
-			}
-			else {
-				activeModel->translate(TRANS_BACKWARD);
-			}
+			activeModel->toggleContinuous();
 			break;
 
 			// rotate along X and Z axis, maybe map y rotation to G and V keys
 		case GLFW_KEY_V:
-			activeModel->rotate(ROTATE_X_CLOCKWISE);
+			activeNode->AddRotation(glm::vec3(0.1,0,0));
 			break;
 		case GLFW_KEY_G:
-			activeModel->rotate(ROTATE_X_COUNTER);
+			activeNode->AddRotation(glm::vec3(-0.1, 0, 0));
 			break;
 		case GLFW_KEY_H:
-			activeModel->rotate(ROTATE_Z_CLOCKWISE);
+			activeNode->AddRotation(glm::vec3(0, 0, 0.1));
 			break;
 		case GLFW_KEY_B:
 
@@ -525,7 +508,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				toggleBorders();
 			}
 			else {
-				activeModel->rotate(ROTATE_Z_COUNTER);
+				activeNode->AddRotation(glm::vec3(0, 0, -0.1));
 			}
 
 			break;
@@ -571,9 +554,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 }
 
 void renderScene(Shader& inShader, bool shadowMap) {
-	glm::mat4 model = glm::mat4(1.0f);
-
-	gridLines->draw(model, inShader);
+	gridLines->draw(glm::mat4(1.0f),inShader);
 
 	Shader* shader = nullptr;
 
@@ -581,9 +562,9 @@ void renderScene(Shader& inShader, bool shadowMap) {
 		shader = &inShader;
 	}
 	// unitCube->draw(model, shader);
-	modelDamian->draw(model, shader);
-	modelElijah->draw(model, shader);
-	modelThomas->draw(model, shader);
-	modelMichael->draw(model, shader);
-	modelRichard->draw(model, shader);
+	modelDamian->draw(shader);
+	modelElijah->draw(shader);
+	modelThomas->draw(shader);
+	modelMichael->draw(shader);
+	modelRichard->draw(shader);
 }

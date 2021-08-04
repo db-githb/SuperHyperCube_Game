@@ -61,7 +61,7 @@ public:
 	ModelBase(Shader &inShader);
 	ModelBase(Shader &inShader, Transform& trans);
 	~ModelBase();
-	virtual void draw(glm::mat4 model, Shader* inShader);
+	virtual void draw(Shader* inShader);
 	virtual void scale(int scaleDirection);
 	virtual void translate(int translationDirection);
 	virtual void rotate(int rotation);
@@ -77,7 +77,7 @@ public:
 
 	static glm::vec3* colorPalette;
 	static void setColorPalette();
-
+	Transform* parentTransform;
 	glm::vec3 modelBasePosition;
 
 protected:
@@ -86,6 +86,7 @@ protected:
 	void allocateWallData();
 
 	Transform* transform;
+	
 	UnitCube unitCube;
 	Component wall;
 	Component object;
