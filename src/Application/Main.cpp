@@ -206,11 +206,14 @@ int main()
 	nodeRichard = new ObjectNode(modelRichard);
 	nodeMichael = new ObjectNode(modelMichael);
 
+	scene->SetPosition(glm::vec3(5, 0.5, 5));
+
 	scene->AddChild(nodeElijah);
 	scene->AddChild(nodeDamian);
 	scene->AddChild(nodeThomas);
 	scene->AddChild(nodeRichard);
 	scene->AddChild(nodeMichael);
+	
 	// UNIT AXES / LIGHT CUBE
 	unitAxes = new UnitAxes();
 	lightCube = new LightCube();

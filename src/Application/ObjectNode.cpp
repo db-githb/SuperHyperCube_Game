@@ -53,7 +53,12 @@ void ObjectNode::SetModel(ModelBase* m)
 
 void ObjectNode::SetPosition(glm::vec3 pos)
 {
-	transform.SetPosition(parent->transform.GetPosition() + pos);
+	glm::vec3 position = glm::vec3(0, 0, 0);
+
+	if (parent)
+		position = parent->transform.GetRotation();
+
+	transform.SetPosition(position + pos);
 	for (ObjectNode* child : children)
 	{
 		child->SetPosition(pos);
@@ -87,28 +92,16 @@ void ObjectNode::SetScale(glm::vec3 sc)
 void ObjectNode::AddPosition(glm::vec3 pos)
 {
 	transform.AddPosition(pos);
-	/*for (ObjectNode* child : children)
-	{
-		child->AddPosition(pos);
-	}*/
 }
 
 void ObjectNode::AddRotation(glm::vec3 rot)
 {
 	transform.AddRotation(rot);
-	/*for (ObjectNode* child : children)
-	{
-		child->AddRotation(rot);
-	}*/
 }
 
 void ObjectNode::AddScale(glm::vec3 sc)
 {
 	transform.AddScale(sc);
-	for (ObjectNode* child : children)
-	{
-		child->AddScale(sc);
-	}
 }
 
 
