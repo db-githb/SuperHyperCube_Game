@@ -66,12 +66,6 @@
     <None Include="res\shaders\cubeShader.vert">
       <Filter>res\shaders</Filter>
     </None>
-    <None Include="res\shaders\gridLineShader.frag">
-      <Filter>res\shaders</Filter>
-    </None>
-    <None Include="res\shaders\gridLineShader.vert">
-      <Filter>res\shaders</Filter>
-    </None>
     <None Include="res\shaders\baseShader.vert">
       <Filter>res\shaders</Filter>
     </None>

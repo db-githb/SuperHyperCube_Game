@@ -7,12 +7,6 @@ GridLines::GridLines(Shader &inShader) {
 	//diffuseMap = inShader.loadTexture("res/images/tile1.png");
 	diffuseMap = inShader.loadTexture("res/images/tile3.png");
 	//specularMap = inShader.loadTexture("res/images/brick_spec_map.png");
-	
-	// shader configuration
-	inShader.use();
-	inShader.setInt("material.diffuse", 0);
-
-	//inShader.setFloat("material.shininess", 32.0f);
 
 	textureOn = true;
 }
@@ -27,9 +21,6 @@ void GridLines::draw(glm::mat4 model, Shader &inShader) {
 	inShader.setBool("borderOn", false);
 	inShader.setFloat("specBias", 2.0);
 	inShader.setVec3("colour", glm::vec3(0.8f, 0.0f, 0.8f));
-
-	//glActiveTexture(GL_TEXTURE1);
-	//glBindTexture(GL_TEXTURE_2D, specularMap);
 
 	// with textureOn use 1 unit cube for better performance (no lag in movement) becuase when off 10 000 unit cubes are generated
 	if (textureOn) {

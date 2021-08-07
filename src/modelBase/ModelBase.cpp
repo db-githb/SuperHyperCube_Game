@@ -148,9 +148,6 @@ void ModelBase::drawObject(glm::mat4 model) {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, object.diffuseMap);
 
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, object.specularMap);
-
 	glBindVertexArray(unitCube.getVAO());
 
 	if (continuousOn) {

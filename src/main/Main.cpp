@@ -405,12 +405,6 @@ int main()
 	// SHADERS
 	//-----------
 	Shader shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
-	
-	unsigned int diffuseMapBlock = shader.loadTexture("res/images/brick.png");
-	shader.use();
-	shader.setInt("material.diffuse", 0);
-	shader.setInt("depthMap", 1);
-
 	Shader shadowMapShader("res/shaders/shadowMapShader.vert", "res/shaders/shadowMapShader.frag", "res/shaders/shadowMapShader.geom");
 
 	//-----------
@@ -468,6 +462,7 @@ int main()
 		float far_plane = 100.0;
 		
 		glm::mat4 shadowProj = glm::perspective(glm::radians(90.0f), (float)SHADOW_WIDTH / (float)SHADOW_HEIGHT, near_plane, far_plane);
+
 		std::vector<glm::mat4> shadowTransforms;
 		shadowTransforms.push_back(shadowProj* glm::lookAt(lightPos, lightPos + glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
 		shadowTransforms.push_back(shadowProj* glm::lookAt(lightPos, lightPos + glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
@@ -475,7 +470,7 @@ int main()
 		shadowTransforms.push_back(shadowProj* glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f)));
 		shadowTransforms.push_back(shadowProj* glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
 		shadowTransforms.push_back(shadowProj* glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
-		
+
 		// 1. render scene to depth cubemap
 		// --------------------------------
 		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
@@ -490,8 +485,8 @@ int main()
 		renderScene(shadowMapShader, true);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	
-
+		
+		
 		// 2. render scene as normal 
 		// -------------------------
 		glViewport(0, 0, windowWidth, windowHeight);
@@ -506,7 +501,7 @@ int main()
 		shader.setVec3("viewPos", camera.Position);
 		shader.setInt("shadows",shadows); // enable/disable shadows by pressing 'SPACE'
 		shader.setFloat("far_plane", far_plane);
-		glActiveTexture(GL_TEXTURE1);
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
 
 		renderScene(shader, false);
