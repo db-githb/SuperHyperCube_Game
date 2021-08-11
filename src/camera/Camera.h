@@ -11,6 +11,7 @@
 #include "../../glad/glad.h"
 #include "../../glm/glm.hpp"
 #include "../../glm/gtc/matrix_transform.hpp"
+#include "../Application/Transform.h"
 
 #include <vector>
 
@@ -38,7 +39,7 @@ enum Mouse_Button {
 
 
 // Default camera values
-const float SPEED = 2.5f;
+const float SPEED = 5.5f;
 const float SENSITIVITY = 0.1f;
 const float ZOOM = 45.0f;
 
@@ -79,6 +80,8 @@ public:
 
 	// processes input received from a mouse input system. Expects the offset value in both the x and y direction.
 	void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
+
+	void SetPosition(float posX, float posY, float posZ);
 
 private:
 	// calculates the front vector from the Camera's (updated) Euler Angles

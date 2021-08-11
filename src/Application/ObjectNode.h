@@ -17,7 +17,6 @@
 
 class ObjectNode
 {
-
 public:
 	ObjectNode();
 	~ObjectNode(void);
@@ -28,9 +27,9 @@ public:
 	void AddChild(ObjectNode* objectNode);
 
 	virtual void Update(float ms);
-	virtual void Draw(Shader &shader);
+	virtual void Draw(Shader& shader);
 	std::vector<ObjectNode*> children;
-	
+
 
 	const glm::vec3& GetPosition();
 	const glm::vec3& GetRotation();
@@ -44,13 +43,10 @@ public:
 	void AddRotation(glm::vec3 rot);
 	void AddScale(glm::vec3 scale);
 
+	Transform getTransform();
+
 protected:
 	Transform transform;
 	ObjectNode* parent;
 	ModelBase* m_model;
-	
-	
-
-
-
 };

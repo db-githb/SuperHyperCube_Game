@@ -95,6 +95,15 @@ void Camera::sendHome() {
 		updateCameraVectors();
 	}
 
+	void Camera::SetPosition(float posX, float posY, float posZ) {
+		Position = glm::vec3(posX,posY,posZ);
+		WorldUp = HOME_UP;
+		Yaw = HOME_YAW;
+		Pitch = HOME_PITCH;
+		updateCameraVectors();
+	}
+
+
 	// calculates the front vector from the Camera's (updated) Euler Angles
 	void Camera::updateCameraVectors()
 	{

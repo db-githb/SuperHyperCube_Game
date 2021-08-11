@@ -45,6 +45,7 @@ void Transform::AddPosition(glm::vec3 pos)
 	m_position += pos;
 }
 
+
 void Transform::AddRotation(glm::vec3 rot)
 {
 	m_rotation += rot;
@@ -87,4 +88,11 @@ glm::mat4 Transform::GetModel(glm::mat4 parentTransform) const
 	glm::mat4 rotationMatrix = rotationZMatrix * rotationYMatrix * rotationXMatrix;
 
 	return positionMatrix * scaleMatrix * rotationMatrix;
+}
+
+glm::vec3 Transform::GetForwardVector()
+{
+	const glm::mat4 inverted = glm::inverse(GetModel());
+	const glm::vec3 forward = glm::normalize(glm::vec3(inverted[2])) * glm::vec3(1, 1, -1);
+	return forward;
 }

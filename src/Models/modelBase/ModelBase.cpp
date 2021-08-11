@@ -4,8 +4,8 @@ ModelBase::ModelBase(Shader &inShader) {
 	unitCube = UnitCube();
 	wall.shader = inShader;
 	object.shader = inShader;
-	wall.diffuseMap = wall.shader.loadTexture("res/images/brick2.jpg");
-	object.diffuseMap = object.shader.loadTexture("res/images/metal4.jpg");
+	// wall.diffuseMap = wall.shader.loadTexture("res/images/brick2.jpg");
+	// object.diffuseMap = object.shader.loadTexture("res/images/metal4.jpg");
 
 	rows = 1;
 	columns = 1;
@@ -88,32 +88,16 @@ void ModelBase::allocateWallData() {
 }
 
 void ModelBase::draw(Shader* inShader) {
-	glm::mat4 model = transform->GetModel(parentTransform->GetModel());
-	model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
-
-
-	if (inShader == NULL) {
-		wall.shader.use();
-		drawWall(model);
-
-		object.shader.use();
-		drawObject(model);
-	}
-	else {
 		inShader->use();
-		drawWall(model);
-		drawObject(model);
-	}
+		//drawWall(*inShader);
+		//drawObject(*inShader);
+		drawCube(*inShader);
 }
 
-void ModelBase::drawWall(glm::mat4 model) {
+void ModelBase::drawWall(Shader& inShader) {
 
-	wall.shader.setFloat("specBias", 0.0);
-	wall.shader.setBool("textureOn", textureOn);
-	wall.shader.setBool("borderOn", false);
 	// bind texture maps
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, wall.diffuseMap);
 
 	//glActiveTexture(GL_TEXTURE2);
 	//glBindTexture(GL_TEXTURE_2D, wall.specularMap);
@@ -131,7 +115,7 @@ void ModelBase::drawWall(glm::mat4 model) {
 			wall.shader.setVec3("colour", colorPalette[GRAY]);
 
 			// move unit cube relative to parent base position and pass the model matrix to the vertex shader
-			wall.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, 0.0f) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
+			inShader.setMat4("model", glm::translate(transform->GetModel(parentTransform->GetModel()), glm::vec3((float)c, (float)r, 0.0f) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
 
 			// render the cube
 			glDrawArrays(renderMode, 0, 36);
@@ -139,18 +123,14 @@ void ModelBase::drawWall(glm::mat4 model) {
 	}
 }
 
-void ModelBase::drawObject(glm::mat4 model) {
+void ModelBase::drawObject(Shader& inShader) {
 
-	object.shader.setFloat("specBias", 8.0);
-	object.shader.setBool("textureOn", textureOn);
-	object.shader.setBool("borderOn", borderOn);
 
 	// bind texture maps
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, object.diffuseMap);
 
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, object.specularMap);
+	// glActiveTexture(GL_TEXTURE1);
+	// glBindTexture(GL_TEXTURE_2D, object.specularMap);
 
 	glBindVertexArray(unitCube.getVAO());
 
@@ -175,10 +155,9 @@ void ModelBase::drawObject(glm::mat4 model) {
 					continue;
 				}
 				
-				object.shader.setVec3("colour", colorPalette[object.modelData[r][c][p]]);
 					
 				// move unit cube relative to parent base position and pass the model matrix to the vertex shader
-				object.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, (float)p) + glm::vec3((0.3f +(-columns * 0.5)), 0.0f, (-0.3f +(-planes * 0.5)))));
+				inShader.setMat4("model", glm::translate(transform->GetModel(parentTransform->GetModel()), glm::vec3((float)c, (float)r, (float)p) + glm::vec3((0.3f +(-columns * 0.5)), 0.0f, (-0.3f +(-planes * 0.5)))));
 
 				// render the cube
 				glDrawArrays(renderMode, 0, 36);
@@ -187,6 +166,15 @@ void ModelBase::drawObject(glm::mat4 model) {
 		}
 	}
 }
+
+void ModelBase::drawCube(Shader& inShader)
+{
+	
+	inShader.setMat4("model", transform->GetModel(parentTransform->GetModel()));
+	inShader.setVec3("colour", colorPalette[BLUE]);
+	glDrawArrays(renderMode, 0, 36);
+}
+
 
 void ModelBase::setColorPalette() {
 

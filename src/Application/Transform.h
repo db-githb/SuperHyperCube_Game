@@ -26,8 +26,11 @@ public:
 	void AddRotation(glm::vec3 rot);
 	void AddScale(glm::vec3 scale);
 
+	void Move(float scale, glm::vec3 direction);
+	
 	glm::mat4 GetModel() const;
 	glm::mat4 GetModel(glm::mat4 parentTransform) const;
+	glm::vec3 GetForwardVector();
 
 
 protected:

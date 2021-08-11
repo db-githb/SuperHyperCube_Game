@@ -78,15 +78,10 @@
     <None Include="res\shaders\baseShader.frag">
       <Filter>res\shaders</Filter>
     </None>
-    <None Include="res\shaders\shadowMapShader.frag">
-      <Filter>res\shaders</Filter>
-    </None>
-    <None Include="res\shaders\shadowMapShader.geom">
-      <Filter>res\shaders</Filter>
-    </None>
-    <None Include="res\shaders\shadowMapShader.vert">
-      <Filter>res\shaders</Filter>
-    </None>
+    <None Include="res\shaders\depthShader.vert" />
+    <None Include="res\shaders\depthShader.frag" />
+    <None Include="res\shaders\skybox.frag" />
+    <None Include="res\shaders\skybox.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera\Camera.cpp">
@@ -100,21 +95,6 @@
     </ClCompile>
     <ClCompile Include="src\Models\modelBase\ModelBase.cpp">
       <Filter>src\modelBase</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Models\modelDamian\ModelDamian.cpp">
-      <Filter>src\modelDamian</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Models\modelElijah\ModelElijah.cpp">
-      <Filter>src\modelElijah</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Models\modelRichard\ModelRichard.cpp">
-      <Filter>src\modelRichard</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Models\modelMichael\ModelMichael.cpp">
-      <Filter>src\modelMichael</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Models\modelThomas\ModelThomas.cpp">
-      <Filter>src\modelThomas</Filter>
     </ClCompile>
     <ClCompile Include="src\Mesh\unitCube\UnitCube.cpp">
       <Filter>src\unitCube</Filter>
@@ -130,6 +110,8 @@
     <ClCompile Include="src\Mesh\Mesh.cpp" />
     <ClCompile Include="src\Models\gridLines\GridLines.cpp" />
     <ClCompile Include="src\Application\Main.cpp" />
+    <ClCompile Include="src\Mesh\skybox\Skybox.cpp" />
+    <ClCompile Include="src\Models\Number\Number.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">
@@ -147,21 +129,6 @@
     <ClInclude Include="src\Models\modelBase\ModelBase.h">
       <Filter>src\modelBase</Filter>
     </ClInclude>
-    <ClInclude Include="src\Models\modelDamian\ModelDamian.h">
-      <Filter>src\modelDamian</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Models\modelElijah\ModelElijah.h">
-      <Filter>src\modelElijah</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Models\modelRichard\ModelRichard.h">
-      <Filter>src\modelRichard</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Models\modelMichael\ModelMichael.h">
-      <Filter>src\modelMichael</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Models\modelThomas\ModelThomas.h">
-      <Filter>src\modelThomas</Filter>
-    </ClInclude>
     <ClInclude Include="src\Mesh\unitCube\UnitCube.h">
       <Filter>src\unitCube</Filter>
     </ClInclude>
@@ -175,5 +142,7 @@
     <ClInclude Include="src\Application\ObjectNode.h" />
     <ClInclude Include="src\Mesh\Mesh.h" />
     <ClInclude Include="src\Models\gridLines\GridLines.h" />
+    <ClInclude Include="src\Mesh\skybox\Skybox.h" />
+    <ClInclude Include="src\Models\Number\Number.h" />
   </ItemGroup>
 </Project>

@@ -32,16 +32,26 @@ void ObjectNode::AddChild(ObjectNode* objectNode)
 		objectNode->m_model->parentTransform = &transform;
 }
 
-void ObjectNode::Draw(Shader &shader)
+void ObjectNode::Draw(Shader& shader)
 {
-	//if (m_model)
-		//m_model->Draw(shader);
+	if (m_model)
+		m_model->draw(&shader);
 	for (int i = 0; i < children.size(); i++)
 		children[i]->Draw(shader);
 }    
 
 void ObjectNode::Update(float ms)
 {
+	/*glm::vec3 targetPosition = glm::vec3(20, 0.5, 3);
+	glm::vec3 increment = (targetPosition - transform.GetPosition()) * glm::vec3(0.1 *ms,0.1*ms,0.1*ms);
+	AddPosition(increment);*/
+	// Update Each Frame
+
+	// Update Children
+	for(ObjectNode* child : children)
+	{
+		child->Update(ms);
+	}
 	return;
 }
 
@@ -55,13 +65,14 @@ void ObjectNode::SetPosition(glm::vec3 pos)
 {
 	glm::vec3 position = glm::vec3(0, 0, 0);
 
-	if (parent)
+	if (parent != nullptr)
 		position = parent->transform.GetRotation();
 
 	transform.SetPosition(position + pos);
+	
 	for (ObjectNode* child : children)
 	{
-		child->SetPosition(pos);
+		child->SetPosition(pos + child->GetPosition());
 	}
 }
 
@@ -92,11 +103,13 @@ void ObjectNode::SetScale(glm::vec3 sc)
 void ObjectNode::AddPosition(glm::vec3 pos)
 {
 	transform.AddPosition(pos);
+	
 }
 
 void ObjectNode::AddRotation(glm::vec3 rot)
 {
 	transform.AddRotation(rot);
+	
 }
 
 void ObjectNode::AddScale(glm::vec3 sc)
@@ -107,6 +120,8 @@ void ObjectNode::AddScale(glm::vec3 sc)
 
 const glm::vec3& ObjectNode::GetPosition()
 {
+	// glm::vec3 pos = transform.GetPosition();
+	// std::cout << "\n position: x = " << pos.x << " y = " << pos.y << " z = " << pos.z << this;
 	return transform.GetPosition();
 }
 
@@ -118,4 +133,9 @@ const glm::vec3& ObjectNode::GetRotation()
 const glm::vec3& ObjectNode::GetScale()
 {
 	return transform.GetScale();
+}
+
+Transform ObjectNode::getTransform()
+{
+	return transform;
 }

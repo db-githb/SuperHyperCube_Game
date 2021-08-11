@@ -1,5 +1,5 @@
 //Fragment Shader Code
-#version 420
+#version 460 core
 
 out vec4 FragColor;
 

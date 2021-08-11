@@ -5,13 +5,11 @@
 #include "../Mesh/unitLine/UnitLine.h"
 #include "../Models/unitAxes/UnitAxes.h"
 #include "../Models/gridLines/GridLines.h"
-#include "../Models/modelDamian/ModelDamian.h"
-#include "../Models/modelElijah/ModelElijah.h"
-#include "../Models/modelThomas/ModelThomas.h"
-#include "../Models/modelMichael/ModelMichael.h"
-#include "../Models/modelRichard/ModelRichard.h"
 #include "../Models/lightCube/LightCube.h"
-
+#include "../Mesh/skybox/Skybox.h"
+#include "../Models/Number/Number.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "../Shader/stb_image.h"
 // Function Prototypes
 
 void processInput(GLFWwindow* window);
@@ -19,7 +17,10 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void renderScene(Shader& inShader, bool shadowMap);
+void renderScene(Shader& inShader);
+void renderSceneDepth(Shader& inShader);
+unsigned int loadTexture(char const* path);
+unsigned int loadCubemap(std::vector<std::string> faces);
 
 // window size
 #define WIDTH 1024
@@ -62,24 +63,52 @@ ModelBase* activeModel;
 ObjectNode* activeNode;
 
 ModelBase* unitCube;
-ModelDamian* modelDamian;
-ModelElijah* modelElijah;
-ModelThomas* modelThomas;
-ModelMichael* modelMichael;
-ModelRichard* modelRichard;
+Skybox* skybox;
 
-ObjectNode* nodeElijah;
-ObjectNode* nodeDamian;
-ObjectNode* nodeThomas;
-ObjectNode* nodeMichael;
-ObjectNode* nodeRichard;
+ModelBase* model_board;
+ModelBase* model_wheel1;
+ModelBase* model_wheel2;
+ModelBase* model_wheel3;
+ModelBase* model_wheel4;
+
+Number* numbers;
+
 ObjectNode* scene;
+ObjectNode* skateboard;
+ObjectNode* board;
+ObjectNode* wheel1;
+ObjectNode* wheel2;
+ObjectNode* wheel3;
+ObjectNode* wheel4;
+ObjectNode* numbersNode;
 
 LightCube* lightCube;
 
 
+glm::vec3 cornerCamPos[4];
+glm::vec3 boardCamPos;
+glm::vec3* currentCamPos;
+glm::vec3 focusPoint;
+
+bool camIsFixed = false;
+bool centerFocus = true;
+
+bool spotlightOn = true;
+bool directionalLightOn = true;
+bool ambientLightOn = true;
+bool moveSkateboard = false;
+
+int camIndex = 0;
+
 int main()
 {
+	focusPoint = glm::vec3(0);
+	//Camera Positions
+	cornerCamPos[0] = glm::vec3(-50, 50, 50);
+	cornerCamPos[1] = glm::vec3(50, 50, 50);
+	cornerCamPos[2] = glm::vec3(50, 50, -50);
+	cornerCamPos[3] = glm::vec3(-50, 50, -50);
+	boardCamPos = glm::vec3(0);
 	// Initialise GLFW
 	if (!glfwInit())
 	{
@@ -90,8 +119,8 @@ int main()
 
 	// Setup GLFW window properties
 	// OpenGL version
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 
 	// Core Profile
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -124,15 +153,12 @@ int main()
 		return -1;
 	}
 
-	//glfwSetInputMode(mainWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
 	// configure global opengl state:
 	//  -GL_DEPTH_TEST = ensure things behind solid objects are not drawn
 	//  -GL_CULL_FACE = ensure that faces of objects not visible are not drawn
 	// -----------------------------
 	glEnable(GL_DEPTH_TEST);
 	//glEnable(GL_CULL_FACE);
-
 	// Create Viewport
 	glViewport(0, 0, windowWidth, windowWidth);
 
@@ -148,72 +174,103 @@ int main()
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 	unsigned int depthMapFBO;
 	glGenFramebuffers(1, &depthMapFBO);
-	// create depth cubemap texture
-	unsigned int depthCubemap;
-	glGenTextures(1, &depthCubemap);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
-	for (unsigned int i = 0; i < 6; ++i) {
-		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	}
+	// create depth texture
+	unsigned int depthMap;
+	glGenTextures(1, &depthMap);
+	glBindTexture(GL_TEXTURE_2D, depthMap);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 
 	// attach depth texture as FBO's depth buffer
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthCubemap, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
 	glDrawBuffer(GL_NONE);
 	glReadBuffer(GL_NONE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+
+	//-----------
+	// Textures
+	//-----------
+	std::vector<std::string> faces
+	{
+		"res/images/skybox/right.jpg",
+		"res/images/skybox/MasterTexture.png",
+		"res/images/skybox/line.jpg",
+		"res/images/skybox/bottom.jpg",
+		"res/images/skybox/front.jpg",
+		"res/images/skybox/Watercolor.jpg",
+	};
+	unsigned int cubemapTexture = loadCubemap(faces);
+
+	
 	//-----------
 	// SHADERS
 	//-----------
 	Shader shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
 
-	unsigned int diffuseMapBlock = shader.loadTexture("res/images/brick.png");
+	unsigned int diffuseMapBlock  = loadTexture("res/images/brick.png");
+	unsigned int diffuseMapWall   = loadTexture("res/images/brick2.jpg");
+	unsigned int diffuseMapObject = loadTexture("res/images/metal4.jpg");
 	shader.use();
-	shader.setInt("material.diffuse", 0);
+	shader.setInt("diffuseTexture", 0);
 	shader.setInt("depthMap", 1);
 
-	Shader shadowMapShader("res/shaders/shadowMapShader.vert", "res/shaders/shadowMapShader.frag", "res/shaders/shadowMapShader.geom");
+	Shader depthShader("res/shaders/depthShader.vert","res/shaders/depthShader.frag");
 
+	Shader skyboxShader("res/shaders/skybox.vert", "res/shaders/skybox.frag");
+	skyboxShader.use();
+	skyboxShader.setInt("skybox", 3);
 	//-----------
 	// OBJECTS
 	//-----------
 	gridLines = new GridLines(shader);
 
 	unitCube = new ModelBase(shader);
+	skybox = new Skybox();
+	
 
-	modelDamian = new ModelDamian(shader);
-
-	modelElijah = new ModelElijah(shader);
-
-	modelThomas = new ModelThomas(shader);
-
-	modelMichael = new ModelMichael(shader);
-
-	modelRichard = new ModelRichard(shader);
-
+	model_board = new ModelBase(shader);
+	model_wheel1 = new ModelBase(shader);
+	model_wheel2 = new ModelBase(shader);
+	model_wheel3 = new ModelBase(shader);
+	model_wheel4 = new ModelBase(shader);
+	numbers = new Number(shader);
+	
 	scene = new ObjectNode();
+	skateboard = new ObjectNode();
+	board = new ObjectNode(model_board);
+	wheel1 = new ObjectNode(model_wheel1);
+	wheel2 = new ObjectNode(model_wheel2);
+	wheel3 = new ObjectNode(model_wheel3);
+	wheel4 = new ObjectNode(model_wheel4);
+	numbersNode = new ObjectNode(numbers);
 	
-	nodeElijah = new ObjectNode(modelElijah);
-	nodeDamian = new ObjectNode(modelDamian);
-	nodeThomas = new ObjectNode(modelThomas);
-	nodeRichard = new ObjectNode(modelRichard);
-	nodeMichael = new ObjectNode(modelMichael);
+	scene->AddChild(skateboard);
+	skateboard->AddPosition(glm::vec3(0, 2, 0));
+	skateboard->AddChild(board);
+	board->AddScale(glm::vec3(8, -0.7f, 3));
+	skateboard->AddChild(wheel1);
+		wheel1->AddPosition(glm::vec3(4,-1,1));
+	skateboard->AddChild(wheel2);
+		wheel2->AddPosition(glm::vec3(4, -1, -1));
+	skateboard->AddChild(wheel3);
+		wheel3->AddPosition(glm::vec3(-4, -1, 1));
+	skateboard->AddChild(wheel4);
+		wheel4->AddPosition(glm::vec3(-4, -1, -1));
+	skateboard->AddChild(numbersNode);
+		numbersNode->AddPosition(glm::vec3(0, 2, 0));
+		//numbersNode->AddScale(glm::vec3(-0.5f, -0.5f, -0.5f));
 
-	scene->SetPosition(glm::vec3(5, 0.5, 5));
-
-	scene->AddChild(nodeElijah);
-	scene->AddChild(nodeDamian);
-	scene->AddChild(nodeThomas);
-	scene->AddChild(nodeRichard);
-	scene->AddChild(nodeMichael);
 	
+	
+
 	// UNIT AXES / LIGHT CUBE
 	unitAxes = new UnitAxes();
 	lightCube = new LightCube();
@@ -221,12 +278,20 @@ int main()
 	// ==================================
 
 	// initialize active model
-	activeModel = modelRichard;
-	activeNode = scene;
+	activeModel = unitCube; //modelRichard;
+	activeNode = skateboard;
+	
+	glm::vec3 lightPos = glm::vec3(-50.0f , 50.0f, -50.0f);
 
+	
+
+	currentCamPos = &cornerCamPos[0];
+	
 	// display/render loop
 	while (!glfwWindowShouldClose(mainWindow))
 	{
+		boardCamPos = skateboard->GetPosition() + glm::vec3(0, 1, 0);
+		//lightPos = glm::vec3(-10.0f, 10.0f, -10.0f * cos(glfwGetTime()));
 		// Get + Handle User Input
 		glfwPollEvents();
 
@@ -239,72 +304,127 @@ int main()
 		processInput(mainWindow);
 
 		//Clear the Window
+		glClearColor(0.1f, 0.4f, 0.4f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::vec3 lightPos = activeModel->modelBasePosition + glm::vec3(0.0f, 30.5f, 0.0f);
-
-		// 0. create depth cubemap transformation matrices
-		// -----------------------------------------------
-
-		// when 30 < far_plane shadow acne appears
-		// when far_plane < 100 spotlight effect occurs
-		// Note: near_plane and far_plane only used in shadow mapping (far_plane passed to frag shader)
-		float near_plane = 1;
-		float far_plane = 100.0;
-
-		glm::mat4 shadowProj = glm::perspective(glm::radians(90.0f), (float)SHADOW_WIDTH / (float)SHADOW_HEIGHT, near_plane, far_plane);
-		std::vector<glm::mat4> shadowTransforms;
-		shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
-		shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
-		shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f)));
-		shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f)));
-		shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
-		shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
-
-		// 1. render scene to depth cubemap
+		// 1. render scene to depth texture
 		// --------------------------------
+		float near_plane = 1.0f; float far_plane = 100.0f;
+		
+		glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+		glm::mat4  lightView = glm::lookAt(lightPos, glm::vec3(scene->GetPosition()), glm::vec3(0.0, 1.0, 0.0));
+				
+		glm::mat4 lightSpaceMatrix = lightProjection * lightView;
+
+		depthShader.use();
+		depthShader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
+		
+			
+		
 		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 		glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-		glClear(GL_DEPTH_BUFFER_BIT);
-		shadowMapShader.use();
-		for (unsigned int i = 0; i < 6; ++i)
-			shadowMapShader.setMat4("shadowMatrices[" + std::to_string(i) + "]", shadowTransforms[i]);
-		shadowMapShader.setFloat("far_plane", far_plane);
-		shadowMapShader.setVec3("lightPos", lightPos);
-
-		renderScene(shadowMapShader, true);
+			glClear(GL_DEPTH_BUFFER_BIT);
+			
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, diffuseMapObject);
+		
+		renderSceneDepth(depthShader);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 
 		// 2. render scene as normal 
 		// -------------------------
 		glViewport(0, 0, windowWidth, windowHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		glm::vec3 forward = skateboard->getTransform().GetForwardVector();
+		forward = glm::normalize(forward);
+		glm::vec3 nonCenterFocus = boardCamPos + glm::vec3(forward.x * -10, forward.y * -10, forward.z * -10);
+
+		focusPoint = centerFocus ? glm::vec3(0) : nonCenterFocus;
+		
+		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)windowWidth / (float)windowHeight, 0.1f, 150.0f);
+		glm::mat4 view = camIsFixed ? glm::lookAt(*currentCamPos, focusPoint, glm::vec3(0, 1, 0)) : camera.GetViewMatrix();
+		glm::mat4 skyboxmodel = glm::scale(glm::vec3(100,100,100));//glm::mat4(1);/
+		skyboxShader.use();
+		
+			skyboxShader.setMat4("model", skyboxmodel);
+			skyboxShader.setMat4("projection", projection);
+			skyboxShader.setMat4("view", view);
+			skyboxShader.setInt("skybox", 3);
+		
 		shader.use();
-		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)windowWidth / (float)windowHeight, 0.1f, 200.0f);
-		glm::mat4 view = camera.GetViewMatrix();
+		shader.setBool("isTextured", false);
+		shader.setBool("spotlightOn", spotlightOn);
+		shader.setBool("directionalLightOn", directionalLightOn);
+		shader.setBool("ambientLightOn", ambientLightOn);
+		shader.setVec3("colour", glm::vec3(1.0f, 0.5f, 0.3f));
 		shader.setMat4("projection", projection);
 		shader.setMat4("view", view);
+		// spotlight uniforms
+		
+		shader.setVec3("spotlight.position", 0,50,0);
+		shader.setVec3("spotlight.direction", 0,-10,0);
+		shader.setVec3("spotlight.ambient", 0.0f, 0.0f, 0.0f);
+		shader.setVec3("spotlight.diffuse", 1.0f, 1.0f, 1.0f);
+		shader.setVec3("spotlight.specular", 1.0f, 1.0f, 1.0f);
+		shader.setFloat("spotlight.constant", 1.0f);
+		shader.setFloat("spotlight.linear", 0.09);
+		shader.setFloat("spotlight.quadratic", 0.032);
+		shader.setFloat("spotlight.cutOff", glm::cos(glm::radians(12.5f)));
+		shader.setFloat("spotlight.outerCutOff", glm::cos(glm::radians(15.0f)));
+
 		// set lighting uniforms
-		shader.setVec3("pointLight.position", lightPos);
 		shader.setVec3("viewPos", camera.Position);
-		shader.setInt("shadows", shadows); // enable/disable shadows by pressing 'SPACE'
-		shader.setFloat("far_plane", far_plane);
+		shader.setVec3("lightPos", lightPos);
+		shader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
+		glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, diffuseMapObject);
 		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
+			glBindTexture(GL_TEXTURE_2D, depthMap);
+		glActiveTexture(GL_TEXTURE2);
+			glBindTexture(GL_TEXTURE_2D, diffuseMapWall);
+		glActiveTexture(GL_TEXTURE3);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
 
-		renderScene(shader, false);
+			glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
+			skyboxShader.use();
+			//view = camera.GetViewMatrix();//glm::mat4(glm::mat3(camera.GetViewMatrix())); // remove translation from the view matrix
+			skyboxShader.setMat4("view", view);
+			skyboxShader.setMat4("projection", projection);
+			// skybox cube
+			glBindVertexArray(skybox->getVAO());
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+			glBindVertexArray(0);
+			glDepthFunc(GL_LESS); // set depth function back to default
 
+		
+		renderScene(shader);
+		
 		// unitAxes and lightCube -- USE DIFFERENT SHADERS -- that's why they're not in the render scene function (also different draw signature)
+
 		unitAxes->draw(camera, projection, view);
 		lightCube->draw(projection, view, lightPos);
 
+		scene->Update(deltaTime);
+
+		if(moveSkateboard)
+		{
+			skateboard->AddPosition(glm::vec3(sin(glfwGetTime()) * 30 * deltaTime, 0, cos(glfwGetTime()) * 10 * deltaTime));
+			wheel1->AddRotation(glm::vec3(0,0,10 * deltaTime));
+			wheel2->AddRotation(glm::vec3(0, 0, 10 * deltaTime));
+			wheel3->AddRotation(glm::vec3(0, 0, 10 * deltaTime));
+			wheel4->AddRotation(glm::vec3(0, 0, 10 * deltaTime));
+			skateboard->AddRotation(glm::vec3(0, deltaTime,0));
+		}
 		glfwSwapBuffers(mainWindow);
 
+		
 	}
 
-	delete modelDamian;
+	//delete modelDamian;
 	glfwTerminate();
 	exit(0);
 }
@@ -371,19 +491,19 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 }
 
 void toggleBorders() {
-	modelDamian->toggleBorder();
-	modelElijah->toggleBorder();
-	modelThomas->toggleBorder();
-	modelMichael->toggleBorder();
-	modelRichard->toggleBorder();
+	// modelDamian->toggleBorder();
+	// modelElijah->toggleBorder();
+	// modelThomas->toggleBorder();
+	// modelMichael->toggleBorder();
+	// modelRichard->toggleBorder();
 }
 
 void toggleTextures() {
-	modelDamian->toggleTexture();
-	modelElijah->toggleTexture();
-	modelThomas->toggleTexture();
-	modelMichael->toggleTexture();
-	modelRichard->toggleTexture();
+	// modelDamian->toggleTexture();
+	// modelElijah->toggleTexture();
+	// modelThomas->toggleTexture();
+	// modelMichael->toggleTexture();
+	//modelRichard->toggleTexture();
 
 	gridLines->toggleTexture();
 }
@@ -399,26 +519,41 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			activeNode = scene;
 			break;
 		case GLFW_KEY_1:
-			activeModel = modelDamian;
-			activeNode = nodeDamian;
+			activeNode = skateboard;
 			break;
 		case GLFW_KEY_2:
-			activeModel = modelElijah;
-			activeNode = nodeElijah;
+			//Toggle front cam
+			camIsFixed = false;
 			break;
 		case GLFW_KEY_3:
-			activeModel = modelThomas;
-			activeNode = nodeThomas;
+			// Toggle board cam
+			camIsFixed = true;
+			centerFocus = false;
+			currentCamPos = &boardCamPos;
 			break;
 		case GLFW_KEY_4:
-			activeModel = modelMichael;
-			activeNode = nodeMichael;
+			//Toggle corner cams
+			camIsFixed = true;
+			centerFocus = true;
+			camIndex += 1;
+			currentCamPos = &cornerCamPos[camIndex % 4];
 			break;
 		case GLFW_KEY_5:
-			activeModel = modelRichard;
-			activeNode = nodeRichard;
+			//Toggle Directional Light
+			directionalLightOn = !directionalLightOn;
 			break;
-
+		case GLFW_KEY_6:
+			//Toggle Spotlight
+			spotlightOn = !spotlightOn;
+			std::cout << "\n spotlight: " << spotlightOn;
+			break;
+		case GLFW_KEY_7:
+			//Toggle Ambient Light
+			ambientLightOn = !ambientLightOn;
+			break;
+		case GLFW_KEY_8:
+			moveSkateboard = !moveSkateboard;
+			skateboard->SetPosition(glm::vec3(0));
 			// select render mode
 		case GLFW_KEY_T:
 			activeModel->setRenderMode(GL_TRIANGLES);
@@ -450,7 +585,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			if (mods == GLFW_MOD_SHIFT)
 			{
 				//activeModel->translate(TRANS_FORWARD);
-				activeNode->AddPosition(glm::vec3(0, 0, -1));
+				activeNode->AddPosition(glm::vec3(0, 0, -1));//glm::vec3(0, 0, -1));
 			}
 			else
 			{
@@ -556,18 +691,100 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	windowHeight = height;
 }
 
-void renderScene(Shader& inShader, bool shadowMap) {
+void renderScene(Shader& inShader)
+{
+	
+	
 	gridLines->draw(glm::mat4(1.0f),inShader);
 
-	Shader* shader = nullptr;
-
-	if (shadowMap) {
-		shader = &inShader;
-	}
+	scene->Draw(inShader);
 	// unitCube->draw(model, shader);
-	modelDamian->draw(shader);
-	modelElijah->draw(shader);
-	modelThomas->draw(shader);
-	modelMichael->draw(shader);
-	modelRichard->draw(shader);
+	//modelDamian->draw(shader);
+	//modelElijah->draw(shader);
+	//modelThomas->draw(shader);
+	//modelMichael->draw(shader);
+	//modelRichard->draw(&inShader);
+}
+
+void renderSceneDepth(Shader& inShader)
+{
+	gridLines->draw(glm::mat4(1.0f), inShader);
+	scene->Draw(inShader);
+	//glCullFace(GL_FRONT);
+	// unitCube->draw(model, shader);
+	//modelDamian->draw(shader);
+	//modelElijah->draw(shader);
+	//modelThomas->draw(shader);
+	//modelMichael->draw(shader);
+	//modelRichard->draw(&inShader);
+	//glCullFace(GL_BACK);
+}
+
+unsigned int loadTexture(char const* path)
+{
+	unsigned int textureID;
+	glGenTextures(1, &textureID);
+
+	int width, height, nrComponents;
+	unsigned char* data = stbi_load(path, &width, &height, &nrComponents, 0);
+	if (data)
+	{
+		GLenum format;
+		if (nrComponents == 1)
+			format = GL_RED;
+		else if (nrComponents == 3)
+			format = GL_RGB;
+		else if (nrComponents == 4)
+			format = GL_RGBA;
+
+		glBindTexture(GL_TEXTURE_2D, textureID);
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT); // for this tutorial: use GL_CLAMP_TO_EDGE to prevent semi-transparent borders. Due to interpolation it takes texels from next repeat 
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		stbi_image_free(data);
+	}
+	else
+	{
+		std::cout << "Texture failed to load at path: " << path << std::endl;
+		stbi_image_free(data);
+	}
+
+	return textureID;
+}
+
+unsigned int loadCubemap(std::vector<std::string> faces)
+{
+	unsigned int textureID;
+	glGenTextures(1, &textureID);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+
+	int width, height, nrChannels;
+	for (unsigned int i = 0; i < faces.size(); i++)
+	{
+		unsigned char* data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
+		if (data)
+		{
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+				0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data
+			);
+			stbi_image_free(data);
+		}
+		else
+		{
+			std::cout << "Cubemap tex failed to load at path: " << faces[i] << std::endl;
+			stbi_image_free(data);
+		}
+	}
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_MIRRORED_REPEAT);
+
+	return textureID;
 }

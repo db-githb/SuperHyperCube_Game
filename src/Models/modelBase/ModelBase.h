@@ -1,7 +1,6 @@
 #pragma once
 #include "../../Mesh/unitCube/UnitCube.h"
 #include "../../Application/Transform.h"
-#include <stdlib.h>
 
 #define NONE -2
 #define WALL -1
@@ -112,6 +111,7 @@ protected:
 	float yRotation;
 	float zRotation;
 
-	void drawWall(glm::mat4 model);
-	void drawObject(glm::mat4 model);
+	void drawWall(Shader& inShader);
+	void drawObject(Shader& inShader);
+	void drawCube(Shader& inShader);
 };
