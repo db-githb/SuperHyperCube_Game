@@ -463,6 +463,7 @@ int main()
 		
 		glm::mat4 shadowProj = glm::perspective(glm::radians(90.0f), (float)SHADOW_WIDTH / (float)SHADOW_HEIGHT, near_plane, far_plane);
 
+		// lightSpace matrix produced by the shadowProjection matrix and the lookAt view matrix
 		std::vector<glm::mat4> shadowTransforms;
 		shadowTransforms.push_back(shadowProj* glm::lookAt(lightPos, lightPos + glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
 		shadowTransforms.push_back(shadowProj* glm::lookAt(lightPos, lightPos + glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
@@ -511,7 +512,6 @@ int main()
 		lightCube->draw(projection, view, lightPos);
 
 		glfwSwapBuffers(mainWindow);
-		
 	}
 
 	delete modelDamian;
