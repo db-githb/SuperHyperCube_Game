@@ -1,6 +1,6 @@
 #include "Number.h"
 
-Number::Number(Shader& inShader) : ModelBase(inShader)
+Number::Number(Shader& inShader) : Model(inShader)
 {
 
 
@@ -19,7 +19,7 @@ void Number::generateOriginalObject()
 	for (int y = 0; y < sizeY; y++)
 	{
 		for (int x = 0; x < sizeX; x++)
-			modelData[x][y] = NONE;
+			cubePositions[x][y] = NONE;
 	}
 
 	for (int y = 0; y < sizeY; y++)
@@ -29,27 +29,27 @@ void Number::generateOriginalObject()
 			if (y == 6)
 			{
 				if (x == 0 || x == 4 || (x >= 6 && x <= 10) || (x >= 12 && x <= 16) || x >= 18)
-					modelData[x][y] = BLUE;
+					cubePositions[x][y] = BLUE;
 			}
 			if (y == 5 || y == 4)
 			{
 				if (x == 0 || x == 4 || x == 6 || x == 10 || x == 12 || x == 16 || x == 18 || x == 22)
-					modelData[x][y] = BLUE;
+					cubePositions[x][y] = BLUE;
 			}
 			if (y == 3)
 			{
 				if (x <= 4 || x == 6 || x == 8 || x == 10 || x == 12 || x == 16 || (x >= 19 && x <= 21))
-					modelData[x][y] = BLUE;
+					cubePositions[x][y] = BLUE;
 			}
 			if (y == 2 || y == 1)
 			{
 				if (x == 4 || x == 6 || x == 10 || x == 16 || x == 18 || x == 22)
-					modelData[x][y] = BLUE;
+					cubePositions[x][y] = BLUE;
 			}
 			if (y == 0)
 			{
 				if ( x == 4 || (x >= 6 && x <= 10) || x == 16 || x >= 18)
-					modelData[x][y] = BLUE;
+					cubePositions[x][y] = BLUE;
 			}
 		}
 	}
@@ -65,7 +65,7 @@ void Number::draw(Shader* inShader)
 	// compute world position of child cubes
 	for (int x = 0; x < sizeX; x++) {
 		for (int y = 0; y < sizeY; y++) {
-			if (modelData[x][y] == NONE) {
+			if (cubePositions[x][y] == NONE) {
 				continue;
 			}
 
@@ -98,7 +98,7 @@ void Number::draw(Shader* inShader)
 // 	// compute world position of child cubes
 // 	for (int r = 0; r < rows; r++) {
 // 		for (int c = 0; c < columns; c++) {
-// 				if (modelData[r][c] == NONE) {
+// 				if (cubePositions[r][c] == NONE) {
 // 					continue;
 // 				}
 //

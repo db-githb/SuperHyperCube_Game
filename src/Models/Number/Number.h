@@ -1,11 +1,11 @@
 #pragma once
-#include "../modelBase/ModelBase.h"
+#include "../modelBase/Model.h"
 
 
 #define COLUMNS 23
 #define ROWS 7
 
-class Number : public ModelBase {
+class Number : public Model {
 
 	
 public:
@@ -16,7 +16,7 @@ public:
 
 	void draw(Shader* inShader) override;
 private:
-	int modelData[23][7];
+	int cubePositions[23][7];
 	glm::mat4 positionMat;
 	int sizeX, sizeY;
 };

@@ -1,6 +1,8 @@
 #pragma once
 #include "../../Mesh/unitCube/UnitCube.h"
-#include "../../Application/Transform.h"
+#include "../../Application/Component.h"
+
+
 
 #define NONE -2
 #define WALL -1
@@ -44,26 +46,28 @@
 #define BOUND_X_MIN -10.0f
 #define BOUND_Y_MIN 0.5f
 
-class ModelBase {
+#define sizeX 7
+#define sizeY 9
+#define sizeZ 7
+
+class Model : public Component{
 
 public:
 
-	struct Component {
-		int*** modelData;
-		
+	struct Data {
 		Shader shader;
-
 		unsigned int diffuseMap;
 		unsigned int specularMap;
 	};
 
-	ModelBase(Shader &inShader);
-	ModelBase(Shader &inShader, Transform& trans);
-	~ModelBase();
+	Model(Data modelData);
+	Model(Shader &inShader);
+	virtual ~Model();
+	void Update(float ms);
 	virtual void draw(Shader* inShader);
-	virtual void scale(int scaleDirection);
-	virtual void translate(int translationDirection);
-	virtual void rotate(int rotation);
+	//virtual void scale(int scaleDirection);
+	//virtual void translate(int translationDirection);
+	//virtual void rotate(int rotation);
 	virtual void setRenderMode(int mode);
 	virtual void toggleTexture();
 	virtual void toggleBorder();
@@ -72,27 +76,28 @@ public:
 	virtual void generateOriginalObject();
 	virtual void resetObject();
 	virtual void resetPOS();
-	virtual void SetTransform(Transform& trans);
+
+	
+	virtual void SetTransform(Transform* trans);
 
 	static glm::vec3* colorPalette;
 	static void setColorPalette();
 	Transform* parentTransform;
 	glm::vec3 modelBasePosition;
+	int cubePositions[sizeX][sizeY][sizeZ];
+	//Data wall;
+	//Data data;
+	Data data;
 
 protected:
 
-	void allocateObjectData();
-	void allocateWallData();
+	void allocateModelData();
+	// void allocateObjectData();
+	// void allocateWallData();
 
 	Transform* transform;
 	
 	UnitCube unitCube;
-	Component wall;
-	Component object;
-
-	int rows;
-	int columns;
-	int planes;
 
 	float scaleFactor;
 	float xTranslation;

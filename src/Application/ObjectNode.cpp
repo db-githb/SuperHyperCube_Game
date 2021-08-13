@@ -7,22 +7,23 @@ ObjectNode::ObjectNode()
 	m_model = NULL;
 }
 
-ObjectNode::ObjectNode(ModelBase* model)
+ObjectNode::ObjectNode(Model* model)
 {
 	parent = NULL;
 	transform = Transform();
-	model->SetTransform(transform);
+	model->SetTransform(&transform);
 	transform.SetPosition(model->modelBasePosition);
 	m_model = model;
+	//m_model->SetGameObject(this);
 }
 
-ObjectNode::~ObjectNode(void)
-{
-	for (unsigned int i = 0; i < children.size(); ++i)
-	{
-		delete children[i];
-	}
-}
+// ObjectNode::~ObjectNode(void)
+// {
+// 	for (unsigned int i = 0; i < children.size(); ++i)
+// 	{
+// 		delete children[i];
+// 	}
+// }
 
 void ObjectNode::AddChild(ObjectNode* objectNode)
 {
@@ -41,12 +42,7 @@ void ObjectNode::Draw(Shader& shader)
 }    
 
 void ObjectNode::Update(float ms)
-{
-	/*glm::vec3 targetPosition = glm::vec3(20, 0.5, 3);
-	glm::vec3 increment = (targetPosition - transform.GetPosition()) * glm::vec3(0.1 *ms,0.1*ms,0.1*ms);
-	AddPosition(increment);*/
-	// Update Each Frame
-
+{ 
 	// Update Children
 	for(ObjectNode* child : children)
 	{
@@ -55,7 +51,7 @@ void ObjectNode::Update(float ms)
 	return;
 }
 
-void ObjectNode::SetModel(ModelBase* m)
+void ObjectNode::SetModel(Model* m)
 {
 	m_model = m;
 	return;

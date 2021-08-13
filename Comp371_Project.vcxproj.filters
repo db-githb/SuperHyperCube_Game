@@ -93,9 +93,6 @@
     <ClCompile Include="src\Models\lightCube\LightCube.cpp">
       <Filter>src\lightCube</Filter>
     </ClCompile>
-    <ClCompile Include="src\Models\modelBase\ModelBase.cpp">
-      <Filter>src\modelBase</Filter>
-    </ClCompile>
     <ClCompile Include="src\Mesh\unitCube\UnitCube.cpp">
       <Filter>src\unitCube</Filter>
     </ClCompile>
@@ -111,7 +108,10 @@
     <ClCompile Include="src\Models\gridLines\GridLines.cpp" />
     <ClCompile Include="src\Application\Main.cpp" />
     <ClCompile Include="src\Mesh\skybox\Skybox.cpp" />
-    <ClCompile Include="src\Models\Number\Number.cpp" />
+    <ClCompile Include="src\Models\modelBase\Model.cpp">
+      <Filter>src\modelBase</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Objects\Level.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">
@@ -125,9 +125,6 @@
     </ClInclude>
     <ClInclude Include="src\Models\lightCube\LightCube.h">
       <Filter>src\lightCube</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Models\modelBase\ModelBase.h">
-      <Filter>src\modelBase</Filter>
     </ClInclude>
     <ClInclude Include="src\Mesh\unitCube\UnitCube.h">
       <Filter>src\unitCube</Filter>
@@ -143,6 +140,10 @@
     <ClInclude Include="src\Mesh\Mesh.h" />
     <ClInclude Include="src\Models\gridLines\GridLines.h" />
     <ClInclude Include="src\Mesh\skybox\Skybox.h" />
-    <ClInclude Include="src\Models\Number\Number.h" />
+    <ClInclude Include="src\Models\modelBase\Model.h">
+      <Filter>src\modelBase</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\Component.h" />
+    <ClInclude Include="src\Objects\Level.h" />
   </ItemGroup>
 </Project>

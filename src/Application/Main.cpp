@@ -7,7 +7,10 @@
 #include "../Models/gridLines/GridLines.h"
 #include "../Models/lightCube/LightCube.h"
 #include "../Mesh/skybox/Skybox.h"
-#include "../Models/Number/Number.h"
+#include "../Models/custom/modelDamian/ModelDamian.h"
+#include "../Models/custom/modelElijah/ModelElijah.h"
+#include "../Objects/Level.h"
+
 #define STB_IMAGE_IMPLEMENTATION
 #include "../Shader/stb_image.h"
 // Function Prototypes
@@ -46,7 +49,7 @@ bool shadows = true;
 // -------------------
 // INSTANTIATE STATIC VARIABLES (assign memory) for static variable
 // -------------------
-glm::vec3* ModelBase::colorPalette = new glm::vec3[NUM_COLORS];
+glm::vec3* Model::colorPalette = new glm::vec3[NUM_COLORS];
 
 GLuint UnitCube::unitCubeVAO = 0;
 GLuint UnitCube::unitCubeVBO = 0;
@@ -59,28 +62,18 @@ GLuint UnitCube::unitCubeVBO = 0;
 GridLines* gridLines;
 UnitAxes* unitAxes;
 
-ModelBase* activeModel;
+Model* activeModel;
 ObjectNode* activeNode;
 
-ModelBase* unitCube;
+Model* unitCube;
 Skybox* skybox;
 
-ModelBase* model_board;
-ModelBase* model_wheel1;
-ModelBase* model_wheel2;
-ModelBase* model_wheel3;
-ModelBase* model_wheel4;
+//ModelElijah* modelDamian;
 
-Number* numbers;
 
 ObjectNode* scene;
-ObjectNode* skateboard;
-ObjectNode* board;
-ObjectNode* wheel1;
-ObjectNode* wheel2;
-ObjectNode* wheel3;
-ObjectNode* wheel4;
-ObjectNode* numbersNode;
+Level* currentLevel;
+
 
 LightCube* lightCube;
 
@@ -107,7 +100,7 @@ int main()
 	cornerCamPos[0] = glm::vec3(-50, 50, 50);
 	cornerCamPos[1] = glm::vec3(50, 50, 50);
 	cornerCamPos[2] = glm::vec3(50, 50, -50);
-	cornerCamPos[3] = glm::vec3(-50, 50, -50);
+	cornerCamPos[3] = glm::vec3(-45, 45, -45);
 	boardCamPos = glm::vec3(0);
 	// Initialise GLFW
 	if (!glfwInit())
@@ -166,7 +159,7 @@ int main()
 	// INITIALIZE STATIC VARIABLES
 	// ----------------------------------
 
-	ModelBase::setColorPalette();
+	Model::setColorPalette();
 
 
 	// configure depth map FBO
@@ -231,42 +224,27 @@ int main()
 	// OBJECTS
 	//-----------
 	gridLines = new GridLines(shader);
-
-	unitCube = new ModelBase(shader);
 	skybox = new Skybox();
 	
 
-	model_board = new ModelBase(shader);
-	model_wheel1 = new ModelBase(shader);
-	model_wheel2 = new ModelBase(shader);
-	model_wheel3 = new ModelBase(shader);
-	model_wheel4 = new ModelBase(shader);
-	numbers = new Number(shader);
-	
 	scene = new ObjectNode();
-	skateboard = new ObjectNode();
-	board = new ObjectNode(model_board);
-	wheel1 = new ObjectNode(model_wheel1);
-	wheel2 = new ObjectNode(model_wheel2);
-	wheel3 = new ObjectNode(model_wheel3);
-	wheel4 = new ObjectNode(model_wheel4);
-	numbersNode = new ObjectNode(numbers);
 	
-	scene->AddChild(skateboard);
-	skateboard->AddPosition(glm::vec3(0, 2, 0));
-	skateboard->AddChild(board);
-	board->AddScale(glm::vec3(8, -0.7f, 3));
-	skateboard->AddChild(wheel1);
-		wheel1->AddPosition(glm::vec3(4,-1,1));
-	skateboard->AddChild(wheel2);
-		wheel2->AddPosition(glm::vec3(4, -1, -1));
-	skateboard->AddChild(wheel3);
-		wheel3->AddPosition(glm::vec3(-4, -1, 1));
-	skateboard->AddChild(wheel4);
-		wheel4->AddPosition(glm::vec3(-4, -1, -1));
-	skateboard->AddChild(numbersNode);
-		numbersNode->AddPosition(glm::vec3(0, 2, 0));
-		//numbersNode->AddScale(glm::vec3(-0.5f, -0.5f, -0.5f));
+
+	currentLevel = new Level(shader);
+	
+	scene->AddChild(currentLevel);
+	// skateboard->AddPosition(glm::vec3(0, 2, 0));
+	// skateboard->AddChild(board);
+	// board->AddScale(glm::vec3(8, -0.7f, 3));
+	// skateboard->AddChild(wheel1);
+	// 	wheel1->AddPosition(glm::vec3(4,-1,1));
+	// skateboard->AddChild(wheel2);
+	// 	wheel2->AddPosition(glm::vec3(4, -1, -1));
+	// skateboard->AddChild(wheel3);
+	// 	wheel3->AddPosition(glm::vec3(-4, -1, 1));
+	// skateboard->AddChild(wheel4);
+	// 	wheel4->AddPosition(glm::vec3(-4, -1, -1));
+	// 	
 
 	
 	
@@ -279,7 +257,7 @@ int main()
 
 	// initialize active model
 	activeModel = unitCube; //modelRichard;
-	activeNode = skateboard;
+	activeNode = scene;
 	
 	glm::vec3 lightPos = glm::vec3(-50.0f , 50.0f, -50.0f);
 
@@ -290,7 +268,7 @@ int main()
 	// display/render loop
 	while (!glfwWindowShouldClose(mainWindow))
 	{
-		boardCamPos = skateboard->GetPosition() + glm::vec3(0, 1, 0);
+		boardCamPos = scene->GetPosition() + glm::vec3(0, 1, 0);
 		//lightPos = glm::vec3(-10.0f, 10.0f, -10.0f * cos(glfwGetTime()));
 		// Get + Handle User Input
 		glfwPollEvents();
@@ -337,7 +315,7 @@ int main()
 		glViewport(0, 0, windowWidth, windowHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::vec3 forward = skateboard->getTransform().GetForwardVector();
+		glm::vec3 forward = scene->getTransform().GetForwardVector();
 		forward = glm::normalize(forward);
 		glm::vec3 nonCenterFocus = boardCamPos + glm::vec3(forward.x * -10, forward.y * -10, forward.z * -10);
 
@@ -410,15 +388,6 @@ int main()
 
 		scene->Update(deltaTime);
 
-		if(moveSkateboard)
-		{
-			skateboard->AddPosition(glm::vec3(sin(glfwGetTime()) * 30 * deltaTime, 0, cos(glfwGetTime()) * 10 * deltaTime));
-			wheel1->AddRotation(glm::vec3(0,0,10 * deltaTime));
-			wheel2->AddRotation(glm::vec3(0, 0, 10 * deltaTime));
-			wheel3->AddRotation(glm::vec3(0, 0, 10 * deltaTime));
-			wheel4->AddRotation(glm::vec3(0, 0, 10 * deltaTime));
-			skateboard->AddRotation(glm::vec3(0, deltaTime,0));
-		}
 		glfwSwapBuffers(mainWindow);
 
 		
@@ -519,17 +488,18 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			activeNode = scene;
 			break;
 		case GLFW_KEY_1:
-			activeNode = skateboard;
+			activeNode = currentLevel;
 			break;
 		case GLFW_KEY_2:
-			//Toggle front cam
-			camIsFixed = false;
+			activeNode = currentLevel->object;
 			break;
 		case GLFW_KEY_3:
+
+			currentLevel->ValidateOrientation();
 			// Toggle board cam
-			camIsFixed = true;
-			centerFocus = false;
-			currentCamPos = &boardCamPos;
+			// camIsFixed = true;
+			// centerFocus = false;
+			// currentCamPos = &boardCamPos;
 			break;
 		case GLFW_KEY_4:
 			//Toggle corner cams
@@ -553,7 +523,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		case GLFW_KEY_8:
 			moveSkateboard = !moveSkateboard;
-			skateboard->SetPosition(glm::vec3(0));
+			scene->SetPosition(glm::vec3(0));
 			// select render mode
 		case GLFW_KEY_T:
 			activeModel->setRenderMode(GL_TRIANGLES);
@@ -699,7 +669,7 @@ void renderScene(Shader& inShader)
 
 	scene->Draw(inShader);
 	// unitCube->draw(model, shader);
-	//modelDamian->draw(shader);
+	//modelDamian->draw(&inShader);
 	//modelElijah->draw(shader);
 	//modelThomas->draw(shader);
 	//modelMichael->draw(shader);
@@ -712,7 +682,7 @@ void renderSceneDepth(Shader& inShader)
 	scene->Draw(inShader);
 	//glCullFace(GL_FRONT);
 	// unitCube->draw(model, shader);
-	//modelDamian->draw(shader);
+	//modelDamian->draw(&inShader);
 	//modelElijah->draw(shader);
 	//modelThomas->draw(shader);
 	//modelMichael->draw(shader);
