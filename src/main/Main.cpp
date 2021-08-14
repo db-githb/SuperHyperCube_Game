@@ -8,6 +8,7 @@
 #include "../modelMichael/modelMichael.h"
 #include "../modelRichard/modelRichard.h"
 #include "../lightCube/LightCube.h"
+#include "../gameManager/GameManager.h"
 
 // window size
 #define WIDTH 1024
@@ -46,13 +47,9 @@ GLuint UnitCube::unitCubeVBO = 0;
 GridLines* gridLines;
 UnitAxes* unitAxes;
 
-ModelBase* activeModel;
+GameManager* gameManager;
+
 ModelBase* unitCube;
-ModelDamian* modelDamian;
-ModelElijah* modelElijah;
-ModelThomas* modelThomas;
-ModelMichael* modelMichael;
-ModelRichard* modelRichard;
 
 LightCube* lightCube;
 // ===================
@@ -117,19 +114,11 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 }
 
 void toggleBorders() {
-	modelDamian->toggleBorder();
-	modelElijah->toggleBorder();
-	modelThomas->toggleBorder();
-	modelMichael->toggleBorder();
-	modelRichard->toggleBorder();
+	gameManager->activeModel->toggleBorder();
 }
 
 void toggleTextures() {
-	modelDamian->toggleTexture();
-	modelElijah->toggleTexture();
-	modelThomas->toggleTexture();
-	modelMichael->toggleTexture();
-	modelRichard->toggleTexture();
+	gameManager->activeModel->toggleTexture();
 
 	gridLines->toggleTexture();
 }
@@ -139,35 +128,15 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	if (action == GLFW_RELEASE) {
 		switch (key) {
 
-		// choose which model is "active" aka which model will be manipulated
-		case GLFW_KEY_0:
-			activeModel = unitCube;
-			break;
-		case GLFW_KEY_1:
-			activeModel = modelDamian;
-			break;
-		case GLFW_KEY_2:
-			activeModel = modelElijah;
-			break;
-		case GLFW_KEY_3:
-			activeModel = modelThomas;
-			break;
-		case GLFW_KEY_4:
-			activeModel = modelMichael;
-			break;
-		case GLFW_KEY_5:
-			activeModel = modelRichard;
-			break;
-
 		// select render mode
 		case GLFW_KEY_T:
-			activeModel->setRenderMode(GL_TRIANGLES);
+			gameManager->activeModel->setRenderMode(GL_TRIANGLES);
 			break;
 		case GLFW_KEY_P:
-			activeModel->setRenderMode(GL_POINTS);
+			gameManager->activeModel->setRenderMode(GL_POINTS);
 			break;
 		case GLFW_KEY_L:
-			activeModel->setRenderMode(GL_LINES);
+			gameManager->activeModel->setRenderMode(GL_LINES);
 			break;
 
 		// toggle textures
@@ -178,68 +147,68 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 		// scale models up and down
 		case GLFW_KEY_U:
-			activeModel->scale(SCALE_UP);
+			gameManager->activeModel->scale(SCALE_UP);
 			break;
 
 		case GLFW_KEY_J:
-			activeModel->scale(SCALE_DOWN);
+			gameManager->activeModel->scale(SCALE_DOWN);
 			break;
 
 		// translate models left/right and rotate left/right
 		case GLFW_KEY_A:
 
 			if (mods == GLFW_MOD_SHIFT) {
-				activeModel->translate(TRANS_LEFT);
+				gameManager->activeModel->translate(TRANS_LEFT);
 			}
 			else {
-				activeModel->rotate(ROTATE_Y_COUNTER);
+				gameManager->activeModel->rotate(ROTATE_Y_COUNTER);
 			}
 			break;
 
 		case  GLFW_KEY_D:
 
 			if (mods == GLFW_MOD_SHIFT) {
-				activeModel->translate(TRANS_RIGHT);
+				gameManager->activeModel->translate(TRANS_RIGHT);
 			}
 			else {
-				activeModel->rotate(ROTATE_Y_CLOCKWISE);
+				gameManager->activeModel->rotate(ROTATE_Y_CLOCKWISE);
 			}
 			break;
 
 		// translate models up/down
 		case GLFW_KEY_W:
-			activeModel->translate(TRANS_UP);
+			gameManager->activeModel->translate(TRANS_UP);
 			return;
 
 		case  GLFW_KEY_S:
-			activeModel->translate(TRANS_DOWN);
+			gameManager->activeModel->translate(TRANS_DOWN);
 			break;
 
 		case GLFW_KEY_Z:
 
-			activeModel->translate(TRANS_FORWARD);
+			gameManager->activeModel->translate(TRANS_FORWARD);
 			
 			break;
 
 		case GLFW_KEY_C:
 
 			if (mods == GLFW_MOD_SHIFT) {
-				activeModel->toggleContinuous();
+				gameManager->activeModel->toggleContinuous();
 			}
 			else {
-				activeModel->translate(TRANS_BACKWARD);
+				gameManager->activeModel->translate(TRANS_BACKWARD);
 			}
 			break;
 
 		// rotate along X and Z axis, maybe map y rotation to G and V keys
 		case GLFW_KEY_V:
-			activeModel->rotate(ROTATE_X_CLOCKWISE);
+			gameManager->activeModel->rotate(ROTATE_X_CLOCKWISE);
 			break;
 		case GLFW_KEY_G:
-			activeModel->rotate(ROTATE_X_COUNTER);
+			gameManager->activeModel->rotate(ROTATE_X_COUNTER);
 			break;
 		case GLFW_KEY_H:
-			activeModel->rotate(ROTATE_Z_CLOCKWISE);
+			gameManager->activeModel->rotate(ROTATE_Z_CLOCKWISE);
 			break;
 		case GLFW_KEY_B:
 
@@ -247,7 +216,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				toggleBorders();
 			}
 			else {
-				activeModel->rotate(ROTATE_Z_COUNTER);
+				gameManager->activeModel->rotate(ROTATE_Z_COUNTER);
 			}
 			
 			break;
@@ -259,15 +228,15 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_R:
 
 			if (mods == GLFW_MOD_SHIFT) {
-				activeModel->resetPOS();
+				gameManager->activeModel->resetPOS();
 			}
 			else {
-				activeModel->generateRandomModel();
+				gameManager->activeModel->generateRandomModel();
 			}
 			break;
 
 		case GLFW_KEY_O:
-			activeModel->generateOriginalObject();
+			gameManager->activeModel->generateOriginalObject();
 			break;
 
 		case GLFW_KEY_SPACE:
@@ -302,12 +271,7 @@ void renderScene(Shader &inShader, bool shadowMap) {
 	if (shadowMap) {
 		shader = &inShader;
 	}
-	// unitCube->draw(model, shader);
-	modelDamian->draw(model, shader);
-	modelElijah->draw(model, shader);
-	modelThomas->draw(model, shader);
-	modelMichael->draw(model, shader);
-	modelRichard->draw(model, shader);
+	//gameManager->draw(shader);
 }
 
 int main()
@@ -414,24 +378,16 @@ int main()
 
 	unitCube = new ModelBase(shader);
 
-	modelDamian = new ModelDamian(shader);
-
-	modelElijah = new ModelElijah(shader);
-
-	modelThomas = new ModelThomas(shader);
-
-	modelMichael = new ModelMichael(shader);
-
-	modelRichard = new ModelRichard(shader);
+	ModelBase models[]{ ModelDamian(shader) }; //, ModelElijah(shader), ModelThomas(shader), ModelMichael(shader), ModelRichard(shader) };
+	
+	gameManager = new GameManager();
+	gameManager->initialize(1, models);
 
 	// UNIT AXES / LIGHT CUBE
 	unitAxes = new UnitAxes();
 	lightCube = new LightCube();
 
 	// ==================================
-
-	// initialize active model
-	activeModel = modelRichard;
 
 	// display/render loop
 	while (!glfwWindowShouldClose(mainWindow))
@@ -450,7 +406,7 @@ int main()
 		//Clear the Window
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::vec3 lightPos = activeModel->modelBasePosition + glm::vec3(0.0f, 30.5f, 0.0f);
+		glm::vec3 lightPos = gameManager->activeModel->modelBasePosition + glm::vec3(0.0f, 30.5f, 0.0f);
 
 		// 0. create depth cubemap transformation matrices
 		// -----------------------------------------------
@@ -514,7 +470,6 @@ int main()
 		glfwSwapBuffers(mainWindow);
 	}
 
-	delete modelDamian;
 	glfwTerminate();
 	exit(0);
 }

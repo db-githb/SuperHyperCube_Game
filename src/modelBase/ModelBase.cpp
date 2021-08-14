@@ -85,8 +85,8 @@ void ModelBase::allocateWallData() {
 	return;
 }
 
-void ModelBase::draw(glm::mat4 model, Shader* inShader) {
-
+void ModelBase::draw(Shader* inShader) {
+	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, modelBasePosition);
 	model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
 
@@ -288,6 +288,10 @@ void ModelBase::toggleContinuous() {
 	continuousOn = !continuousOn;
 
 	continuousStartTime = glfwGetTime();
+}
+
+void ModelBase::turnContinuousOn() {
+	continuousOn = true;
 }
 
 void ModelBase::generateRandomModel()
