@@ -46,6 +46,11 @@ float lastFrame = 0.0f;
 // shadows
 bool shadows = true;
 
+int rotationXcount = 0;
+int rotationYcount = 0;
+int rotationZcount = 0;
+float rotations[4] = { 0.0f,90.0f,180.0f,270.0f };
+
 // -------------------
 // INSTANTIATE STATIC VARIABLES (assign memory) for static variable
 // -------------------
@@ -233,6 +238,7 @@ int main()
 	currentLevel = new Level(shader);
 	
 	scene->AddChild(currentLevel);
+	currentLevel->AddPosition(glm::vec3(0, 5, 0));
 	// skateboard->AddPosition(glm::vec3(0, 2, 0));
 	// skateboard->AddChild(board);
 	// board->AddScale(glm::vec3(8, -0.7f, 3));
@@ -257,7 +263,7 @@ int main()
 
 	// initialize active model
 	activeModel = unitCube; //modelRichard;
-	activeNode = scene;
+	activeNode = currentLevel->object;
 	
 	glm::vec3 lightPos = glm::vec3(-50.0f , 50.0f, -50.0f);
 
@@ -336,7 +342,7 @@ int main()
 		shader.setBool("spotlightOn", spotlightOn);
 		shader.setBool("directionalLightOn", directionalLightOn);
 		shader.setBool("ambientLightOn", ambientLightOn);
-		shader.setVec3("colour", glm::vec3(1.0f, 0.5f, 0.3f));
+		shader.setVec3("colour", glm::vec3(0.0f, 1.0f, 0.3f));
 		shader.setMat4("projection", projection);
 		shader.setMat4("view", view);
 		// spotlight uniforms
@@ -365,18 +371,18 @@ int main()
 		glActiveTexture(GL_TEXTURE3);
 			glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
 
-			glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
-			skyboxShader.use();
-			//view = camera.GetViewMatrix();//glm::mat4(glm::mat3(camera.GetViewMatrix())); // remove translation from the view matrix
-			skyboxShader.setMat4("view", view);
-			skyboxShader.setMat4("projection", projection);
-			// skybox cube
-			glBindVertexArray(skybox->getVAO());
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
-			glDrawArrays(GL_TRIANGLES, 0, 36);
-			glBindVertexArray(0);
-			glDepthFunc(GL_LESS); // set depth function back to default
+			// glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
+			// skyboxShader.use();
+			// //view = camera.GetViewMatrix();//glm::mat4(glm::mat3(camera.GetViewMatrix())); // remove translation from the view matrix
+			// skyboxShader.setMat4("view", view);
+			// skyboxShader.setMat4("projection", projection);
+			// // skybox cube
+			// glBindVertexArray(skybox->getVAO());
+			// glActiveTexture(GL_TEXTURE0);
+			// glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+			// //glDrawArrays(GL_TRIANGLES, 0, 36);
+			// glBindVertexArray(0);
+			// glDepthFunc(GL_LESS); // set depth function back to default
 
 		
 		renderScene(shader);
@@ -483,16 +489,16 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		switch (key) {
 
 			// choose which model is "active" aka which model will be manipulated
-		case GLFW_KEY_0:
-			activeModel = unitCube;
-			activeNode = scene;
-			break;
-		case GLFW_KEY_1:
-			activeNode = currentLevel;
-			break;
-		case GLFW_KEY_2:
-			activeNode = currentLevel->object;
-			break;
+		// case GLFW_KEY_0:
+		// 	activeModel = unitCube;
+		// 	activeNode = scene;
+		// 	break;
+		// case GLFW_KEY_1:
+		// 	activeNode = currentLevel;
+		// 	break;
+		// case GLFW_KEY_2:
+		// 	activeNode = currentLevel->object;
+		// 	break;
 		case GLFW_KEY_3:
 
 			currentLevel->ValidateOrientation();
@@ -559,8 +565,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			}
 			else
 			{
-				//activeModel->translate(TRANS_UP);
-				activeNode->AddPosition(glm::vec3(0, 1, 0));
+				rotationXcount++;
+				activeNode->SetRotation(glm::vec3(glm::radians(rotations[abs(rotationXcount)% 4]),
+													  glm::radians(rotations[abs(rotationYcount) % 4]),
+													  glm::radians(rotations[abs(rotationZcount) % 4])));
 			}
 			break;
 			
@@ -571,7 +579,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				activeNode->AddPosition(glm::vec3(-1, 0, 0));
 			}
 			else {
-				activeNode->AddRotation(glm::vec3(0, 0.1, 0));
+				
+				rotationYcount++;
+				activeNode->SetRotation(glm::vec3(glm::radians(rotations[abs(rotationXcount) % 4]),
+													  glm::radians(rotations[abs(rotationYcount) % 4]),
+													  glm::radians(rotations[abs(rotationZcount) % 4])));
 			}
 			break;
 
@@ -582,7 +594,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			}
 			else
 			{
-				activeNode->AddPosition(glm::vec3(0, -1, 0));
+				rotationXcount--;
+				activeNode->SetRotation(glm::vec3(glm::radians(rotations[abs(rotationXcount) % 4]),
+													  glm::radians(rotations[abs(rotationYcount) % 4]),
+													  glm::radians(rotations[abs(rotationZcount) % 4])));
+				//activeNode->AddPosition(glm::vec3(0, -0.1f, 0));
 			}
 			break;
 
@@ -592,7 +608,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				activeNode->AddPosition(glm::vec3(1, 0, 0));
 			}
 			else {
-				activeNode->AddRotation(glm::vec3(0, -0.1, 0 ));
+				rotationYcount--;
+				activeNode->SetRotation(glm::vec3(glm::radians(rotations[abs(rotationXcount) % 4]),
+													  glm::radians(rotations[abs(rotationYcount) % 4]),
+													  glm::radians(rotations[abs(rotationZcount) % 4])));
+
+				//activeNode->AddRotation(glm::vec3(0, -90.0f, 0 ));
 			}
 			break;
 

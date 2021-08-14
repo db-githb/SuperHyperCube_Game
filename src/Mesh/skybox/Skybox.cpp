@@ -85,12 +85,12 @@ void Skybox::createSkybox()
 
 void Skybox::draw()
 {
-    glDepthMask(GL_FALSE);  // change depth function so depth test passes when values are equal to depth buffer's content
-    // skybox cube
-    glBindVertexArray(skyboxVAO);
-    glActiveTexture(GL_TEXTURE3);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    glBindVertexArray(0);
-    glDepthMask(GL_TRUE); // set depth function back to default
+//     glDepthMask(GL_FALSE);  // change depth function so depth test passes when values are equal to depth buffer's content
+//     // skybox cube
+//     glBindVertexArray(skyboxVAO);
+//     glActiveTexture(GL_TEXTURE3);
+//     //glDrawArrays(GL_TRIANGLES, 0, 36);
+//     glBindVertexArray(0);
+//     glDepthMask(GL_TRUE); // set depth function back to default
 }
 

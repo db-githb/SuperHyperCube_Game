@@ -46,7 +46,7 @@
 #define BOUND_X_MIN -10.0f
 #define BOUND_Y_MIN 0.5f
 
-#define sizeX 7
+#define sizeX 9
 #define sizeY 9
 #define sizeZ 7
 
@@ -74,7 +74,7 @@ public:
 	virtual void toggleContinuous();
 	virtual void generateRandomModel();
 	virtual void generateOriginalObject();
-	virtual void resetObject();
+	void resetObject();
 	virtual void resetPOS();
 
 	

@@ -76,8 +76,8 @@ void ObjectNode::SetRotation(glm::vec3 rot)
 {
 	glm::vec3 rotation = glm::vec3(0, 0, 0);
 
-	if (parent)
-		rotation = parent->transform.GetRotation();
+	// if (parent)
+	// 	rotation = parent->transform.GetRotation();
 	
 	transform.SetRotation(rotation + rot);
 	

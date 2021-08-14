@@ -13,7 +13,8 @@ Model::Model(Shader &inShader) {
 	// data.diffuseMap = data.shader.loadTexture("res/images/brick2.jpg");
 	// data.diffuseMap = data.shader.loadTexture("res/images/metal4.jpg");
 	resetPOS();
-
+	resetObject();
+	
 	modelBasePosition = glm::vec3(0.0f, 0.5f, 0.0f);
 	transform = new Transform();
 	transform->SetPosition(modelBasePosition);
@@ -85,7 +86,6 @@ void Model::resetObject() {
 			}
 		}
 	}
-
 	return;
 }
 
@@ -102,7 +102,8 @@ void Model::draw(Shader* inShader) {
 	glBindVertexArray(unitCube.getVAO());
 	
 	//glm::mat4 modelOrigin = gameObject->transform.GetModel();
-	
+	glm::mat4 modelOrigin = transform->GetModel(parentTransform->GetModel());
+
 	// compute world position of child cubes
 	for (int r = 0; r < sizeX; r++) {
 		for (int c = 0; c < sizeY; c++) {
@@ -111,16 +112,22 @@ void Model::draw(Shader* inShader) {
 				if (cubePositions[r][c][p] == NONE) {
 					continue;
 				}
-				
-				inShader->setVec3("colour", colorPalette[GRAY]);
+
+				inShader->setVec3("colour", colorPalette[cubePositions[r][c][p]]);
 				//
+
 				// move unit cube relative to parent base position and pass the model matrix to the vertex shader
-				 inShader->setMat4("model", glm::translate(transform->GetModel(parentTransform->GetModel()), glm::vec3((float)c, (float)r, (float)p) + glm::vec3((0.3f +(-sizeY * 0.5)), 0.0f, (-0.3f +(-sizeZ * 0.5)))));
+
+				glm::mat4 cubeMatrix = glm::translate(modelOrigin, glm::vec3((float)c, (float)r, (float)p)
+					+ glm::vec3(ceil(float(-sizeX) * 0.5f),ceil(float(-sizeY) * 0.5f), ceil(float(-sizeZ) * 0.5f)));
+
+				inShader->setMat4("model", cubeMatrix);
 				//inShader.setMat4("model", glm::translate(modelOrigin, glm::vec3((float)c, (float)r, (float)p) + glm::vec3((0.3f + (-columns * 0.5)), 0.0f, (-0.3f + (-planes * 0.5)))));
 
-				
+
 				// render the cube
 				glDrawArrays(renderMode, 0, 36);
+	
 
 			}
 		}

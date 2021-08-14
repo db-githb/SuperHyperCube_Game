@@ -49,7 +49,11 @@ void Transform::AddPosition(glm::vec3 pos)
 
 void Transform::AddRotation(glm::vec3 rot)
 {
-	m_rotation += rot;
+	float x = glm::radians(rot.x);
+	float y = glm::radians(rot.y);
+	float z = glm::radians(rot.z);
+	glm::vec3 radRot = glm::vec3(x, y, z);
+	m_rotation += radRot;
 	std::cout << "x rot: " << m_rotation.x << " y rot: " << m_rotation.y << " z rot: " << m_rotation.z << "\n";
 }
 
