@@ -8,6 +8,7 @@
 #include "../modelMichael/modelMichael.h"
 #include "../modelRichard/modelRichard.h"
 #include "../lightCube/LightCube.h"
+#include "../loadModel/loadModel.h"
 
 // window size
 #define WIDTH 1024
@@ -37,6 +38,8 @@ glm::vec3* ModelBase::colorPalette = new glm::vec3[NUM_COLORS];
 
 GLuint UnitCube::unitCubeVAO = 0;
 GLuint UnitCube::unitCubeVBO = 0;
+
+
 
 // -------------------
 // DECLARE MODELS HERE
@@ -310,6 +313,58 @@ void renderScene(Shader &inShader, bool shadowMap) {
 	modelRichard->draw(model, shader);
 }
 
+void renderObjModels(Shader& inShader, Model* inObjArr) {
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(-25.0f, 0.0f, -25.0f));
+	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+	inShader.setMat4("model", model);
+	inObjArr[0].Draw(inShader);
+
+	/*
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(6.0f, 0.0f, 0.0f));
+	inShader.setMat4("model", model);
+	inObjArr[1].Draw(inShader);
+	*/
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(-6.0f, 0.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(100.0f, 100.0f, 100.0f));
+	inShader.setMat4("model", model);
+	inObjArr[2].Draw(inShader);
+	
+}
+
+unsigned int loadTextureCube(char const* path) {
+
+	unsigned int textureID;
+	glGenTextures(1, &textureID);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+
+
+	int width, height, nrComponents;
+	unsigned char* data = stbi_load(path, &width, &height, &nrComponents, 0);
+	GLenum format;
+	if (nrComponents == 1) {
+		format = GL_RED;
+	}
+	else if (nrComponents == 3) {
+		format = GL_RGB;
+	}
+	else if (nrComponents == 4) {
+		format = GL_RGBA;
+	}
+
+	for (int i = 0; i < 6; i++) {
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	}
+	stbi_image_free(data);
+	return textureID;
+}
+
 int main()
 {
 	// Initialise GLFW
@@ -356,6 +411,9 @@ int main()
 		return -1;
 	}
 
+	// tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
+	stbi_set_flip_vertically_on_load(true);
+
 	//glfwSetInputMode(mainWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	// configure global opengl state:
@@ -375,7 +433,7 @@ int main()
 	ModelBase::setColorPalette();
 
 
-	// configure depth map FBO
+	// configure skybox FBO
 	// -----------------------
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 	unsigned int depthMapFBO;
@@ -400,6 +458,11 @@ int main()
 	glDrawBuffer(GL_NONE);
 	glReadBuffer(GL_NONE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// -----------
+// LOAD OBJ MODELS
+// -----------
+	Model objArr[]{Model("res/objects/elm/cgaxis_models_115_37_obj.obj"), Model("res/objects/richier.obj"), Model("res/objects/venus.obj")};
 
 	//-----------
 	// SHADERS
@@ -451,7 +514,7 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glm::vec3 lightPos = activeModel->modelBasePosition + glm::vec3(0.0f, 30.5f, 0.0f);
-
+	
 		// 0. create depth cubemap transformation matrices
 		// -----------------------------------------------
 		
@@ -483,10 +546,10 @@ int main()
 		shadowMapShader.setFloat("far_plane", far_plane);
 		shadowMapShader.setVec3("lightPos", lightPos);
 
+		renderObjModels(shader, objArr);
 		renderScene(shadowMapShader, true);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		
 		
 		// 2. render scene as normal 
 		// -------------------------
@@ -505,8 +568,11 @@ int main()
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
 
+		//glActiveTexture(GL_TEXTURE0);
+		//glBindTexture(GL_TEXTURE_2D, skeletonDiffuseMap);
+		renderObjModels(shader, objArr);
 		renderScene(shader, false);
-		
+
 		// unitAxes and lightCube -- USE DIFFERENT SHADERS -- that's why they're not in the render scene function (also different draw signature)
 		unitAxes->draw(camera, projection, view);
 		lightCube->draw(projection, view, lightPos);

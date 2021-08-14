@@ -38,7 +38,7 @@ enum Mouse_Button {
 
 
 // Default camera values
-const float SPEED = 2.5f;
+const float SPEED = 25.0f;
 const float SENSITIVITY = 0.1f;
 const float ZOOM = 45.0f;
 
