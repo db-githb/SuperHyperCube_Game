@@ -112,6 +112,8 @@
       <Filter>src\modelBase</Filter>
     </ClCompile>
     <ClCompile Include="src\Objects\Level.cpp" />
+    <ClCompile Include="src\Application\GameManager.cpp" />
+    <ClCompile Include="src\Objects\Levels\LevelElijah.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">
@@ -145,5 +147,7 @@
     </ClInclude>
     <ClInclude Include="src\Application\Component.h" />
     <ClInclude Include="src\Objects\Level.h" />
+    <ClInclude Include="src\Application\GameManager.h" />
+    <ClInclude Include="src\Objects\Levels\LevelElijah.h" />
   </ItemGroup>
 </Project>

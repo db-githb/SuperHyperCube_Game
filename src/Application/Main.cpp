@@ -6,10 +6,11 @@
 #include "../Models/unitAxes/UnitAxes.h"
 #include "../Models/gridLines/GridLines.h"
 #include "../Models/lightCube/LightCube.h"
-#include "../Mesh/skybox/Skybox.h"
 #include "../Models/custom/modelDamian/ModelDamian.h"
 #include "../Models/custom/modelElijah/ModelElijah.h"
 #include "../Objects/Level.h"
+#include "../Objects/Levels/LevelElijah.h"
+#include "GameManager.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "../Shader/stb_image.h"
@@ -46,11 +47,6 @@ float lastFrame = 0.0f;
 // shadows
 bool shadows = true;
 
-int rotationXcount = 0;
-int rotationYcount = 0;
-int rotationZcount = 0;
-float rotations[4] = { 0.0f,90.0f,180.0f,270.0f };
-
 // -------------------
 // INSTANTIATE STATIC VARIABLES (assign memory) for static variable
 // -------------------
@@ -71,11 +67,10 @@ Model* activeModel;
 ObjectNode* activeNode;
 
 Model* unitCube;
-Skybox* skybox;
 
 //ModelElijah* modelDamian;
 
-
+GameManager* game;
 ObjectNode* scene;
 Level* currentLevel;
 
@@ -196,16 +191,6 @@ int main()
 	//-----------
 	// Textures
 	//-----------
-	std::vector<std::string> faces
-	{
-		"res/images/skybox/right.jpg",
-		"res/images/skybox/MasterTexture.png",
-		"res/images/skybox/line.jpg",
-		"res/images/skybox/bottom.jpg",
-		"res/images/skybox/front.jpg",
-		"res/images/skybox/Watercolor.jpg",
-	};
-	unsigned int cubemapTexture = loadCubemap(faces);
 
 	
 	//-----------
@@ -222,20 +207,18 @@ int main()
 
 	Shader depthShader("res/shaders/depthShader.vert","res/shaders/depthShader.frag");
 
-	Shader skyboxShader("res/shaders/skybox.vert", "res/shaders/skybox.frag");
-	skyboxShader.use();
-	skyboxShader.setInt("skybox", 3);
+	
 	//-----------
 	// OBJECTS
 	//-----------
 	gridLines = new GridLines(shader);
-	skybox = new Skybox();
+
 	
 
 	scene = new ObjectNode();
 	
 
-	currentLevel = new Level(shader);
+	currentLevel = new LevelElijah(shader);
 	
 	scene->AddChild(currentLevel);
 	currentLevel->AddPosition(glm::vec3(0, 5, 0));
@@ -329,13 +312,6 @@ int main()
 		
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)windowWidth / (float)windowHeight, 0.1f, 150.0f);
 		glm::mat4 view = camIsFixed ? glm::lookAt(*currentCamPos, focusPoint, glm::vec3(0, 1, 0)) : camera.GetViewMatrix();
-		glm::mat4 skyboxmodel = glm::scale(glm::vec3(100,100,100));//glm::mat4(1);/
-		skyboxShader.use();
-		
-			skyboxShader.setMat4("model", skyboxmodel);
-			skyboxShader.setMat4("projection", projection);
-			skyboxShader.setMat4("view", view);
-			skyboxShader.setInt("skybox", 3);
 		
 		shader.use();
 		shader.setBool("isTextured", false);
@@ -368,8 +344,6 @@ int main()
 			glBindTexture(GL_TEXTURE_2D, depthMap);
 		glActiveTexture(GL_TEXTURE2);
 			glBindTexture(GL_TEXTURE_2D, diffuseMapWall);
-		glActiveTexture(GL_TEXTURE3);
-			glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
 
 			// glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
 			// skyboxShader.use();
@@ -419,10 +393,6 @@ void processInput(GLFWwindow* window)
 		camera.ProcessKeyboard(Camera_Movement::LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 		camera.ProcessKeyboard(Camera_Movement::RIGHT, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-		camera.ProcessKeyboard(Camera_Movement::UP, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-		camera.ProcessKeyboard(Camera_Movement::DOWN, deltaTime);
 
 }
 
@@ -501,7 +471,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		// 	break;
 		case GLFW_KEY_3:
 
-			currentLevel->ValidateOrientation();
+			currentLevel->validateOrientation();
 			// Toggle board cam
 			// camIsFixed = true;
 			// centerFocus = false;
@@ -565,10 +535,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			}
 			else
 			{
-				rotationXcount++;
-				activeNode->SetRotation(glm::vec3(glm::radians(rotations[abs(rotationXcount)% 4]),
-													  glm::radians(rotations[abs(rotationYcount) % 4]),
-													  glm::radians(rotations[abs(rotationZcount) % 4])));
+				activeNode->AddRotation90(glm::vec3(1, 0, 0));
 			}
 			break;
 			
@@ -579,11 +546,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				activeNode->AddPosition(glm::vec3(-1, 0, 0));
 			}
 			else {
-				
-				rotationYcount++;
-				activeNode->SetRotation(glm::vec3(glm::radians(rotations[abs(rotationXcount) % 4]),
-													  glm::radians(rotations[abs(rotationYcount) % 4]),
-													  glm::radians(rotations[abs(rotationZcount) % 4])));
+				activeNode->AddRotation90(glm::vec3(0, 1, 0));
 			}
 			break;
 
@@ -594,11 +557,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			}
 			else
 			{
-				rotationXcount--;
-				activeNode->SetRotation(glm::vec3(glm::radians(rotations[abs(rotationXcount) % 4]),
-													  glm::radians(rotations[abs(rotationYcount) % 4]),
-													  glm::radians(rotations[abs(rotationZcount) % 4])));
-				//activeNode->AddPosition(glm::vec3(0, -0.1f, 0));
+				activeNode->AddRotation90(glm::vec3(-1, 0, 0));
 			}
 			break;
 
@@ -608,17 +567,18 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				activeNode->AddPosition(glm::vec3(1, 0, 0));
 			}
 			else {
-				rotationYcount--;
-				activeNode->SetRotation(glm::vec3(glm::radians(rotations[abs(rotationXcount) % 4]),
-													  glm::radians(rotations[abs(rotationYcount) % 4]),
-													  glm::radians(rotations[abs(rotationZcount) % 4])));
-
-				//activeNode->AddRotation(glm::vec3(0, -90.0f, 0 ));
+				activeNode->AddRotation90(glm::vec3(0, -1, 0));
 			}
+			break;
+		case GLFW_KEY_Q:
+			activeNode->AddRotation90(glm::vec3(0, 0, 1));
+			break;
+		case GLFW_KEY_E:
+			activeNode->AddRotation90(glm::vec3(0, 0, -1));
 			break;
 
 		case GLFW_KEY_C:
-			activeModel->toggleContinuous();
+			//activeModel->toggleContinuous();
 			break;
 
 			// rotate along X and Z axis, maybe map y rotation to G and V keys
@@ -649,15 +609,15 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_R:
 
 			if (mods == GLFW_MOD_SHIFT) {
-				activeModel->resetPOS();
+				
 			}
 			else {
-				activeModel->generateRandomModel();
+				//activeModel->generateRandomModel();
 			}
 			break;
 
 		case GLFW_KEY_O:
-			activeModel->generateOriginalObject();
+			//activeModel->generateOriginalObject();
 			break;
 
 		case GLFW_KEY_SPACE:

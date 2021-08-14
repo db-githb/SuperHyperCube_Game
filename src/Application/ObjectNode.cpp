@@ -113,6 +113,27 @@ void ObjectNode::AddScale(glm::vec3 sc)
 	transform.AddScale(sc);
 }
 
+void ObjectNode::AddRotation90(glm::vec3 axis)
+{
+	if (axis ==		 glm::vec3(1, 0, 0))
+		rotationXcount++;
+	else if (axis == glm::vec3(-1, 0, 0))
+		rotationXcount--;
+	if (axis ==		 glm::vec3(0, 1, 0))
+		rotationYcount++;
+	else if (axis == glm::vec3(0, -1, 0))
+		rotationYcount--;
+	if (axis ==		 glm::vec3(0, 0, 1))
+		rotationZcount++;
+	else if (axis == glm::vec3(0, 0, -1))
+		rotationZcount--;
+	
+	SetRotation(glm::vec3(glm::radians(rotations[abs(rotationXcount) % 4]),
+							  glm::radians(rotations[abs(rotationYcount) % 4]),
+							  glm::radians(rotations[abs(rotationZcount) % 4])));
+	
+}
+
 
 const glm::vec3& ObjectNode::GetPosition()
 {

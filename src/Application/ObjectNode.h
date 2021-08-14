@@ -43,6 +43,10 @@ public:
 	void AddPosition(glm::vec3 pos);
 	void AddRotation(glm::vec3 rot);
 	void AddScale(glm::vec3 scale);
+
+
+	// TODO: Fix rotations such that they occur in world space instead of local space
+	void AddRotation90(glm::vec3 axis);
 	
 	const glm::vec3& GetPosition();
 	const glm::vec3& GetRotation();
@@ -50,5 +54,11 @@ public:
 
 
 	Transform getTransform();
+
+private:
+	int rotationXcount = 0;
+	int rotationYcount = 0;
+	int rotationZcount = 0;
+	float rotations[4] = { 0.0f,90.0f,180.0f,270.0f};
 
 };

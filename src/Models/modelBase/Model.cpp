@@ -1,9 +1,5 @@
 #include "Model.h"
 
-Model::Model(Data modelData)
-{
-	data = modelData;
-}
 
 Model::Model(Shader &inShader) {
 	unitCube = UnitCube();
@@ -12,15 +8,16 @@ Model::Model(Shader &inShader) {
 	//data.shader = inShader;
 	// data.diffuseMap = data.shader.loadTexture("res/images/brick2.jpg");
 	// data.diffuseMap = data.shader.loadTexture("res/images/metal4.jpg");
-	resetPOS();
 	resetObject();
 	
 	modelBasePosition = glm::vec3(0.0f, 0.5f, 0.0f);
+
+	// Create a new transform component and set it's position to the modelBasePosition
 	transform = new Transform();
 	transform->SetPosition(modelBasePosition);
+
 	allocateModelData();
-	//allocateObjectData();
-	//allocateWallData();
+
 	renderMode = GL_TRIANGLES;
 
 	textureOn = true;
@@ -32,52 +29,9 @@ Model::Model(Shader &inShader) {
 	setColorPalette();
 }
 
-
-void Model::resetPOS(){
-
-	scaleFactor = 1.0f;
-
-	xTranslation = 0.0f;
-	yTranslation = 0.0f;
-	zTranslation = 0.0f;
-
-	xRotation = 0.0f;
-	yRotation = 0.0f;
-	zRotation = 0.0f;
-}
-
-// void Model::allocateWallData() {
-//
-// 	data.cubePositions = new int** [rows];
-//
-// 	for (int r = 0; r < rows; r++) {
-// 		data.cubePositions[r] = new int* [columns];
-// 		for (int c = 0; c < columns; c++) {
-// 			data.cubePositions[r][c] = new int[1];
-// 			data.cubePositions[r][c][0] = GRAY;
-// 		}
-// 	}
-//
-// 	return;
-// }
-//
-// void Model::allocateObjectData() {
-//
-// 	data.cubePositions = new int** [rows];
-//
-// 	for (int r = 0; r < rows; r++) {
-// 		data.cubePositions[r] = new int* [columns];
-// 		for (int c = 0; c < columns; c++) {
-// 			data.cubePositions[r][c] = new int[planes];
-// 			for (int p = 0; p < planes; p++) {
-// 				data.cubePositions[r][c][p] = NONE;
-// 			}
-// 		}
-// 	}
-//
-// 	return;
-// }
-
+/// <summary>
+/// Sets all values within the cubePositions array to NONE.
+/// </summary>
 void Model::resetObject() {
 	for (int r = 0; r < sizeX; r++) {
 		for (int c = 0; c < sizeY; c++) {
@@ -90,140 +44,65 @@ void Model::resetObject() {
 }
 
 
-
+/// <summary>
+/// Draws the model specified by the cubePositions array at the Transform.
+/// </summary>
+/// <param name="inShader"> The shader used to render the model.</param>
 void Model::draw(Shader* inShader) {
 		inShader->use();
-		//drawWall(*inShader);
-		//drawObject(*inShader);
-		//drawCube(*inShader);
+
 
 	// bind texture maps
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(unitCube.getVAO());
 	
-	//glm::mat4 modelOrigin = gameObject->transform.GetModel();
+	
 	glm::mat4 modelOrigin = transform->GetModel(parentTransform->GetModel());
 
-	// compute world position of child cubes
+	// Iterate through the cubePositions array and draws unitCubes at a position offset from the modelOrigin (transform relative to parent)
 	for (int r = 0; r < sizeX; r++) {
 		for (int c = 0; c < sizeY; c++) {
 			for (int p = 0; p < sizeZ; p++) {
 
+				// Skip drawing if cubePosition contains "NONE"
 				if (cubePositions[r][c][p] == NONE) {
 					continue;
 				}
 
+				// Sends a colour uniform to the shader according to the value at an arbitrary cubePositions index
 				inShader->setVec3("colour", colorPalette[cubePositions[r][c][p]]);
-				//
 
-				// move unit cube relative to parent base position and pass the model matrix to the vertex shader
-
+				// Produces a transformation matrix for each cube in the model relative to the modelOrigin
+				// Offsets the cubes such that the modelOrigin is the center of the entire model
 				glm::mat4 cubeMatrix = glm::translate(modelOrigin, glm::vec3((float)c, (float)r, (float)p)
 					+ glm::vec3(ceil(float(-sizeX) * 0.5f),ceil(float(-sizeY) * 0.5f), ceil(float(-sizeZ) * 0.5f)));
 
 				inShader->setMat4("model", cubeMatrix);
-				//inShader.setMat4("model", glm::translate(modelOrigin, glm::vec3((float)c, (float)r, (float)p) + glm::vec3((0.3f + (-columns * 0.5)), 0.0f, (-0.3f + (-planes * 0.5)))));
-
-
-				// render the cube
+				
+				// draw the cube
 				glDrawArrays(renderMode, 0, 36);
 	
 
 			}
 		}
 	}
-
 }
 
-// void Model::drawWall(Shader& inShader) {
-//
-// 	// bind texture maps
-// 	glActiveTexture(GL_TEXTURE0);
-//
-// 	//glActiveTexture(GL_TEXTURE2);
-// 	//glBindTexture(GL_TEXTURE_2D, data.specularMap);
-// 	
-// 	glBindVertexArray(unitCube.getVAO());
-//
-// 	//glm::mat4 modelOrigin = gameObject->transform.GetModel();
-//
-// 	// compute world position of child cubes
-// 	for (int r = 0; r < rows; r++) {
-// 		for (int c = 0; c < columns; c++) {
-//
-// 			if (data.cubePositions[r][c][0] == NONE) {
-// 				continue;
-// 			}
-//
-// 			data.shader.setVec3("colour", colorPalette[GRAY]);
-//
-// 			// move unit cube relative to parent base position and pass the model matrix to the vertex shader
-// 			inShader.setMat4("model", glm::translate(transform->GetModel(parentTransform->GetModel()), glm::vec3((float)c, (float)r, 0.0f) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
-// 			//inShader.setMat4("model", glm::translate(modelOrigin, glm::vec3((float)c, (float)r, 0.0f) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
-//
-// 			
-// 			// render the cube
-// 			glDrawArrays(renderMode, 0, 36);
-// 		}
-// 	}
-// }
-//
-// void Model::drawObject(Shader& inShader) {
-//
-//
-// 	// bind texture maps
-// 	glActiveTexture(GL_TEXTURE0);
-//
-// 	// glActiveTexture(GL_TEXTURE1);
-// 	// glBindTexture(GL_TEXTURE_2D, data.specularMap);
-//
-// 	glBindVertexArray(unitCube.getVAO());
-//
-// 	if (continuousOn) {
-//
-// 		zTranslation = (float)(sin(glfwGetTime()-continuousStartTime) * 7);
-// 	}
-//
-// 	/*model = glm::translate(model, (glm::vec3(xTranslation, yTranslation, zTranslation)));
-// 	
-// 	model = glm::rotate(model, xRotation, glm::vec3(1.0f, 0.0f, 0.0f));
-// 	model = glm::rotate(model, yRotation, glm::vec3(0.0f, 1.0f, 0.0f));
-// 	model = glm::rotate(model, zRotation, glm::vec3(0.0f, 0.0f, 1.0f));*/
-//
-// 	//glm::mat4 modelOrigin = gameObject->transform.GetModel();
-// 	
-// 	// compute world position of child cubes
-// 	for (int r = 0; r < rows; r++) {
-// 		for (int c = 0; c < columns; c++) {
-// 			for (int p = 0; p < planes; p++) {
-//
-// 				if (data.cubePositions[r][c][p] == NONE) {
-// 					continue;
-// 				}
-// 				
-// 					
-// 				// move unit cube relative to parent base position and pass the model matrix to the vertex shader
-// 				 inShader.setMat4("model", glm::translate(transform->GetModel(parentTransform->GetModel()), glm::vec3((float)c, (float)r, (float)p) + glm::vec3((0.3f +(-columns * 0.5)), 0.0f, (-0.3f +(-planes * 0.5)))));
-// 				//inShader.setMat4("model", glm::translate(modelOrigin, glm::vec3((float)c, (float)r, (float)p) + glm::vec3((0.3f + (-columns * 0.5)), 0.0f, (-0.3f + (-planes * 0.5)))));
-//
-// 				
-// 				// render the cube
-// 				glDrawArrays(renderMode, 0, 36);
-//
-// 			}
-// 		}
-// 	}
-// }
-
+/// <summary>
+/// Draws a single unitCube primitive.
+/// </summary>
+/// <param name="inShader"></param>
 void Model::drawCube(Shader& inShader)
 {
-	//glm::mat4 modelOrigin = gameObject->transform.GetModel();
-	inShader.setMat4("model", transform->GetModel(parentTransform->GetModel()));
+	glm::mat4 modelOrigin = transform->GetModel(parentTransform->GetModel());
+	inShader.setMat4("model", modelOrigin);
 	inShader.setVec3("colour", colorPalette[BLUE]);
 	glDrawArrays(renderMode, 0, 36);
 }
 
-
+/// <summary>
+/// Defines a colour palette to be used when drawing the model.
+/// </summary>
 void Model::setColorPalette() {
 
 	Model::colorPalette[GRAY] = glm::vec3(0.5f, 0.5f, 0.5f);
@@ -242,6 +121,10 @@ void Model::setColorPalette() {
 	return;
 }
 
+
+/// <summary>
+/// Assings a value of NONE to each index of the cubePositions array.
+/// </summary>
 void Model::allocateModelData()
 {
 	for(int x = 0; x < sizeX; x++)
@@ -256,65 +139,12 @@ void Model::allocateModelData()
 	}
 }
 
-//
-// void Model::scale(int scaleDirection) {
-// 	if (scaleDirection == SCALE_UP && scaleFactor < SCALE_MAX) {
-// 		scaleFactor += 0.1f;
-// 	}
-// 	else if (scaleDirection == SCALE_DOWN && scaleFactor > SCALE_MIN) {
-// 		scaleFactor -= 0.1f;
-// 	}
-// }
-//
-// void Model::translate(int translationDirection) {
-//
-// 	switch (translationDirection) {
-// 		case TRANS_RIGHT:
-// 			xTranslation += 0.1f;
-// 			break;
-// 		case TRANS_LEFT:
-// 			xTranslation -= 0.1f;
-// 			break;
-// 		case TRANS_UP:
-// 			yTranslation += 0.1f;
-// 			break;
-// 		case TRANS_DOWN:
-// 			yTranslation -= 0.1f;
-// 			break;
-// 		case TRANS_FORWARD:
-// 			zTranslation -= 0.1f;
-// 			break;
-// 		case TRANS_BACKWARD:
-// 			zTranslation += 0.1f;
-// 			break;
-// 	}
-// }
-//
-// void Model::rotate(int rotation) {
-//
-// 	switch (rotation) {
-// 	case ROTATE_X_CLOCKWISE:
-// 		xRotation -= glm::radians(5.0f);
-// 		break;
-// 	case ROTATE_X_COUNTER:
-// 		xRotation += glm::radians(5.0f);
-// 		break;
-// 	case ROTATE_Y_CLOCKWISE:
-// 		yRotation -= glm::radians(5.0f);
-// 		break;
-// 	case ROTATE_Y_COUNTER:
-// 		yRotation += glm::radians(5.0f);
-// 		break;
-// 	case ROTATE_Z_CLOCKWISE:
-// 		zRotation -= glm::radians(5.0f);
-// 		break;
-// 	case ROTATE_Z_COUNTER:
-// 		zRotation += glm::radians(5.0f);
-// 		break;
-// 	}
-// }
 
-
+/// <summary>
+/// Sets the render mode of the model.
+/// Options: GL_TRIANGLES, GL_LINES, GL_POINTS
+/// </summary>
+/// <param name="mode"></param>
 void Model::setRenderMode(int mode) {
 	
 	switch (mode) {
@@ -329,6 +159,7 @@ void Model::setRenderMode(int mode) {
 	}
 };
 
+
 void Model::toggleTexture() {
 
 	textureOn = !textureOn;
@@ -339,21 +170,7 @@ void Model::toggleBorder() {
 	borderOn = !borderOn;
 }
 
-void Model::toggleContinuous() {
 
-	continuousOn = !continuousOn;
-
-	continuousStartTime = glfwGetTime();
-}
-
-void Model::generateRandomModel()
-{
-	return;
-}
-
-void Model::generateOriginalObject() {
-	return;
-}
 
 Model::~Model() {
 	for (int r = 0; r < sizeX; r++) {
@@ -368,10 +185,18 @@ Model::~Model() {
 	delete[] cubePositions;
 }
 
+/// <summary>
+/// Called once per frame.
+/// </summary>
+/// <param name="ms"> Time in milliseconds between frames.</param>
 void Model::Update(float ms)
 {
 }
 
+/// <summary>
+/// Assigns the root transform of the model.
+/// </summary>
+/// <param name="trans">Pointer to the desired root transform.</param>
 void Model::SetTransform(Transform* trans)
 {
 	transform = trans;

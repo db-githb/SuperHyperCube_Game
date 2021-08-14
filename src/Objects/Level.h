@@ -30,44 +30,38 @@
 #define WHITE 12
 #define NUM_COLORS 13
 
+
+/// <summary>
+/// Inherit from this class and override the generateObject() method to create your own level.
+/// </summary>
 class Level: public ObjectNode
-{
-
-	struct Data {
-		int*** cubePositions;
-
-		Shader shader;
-
-		unsigned int diffuseMap;
-		unsigned int specularMap;
-	};
-	
+{	
 public:
 
 	Level(Shader& inShader);
-	Level(int*** objectPositions,int*** wallPositions);
 	
 	void Update(float ms) override;
-	void RotateObject(int direction);
-	bool ValidateOrientation();
+	bool validateOrientation();
 
-	void generateObject();
+	virtual void generateObject();
 	void generateWall();
 	void clearObjectModel();
 	void clearWallModel();
+
+	void resetLevel();
+	void randomizeObjectOrientation();
 
 	ObjectNode* wall;
 	ObjectNode* object;
 
 	
 protected:
-
-	glm::vec3 desiredRotation;
-	
 	
 	int wallData[sizeX][sizeY][sizeZ];
 	int objectData[sizeX][sizeY][sizeZ];
 	
-	
+private:
+	const glm::vec3 wallStartPosition = glm::vec3(0, 0, -10);
+	const glm::vec3 objectStartPosition = glm::vec3(0, 0, 20);
 	
 };
