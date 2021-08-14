@@ -52,8 +52,8 @@
     <Filter Include="src\modelRichard">
       <UniqueIdentifier>{0b350755-3a6f-47dc-938b-4c524494a472}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\modelLoading">
-      <UniqueIdentifier>{04c72f1a-f0ce-499d-ad43-3dc586e68139}</UniqueIdentifier>
+    <Filter Include="src\gameManager">
+      <UniqueIdentifier>{2ba4b4d9-48e3-4edb-a6a5-412862e87f6d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +128,9 @@
     <ClCompile Include="src\modelRichard\ModelRichard.cpp">
       <Filter>src\modelRichard</Filter>
     </ClCompile>
+    <ClCompile Include="src\gameManager\GameManager.cpp">
+      <Filter>src\gameManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">
@@ -171,12 +174,6 @@
     </ClInclude>
     <ClInclude Include="src\modelRichard\ModelRichard.h">
       <Filter>src\modelRichard</Filter>
-    </ClInclude>
-    <ClInclude Include="src\loadModel\loadModel.h">
-      <Filter>src\modelLoading</Filter>
-    </ClInclude>
-    <ClInclude Include="src\loadModel\mesh.h">
-      <Filter>src\modelLoading</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

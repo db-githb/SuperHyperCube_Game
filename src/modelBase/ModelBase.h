@@ -59,7 +59,7 @@ public:
 
 	ModelBase(Shader &inShader);
 	~ModelBase();
-	virtual void draw(glm::mat4 model, Shader* inShader);
+	virtual void draw(Shader* inShader);
 	virtual void scale(int scaleDirection);
 	virtual void translate(int translationDirection);
 	virtual void rotate(int rotation);
@@ -67,6 +67,7 @@ public:
 	virtual void toggleTexture();
 	virtual void toggleBorder();
 	virtual void toggleContinuous();
+	virtual void turnContinuousOn();
 	virtual void generateRandomModel();
 	virtual void generateOriginalObject();
 	virtual void resetObject();

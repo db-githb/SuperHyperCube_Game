@@ -162,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera\Camera.cpp" />
+    <ClCompile Include="src\gameManager\GameManager.cpp" />
     <ClCompile Include="src\gridLines\GridLines.cpp" />
     <ClCompile Include="src\lightCube\LightCube.cpp" />
     <ClCompile Include="src\main\Main.cpp" />
@@ -178,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h" />
+    <ClInclude Include="src\gameManager\GameManager.h" />
     <ClInclude Include="src\gridLines\GridLines.h" />
     <ClInclude Include="src\lightCube\LightCube.h" />
     <ClInclude Include="src\loadModel\loadModel.h" />
