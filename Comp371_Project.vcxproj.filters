@@ -114,6 +114,7 @@
     <ClCompile Include="src\Objects\Level.cpp" />
     <ClCompile Include="src\Application\GameManager.cpp" />
     <ClCompile Include="src\Objects\Levels\LevelElijah.cpp" />
+    <ClCompile Include="src\Objects\Levels\LevelDamian.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">
@@ -149,5 +150,6 @@
     <ClInclude Include="src\Objects\Level.h" />
     <ClInclude Include="src\Application\GameManager.h" />
     <ClInclude Include="src\Objects\Levels\LevelElijah.h" />
+    <ClInclude Include="src\Objects\Levels\LevelDamian.h" />
   </ItemGroup>
 </Project>

@@ -10,6 +10,7 @@
 #include "../Models/custom/modelElijah/ModelElijah.h"
 #include "../Objects/Level.h"
 #include "../Objects/Levels/LevelElijah.h"
+#include "../Objects/Levels/LevelDamian.h"
 #include "GameManager.h"
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -219,6 +220,7 @@ int main()
 	
 
 	currentLevel = new LevelElijah(shader);
+	//currentLevel = new LevelDamian(shader);
 	
 	scene->AddChild(currentLevel);
 	currentLevel->AddPosition(glm::vec3(0, 5, 0));

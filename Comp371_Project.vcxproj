@@ -164,6 +164,7 @@
     <None Include="res\shaders\skybox.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Objects\Levels\LevelDamian.cpp" />
     <ClCompile Include="src\Objects\Levels\LevelElijah.cpp" />
     <ClCompile Include="src\Application\GameManager.cpp" />
     <ClCompile Include="src\Application\Main.cpp" />
@@ -182,6 +183,7 @@
     <ClCompile Include="src\Mesh\unitLine\UnitLine.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Objects\Levels\LevelDamian.h" />
     <ClInclude Include="src\Objects\Levels\LevelElijah.h" />
     <ClInclude Include="src\Application\GameManager.h" />
     <ClInclude Include="src\Application\Component.h" />
