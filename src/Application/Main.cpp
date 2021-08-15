@@ -11,6 +11,7 @@
 #include "../Objects/Level.h"
 #include "../Objects/Levels/LevelElijah.h"
 #include "../Objects/Levels/LevelDamian.h"
+#include "../Objects/Levels/LevelThomas.h"
 #include "GameManager.h"
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -219,7 +220,8 @@ int main()
 	scene = new ObjectNode();
 	
 
-	currentLevel = new LevelElijah(shader);
+	currentLevel = new LevelThomas(shader);
+	//currentLevel = new LevelElijah(shader);
 	//currentLevel = new LevelDamian(shader);
 	
 	scene->AddChild(currentLevel);
