@@ -8,6 +8,8 @@ void GameManager::initialize(int inNumModels, ModelBase** inModels) {
 	activeModel = models[currentModel];
 	startOn = false;
 	score = 0;
+
+	endState = false;
 }
 
 void GameManager::start() {
@@ -19,16 +21,24 @@ void GameManager::start() {
 
 void GameManager::draw(Shader* inShader) {
 	
-	if (activeModel->objectAtWall()) {
-		if (activeModel->passOrientation()) {
-			std::cout << "success!" << std::endl;
-			double endTime = glfwGetTime();
-			std::cout << "delta time: " << endTime - startTime << std::endl;
-			score += 1;
-			nextModel();
+	if (!endState) {
+		if (activeModel->objectAtWall()) {
+			if (activeModel->passOrientation()) {
+				activeModel->successState();
+				double endTime = glfwGetTime();
+				std::cout << "delta time: " << endTime - startTime << std::endl;
+				score += 1;
+			}
+			else {
+				activeModel->failState();
+			}
+			endState = true;
 		}
-		else {
-			std::cout << "failure :(" << std::endl;
+	}
+	else {
+		if (activeModel->endFinished()) {
+			nextModel();
+			endState = false;
 		}
 	}
 
@@ -46,3 +56,4 @@ void GameManager::nextModel() {
 void GameManager::speedUp() {
 	activeModel->speed = 0.5f;
 }
+

@@ -18,4 +18,6 @@ public:
 	void nextModel();
 	int currentModel;
 	double startTime;
+
+	bool endState;
 };

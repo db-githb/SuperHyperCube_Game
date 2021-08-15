@@ -23,6 +23,8 @@ ModelBase::ModelBase(Shader &inShader) {
 	textureOn = true;
 	borderOn = false;
 	movementOn = false;
+	successStateFlag = false;
+	falseStateFlag = false;
 
 	ModelBase::colorPalette = new glm::vec3[NUM_COLORS];
 
@@ -153,9 +155,16 @@ void ModelBase::drawObject(glm::mat4 model) {
 
 	if (movementOn) {
 		prevZ = zTranslation;
-
 		//TODO: switch to delta time for more smooth translation
 		zTranslation -= speed;
+	}
+	else if (successStateFlag) {
+		yTranslation += speed;
+		yRotation += .1;
+	}
+	else if (falseStateFlag){
+		yTranslation -= speed * 0.25;
+		zRotation += .01;
 	}
 
 	model = glm::translate(model, (glm::vec3(xTranslation, yTranslation, zTranslation)));
@@ -312,6 +321,26 @@ bool ModelBase::objectAtWall() {
 bool ModelBase::passOrientation() {
 	
 	return xRotation == 0.0f && yRotation == 0.0f && zRotation == 0.0f;
+}
+
+void ModelBase::successState() {
+	movementOn = false;
+	successStateFlag = true;
+	falseStateFlag = false;
+	borderOn = true;
+	zTranslation = -10.0f;
+}
+
+void ModelBase::failState() {
+	movementOn = false;
+	successStateFlag = false;
+	falseStateFlag = true;
+	zTranslation = -6.5f;
+}
+
+bool ModelBase::endFinished() {
+	
+	return successStateFlag ? yTranslation > 25 : yTranslation < -10;
 }
 
 ModelBase::~ModelBase() {

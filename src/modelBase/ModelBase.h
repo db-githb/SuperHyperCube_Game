@@ -82,6 +82,12 @@ public:
 	bool objectAtWall();
 	bool passOrientation();
 
+	void failState();
+	void successState();
+
+
+	bool endFinished();
+
 protected:
 
 	void allocateObjectData();
@@ -115,4 +121,7 @@ protected:
 
 	void drawWall(glm::mat4 model);
 	void drawObject(glm::mat4 model);
+
+	bool falseStateFlag;
+	bool successStateFlag;
 };
