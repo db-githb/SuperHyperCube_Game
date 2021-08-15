@@ -303,11 +303,7 @@ void ModelBase::turnMovementOn() {
 	movementStartTime = glfwGetTime();
 }
 
-void ModelBase::generateRandomModel()
-{
-	return;
-}
-
+// function overwritten by all the derived models
 void ModelBase::generateOriginalObject() {
 	return;
 }
@@ -329,6 +325,7 @@ void ModelBase::successState() {
 	falseStateFlag = false;
 	borderOn = true;
 	zTranslation = -10.0f;
+	speed = 0.5;
 }
 
 void ModelBase::failState() {
@@ -336,11 +333,17 @@ void ModelBase::failState() {
 	successStateFlag = false;
 	falseStateFlag = true;
 	zTranslation = -6.5f;
+	speed = 0.5;
 }
 
 bool ModelBase::endFinished() {
 	
 	return successStateFlag ? yTranslation > 25 : yTranslation < -10;
+}
+
+void ModelBase::randomOrientation() {
+	yRotation = ((rand() % 3) + 1) * glm::half_pi<float>();
+	zRotation = ((rand() % 3) + 1) * glm::half_pi<float>();
 }
 
 ModelBase::~ModelBase() {

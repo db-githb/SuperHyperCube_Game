@@ -6,6 +6,7 @@ void GameManager::initialize(int inNumModels, ModelBase** inModels) {
 
 	currentModel = 0;
 	activeModel = models[currentModel];
+	activeModel->randomOrientation();
 	startOn = false;
 	score = 0;
 
@@ -13,6 +14,11 @@ void GameManager::initialize(int inNumModels, ModelBase** inModels) {
 }
 
 void GameManager::start() {
+	
+	if (startOn) {
+		return;
+	}
+
 	startOn = true;
 	activeModel->turnMovementOn();
 	startTime = glfwGetTime();
@@ -46,9 +52,14 @@ void GameManager::draw(Shader* inShader) {
 }
 
 void GameManager::nextModel() {
-	activeModel->resetPOS();
+
+	// loop array when at the end
 	currentModel = currentModel == 4 ? 0 : currentModel + 1;
+
+	// set next active model
 	activeModel = models[currentModel];
+	activeModel->resetPOS();
+	activeModel->randomOrientation();
 	activeModel->speed = 0.03f;
 	activeModel->turnMovementOn();
 }

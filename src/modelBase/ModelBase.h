@@ -67,7 +67,6 @@ public:
 	virtual void toggleTexture();
 	virtual void toggleBorder();
 	virtual void turnMovementOn();
-	virtual void generateRandomModel();
 	virtual void generateOriginalObject();
 	virtual void resetObject();
 	virtual void resetPOS();
@@ -77,7 +76,6 @@ public:
 
 	glm::vec3 modelBasePosition;
 	float speed;
-	float fast;
 
 	bool objectAtWall();
 	bool passOrientation();
@@ -85,8 +83,9 @@ public:
 	void failState();
 	void successState();
 
-
 	bool endFinished();
+
+	void randomOrientation();
 
 protected:
 

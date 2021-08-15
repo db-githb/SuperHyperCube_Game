@@ -211,13 +211,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 
 		case GLFW_KEY_R:
-
-			if (mods == GLFW_MOD_SHIFT) {
-				gameManager->activeModel->resetPOS();
-			}
-			else {
-				gameManager->activeModel->generateRandomModel();
-			}
+			gameManager->activeModel->resetPOS();
 			break;
 
 		case GLFW_KEY_O:
