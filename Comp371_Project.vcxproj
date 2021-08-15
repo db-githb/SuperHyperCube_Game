@@ -96,6 +96,9 @@
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>assimp-vc142-mt.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Q /R /Y $(ProjectDir)lib\assimp_x86-windows\lib\ $(TargetDir)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -124,6 +127,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>assimp-vc142-mt.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Q /R /Y $(ProjectDir)lib\assimp_x86-windows\lib\ $(TargetDir)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -150,6 +156,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="lib\assimp_x86-windows\lib\assimp-vc142-mt.dll" />
+    <None Include="lib\assimp_x86-windows\lib\bz2.dll" />
+    <None Include="lib\assimp_x86-windows\lib\Irrlicht.dll" />
+    <None Include="lib\assimp_x86-windows\lib\jpeg62.dll" />
+    <None Include="lib\assimp_x86-windows\lib\libpng16.dll" />
+    <None Include="lib\assimp_x86-windows\lib\turbojpeg.dll" />
+    <None Include="lib\assimp_x86-windows\lib\zlib1.dll" />
     <None Include="res\shaders\axisShader.frag" />
     <None Include="res\shaders\axisShader.vert" />
     <None Include="res\shaders\baseShader.frag" />

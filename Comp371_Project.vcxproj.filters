@@ -84,6 +84,13 @@
     <None Include="res\shaders\shadowMapShader.vert">
       <Filter>res\shaders</Filter>
     </None>
+    <None Include="lib\assimp_x86-windows\lib\assimp-vc142-mt.dll" />
+    <None Include="lib\assimp_x86-windows\lib\bz2.dll" />
+    <None Include="lib\assimp_x86-windows\lib\Irrlicht.dll" />
+    <None Include="lib\assimp_x86-windows\lib\jpeg62.dll" />
+    <None Include="lib\assimp_x86-windows\lib\libpng16.dll" />
+    <None Include="lib\assimp_x86-windows\lib\turbojpeg.dll" />
+    <None Include="lib\assimp_x86-windows\lib\zlib1.dll" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera\Camera.cpp">
@@ -175,5 +182,8 @@
     <ClInclude Include="src\modelRichard\ModelRichard.h">
       <Filter>src\modelRichard</Filter>
     </ClInclude>
+    <ClInclude Include="src\gameManager\GameManager.h" />
+    <ClInclude Include="src\loadModel\loadModel.h" />
+    <ClInclude Include="src\loadModel\mesh.h" />
   </ItemGroup>
 </Project>

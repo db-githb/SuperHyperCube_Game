@@ -161,11 +161,11 @@ void ModelBase::drawObject(glm::mat4 model) {
 	}
 	else if (successStateFlag) {
 		yTranslation += speed;
-		yRotation += .1;
+		yRotation += 0.1f;
 	}
 	else if (falseStateFlag){
-		yTranslation -= speed * 0.25;
-		zRotation += .01;
+		yTranslation -= speed * 0.25f;
+		zRotation += .01f;
 	}
 
 	model = glm::translate(model, (glm::vec3(xTranslation, yTranslation, zTranslation)));
