@@ -9,8 +9,10 @@ void GameManager::initialize(int inNumModels, ModelBase** inModels) {
 	activeModel->randomOrientation();
 	startOn = false;
 	score = 0;
-
 	endState = false;
+
+	startTime = 0;
+	deltaTime = 0;
 }
 
 void GameManager::start() {
@@ -20,20 +22,19 @@ void GameManager::start() {
 	}
 
 	startOn = true;
-	activeModel->turnMovementOn();
 	startTime = glfwGetTime();
-	std::cout << "start time: " << startTime << std::endl;
+	activeModel->turnMovementOn();
 }
 
 void GameManager::draw(Shader* inShader) {
 	
+	deltaTime = glfwGetTime() - startTime;
+
 	if (!endState) {
 		if (activeModel->objectAtWall()) {
 			if (activeModel->passOrientation()) {
 				activeModel->successState();
-				double endTime = glfwGetTime();
-				std::cout << "delta time: " << endTime - startTime << std::endl;
-				score += 1;
+				score += deltaTime >= 10 ? 1 : (10 - (int)deltaTime);
 			}
 			else {
 				activeModel->failState();
@@ -43,6 +44,7 @@ void GameManager::draw(Shader* inShader) {
 	}
 	else {
 		if (activeModel->endFinished()) {
+			std::cout << score << std::endl;
 			nextModel();
 			endState = false;
 		}
@@ -52,6 +54,7 @@ void GameManager::draw(Shader* inShader) {
 }
 
 void GameManager::nextModel() {
+	startTime = glfwGetTime();
 
 	// loop array when at the end
 	currentModel = currentModel == 4 ? 0 : currentModel + 1;
@@ -62,6 +65,7 @@ void GameManager::nextModel() {
 	activeModel->randomOrientation();
 	activeModel->speed = 0.03f;
 	activeModel->turnMovementOn();
+	startTime = glfwGetTime();
 }
 
 void GameManager::speedUp() {

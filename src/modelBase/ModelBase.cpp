@@ -40,6 +40,7 @@ void ModelBase::resetPOS(){
 	yTranslation = 0.0f;
 	zTranslation = 20.0f;
 	prevZ = zTranslation;
+	borderOn = false;
 
 	xRotation = 0.0f;
 	yRotation = 0.0f;

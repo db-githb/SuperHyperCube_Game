@@ -18,6 +18,7 @@ public:
 	void nextModel();
 	int currentModel;
 	double startTime;
+	double deltaTime;
 
 	bool endState;
 };
