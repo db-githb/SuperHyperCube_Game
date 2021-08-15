@@ -1,14 +1,10 @@
 #include "ModelDamian.h"
 
 ModelDamian::ModelDamian(Shader &inShader) : ModelBase(inShader){
-	
-	modelBasePosition = glm::vec3(-15.0f, 0.5f, 15.0f);
-
-	//modelBasePosition = glm::vec3(0.0f, 0.5f, 0.0f);
 
 	rows = 9;
 	columns = 7;
-	planes = 7;
+	planes = 5;
 
 	allocateWallData();
 	allocateObjectData();

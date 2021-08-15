@@ -66,7 +66,6 @@ public:
 	virtual void setRenderMode(int mode);
 	virtual void toggleTexture();
 	virtual void toggleBorder();
-	virtual void toggleContinuous();
 	virtual void turnContinuousOn();
 	virtual void generateRandomModel();
 	virtual void generateOriginalObject();
@@ -77,6 +76,10 @@ public:
 	static void setColorPalette();
 
 	glm::vec3 modelBasePosition;
+
+	bool objectAtWall();
+	bool passOrientation();
+	void stopMovement();
 
 protected:
 
@@ -95,6 +98,7 @@ protected:
 	float xTranslation;
 	float yTranslation;
 	float zTranslation;
+	float prevZ;
 
 	int renderMode;
 

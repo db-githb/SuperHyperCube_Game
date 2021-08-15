@@ -8,9 +8,9 @@ public:
 	int score;
 	int nrModels;
 	bool startOn;
-	ModelBase* models;
+	ModelBase** models;
 	ModelBase* activeModel;
-	void initialize(int inNumModels, ModelBase* inModels);
+	void initialize(int inNumModels, ModelBase** inModels);
 	void start();
 	void draw(Shader* inShader);
 };

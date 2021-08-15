@@ -6,8 +6,6 @@
 
 ModelRichard::ModelRichard(Shader& inShader) : ModelBase(inShader) {
 
-	modelBasePosition = glm::vec3(0.0f, 0.5f, 0.0f);
-
 	rows = 9;
 	columns = 9;
 	planes = 7;

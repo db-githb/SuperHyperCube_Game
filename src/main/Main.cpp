@@ -28,9 +28,6 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-// shadows
-bool shadows = true;
-
 // -------------------
 // INSTANTIATE STATIC VARIABLES (assign memory) for static variable
 // -------------------
@@ -38,8 +35,6 @@ glm::vec3* ModelBase::colorPalette = new glm::vec3[NUM_COLORS];
 
 GLuint UnitCube::unitCubeVAO = 0;
 GLuint UnitCube::unitCubeVBO = 0;
-
-
 
 // -------------------
 // DECLARE MODELS HERE
@@ -50,8 +45,6 @@ GridLines* gridLines;
 UnitAxes* unitAxes;
 
 GameManager* gameManager;
-
-ModelBase* unitCube;
 
 LightCube* lightCube;
 // ===================
@@ -192,16 +185,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			
 			break;
 
-		case GLFW_KEY_C:
-
-			if (mods == GLFW_MOD_SHIFT) {
-				gameManager->activeModel->toggleContinuous();
-			}
-			else {
-				gameManager->activeModel->translate(TRANS_BACKWARD);
-			}
-			break;
-
 		// rotate along X and Z axis, maybe map y rotation to G and V keys
 		case GLFW_KEY_V:
 			gameManager->activeModel->rotate(ROTATE_X_CLOCKWISE);
@@ -242,16 +225,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 
 		case GLFW_KEY_SPACE:
-			
-			if (shadows == true) {
-				shadows = false;
-			}
-			else {
-				shadows = true;
-			}
-
+			gameManager->start();
 			break;
-
 		}
 	}
 }
@@ -273,7 +248,7 @@ void renderScene(Shader &inShader, bool shadowMap) {
 	if (shadowMap) {
 		shader = &inShader;
 	}
-	//gameManager->draw(shader);
+	gameManager->draw(shader);
 }
 
 void renderObjModels(Shader& inShader, Model* inObjArr) {
@@ -288,13 +263,13 @@ void renderObjModels(Shader& inShader, Model* inObjArr) {
 	model = glm::translate(model, glm::vec3(6.0f, 0.0f, 0.0f));
 	inShader.setMat4("model", model);
 	inObjArr[1].Draw(inShader);
-	*/
+	
 	model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(-6.0f, 0.0f, 0.0f));
 	model = glm::scale(model, glm::vec3(100.0f, 100.0f, 100.0f));
 	inShader.setMat4("model", model);
 	inObjArr[2].Draw(inShader);
-	
+	*/
 }
 
 unsigned int loadTextureCube(char const* path) {
@@ -425,7 +400,7 @@ int main()
 	// -----------
 // LOAD OBJ MODELS
 // -----------
-	Model objArr[]{Model("res/objects/elm/cgaxis_models_115_37_obj.obj"), Model("res/objects/richier.obj"), Model("res/objects/venus.obj")};
+	//Model objArr[]{Model("res/objects/elm/cgaxis_models_115_37_obj.obj"), Model("res/objects/richier.obj"), Model("res/objects/venus.obj")
 
 	//-----------
 	// SHADERS
@@ -438,12 +413,10 @@ int main()
 	//-----------
 	gridLines = new GridLines(shader);
 
-	unitCube = new ModelBase(shader);
-
-	ModelBase models[]{ ModelDamian(shader) }; //, ModelElijah(shader), ModelThomas(shader), ModelMichael(shader), ModelRichard(shader) };
+	ModelBase* models[5]{ new ModelDamian(shader), new ModelElijah(shader), new ModelThomas(shader), new ModelMichael(shader), new ModelRichard(shader) };
 	
 	gameManager = new GameManager();
-	gameManager->initialize(1, models);
+	gameManager->initialize(5, models);
 
 	// UNIT AXES / LIGHT CUBE
 	unitAxes = new UnitAxes();
@@ -501,7 +474,7 @@ int main()
 		shadowMapShader.setFloat("far_plane", far_plane);
 		shadowMapShader.setVec3("lightPos", lightPos);
 
-		renderObjModels(shader, objArr);
+		//renderObjModels(shader, objArr);
 		renderScene(shadowMapShader, true);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -518,14 +491,13 @@ int main()
 		// set lighting uniforms
 		shader.setVec3("pointLight.position", lightPos);
 		shader.setVec3("viewPos", camera.Position);
-		shader.setInt("shadows",shadows); // enable/disable shadows by pressing 'SPACE'
 		shader.setFloat("far_plane", far_plane);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
 
 		//glActiveTexture(GL_TEXTURE0);
 		//glBindTexture(GL_TEXTURE_2D, skeletonDiffuseMap);
-		renderObjModels(shader, objArr);
+		//renderObjModels(shader, objArr);
 		renderScene(shader, false);
 
 		// unitAxes and lightCube -- USE DIFFERENT SHADERS -- that's why they're not in the render scene function (also different draw signature)

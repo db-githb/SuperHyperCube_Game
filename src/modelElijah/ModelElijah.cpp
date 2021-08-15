@@ -5,8 +5,6 @@ ModelElijah::ModelElijah(Shader& inShader) : ModelBase(inShader)
 
 	transform.position = glm::vec3(-5.0f, 0.5f, -5.0f);
 
-	modelBasePosition = glm::vec3(-15.0f, 0.5f, -15.0f);
-
 	rows = 9;
 	columns = 7;
 	planes = 7;

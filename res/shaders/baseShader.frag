@@ -34,7 +34,6 @@ uniform PointLight pointLight;
 uniform vec3 viewPos;
 uniform samplerCube depthMap;
 uniform float far_plane;
-uniform bool shadows;
 
 uniform vec3 colour;
 uniform bool textureOn;
@@ -64,7 +63,7 @@ void main()
     spec = pow(max(dot(normal, halfwayDir), 0.0), 64.0);
     vec3 specular =  spec * lightColor * specBias;    
     // calculate shadow
-    float shadow = shadows ? ShadowCalculation(FragPos) : 0.0;                      
+    float shadow = ShadowCalculation(FragPos);                      
     vec3 lighting = (ambient + (1.0 - shadow) * (diffuse + specular)) * color;   
 	
 

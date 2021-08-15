@@ -8,15 +8,8 @@ ModelMichael::ModelMichael(Shader& inShader) : ModelBase(inShader) {
 
 	allocateWallData();
 	allocateObjectData();
-
-	positionModel(15.0f, 0.5f, 15.0f);
 	generateOriginalObject();
 
-}
-
-void ModelMichael::positionModel(float x, float y, float z)
-{
-	modelBasePosition = glm::vec3(x, y, z);
 }
 
 void ModelMichael::generateOriginalObject()

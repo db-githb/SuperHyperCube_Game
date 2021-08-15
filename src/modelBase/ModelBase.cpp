@@ -34,7 +34,8 @@ void ModelBase::resetPOS(){
 
 	xTranslation = 0.0f;
 	yTranslation = 0.0f;
-	zTranslation = 0.0f;
+	zTranslation = 10.0f;
+	prevZ = zTranslation;
 
 	xRotation = 0.0f;
 	yRotation = 0.0f;
@@ -113,9 +114,6 @@ void ModelBase::drawWall(glm::mat4 model) {
 	// bind texture maps
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, wall.diffuseMap);
-
-	//glActiveTexture(GL_TEXTURE2);
-	//glBindTexture(GL_TEXTURE_2D, wall.specularMap);
 	
 	glBindVertexArray(unitCube.getVAO());
 
@@ -130,7 +128,8 @@ void ModelBase::drawWall(glm::mat4 model) {
 			wall.shader.setVec3("colour", colorPalette[GRAY]);
 
 			// move unit cube relative to parent base position and pass the model matrix to the vertex shader
-			wall.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, 0.0f) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
+			//wall.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, 0.0f) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
+			wall.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, 0.0f) + glm::vec3((-columns * 0.5), 0.0f, 0.0f)));
 
 			// render the cube
 			glDrawArrays(renderMode, 0, 36);
@@ -151,15 +150,19 @@ void ModelBase::drawObject(glm::mat4 model) {
 	glBindVertexArray(unitCube.getVAO());
 
 	if (continuousOn) {
-
+		prevZ = zTranslation;
 		zTranslation = (float)(sin(glfwGetTime()-continuousStartTime) * 7);
 	}
 
 	model = glm::translate(model, (glm::vec3(xTranslation, yTranslation, zTranslation)));
 	
+	model = glm::translate(model, glm::vec3(0.0f, rows/2, planes / 2));
 	model = glm::rotate(model, xRotation, glm::vec3(1.0f, 0.0f, 0.0f));
-	model = glm::rotate(model, yRotation, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(-0.5f, -rows/2, 0.0));
+	model = glm::rotate(model, yRotation, glm::vec3(0.0f, 1.0f, 0.0));
+	model = glm::translate(model, glm::vec3(0.0f, rows/2, -planes / 2));
 	model = glm::rotate(model, zRotation, glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::translate(model, glm::vec3(0.5f, -rows/2, 0.0f));
 
 	// compute world position of child cubes
 	for (int r = 0; r < rows; r++) {
@@ -173,7 +176,8 @@ void ModelBase::drawObject(glm::mat4 model) {
 				object.shader.setVec3("colour", colorPalette[object.modelData[r][c][p]]);
 					
 				// move unit cube relative to parent base position and pass the model matrix to the vertex shader
-				object.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, (float)p) + glm::vec3((0.3f +(-columns * 0.5)), 0.0f, (-0.3f +(-planes * 0.5)))));
+				//object.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, (float)p) + glm::vec3((-columns * 0.5), 0.0f, -planes * 0.5)));
+				object.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, (float)p) + glm::vec3((-columns * 0.5), 0.0f, 0.0f)));
 
 				// render the cube
 				glDrawArrays(renderMode, 0, 36);
@@ -238,22 +242,22 @@ void ModelBase::rotate(int rotation) {
 
 	switch (rotation) {
 	case ROTATE_X_CLOCKWISE:
-		xRotation -= glm::radians(5.0f);
+		xRotation = glm::radians((float)(((int)glm::degrees(xRotation) - 90) % 360));
 		break;
 	case ROTATE_X_COUNTER:
-		xRotation += glm::radians(5.0f);
+		xRotation = glm::radians((float)(((int)glm::degrees(xRotation) + 90) % 360));
 		break;
 	case ROTATE_Y_CLOCKWISE:
-		yRotation -= glm::radians(5.0f);
+		yRotation = glm::radians((float)(((int)glm::degrees(yRotation) - 90) % 360));
 		break;
 	case ROTATE_Y_COUNTER:
-		yRotation += glm::radians(5.0f);
+		yRotation = glm::radians((float)(((int)glm::degrees(yRotation) + 90) % 360));
 		break;
 	case ROTATE_Z_CLOCKWISE:
-		zRotation -= glm::radians(5.0f);
+		zRotation = glm::radians((float)(((int)glm::degrees(zRotation) - 90) % 360));
 		break;
 	case ROTATE_Z_COUNTER:
-		zRotation += glm::radians(5.0f);
+		zRotation = glm::radians((float)(((int)glm::degrees(zRotation) + 90) % 360));
 		break;
 	}
 }
@@ -274,24 +278,20 @@ void ModelBase::setRenderMode(int mode) {
 };
 
 void ModelBase::toggleTexture() {
-
 	textureOn = !textureOn;
-
 }
 
 void ModelBase::toggleBorder() {
 	borderOn = !borderOn;
 }
 
-void ModelBase::toggleContinuous() {
-
-	continuousOn = !continuousOn;
-
+void ModelBase::turnContinuousOn() {
+	continuousOn = true;
 	continuousStartTime = glfwGetTime();
 }
 
-void ModelBase::turnContinuousOn() {
-	continuousOn = true;
+void ModelBase::stopMovement() {
+	continuousOn = false;
 }
 
 void ModelBase::generateRandomModel()
@@ -301,6 +301,15 @@ void ModelBase::generateRandomModel()
 
 void ModelBase::generateOriginalObject() {
 	return;
+}
+
+bool ModelBase::objectAtWall() {
+	return glm::sign<float>(prevZ) != glm::sign<float>(zTranslation);
+}
+
+bool ModelBase::passOrientation() {
+	
+	return xRotation == 0.0f && yRotation == 0.0f && zRotation == 0.0f;
 }
 
 ModelBase::~ModelBase() {
