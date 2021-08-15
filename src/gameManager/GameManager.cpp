@@ -20,6 +20,7 @@ void GameManager::draw(Shader* inShader) {
 	if (activeModel->objectAtWall()) {
 		if (activeModel->passOrientation()) {
 			std::cout << "success!" << std::endl;
+			score += 1;
 			nextModel();
 		}
 		else {
@@ -34,5 +35,10 @@ void GameManager::nextModel() {
 	activeModel->resetPOS();
 	currentModel = currentModel == 4 ? 0 : currentModel + 1;
 	activeModel = models[currentModel];
+	activeModel->speed = 0.03f;
 	activeModel->turnMovementOn();
+}
+
+void GameManager::speedUp() {
+	activeModel->speed = 0.08f;
 }

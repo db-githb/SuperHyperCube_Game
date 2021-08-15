@@ -8,21 +8,13 @@
 
 **Model Manipulation**:
 
-1,2,3,4,5 = select individual models
+space = start game
 
-w = up
-
-s = down
-
-shift+a = translate left (translate along -x axis)
-
-shift+d = translate right (translate along +x axis)
+enter = speed up
 
 z = translate forwards (translate along -z axis)
 
 c = translate backwards (translate alone +z axis)
-
-shift+c = toggle continuous motion along z axis
 
 a = rotate anti-clockwise (around the y-axis)
 
@@ -35,28 +27,6 @@ g = rotate anti-clockwise (around the x-axis)
 h = rotate clockwise (around the z-axis)
 
 b = rotate anti-clockwise (around the z-axis)
-
-shift+b = toggle borders
-
-u = scale up
-
-j = scale down
-
-r = shuffle model's object (generate random object for model)
-
-shift+r = reset object position, orientation, and scale
-
-o = return to original object
-
-t = toggle render mode GL_TRIANGLES
-
-p = toggle render mode GL_POINTS
-
-l = toggle render mode GL_LINES
-
-x = toggle textures
-
-space = toggle shadows
 
 
 **Camera Manipulation**:

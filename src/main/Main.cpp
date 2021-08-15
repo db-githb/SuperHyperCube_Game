@@ -227,6 +227,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_SPACE:
 			gameManager->start();
 			break;
+
+		case GLFW_KEY_ENTER:
+			gameManager->speedUp();
+			break;
 		}
 	}
 }
@@ -263,6 +267,7 @@ void renderObjModels(Shader& inShader, Model* inObjArr) {
 	model = glm::translate(model, glm::vec3(6.0f, 0.0f, 0.0f));
 	inShader.setMat4("model", model);
 	inObjArr[1].Draw(inShader);
+
 	
 	model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(-6.0f, 0.0f, 0.0f));
@@ -400,7 +405,7 @@ int main()
 	// -----------
 // LOAD OBJ MODELS
 // -----------
-	//Model objArr[]{Model("res/objects/elm/cgaxis_models_115_37_obj.obj"), Model("res/objects/richier.obj"), Model("res/objects/venus.obj")
+	Model objArr[]{ Model("res/objects/elm/cgaxis_models_115_37_obj.obj") };//, Model("res/objects/richier.obj"), Model("res/objects/venus.obj")
 
 	//-----------
 	// SHADERS
@@ -474,7 +479,7 @@ int main()
 		shadowMapShader.setFloat("far_plane", far_plane);
 		shadowMapShader.setVec3("lightPos", lightPos);
 
-		//renderObjModels(shader, objArr);
+		renderObjModels(shader, objArr);
 		renderScene(shadowMapShader, true);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -497,7 +502,7 @@ int main()
 
 		//glActiveTexture(GL_TEXTURE0);
 		//glBindTexture(GL_TEXTURE_2D, skeletonDiffuseMap);
-		//renderObjModels(shader, objArr);
+		renderObjModels(shader, objArr);
 		renderScene(shader, false);
 
 		// unitAxes and lightCube -- USE DIFFERENT SHADERS -- that's why they're not in the render scene function (also different draw signature)

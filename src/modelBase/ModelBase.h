@@ -76,6 +76,8 @@ public:
 	static void setColorPalette();
 
 	glm::vec3 modelBasePosition;
+	float speed;
+	float fast;
 
 	bool objectAtWall();
 	bool passOrientation();

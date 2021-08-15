@@ -13,6 +13,7 @@ public:
 	void initialize(int inNumModels, ModelBase** inModels);
 	void start();
 	void draw(Shader* inShader);
+	void speedUp();
 
 	void nextModel();
 	int currentModel;

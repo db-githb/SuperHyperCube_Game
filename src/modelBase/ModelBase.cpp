@@ -7,6 +7,8 @@ ModelBase::ModelBase(Shader &inShader) {
 	wall.diffuseMap = wall.shader.loadTexture("res/images/brick2.jpg");
 	object.diffuseMap = object.shader.loadTexture("res/images/metal4.jpg");
 
+	speed = 0.03f;
+
 	rows = 1;
 	columns = 1;
 	planes = 1;
@@ -34,7 +36,7 @@ void ModelBase::resetPOS(){
 
 	xTranslation = 0.0f;
 	yTranslation = 0.0f;
-	zTranslation = 10.0f;
+	zTranslation = 25.0f;
 	prevZ = zTranslation;
 
 	xRotation = 0.0f;
@@ -153,7 +155,7 @@ void ModelBase::drawObject(glm::mat4 model) {
 		prevZ = zTranslation;
 
 		//TODO: switch to delta time for more smooth translation
-		zTranslation -= 0.002f;
+		zTranslation -= speed;
 	}
 
 	model = glm::translate(model, (glm::vec3(xTranslation, yTranslation, zTranslation)));
