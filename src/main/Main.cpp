@@ -257,24 +257,23 @@ void renderScene(Shader &inShader, bool shadowMap) {
 
 void renderObjModels(Shader& inShader, Model* inObjArr) {
 	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(-25.0f, 0.0f, -25.0f));
-	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+	model = glm::rotate(model, glm::radians(25.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(-16.0f, 0.0f, -10.0f));
+	model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
 	inShader.setMat4("model", model);
 	inObjArr[0].Draw(inShader);
 
-	/*
+	
 	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(6.0f, 0.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(6.0f, 0.0f, 2.0f));
 	inShader.setMat4("model", model);
 	inObjArr[1].Draw(inShader);
 
-	
 	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(-6.0f, 0.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(100.0f, 100.0f, 100.0f));
+	model = glm::translate(model, glm::vec3(-6.0f, 0.0f, 2.0f));
+	model = glm::scale(model, glm::vec3(-1.0f, 1.0f, 1.0f));
 	inShader.setMat4("model", model);
-	inObjArr[2].Draw(inShader);
-	*/
+	inObjArr[1].Draw(inShader);
 }
 
 unsigned int loadTextureCube(char const* path) {
@@ -311,12 +310,12 @@ unsigned int loadTextureCube(char const* path) {
 int main()
 {
 	// Initialise GLFW
-		if (!glfwInit())
-		{
-			printf("GLFW initialisation failed");
-			glfwTerminate();
-			return 1;
-		}
+	if (!glfwInit())
+	{
+		printf("GLFW initialisation failed");
+		glfwTerminate();
+		return 1;
+	}
 
 	// Setup GLFW window properties
 	// OpenGL version
@@ -329,7 +328,7 @@ int main()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	// Create the window
-	GLFWwindow* mainWindow = glfwCreateWindow(windowWidth, windowHeight, "Comp 371: Assignment 2 - Team 7", NULL, NULL);
+	GLFWwindow* mainWindow = glfwCreateWindow(windowWidth, windowHeight, "Comp 371: SuperHyperCube Project - Team 7", NULL, NULL);
 	if (!mainWindow)
 	{
 		printf("GLFW window creation failed!");
@@ -388,7 +387,7 @@ int main()
 	for (unsigned int i = 0; i < 6; ++i) {
 		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	}
-		
+
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -405,7 +404,7 @@ int main()
 	// -----------
 // LOAD OBJ MODELS
 // -----------
-	Model objArr[]{ Model("res/objects/elm/cgaxis_models_115_37_obj.obj") };//, Model("res/objects/richier.obj"), Model("res/objects/venus.obj")
+	Model objArr[]{ Model("res/objects/tree7.obj") , Model("res/objects/richierReduced.obj")};
 
 	//-----------
 	// SHADERS
@@ -446,7 +445,7 @@ int main()
 		//Clear the Window
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::vec3 lightPos = gameManager->activeModel->modelBasePosition + glm::vec3(0.0f, 30.5f, 0.0f);
+		glm::vec3 lightPos = gameManager->activeModel->modelBasePosition + glm::vec3(5.0f, 30.5f, -5.0f);
 
 		// 0. create depth cubemap transformation matrices
 		// -----------------------------------------------
@@ -506,7 +505,7 @@ int main()
 		renderScene(shader, false);
 
 		// unitAxes and lightCube -- USE DIFFERENT SHADERS -- that's why they're not in the render scene function (also different draw signature)
-		unitAxes->draw(camera, projection, view);
+		//unitAxes->draw(camera, projection, view);
 		lightCube->draw(projection, view, lightPos);
 
 		glfwSwapBuffers(mainWindow);

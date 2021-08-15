@@ -36,7 +36,7 @@ void ModelBase::resetPOS(){
 
 	xTranslation = 0.0f;
 	yTranslation = 0.0f;
-	zTranslation = 25.0f;
+	zTranslation = 20.0f;
 	prevZ = zTranslation;
 
 	xRotation = 0.0f;
@@ -131,7 +131,7 @@ void ModelBase::drawWall(glm::mat4 model) {
 
 			// move unit cube relative to parent base position and pass the model matrix to the vertex shader
 			//wall.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, 0.0f) + glm::vec3((-columns * 0.5), 0.0f, (-planes / 2))));
-			wall.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, 0.0f) + glm::vec3((-columns * 0.5), 0.0f, 0.0f)));
+			wall.shader.setMat4("model", glm::translate(model, glm::vec3((float)c, (float)r, 0.0f) + glm::vec3((-columns * 0.5), 0.0f, -5.0f)));
 
 			// render the cube
 			glDrawArrays(renderMode, 0, 36);

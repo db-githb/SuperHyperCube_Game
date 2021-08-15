@@ -13,6 +13,8 @@ void GameManager::initialize(int inNumModels, ModelBase** inModels) {
 void GameManager::start() {
 	startOn = true;
 	activeModel->turnMovementOn();
+	startTime = glfwGetTime();
+	std::cout << "start time: " << startTime << std::endl;
 }
 
 void GameManager::draw(Shader* inShader) {
@@ -20,6 +22,8 @@ void GameManager::draw(Shader* inShader) {
 	if (activeModel->objectAtWall()) {
 		if (activeModel->passOrientation()) {
 			std::cout << "success!" << std::endl;
+			double endTime = glfwGetTime();
+			std::cout << "delta time: " << endTime - startTime << std::endl;
 			score += 1;
 			nextModel();
 		}
@@ -40,5 +44,5 @@ void GameManager::nextModel() {
 }
 
 void GameManager::speedUp() {
-	activeModel->speed = 0.08f;
+	activeModel->speed = 0.5f;
 }
