@@ -70,8 +70,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\lib-vc2019;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
-    <IncludePath>$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)src\modelBase;$(SolutionDir)src\modelRichard</IncludePath>
+    <LibraryPath>$(SolutionDir)irrKlang-32bit-1.6.0\irrKlang-1.6.0\lib\Win32-visualStudio;$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\lib-vc2019;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+    <IncludePath>$(SolutionDir)irrKlang-32bit-1.6.0\irrKlang-1.6.0\include;$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)src\modelBase;$(SolutionDir)src\modelRichard</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\lib-vc2019;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
@@ -94,7 +94,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>irrKlang.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -172,6 +172,7 @@
     <ClCompile Include="src\modelRichard\ModelRichard.cpp" />
     <ClCompile Include="src\modelThomas\ModelThomas.cpp" />
     <ClCompile Include="src\shader\Shader.cpp" />
+    <ClCompile Include="src\sound\SoundManager.cpp" />
     <ClCompile Include="src\unitAxes\UnitAxes.cpp" />
     <ClCompile Include="src\unitCube\UnitCube.cpp" />
     <ClCompile Include="src\unitLine\UnitLine.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="src\modelThomas\ModelThomas.h" />
     <ClInclude Include="src\shader\Shader.h" />
     <ClInclude Include="src\shader\stb_image.h" />
+    <ClInclude Include="src\sound\SoundManager.h" />
     <ClInclude Include="src\unitAxes\UnitAxes.h" />
     <ClInclude Include="src\unitCube\UnitCube.h" />
     <ClInclude Include="src\unitLine\UnitLine.h" />

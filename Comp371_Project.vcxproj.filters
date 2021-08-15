@@ -52,6 +52,9 @@
     <Filter Include="src\modelRichard">
       <UniqueIdentifier>{0b350755-3a6f-47dc-938b-4c524494a472}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\sound">
+      <UniqueIdentifier>{cb008d53-38b1-46eb-b985-6d51bb999125}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\axisShader.frag">
@@ -125,6 +128,9 @@
     <ClCompile Include="src\modelRichard\ModelRichard.cpp">
       <Filter>src\modelRichard</Filter>
     </ClCompile>
+    <ClCompile Include="src\sound\SoundManager.cpp">
+      <Filter>src\sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">
@@ -168,6 +174,9 @@
     </ClInclude>
     <ClInclude Include="src\modelRichard\ModelRichard.h">
       <Filter>src\modelRichard</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sound\SoundManager.h">
+      <Filter>src\sound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

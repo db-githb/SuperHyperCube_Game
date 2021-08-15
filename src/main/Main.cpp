@@ -8,6 +8,8 @@
 #include "../modelMichael/modelMichael.h"
 #include "../modelRichard/modelRichard.h"
 #include "../lightCube/LightCube.h"
+#include "../sound/SoundManager.h"
+
 
 // window size
 #define WIDTH 1024
@@ -55,7 +57,12 @@ ModelMichael* modelMichael;
 ModelRichard* modelRichard;
 
 LightCube* lightCube;
+SoundManager* soundManager;
 // ===================
+
+// instantiate sound engine
+
+
 
 void processInput(GLFWwindow* window)
 {
@@ -175,6 +182,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			toggleTextures();
 			break;
 
+		// mute music
+		case GLFW_KEY_M:
+			soundManager->muteMusic();
+			break;
 
 		// scale models up and down
 		case GLFW_KEY_U:
@@ -234,12 +245,15 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		// rotate along X and Z axis, maybe map y rotation to G and V keys
 		case GLFW_KEY_V:
 			activeModel->rotate(ROTATE_X_CLOCKWISE);
+			soundManager->playErrorSound();
 			break;
 		case GLFW_KEY_G:
 			activeModel->rotate(ROTATE_X_COUNTER);
+			soundManager->playRotateSound();
 			break;
 		case GLFW_KEY_H:
 			activeModel->rotate(ROTATE_Z_CLOCKWISE);
+			soundManager->playSuccessSound();
 			break;
 		case GLFW_KEY_B:
 
@@ -432,6 +446,10 @@ int main()
 
 	// initialize active model
 	activeModel = modelRichard;
+
+	//start sound manager
+	soundManager = new SoundManager();
+	
 
 	// display/render loop
 	while (!glfwWindowShouldClose(mainWindow))
