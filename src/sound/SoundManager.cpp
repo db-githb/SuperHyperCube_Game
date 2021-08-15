@@ -20,39 +20,88 @@ SoundManager::SoundManager() {
 	success = engine->addSoundSourceFromFile("res/sounds/success.wav");
 	rotate = engine->addSoundSourceFromFile("res/sounds/neutral_click.wav");
 
+	musicVol = 0.5f;
+	effectsVol = 0.6f;
+
+	music->setDefaultVolume(musicVol);
+	rotate->setDefaultVolume(effectsVol);
+	success->setDefaultVolume(effectsVol);
+	error->setDefaultVolume(effectsVol);
+
 	startMusic();
-	mute = false;
+	musicMute = false;
+	effectsMute = false;
 
 }
 
 void SoundManager::startMusic() {
-	music->setDefaultVolume(0.5f);
 	musicVolumeControl = engine->play2D(music, true, false, true);
 }
 
 void SoundManager::muteMusic() {
 
-	if (mute == false) {
-		mute = true;
+	if (musicMute == false) {
+		musicMute = true;
 		musicVolumeControl->setVolume(0.0f);
 	}
 	else {
-		mute = false;
-		musicVolumeControl->setVolume(0.5f);
+		musicMute = false;
+		musicVolumeControl->setVolume(musicVol);
+	}
+}
+
+void SoundManager::incMusicVol() {
+	if (musicVol < 1.0f) {
+		musicVol += 0.05f;
+		musicVolumeControl->setVolume(musicVol);
+	}
+}
+
+void SoundManager::decMusicVol() {
+	if (musicVol > 0.0f) {
+		musicVol -= 0.05f;
+		musicVolumeControl->setVolume(musicVol);
+	}
+}
+
+void SoundManager::muteEffects() {
+	if (effectsMute == false) {
+		effectsMute = true;
+	}
+	else {
+		effectsMute = false;
+	}
+}
+
+void SoundManager::incEffectsVol() {
+	if (effectsVol < 1.0f) {
+		effectsVol += 0.05f;
+	}
+}
+
+void SoundManager::decEffectsVol() {
+	if (effectsVol > 0.0f) {
+		effectsVol -= 0.05f;
 	}
 }
 
 void SoundManager::playRotateSound() {
-	rotate->setDefaultVolume(0.5f);
-	engine->play2D(rotate);
+	if (effectsMute == false) {
+		rotate->setDefaultVolume(effectsVol);
+		engine->play2D(rotate);
+	}
 }
 
 void SoundManager::playSuccessSound() {
-	success->setDefaultVolume(0.6f);
-	engine->play2D(success);
+	if (effectsMute == false) {
+		success->setDefaultVolume(effectsVol);
+		engine->play2D(success);
+	}
 }
 
 void SoundManager::playErrorSound() {
-	error->setDefaultVolume(0.75f);
-	engine->play2D(error);
+	if (effectsMute == false) {
+		error->setDefaultVolume(effectsVol);
+		engine->play2D(error);
+	}
 }

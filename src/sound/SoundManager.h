@@ -7,10 +7,18 @@ class SoundManager
 {
 public:
 	SoundManager();
+
 	void playRotateSound();
 	void playSuccessSound();
 	void playErrorSound();
+
 	void muteMusic();
+	void muteEffects();
+
+	void incMusicVol();
+	void decMusicVol();
+	void incEffectsVol();
+	void decEffectsVol();
 
 protected:
 
@@ -23,5 +31,9 @@ protected:
 
 	ISound* musicVolumeControl;
 
-	bool mute;
+	bool musicMute;
+	bool effectsMute;
+
+	float musicVol;
+	float effectsVol;
 };

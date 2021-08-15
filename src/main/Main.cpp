@@ -219,10 +219,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 		// translate models up/down
 		case GLFW_KEY_W:
+			soundManager->incMusicVol();
 			activeModel->translate(TRANS_UP);
 			return;
 
 		case  GLFW_KEY_S:
+			soundManager->decMusicVol();
 			activeModel->translate(TRANS_DOWN);
 			break;
 
