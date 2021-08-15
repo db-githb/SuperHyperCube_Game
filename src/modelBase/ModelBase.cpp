@@ -20,7 +20,7 @@ ModelBase::ModelBase(Shader &inShader) {
 
 	textureOn = true;
 	borderOn = false;
-	continuousOn = false;
+	movementOn = false;
 
 	ModelBase::colorPalette = new glm::vec3[NUM_COLORS];
 
@@ -149,9 +149,11 @@ void ModelBase::drawObject(glm::mat4 model) {
 
 	glBindVertexArray(unitCube.getVAO());
 
-	if (continuousOn) {
+	if (movementOn) {
 		prevZ = zTranslation;
-		zTranslation = (float)(sin(glfwGetTime()-continuousStartTime) * 7);
+
+		//TODO: switch to delta time for more smooth translation
+		zTranslation -= 0.002f;
 	}
 
 	model = glm::translate(model, (glm::vec3(xTranslation, yTranslation, zTranslation)));
@@ -285,13 +287,9 @@ void ModelBase::toggleBorder() {
 	borderOn = !borderOn;
 }
 
-void ModelBase::turnContinuousOn() {
-	continuousOn = true;
-	continuousStartTime = glfwGetTime();
-}
-
-void ModelBase::stopMovement() {
-	continuousOn = false;
+void ModelBase::turnMovementOn() {
+	movementOn = true;
+	movementStartTime = glfwGetTime();
 }
 
 void ModelBase::generateRandomModel()
@@ -304,6 +302,8 @@ void ModelBase::generateOriginalObject() {
 }
 
 bool ModelBase::objectAtWall() {
+
+	//Keep for when we switch to delta time for more smooth translation
 	return glm::sign<float>(prevZ) != glm::sign<float>(zTranslation);
 }
 

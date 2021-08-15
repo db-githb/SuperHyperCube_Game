@@ -66,7 +66,7 @@ public:
 	virtual void setRenderMode(int mode);
 	virtual void toggleTexture();
 	virtual void toggleBorder();
-	virtual void turnContinuousOn();
+	virtual void turnMovementOn();
 	virtual void generateRandomModel();
 	virtual void generateOriginalObject();
 	virtual void resetObject();
@@ -79,7 +79,6 @@ public:
 
 	bool objectAtWall();
 	bool passOrientation();
-	void stopMovement();
 
 protected:
 
@@ -104,8 +103,8 @@ protected:
 
 	bool textureOn;
 	bool borderOn;
-	bool continuousOn;
-	double continuousStartTime;
+	bool movementOn;
+	double movementStartTime;
 
 	/* orientation in radians */
 	float xRotation;
