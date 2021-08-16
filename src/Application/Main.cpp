@@ -12,6 +12,7 @@
 #include "../Objects/Levels/LevelElijah.h"
 #include "../Objects/Levels/LevelDamian.h"
 #include "../Objects/Levels/LevelThomas.h"
+#include "../Mesh/ObjModel.h"
 #include "GameManager.h"
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -27,6 +28,7 @@ void renderScene(Shader& inShader);
 void renderSceneDepth(Shader& inShader);
 unsigned int loadTexture(char const* path);
 unsigned int loadCubemap(std::vector<std::string> faces);
+void renderObjModels(Shader& inShader, ObjModel* inObjArr);
 
 // window size
 #define WIDTH 1024
@@ -95,6 +97,8 @@ bool moveSkateboard = false;
 
 int camIndex = 0;
 
+
+
 int main()
 {
 	focusPoint = glm::vec3(0);
@@ -123,7 +127,7 @@ int main()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	// Create the window
-	GLFWwindow* mainWindow = glfwCreateWindow(windowWidth, windowHeight, "Comp 371: Assignment 2 - Team 7", NULL, NULL);
+	GLFWwindow* mainWindow = glfwCreateWindow(windowWidth, windowHeight, "Comp 371 Project: SuperHyperCube Game - Team 7", NULL, NULL);
 	if (!mainWindow)
 	{
 		printf("GLFW window creation failed!");
@@ -189,6 +193,11 @@ int main()
 	glReadBuffer(GL_NONE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+
+	// -----------
+	// LOAD OBJ MODELS
+	// -----------
+	ObjModel objArr[]{ObjModel("res/objects/tree7.obj") , ObjModel("res/objects/richierReduced.obj") };
 
 	//-----------
 	// Textures
@@ -290,8 +299,6 @@ int main()
 		depthShader.use();
 		depthShader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
 		
-			
-		
 		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 		glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 			glClear(GL_DEPTH_BUFFER_BIT);
@@ -299,6 +306,7 @@ int main()
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, diffuseMapObject);
 		
+		renderObjModels(depthShader, objArr);
 		renderSceneDepth(depthShader);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -362,7 +370,7 @@ int main()
 			// glBindVertexArray(0);
 			// glDepthFunc(GL_LESS); // set depth function back to default
 
-		
+		renderObjModels(shader, objArr);
 		renderScene(shader);
 		
 		// unitAxes and lightCube -- USE DIFFERENT SHADERS -- that's why they're not in the render scene function (also different draw signature)
@@ -742,4 +750,25 @@ unsigned int loadCubemap(std::vector<std::string> faces)
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_MIRRORED_REPEAT);
 
 	return textureID;
+}
+
+void renderObjModels(Shader& inShader, ObjModel* inObjArr) {
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::rotate(model, glm::radians(25.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(-16.0f, 0.0f, -10.0f));
+	model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+	inShader.setMat4("model", model);
+	inObjArr[0].Draw(inShader);
+
+
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(6.0f, 0.0f, 2.0f));
+	inShader.setMat4("model", model);
+	inObjArr[1].Draw(inShader);
+
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(-6.0f, 0.0f, 2.0f));
+	model = glm::scale(model, glm::vec3(-1.0f, 1.0f, 1.0f));
+	inShader.setMat4("model", model);
+	inObjArr[1].Draw(inShader);
 }
