@@ -91,6 +91,8 @@
     <None Include="lib\assimp_x86-windows\lib\libpng16.dll" />
     <None Include="lib\assimp_x86-windows\lib\turbojpeg.dll" />
     <None Include="lib\assimp_x86-windows\lib\zlib1.dll" />
+    <None Include="res\objects\tree7.mtl" />
+    <None Include="res\objects\richierReduced.mtl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera\Camera.cpp">
@@ -185,5 +187,15 @@
     <ClInclude Include="src\gameManager\GameManager.h" />
     <ClInclude Include="src\loadModel\loadModel.h" />
     <ClInclude Include="src\loadModel\mesh.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\assimp_x86-windows\lib\assimp-vc142-mt.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="res\objects\tree7.obj" />
+    <Object Include="res\objects\richierReduced.obj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\objects\Sonnerat2.jpg" />
   </ItemGroup>
 </Project>

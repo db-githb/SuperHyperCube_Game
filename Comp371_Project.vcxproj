@@ -163,6 +163,8 @@
     <None Include="lib\assimp_x86-windows\lib\libpng16.dll" />
     <None Include="lib\assimp_x86-windows\lib\turbojpeg.dll" />
     <None Include="lib\assimp_x86-windows\lib\zlib1.dll" />
+    <None Include="res\objects\richierReduced.mtl" />
+    <None Include="res\objects\tree7.mtl" />
     <None Include="res\shaders\axisShader.frag" />
     <None Include="res\shaders\axisShader.vert" />
     <None Include="res\shaders\baseShader.frag" />
@@ -208,6 +210,16 @@
     <ClInclude Include="src\unitAxes\UnitAxes.h" />
     <ClInclude Include="src\unitCube\UnitCube.h" />
     <ClInclude Include="src\unitLine\UnitLine.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\assimp_x86-windows\lib\assimp-vc142-mt.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="res\objects\richierReduced.obj" />
+    <Object Include="res\objects\tree7.obj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\objects\Sonnerat2.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
