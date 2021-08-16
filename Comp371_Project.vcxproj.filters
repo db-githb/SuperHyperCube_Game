@@ -95,6 +95,8 @@
     <None Include="res\objects\richierReduced.mtl" />
     <None Include="res\objects\richierReduced.obj" />
     <None Include="res\objects\tree7.obj" />
+    <None Include="res\shaders\textShader.frag" />
+    <None Include="res\shaders\textShader.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera\Camera.cpp">
@@ -143,6 +145,7 @@
       <Filter>src\gameManager</Filter>
     </ClCompile>
     <ClCompile Include="src\soundManager\SoundManager.cpp" />
+    <ClCompile Include="src\textGenerator\TextGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">
@@ -191,6 +194,7 @@
     <ClInclude Include="src\loadModel\loadModel.h" />
     <ClInclude Include="src\loadModel\mesh.h" />
     <ClInclude Include="src\soundManager\SoundManager.h" />
+    <ClInclude Include="src\textGenerator\TextGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\assimp_x86-windows\lib\assimp-vc142-mt.lib" />
