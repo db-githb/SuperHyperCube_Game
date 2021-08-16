@@ -4,9 +4,8 @@ GridLines::GridLines(Shader &inShader) {
 	unitCube = UnitCube();
 	gridLinesShader =  Shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
 
-	//diffuseMap = inShader.loadTexture("res/images/tile1.png");
 	diffuseMap = inShader.loadTexture("res/images/tile3.png");
-	//specularMap = inShader.loadTexture("res/images/brick_spec_map.png");
+	//diffuseMap = inShader.loadTexture("res/images/stone.jpg");
 
 	textureOn = true;
 }
