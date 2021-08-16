@@ -1,6 +1,7 @@
 #pragma once
 #include "../modelBase/ModelBase.h"
 #include "../shader/Shader.h"
+#include "../soundManager/SoundManager.h"
 
 class GameManager {
 
@@ -10,7 +11,7 @@ public:
 	bool startOn;
 	ModelBase** models;
 	ModelBase* activeModel;
-	void initialize(int inNumModels, ModelBase** inModels);
+	void initialize(int inNumModels, ModelBase** inModels, SoundManager* inSoundManager);
 	void start();
 	void draw(Shader* inShader);
 	void speedUp();
@@ -19,6 +20,8 @@ public:
 	int currentModel;
 	double startTime;
 	double deltaTime;
+
+	SoundManager* soundManager;
 
 	bool endState;
 };

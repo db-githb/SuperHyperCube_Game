@@ -10,6 +10,8 @@
 #include "../lightCube/LightCube.h"
 #include "../loadModel/loadModel.h"
 #include "../gameManager/GameManager.h"
+#include "../soundManager/SoundManager.h"
+
 // window size
 #define WIDTH 1024
 #define HEIGHT 768
@@ -40,13 +42,14 @@ GLuint UnitCube::unitCubeVBO = 0;
 // DECLARE MODELS HERE
 // -------------------
 
-// would've called this floor but it's a conflict in a library somewhere (probably GLM)
+GameManager* gameManager;
+SoundManager* soundManager;
+
 GridLines* gridLines;
 UnitAxes* unitAxes;
-
-GameManager* gameManager;
-
 LightCube* lightCube;
+
+
 // ===================
 
 void processInput(GLFWwindow* window)
@@ -122,11 +125,28 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 {
 	if (action == GLFW_RELEASE) {
 		switch (key) {
+		
+		case GLFW_KEY_1:
+			soundManager->incMusicVol();
+			break;
+
+		case GLFW_KEY_2:
+			soundManager->decMusicVol();
+			break;
+
+		case GLFW_KEY_0:
+			soundManager->muteEffects();
+			break;
+
+		case GLFW_KEY_9:
+			soundManager->muteMusic();
+			break;
 
 		// select render mode
 		case GLFW_KEY_T:
 			gameManager->activeModel->setRenderMode(GL_TRIANGLES);
 			break;
+
 		case GLFW_KEY_P:
 			gameManager->activeModel->setRenderMode(GL_POINTS);
 			break;
@@ -187,23 +207,23 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 		// rotate along X and Z axis, maybe map y rotation to G and V keys
 		case GLFW_KEY_V:
+			soundManager->playRotateSound();
 			gameManager->activeModel->rotate(ROTATE_X_CLOCKWISE);
 			break;
+
 		case GLFW_KEY_G:
+			soundManager->playRotateSound();
 			gameManager->activeModel->rotate(ROTATE_X_COUNTER);
 			break;
+
 		case GLFW_KEY_H:
+			soundManager->playRotateSound();
 			gameManager->activeModel->rotate(ROTATE_Z_CLOCKWISE);
 			break;
-		case GLFW_KEY_B:
 
-			if (mods == GLFW_MOD_SHIFT) {
-				toggleBorders();
-			}
-			else {
-				gameManager->activeModel->rotate(ROTATE_Z_COUNTER);
-			}
-			
+		case GLFW_KEY_B:
+			soundManager->playRotateSound();
+			gameManager->activeModel->rotate(ROTATE_Z_COUNTER);			
 			break;
 
 		case GLFW_KEY_HOME:
@@ -410,11 +430,15 @@ int main()
 	// OBJECTS
 	//-----------
 	gridLines = new GridLines(shader);
-
 	ModelBase* models[5]{ new ModelDamian(shader), new ModelElijah(shader), new ModelThomas(shader), new ModelMichael(shader), new ModelRichard(shader) };
 	
+	//start sound manager
+	soundManager = new SoundManager();
+
+
+	//start game manager
 	gameManager = new GameManager();
-	gameManager->initialize(5, models);
+	gameManager->initialize(5, models, soundManager);
 
 	// UNIT AXES / LIGHT CUBE
 	unitAxes = new UnitAxes();

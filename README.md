@@ -6,6 +6,12 @@
 
 ** it must be run from the Quiz1_21875841 folder **
 
+**Sound Settings**
+1 = increase volume
+2 = decrease volume
+9 = mute musice
+0 = mute effects
+
 **Model Manipulation**:
 
 space = start game

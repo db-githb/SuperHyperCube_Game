@@ -70,12 +70,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(SolutionDir)lib\assimp_x86-windows\lib;$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\lib-vc2019;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
-    <IncludePath>$(SolutionDir)lib\assimp_x86-windows\include;$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)src\modelBase;$(SolutionDir)src\modelRichard</IncludePath>
+    <LibraryPath>$(SolutionDir)lib\irrklang\lib\Win32-visualStudio;$(SolutionDir)lib\assimp_x86-windows\lib;$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\lib-vc2019;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+    <IncludePath>$(SolutionDir)lib\irrklang\include;$(SolutionDir)lib\assimp_x86-windows\include;$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)src\modelBase;$(SolutionDir)src\modelRichard</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LibraryPath>$(SolutionDir)lib\assimp_x86-windows\lib;$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\lib-vc2019;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
-    <IncludePath>$(SolutionDir)lib\assimp_x86-windows\include;$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(SolutionDir)lib\irrklang\lib\Win32-visualStudio;$(SolutionDir)lib\assimp_x86-windows\lib;$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\lib-vc2019;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+    <IncludePath>$(SolutionDir)lib\irrklang\include;$(SolutionDir)lib\assimp_x86-windows\include;$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>D:\dev\COMP-371\Comp371_Project\lib\glfw-3.3.2.bin.WIN32\include;D:\dev\Libraries\Include;$(IncludePath)</IncludePath>
@@ -94,10 +94,11 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>assimp-vc142-mt.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>irrKlang.lib;assimp-vc142-mt.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Q /R /Y $(ProjectDir)lib\assimp_x86-windows\lib\ $(TargetDir)</Command>
+      <Command>xcopy /Q /R /Y $(ProjectDir)lib\assimp_x86-windows\lib\ $(TargetDir)
+xcopy /Q /R /Y $(ProjectDir)lib\irrklang\lib\ $(TargetDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -125,10 +126,11 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>assimp-vc142-mt.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>irrKlang.lib;assimp-vc142-mt.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Q /R /Y $(ProjectDir)lib\assimp_x86-windows\lib\ $(TargetDir)</Command>
+      <Command>xcopy /Q /R /Y $(ProjectDir)lib\assimp_x86-windows\lib\ $(TargetDir)
+xcopy /Q /R /Y $(ProjectDir)lib\irrklang\lib\ $(TargetDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -188,6 +190,7 @@
     <ClCompile Include="src\modelRichard\ModelRichard.cpp" />
     <ClCompile Include="src\modelThomas\ModelThomas.cpp" />
     <ClCompile Include="src\shader\Shader.cpp" />
+    <ClCompile Include="src\soundManager\SoundManager.cpp" />
     <ClCompile Include="src\unitAxes\UnitAxes.cpp" />
     <ClCompile Include="src\unitCube\UnitCube.cpp" />
     <ClCompile Include="src\unitLine\UnitLine.cpp" />
@@ -207,6 +210,7 @@
     <ClInclude Include="src\modelThomas\ModelThomas.h" />
     <ClInclude Include="src\shader\Shader.h" />
     <ClInclude Include="src\shader\stb_image.h" />
+    <ClInclude Include="src\soundManager\SoundManager.h" />
     <ClInclude Include="src\unitAxes\UnitAxes.h" />
     <ClInclude Include="src\unitCube\UnitCube.h" />
     <ClInclude Include="src\unitLine\UnitLine.h" />
@@ -215,8 +219,16 @@
     <Library Include="lib\assimp_x86-windows\lib\assimp-vc142-mt.lib" />
   </ItemGroup>
   <ItemGroup>
-    <Object Include="res\objects\richierReduced.obj" />
-    <Object Include="res\objects\tree7.obj" />
+    <None Include="res\objects\richierReduced.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </None>
+    <None Include="res\objects\tree7.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\objects\Sonnerat2.jpg" />

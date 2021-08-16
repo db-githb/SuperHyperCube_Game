@@ -1,6 +1,6 @@
 #include "GameManager.h"
 
-void GameManager::initialize(int inNumModels, ModelBase** inModels) {
+void GameManager::initialize(int inNumModels, ModelBase** inModels, SoundManager* inSoundManager) {
 	nrModels = inNumModels;
 	models = inModels;
 
@@ -13,6 +13,10 @@ void GameManager::initialize(int inNumModels, ModelBase** inModels) {
 
 	startTime = 0;
 	deltaTime = 0;
+
+	soundManager = inSoundManager;
+	soundManager->muteMusic();
+
 }
 
 void GameManager::start() {
@@ -22,6 +26,7 @@ void GameManager::start() {
 	}
 
 	startOn = true;
+	soundManager->startMusic();
 	startTime = glfwGetTime();
 	activeModel->turnMovementOn();
 }
@@ -34,10 +39,12 @@ void GameManager::draw(Shader* inShader) {
 		if (activeModel->objectAtWall()) {
 			if (activeModel->passOrientation()) {
 				activeModel->successState();
+				soundManager->playSuccessSound();
 				score += deltaTime >= 10 ? 1 : (10 - (int)deltaTime);
 			}
 			else {
 				activeModel->failState();
+				soundManager->playErrorSound();
 			}
 			endState = true;
 		}
