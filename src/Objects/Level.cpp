@@ -175,8 +175,8 @@ void Level::clearWallModel()
 
 void Level::resetLevel()
 {
-	object->AddPosition(objectStartPosition);
-	wall->	AddPosition(wallStartPosition);
+	object->SetPosition(objectStartPosition);
+	wall->	SetPosition(wallStartPosition);
 	randomizeObjectOrientation();
 }
 

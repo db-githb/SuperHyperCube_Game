@@ -2,18 +2,25 @@
 
 #include "../Objects/Level.h"
 
-class GameManager
+class GameManager : public ObjectNode
 {
 public:
 	GameManager();
-	void Reset();
+	void ResetGame();
+	void ResetLevel();
 	void AddLevel(Level* level);
-	void LockPosition();
 	void AddPoints(int p);
+	void QuickDrop();
+
 	Level* NextLevel();
 	void GameOver();
-	void Update();
+	void Update(float ms) override;
+	void UpdateObjectPosition(float ms);
+	bool IsObjectAtEnd();
+	bool ValidateLevel();
+	void Draw(Shader& inShader) override;
 
+	void AddRotation90(glm::vec3 axis) override;
 	
 	Level* currentLevel;
 	int currentLevelIndex = 0;
@@ -28,6 +35,7 @@ public:
 
 private:
 	std::vector<Level*> levels;
-	
+	glm::vec3 modelTargetPosition;
+	float lastUpdateTime = 0;
 };
 

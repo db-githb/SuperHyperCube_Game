@@ -68,7 +68,6 @@ GridLines* gridLines;
 UnitAxes* unitAxes;
 
 Model* activeModel;
-ObjectNode* activeNode;
 
 Model* unitCube;
 
@@ -228,13 +227,12 @@ int main()
 
 	scene = new ObjectNode();
 	
-
-	currentLevel = new LevelThomas(shader);
-	//currentLevel = new LevelElijah(shader);
-	//currentLevel = new LevelDamian(shader);
+	game = new GameManager();
+	game->AddLevel(new LevelThomas(shader));
+	game->AddLevel(new LevelDamian(shader));
+	game->AddLevel(new LevelElijah(shader));
+	scene->AddChild(game);
 	
-	scene->AddChild(currentLevel);
-	currentLevel->AddPosition(glm::vec3(0, 5, 0));
 	// skateboard->AddPosition(glm::vec3(0, 2, 0));
 	// skateboard->AddChild(board);
 	// board->AddScale(glm::vec3(8, -0.7f, 3));
@@ -259,7 +257,7 @@ int main()
 
 	// initialize active model
 	activeModel = unitCube; //modelRichard;
-	activeNode = currentLevel->object;
+	currentLevel = game->currentLevel;
 	
 	glm::vec3 lightPos = glm::vec3(-50.0f , 50.0f, -50.0f);
 
@@ -326,7 +324,7 @@ int main()
 		glm::mat4 view = camIsFixed ? glm::lookAt(*currentCamPos, focusPoint, glm::vec3(0, 1, 0)) : camera.GetViewMatrix();
 		
 		shader.use();
-		shader.setBool("isTextured", false);
+		shader.setBool("isTextured", true);
 		shader.setBool("spotlightOn", spotlightOn);
 		shader.setBool("directionalLightOn", directionalLightOn);
 		shader.setBool("ambientLightOn", ambientLightOn);
@@ -356,7 +354,6 @@ int main()
 			glBindTexture(GL_TEXTURE_2D, depthMap);
 		glActiveTexture(GL_TEXTURE2);
 			glBindTexture(GL_TEXTURE_2D, diffuseMapWall);
-
 			// glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
 			// skyboxShader.use();
 			// //view = camera.GetViewMatrix();//glm::mat4(glm::mat3(camera.GetViewMatrix())); // remove translation from the view matrix
@@ -377,7 +374,7 @@ int main()
 
 		unitAxes->draw(camera, projection, view);
 		lightCube->draw(projection, view, lightPos);
-
+		//game->Update();
 		scene->Update(deltaTime);
 
 		glfwSwapBuffers(mainWindow);
@@ -491,10 +488,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		case GLFW_KEY_4:
 			//Toggle corner cams
-			camIsFixed = true;
-			centerFocus = true;
-			camIndex += 1;
-			currentCamPos = &cornerCamPos[camIndex % 4];
+			game->NextLevel();
+			// camIsFixed = true;
+			// centerFocus = true;
+			// camIndex += 1;
+			// currentCamPos = &cornerCamPos[camIndex % 4];
 			break;
 		case GLFW_KEY_5:
 			//Toggle Directional Light
@@ -531,11 +529,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 			// scale models up and down
 		case GLFW_KEY_U:
-			activeNode->AddScale(glm::vec3(0.1, 0.1, 0.1));
+			currentLevel->AddScale(glm::vec3(0.1, 0.1, 0.1));
 			break;
 
 		case GLFW_KEY_J:
-			activeNode->AddScale(glm::vec3(-0.1, -0.1, -0.1));
+			currentLevel->AddScale(glm::vec3(-0.1, -0.1, -0.1));
 			break;
 
 			// translate models up/down
@@ -543,11 +541,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			if (mods == GLFW_MOD_SHIFT)
 			{
 				//activeModel->translate(TRANS_FORWARD);
-				activeNode->AddPosition(glm::vec3(0, 0, -1));//glm::vec3(0, 0, -1));
+				currentLevel->AddPosition(glm::vec3(0, 0, -1));//glm::vec3(0, 0, -1));
 			}
 			else
 			{
-				activeNode->AddRotation90(glm::vec3(1, 0, 0));
+				game->AddRotation90(glm::vec3(1, 0, 0));
 			}
 			break;
 			
@@ -555,38 +553,38 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_A:
 
 			if (mods == GLFW_MOD_SHIFT) {
-				activeNode->AddPosition(glm::vec3(-1, 0, 0));
+				currentLevel->AddPosition(glm::vec3(-1, 0, 0));
 			}
 			else {
-				activeNode->AddRotation90(glm::vec3(0, 1, 0));
+				game->AddRotation90(glm::vec3(0, 1, 0));
 			}
 			break;
 
 		case  GLFW_KEY_S:
 			if (mods == GLFW_MOD_SHIFT)
 			{
-				activeNode->AddPosition(glm::vec3(0, 0, 1));
+				currentLevel->AddPosition(glm::vec3(0, 0, 1));
 			}
 			else
 			{
-				activeNode->AddRotation90(glm::vec3(-1, 0, 0));
+				game->AddRotation90(glm::vec3(-1, 0, 0));
 			}
 			break;
 
 		case  GLFW_KEY_D:
 
 			if (mods == GLFW_MOD_SHIFT) {
-				activeNode->AddPosition(glm::vec3(1, 0, 0));
+				currentLevel->AddPosition(glm::vec3(1, 0, 0));
 			}
 			else {
-				activeNode->AddRotation90(glm::vec3(0, -1, 0));
+				game->AddRotation90(glm::vec3(0, -1, 0));
 			}
 			break;
 		case GLFW_KEY_Q:
-			activeNode->AddRotation90(glm::vec3(0, 0, 1));
+			game->AddRotation90(glm::vec3(0, 0, 1));
 			break;
 		case GLFW_KEY_E:
-			activeNode->AddRotation90(glm::vec3(0, 0, -1));
+			game->AddRotation90(glm::vec3(0, 0, -1));
 			break;
 
 		case GLFW_KEY_C:
@@ -595,13 +593,13 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 			// rotate along X and Z axis, maybe map y rotation to G and V keys
 		case GLFW_KEY_V:
-			activeNode->AddRotation(glm::vec3(0.1,0,0));
+			currentLevel->AddRotation(glm::vec3(0.1,0,0));
 			break;
 		case GLFW_KEY_G:
-			activeNode->AddRotation(glm::vec3(-0.1, 0, 0));
+			currentLevel->AddRotation(glm::vec3(-0.1, 0, 0));
 			break;
 		case GLFW_KEY_H:
-			activeNode->AddRotation(glm::vec3(0, 0, 0.1));
+			currentLevel->AddRotation(glm::vec3(0, 0, 0.1));
 			break;
 		case GLFW_KEY_B:
 
@@ -609,7 +607,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				toggleBorders();
 			}
 			else {
-				activeNode->AddRotation(glm::vec3(0, 0, -0.1));
+				currentLevel->AddRotation(glm::vec3(0, 0, -0.1));
 			}
 
 			break;

@@ -46,7 +46,7 @@ public:
 
 
 	// TODO: Fix rotations such that they occur in world space instead of local space
-	void AddRotation90(glm::vec3 axis);
+	virtual void AddRotation90(glm::vec3 axis);
 	
 	const glm::vec3& GetPosition();
 	const glm::vec3& GetRotation();
