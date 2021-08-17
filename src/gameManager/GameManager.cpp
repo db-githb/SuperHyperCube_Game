@@ -44,7 +44,7 @@ void GameManager::draw(Shader* inShader) {
 		int displayTime = 10 - (int)deltaTime;
 		if (displayTime < 0) displayTime = 0;
 		textGenerator->renderText(*textShader, "Score: " + std::to_string(score), windowWidth - 240, windowHeight - 50, 0.75f, glm::vec3(0.5, 0.8f, 0.2f));
-		textGenerator->renderText(*textShader, "Time: " + std::to_string(10 - (int)deltaTime), windowWidth - 240, windowHeight - 100, 0.75f, glm::vec3(0.5, 0.8f, 0.2f));
+		textGenerator->renderText(*textShader, "Time: " + std::to_string(displayTime), windowWidth - 240, windowHeight - 100, 0.75f, glm::vec3(0.5, 0.8f, 0.2f));
 	}
 	else {
 		textGenerator->renderText(*textShader, "Press Spacebar to Start", windowWidth/2-255, windowHeight/2, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));

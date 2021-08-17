@@ -438,7 +438,7 @@ int main()
 		//Clear the Window
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::vec3 lightPos = gameManager->activeModel->modelBasePosition + glm::vec3(5.0f, 30.5f, -5.0f);
+		glm::vec3 lightPos = gameManager->activeModel->modelBasePosition + glm::vec3(5.0f, 20.5f, -5.0f);
 
 		// 0. create depth cubemap transformation matrices
 		// -----------------------------------------------

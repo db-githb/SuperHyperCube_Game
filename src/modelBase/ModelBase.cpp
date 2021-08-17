@@ -5,7 +5,8 @@ ModelBase::ModelBase(Shader &inShader) {
 	wall.shader = inShader;
 	object.shader = inShader;
 	wall.diffuseMap = wall.shader.loadTexture("res/images/brick2.jpg");
-	object.diffuseMap = object.shader.loadTexture("res/images/metal4.jpg");
+	//object.diffuseMap = object.shader.loadTexture("res/images/metal4.jpg");
+	object.diffuseMap = object.shader.loadTexture("res/images/brass.jpg");
 
 	speed = 0.03f;
 
@@ -115,7 +116,7 @@ void ModelBase::drawWall(glm::mat4 model) {
 
 	wall.shader.setFloat("specBias", 0.0);
 	wall.shader.setBool("textureOn", textureOn);
-	wall.shader.setBool("borderOn", false);
+	wall.shader.setBool("borderOn", borderOn);
 	// bind texture maps
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, wall.diffuseMap);
@@ -146,7 +147,7 @@ void ModelBase::drawObject(glm::mat4 model) {
 
 	object.shader.setFloat("specBias", 8.0);
 	object.shader.setBool("textureOn", textureOn);
-	object.shader.setBool("borderOn", borderOn);
+	object.shader.setBool("borderOn", true);
 
 	// bind texture maps
 	glActiveTexture(GL_TEXTURE0);
@@ -199,6 +200,7 @@ void ModelBase::drawObject(glm::mat4 model) {
 			}
 		}
 	}
+	object.shader.setBool("borderOn", borderOn);
 }
 
 void ModelBase::setColorPalette() {
