@@ -12,13 +12,16 @@ private:
 	Model** objArr;
 	glm::vec3** fallingLeafPos;
 	glm::vec3** groundLeafPos;
+	int* leafNumber;
+	int nrFallingLeaf;
+	int nrGroundLeaf;
+	int indexToChooseWhichLeafIsFalling;
 
-	float fallValue = 15.0f;
-	float swingValueX = 0.0f;
-	float prevSwingValueX = 0.0f;
+	float fallValue;
+	float swingValueX;
 
-	float swingValueZ = 0.0f;
-	float prevSwingValueZ = 0.0f;
+	float swingValueZ;
+	float prevSwingValueZ;
 
 	float lastTime;
 	float deltaTime;
