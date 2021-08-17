@@ -5,9 +5,9 @@ ModelElijah::ModelElijah(Shader& inShader) : ModelBase(inShader)
 
 	transform.position = glm::vec3(-5.0f, 0.5f, -5.0f);
 
-	rows = 9;
-	columns = 7;
-	planes = 7;
+	rows = COLUMNS;
+	columns = ROWS;
+	planes = PLANES;
 
 	allocateWallData();
 	allocateObjectData();
@@ -67,19 +67,26 @@ void ModelElijah::generateOriginalObject()
 		{
 			for (int z = 2; z < PLANES; z++)
 			{
-				if (y == 1 || y == COLUMNS - 2)
+				if (y == 1) {
+					object.modelData[y][3][PLANES - 3] = BLUE;
+					object.modelData[y][3][PLANES - 2] = BLUE;
+					object.modelData[y][3][PLANES - 1] = BLUE;
+					wall.modelData[y][3][0] = NONE;
+				}
+
+				if (y == COLUMNS - 3)
 				{
-					object.modelData[y][x][z] = BLUE;
+					object.modelData[y][x][1] = RED;
 					wall.modelData[y][x][0] = NONE;
 				}
-				if ((y == 2 || y == COLUMNS - 3) && (x >=2 && x <= ROWS - 3))
+				if (y == 2 && x < 2)
 				{
-					object.modelData[y][x][z] = BLUE;
+					object.modelData[y][x][z] = RED;
 					wall.modelData[y][x][0] = NONE;
 				}
 				if ((y == 3 || y == COLUMNS - 4) && (x >= 3 && x <= ROWS - 4))
 				{
-					object.modelData[y][x][z] = BLUE;
+					object.modelData[y][x][z] = RED;
 					wall.modelData[y][x][0] = NONE;
 				}
 				if ((y == 4 || y == COLUMNS - 5))
@@ -87,54 +94,9 @@ void ModelElijah::generateOriginalObject()
 					object.modelData[y][x][z] = BLUE;
 					wall.modelData[y][x][0] = NONE;
 				}
-
 			}
 		}	
 	}
 	
-	for (int y = 1; y < COLUMNS - 1; y++)
-	{
-		for (int x = 1; x < ROWS - 1; x++)
-		{
-			for (int z = 2; z < PLANES; z++)
-			{
-				if ((x == 1 || x == ROWS - 2) && z != 4)
-					object.modelData[y][x][z] = NONE;
-				if ((x == 2 || x == ROWS - 3) && (z == 2 || z == 6))
-					object.modelData[y][x][z] = NONE;
-
-			}
-		}
-	}
 	
-	for (int y = 1; y < COLUMNS - 1; y++)
-	{
-		for (int x = 1; x < ROWS - 1; x++)
-		{
-			for (int z = 2; z < PLANES; z++)
-			{
-				if((y == 2 || y == 6) && (z == 2 || z == 6))
-					object.modelData[y][x][z] = NONE;
-				if ((y == 3 || y == 5) && (z == 2 || z == 3 || z == 5 || z == 6))
-					object.modelData[y][x][z] = NONE;
-				if ((y == 2 || y == 6) && (x == 2 || x == 4) && (z==3 || z==5))
-					object.modelData[y][x][z] = NONE;
-			}
-		}
-	}
-	
-	for (int y = 1; y < COLUMNS - 1; y++)
-	{
-		for (int x = 1; x < ROWS - 1; x++)
-		{
-			for (int z = 2; z < PLANES; z++)
-			{
-				if (modelData[y][x][z] == BLUE && y % 2 == 0)
-				{
-					object.modelData[y][x][z] = RED;
-					wall.modelData[y][x][0] = NONE;
-				}
-			}
-		}
-	}
 }
