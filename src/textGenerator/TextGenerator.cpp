@@ -10,7 +10,7 @@ void TextGenerator::setup() {
 	}
 
 	// find path to font
-	std::string font_name = "res/fonts/BitterPro-Medium.ttf";
+	std::string font_name = "res/fonts/GothenburgFraktur.ttf";
 	if (font_name.empty())
 	{
 		std::cout << "ERROR::FREETYPE: Failed to load font_name" << std::endl;
