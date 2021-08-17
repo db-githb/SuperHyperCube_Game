@@ -80,8 +80,6 @@
     </None>
     <None Include="res\shaders\depthShader.vert" />
     <None Include="res\shaders\depthShader.frag" />
-    <None Include="res\shaders\skybox.frag" />
-    <None Include="res\shaders\skybox.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera\Camera.cpp">
@@ -107,7 +105,6 @@
     <ClCompile Include="src\Mesh\Mesh.cpp" />
     <ClCompile Include="src\Models\gridLines\GridLines.cpp" />
     <ClCompile Include="src\Application\Main.cpp" />
-    <ClCompile Include="src\Mesh\skybox\Skybox.cpp" />
     <ClCompile Include="src\Models\modelBase\Model.cpp">
       <Filter>src\modelBase</Filter>
     </ClCompile>
@@ -143,7 +140,6 @@
     <ClInclude Include="src\Application\ObjectNode.h" />
     <ClInclude Include="src\Mesh\Mesh.h" />
     <ClInclude Include="src\Models\gridLines\GridLines.h" />
-    <ClInclude Include="src\Mesh\skybox\Skybox.h" />
     <ClInclude Include="src\Models\modelBase\Model.h">
       <Filter>src\modelBase</Filter>
     </ClInclude>
