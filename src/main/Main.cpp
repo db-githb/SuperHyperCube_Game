@@ -296,6 +296,11 @@ void renderObjModels(Shader& inShader, Model* inObjArr) {
 	inObjArr[2].Draw(inShader);
 
 	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(-12.0f, 0.1f, -11.0f));
+	inShader.setMat4("model", model);
+	inObjArr[2].Draw(inShader);
+
+	model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(-15.0f, 0.1f, 0.0f));
 	inShader.setMat4("model", model);
 	inObjArr[2].Draw(inShader);
