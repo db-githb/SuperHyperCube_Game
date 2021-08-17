@@ -31,8 +31,10 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+float fallValue = 15.0f;
 float swingValueX = 0.0f;
 float prevSwingValueX = 0.0f;
+
 
 float swingValueZ = 0.0f;
 float prevSwingValueZ = 0.0f;
@@ -296,7 +298,7 @@ void renderObjModels(Shader& inShader, Model* inObjArr) {
 	inShader.setMat4("model", model);
 	inObjArr[1].Draw(inShader);
 
-	float fallValue = 15.0 - glfwGetTime() <= 0.1 ? 0.1 : (15.0 - glfwGetTime());
+	fallValue -= deltaTime;
 	prevSwingValueX = swingValueX;
 
 	if (fallValue >= 0.11) {
@@ -304,6 +306,7 @@ void renderObjModels(Shader& inShader, Model* inObjArr) {
 	}
 	else {
 		swingValueX = prevSwingValueX;
+		fallValue = 15.0f;
 	}
 
 	model = glm::mat4(1.0f);
