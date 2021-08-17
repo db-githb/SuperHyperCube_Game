@@ -255,7 +255,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 	windowWidth = width;
 	windowHeight = height;
-	gameManager->setWindowSize(width, height);
+	gameManager->setWindowSize((float)width, (float)height);
 }
 
 void renderScene(Shader &inShader, bool shadowMap) {
@@ -279,7 +279,6 @@ void renderObjModels(Shader& inShader, Model* inObjArr) {
 	inShader.setMat4("model", model);
 	inObjArr[0].Draw(inShader);
 
-	
 	model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(6.0f, 0.0f, 2.0f));
 	inShader.setMat4("model", model);
@@ -290,6 +289,12 @@ void renderObjModels(Shader& inShader, Model* inObjArr) {
 	model = glm::scale(model, glm::vec3(-1.0f, 1.0f, 1.0f));
 	inShader.setMat4("model", model);
 	inObjArr[1].Draw(inShader);
+	
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+	inShader.setMat4("model", model);
+	inObjArr[2].Draw(inShader);
 }
 
 int main()
@@ -390,7 +395,7 @@ int main()
 	// -----------
 // LOAD OBJ MODELS
 // -----------
-	Model objArr[]{ Model("res/objects/tree7.obj") , Model("res/objects/richierReduced.obj")};
+	Model objArr[]{ Model("res/objects/tree7.obj") , Model("res/objects/richierReduced.obj"),  Model("res/objects/leaf.obj") };
 
 	//-----------
 	// SHADERS
