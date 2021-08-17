@@ -14,6 +14,8 @@ public:
 	void speedUp();
 	void nextModel();
 	void setWindowSize(float width, float height);
+	double getStartTime();
+	double getDeltaTime();
 
 private:
 

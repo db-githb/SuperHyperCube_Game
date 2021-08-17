@@ -99,3 +99,10 @@ void GameManager::setWindowSize(float width, float height) {
 	windowWidth = width;
 	windowHeight = height;
 }
+
+double GameManager::getStartTime() {
+	return startTime;
+}
+double GameManager::getDeltaTime() {
+	return deltaTime;
+}
