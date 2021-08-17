@@ -339,6 +339,12 @@ void renderObjModels(Shader& inShader, Model* inObjArr) {
 	model = glm::translate(model, glm::vec3(-25.0f, 0.1f, 2.0f));
 	inShader.setMat4("model", model);
 	inObjArr[2].Draw(inShader);
+
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(25.0f, 5.0f, -25.0f));
+	model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+	inShader.setMat4("model", model);
+	inObjArr[3].Draw(inShader);
 }
 
 int main()
@@ -439,7 +445,7 @@ int main()
 	// -----------
 // LOAD OBJ MODELS
 // -----------
-	Model objArr[]{ Model("res/objects/tree7.obj") , Model("res/objects/richierReduced.obj"),  Model("res/objects/leaf.obj") };
+	Model objArr[]{ Model("res/objects/tree7.obj") , Model("res/objects/richierReduced.obj"),  Model("res/objects/leaf.obj"), Model("res/objects/rockkk.obj") };
 
 	//-----------
 	// SHADERS
