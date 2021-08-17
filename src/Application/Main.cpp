@@ -75,7 +75,6 @@ Model* unitCube;
 
 GameManager* game;
 ObjectNode* scene;
-Level* currentLevel;
 
 
 LightCube* lightCube;
@@ -83,7 +82,7 @@ LightCube* lightCube;
 
 glm::vec3 cornerCamPos[4];
 glm::vec3 boardCamPos;
-glm::vec3* currentCamPos;
+glm::vec3 currentCamPos;
 glm::vec3 focusPoint;
 
 bool camIsFixed = false;
@@ -257,17 +256,17 @@ int main()
 
 	// initialize active model
 	activeModel = unitCube; //modelRichard;
-	currentLevel = game->currentLevel;
 	
 	glm::vec3 lightPos = glm::vec3(-50.0f , 50.0f, -50.0f);
 
 	
 
-	currentCamPos = &cornerCamPos[0];
+	currentCamPos = glm::vec3(0,0,0);
 	
 	// display/render loop
 	while (!glfwWindowShouldClose(mainWindow))
 	{
+		
 		boardCamPos = scene->GetPosition() + glm::vec3(0, 1, 0);
 		//lightPos = glm::vec3(-10.0f, 10.0f, -10.0f * cos(glfwGetTime()));
 		// Get + Handle User Input
@@ -318,10 +317,15 @@ int main()
 		forward = glm::normalize(forward);
 		glm::vec3 nonCenterFocus = boardCamPos + glm::vec3(forward.x * -10, forward.y * -10, forward.z * -10);
 
-		focusPoint = centerFocus ? glm::vec3(0) : nonCenterFocus;
+		focusPoint = game->currentLevel->wall->GetPosition() + glm::vec3(0,5,0);//centerFocus ? glm::vec3(0) : nonCenterFocus;
+
+
+		glm::vec3 desiredCamPos = game->currentLevel->object->GetPosition() + glm::vec3(0, 20, 30);
+		currentCamPos += (desiredCamPos - currentCamPos) * 0.05f;
+
 		
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)windowWidth / (float)windowHeight, 0.1f, 150.0f);
-		glm::mat4 view = camIsFixed ? glm::lookAt(*currentCamPos, focusPoint, glm::vec3(0, 1, 0)) : camera.GetViewMatrix();
+		glm::mat4 view = glm::lookAt(currentCamPos, focusPoint, glm::vec3(0, 1, 0));
 		
 		shader.use();
 		shader.setBool("isTextured", true);
@@ -480,7 +484,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		// 	break;
 		case GLFW_KEY_3:
 
-			currentLevel->validateOrientation();
+			game->currentLevel->validateOrientation();
 			// Toggle board cam
 			// camIsFixed = true;
 			// centerFocus = false;
@@ -509,7 +513,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		case GLFW_KEY_8:
 			moveSkateboard = !moveSkateboard;
-			scene->SetPosition(glm::vec3(0));
+			scene->SetPosition(glm::vec3(0,0,5));
 			// select render mode
 		case GLFW_KEY_T:
 			activeModel->setRenderMode(GL_TRIANGLES);
@@ -529,11 +533,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 			// scale models up and down
 		case GLFW_KEY_U:
-			currentLevel->AddScale(glm::vec3(0.1, 0.1, 0.1));
+			game->currentLevel->AddScale(glm::vec3(0.1, 0.1, 0.1));
 			break;
 
 		case GLFW_KEY_J:
-			currentLevel->AddScale(glm::vec3(-0.1, -0.1, -0.1));
+			game->currentLevel->AddScale(glm::vec3(-0.1, -0.1, -0.1));
 			break;
 
 			// translate models up/down
@@ -541,7 +545,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			if (mods == GLFW_MOD_SHIFT)
 			{
 				//activeModel->translate(TRANS_FORWARD);
-				currentLevel->AddPosition(glm::vec3(0, 0, -1));//glm::vec3(0, 0, -1));
+				game->currentLevel->AddPosition(glm::vec3(0, 0, -1));//glm::vec3(0, 0, -1));
 			}
 			else
 			{
@@ -553,7 +557,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_A:
 
 			if (mods == GLFW_MOD_SHIFT) {
-				currentLevel->AddPosition(glm::vec3(-1, 0, 0));
+				game->currentLevel->AddPosition(glm::vec3(-1, 0, 0));
 			}
 			else {
 				game->AddRotation90(glm::vec3(0, 1, 0));
@@ -563,7 +567,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case  GLFW_KEY_S:
 			if (mods == GLFW_MOD_SHIFT)
 			{
-				currentLevel->AddPosition(glm::vec3(0, 0, 1));
+				game->currentLevel->AddPosition(glm::vec3(0, 0, 1));
 			}
 			else
 			{
@@ -574,7 +578,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case  GLFW_KEY_D:
 
 			if (mods == GLFW_MOD_SHIFT) {
-				currentLevel->AddPosition(glm::vec3(1, 0, 0));
+				game->currentLevel->AddPosition(glm::vec3(1, 0, 0));
 			}
 			else {
 				game->AddRotation90(glm::vec3(0, -1, 0));
@@ -593,13 +597,13 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 			// rotate along X and Z axis, maybe map y rotation to G and V keys
 		case GLFW_KEY_V:
-			currentLevel->AddRotation(glm::vec3(0.1,0,0));
+			game->currentLevel->AddRotation(glm::vec3(0.1,0,0));
 			break;
 		case GLFW_KEY_G:
-			currentLevel->AddRotation(glm::vec3(-0.1, 0, 0));
+			game->currentLevel->AddRotation(glm::vec3(-0.1, 0, 0));
 			break;
 		case GLFW_KEY_H:
-			currentLevel->AddRotation(glm::vec3(0, 0, 0.1));
+			game->currentLevel->AddRotation(glm::vec3(0, 0, 0.1));
 			break;
 		case GLFW_KEY_B:
 
@@ -607,7 +611,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 				toggleBorders();
 			}
 			else {
-				currentLevel->AddRotation(glm::vec3(0, 0, -0.1));
+				game->currentLevel->AddRotation(glm::vec3(0, 0, -0.1));
 			}
 
 			break;
@@ -656,7 +660,7 @@ void renderScene(Shader& inShader)
 {
 	
 	
-	gridLines->draw(glm::mat4(1.0f),inShader);
+	//gridLines->draw(glm::mat4(1.0f),inShader);
 
 	scene->Draw(inShader);
 	// unitCube->draw(model, shader);
@@ -669,7 +673,7 @@ void renderScene(Shader& inShader)
 
 void renderSceneDepth(Shader& inShader)
 {
-	gridLines->draw(glm::mat4(1.0f), inShader);
+	//gridLines->draw(glm::mat4(1.0f), inShader);
 	scene->Draw(inShader);
 	//glCullFace(GL_FRONT);
 	// unitCube->draw(model, shader);

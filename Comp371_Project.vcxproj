@@ -78,12 +78,12 @@
     <IncludePath>$(SolutionDir)lib\assimp_x86-windows\include;$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\dev\COMP-371\Comp371_Project\lib\glfw-3.3.2.bin.WIN32\include;D:\dev\Libraries\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\dev\Libraries\Libs;D:\dev\COMP-371\Comp371_Project\lib\glfw-3.3.2.bin.WIN32\lib-vc2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\dev\COMP-371\Comp371_Project\lib\glfw-3.3.2.bin.WIN32\include;D:\dev\Libraries\Include;D:\dev\COMP-371\Comp371_Project\lib\assimp_x86-windows\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\dev\Libraries\Libs;D:\dev\COMP-371\Comp371_Project\lib\glfw-3.3.2.bin.WIN32\lib-vc2019;D:\dev\COMP-371\Comp371_Project\lib\assimp_x86-windows\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\dev\COMP-371\Comp371_Project\lib\glfw-3.3.2.bin.WIN32\include;D:\dev\Libraries\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\dev\Libraries\Libs;D:\dev\COMP-371\Comp371_Project\lib\glfw-3.3.2.bin.WIN32\lib-vc2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\dev\COMP-371\Comp371_Project\lib\glfw-3.3.2.bin.WIN32\include;D:\dev\Libraries\Include;D:\dev\COMP-371\Comp371_Project\lib\assimp_x86-windows\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\dev\Libraries\Libs;D:\dev\COMP-371\Comp371_Project\lib\glfw-3.3.2.bin.WIN32\lib-vc2019;D:\dev\COMP-371\Comp371_Project\lib\assimp_x86-windows\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

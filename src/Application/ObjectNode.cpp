@@ -3,6 +3,7 @@
 ObjectNode::ObjectNode()
 {
 	transform = Transform();
+	transform.SetPosition(glm::vec3(0, 0, 0));
 	parent = NULL;
 	m_model = NULL;
 }
@@ -62,7 +63,7 @@ void ObjectNode::SetPosition(glm::vec3 pos)
 	glm::vec3 position = glm::vec3(0, 0, 0);
 
 	if (parent != nullptr)
-		position = parent->transform.GetRotation();
+		position = parent->transform.GetPosition();
 
 	transform.SetPosition(position + pos);
 	
@@ -130,7 +131,7 @@ void ObjectNode::AddRotation90(glm::vec3 axis)
 	
 	SetRotation(glm::vec3(glm::radians(rotations[abs(rotationXcount) % 4]),
 							  glm::radians(rotations[abs(rotationYcount) % 4]),
-							  glm::radians(rotations[abs(rotationZcount) % 4])));
+							  0));
 	
 }
 

@@ -52,18 +52,21 @@ void GameManager::GameOver()
 
 void GameManager::Update(float ms)
 {
-	if (currentLevel->object->GetPosition().z > -9.0f)
+	if (currentLevel->object->GetPosition().z > -12.0f)
 	{
 		UpdateObjectPosition(ms);
 	}
 	else
+	{
+		ValidateLevel();
 		NextLevel();
+	}
 }
 
 void GameManager::UpdateObjectPosition(float ms)
 {
 	
-	float increment = (modelTargetPosition.z - currentLevel->object->GetPosition().z) * 0.3;
+	float increment = (modelTargetPosition.z - currentLevel->object->GetPosition().z) * 0.1;
 	currentLevel->object->AddPosition(glm::vec3(0,0,increment)* ms);
 }
 
@@ -79,7 +82,6 @@ bool GameManager::ValidateLevel()
 
 void GameManager::Draw(Shader& inShader)
 {
-	
 	currentLevel->Draw(inShader);
 }
 
@@ -93,5 +95,5 @@ GameManager::GameManager()
 {
 	modelTargetPosition = glm::vec3(0, 0, -30);
 	ResetGame();
-}
 
+}

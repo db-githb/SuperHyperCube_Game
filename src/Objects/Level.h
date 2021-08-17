@@ -53,6 +53,7 @@ public:
 
 	ObjectNode* wall;
 	ObjectNode* object;
+	ObjectNode* objectHolder;
 
 	
 protected:
@@ -63,5 +64,6 @@ protected:
 private:
 	const glm::vec3 wallStartPosition = glm::vec3(0, 0, -10);
 	const glm::vec3 objectStartPosition = glm::vec3(0, 0, 20);
+	const glm::vec3 objectHolderPosition = glm::vec3(0, 0, 20);
 	
 };
