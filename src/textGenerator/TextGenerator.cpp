@@ -1,7 +1,7 @@
 #include "TextGenerator.h"
 
 void TextGenerator::setup() {
-	
+
 	FT_Library ft;
 	// All functions return a value different than 0 whenever an error occurred
 	if (FT_Init_FreeType(&ft))
@@ -10,7 +10,7 @@ void TextGenerator::setup() {
 	}
 
 	// find path to font
-	std::string font_name = "resources/fonts/Antonio-Bold.ttf";
+	std::string font_name = "res/fonts/BitterPro-Medium.ttf";
 	if (font_name.empty())
 	{
 		std::cout << "ERROR::FREETYPE: Failed to load font_name" << std::endl;
@@ -86,10 +86,11 @@ void TextGenerator::setup() {
 	glBindVertexArray(0);
 }
 
-void TextGenerator::RenderText(Shader& shader, std::string text, float x, float y, float scale, glm::vec3 color) {
+void TextGenerator::renderText(Shader& shader, std::string text, float x, float y, float scale, glm::vec3 color) {
+
 	// activate corresponding render state	
 	shader.use();
-	glUniform3f(glGetUniformLocation(shader.ID, "textColor"), color.x, color.y, color.z);
+	shader.setVec3("textColor", color.x, color.y, color.z);
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(VAO);
 
@@ -128,4 +129,10 @@ void TextGenerator::RenderText(Shader& shader, std::string text, float x, float 
 	}
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
+
+
+}
+
+void TextGenerator::startMenu() {
+
 }

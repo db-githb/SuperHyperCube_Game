@@ -11,6 +11,7 @@
 #include "../loadModel/loadModel.h"
 #include "../gameManager/GameManager.h"
 #include "../soundManager/SoundManager.h"
+#include "../textGenerator/TextGenerator.h"
 
 // window size
 #define WIDTH 1024
@@ -254,6 +255,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 	windowWidth = width;
 	windowHeight = height;
+	gameManager->setWindowSize(width, height);
 }
 
 void renderScene(Shader &inShader, bool shadowMap) {
@@ -288,37 +290,6 @@ void renderObjModels(Shader& inShader, Model* inObjArr) {
 	model = glm::scale(model, glm::vec3(-1.0f, 1.0f, 1.0f));
 	inShader.setMat4("model", model);
 	inObjArr[1].Draw(inShader);
-}
-
-unsigned int loadTextureCube(char const* path) {
-
-	unsigned int textureID;
-	glGenTextures(1, &textureID);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
-
-
-	int width, height, nrComponents;
-	unsigned char* data = stbi_load(path, &width, &height, &nrComponents, 0);
-	GLenum format;
-	if (nrComponents == 1) {
-		format = GL_RED;
-	}
-	else if (nrComponents == 3) {
-		format = GL_RGB;
-	}
-	else if (nrComponents == 4) {
-		format = GL_RGBA;
-	}
-
-	for (int i = 0; i < 6; i++) {
-		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-	}
-	stbi_image_free(data);
-	return textureID;
 }
 
 int main()
@@ -377,7 +348,8 @@ int main()
 	//  -GL_CULL_FACE = ensure that faces of objects not visible are not drawn
 	// -----------------------------
 	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_CULL_FACE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// Create Viewport
 	glViewport(0, 0, windowWidth, windowWidth);
@@ -425,6 +397,7 @@ int main()
 	//-----------
 	Shader shader("res/shaders/baseShader.vert", "res/shaders/baseShader.frag");
 	Shader shadowMapShader("res/shaders/shadowMapShader.vert", "res/shaders/shadowMapShader.frag", "res/shaders/shadowMapShader.geom");
+	Shader textShader("res/shaders/textShader.vert", "res/shaders/textShader.frag");
 
 	//-----------
 	// OBJECTS
@@ -435,10 +408,12 @@ int main()
 	//start sound manager
 	soundManager = new SoundManager();
 
-
 	//start game manager
 	gameManager = new GameManager();
-	gameManager->initialize(5, models, soundManager);
+	gameManager->initialize(5, models, soundManager, &textShader, glm::vec2(windowWidth, windowHeight));
+
+	TextGenerator textGenerator = TextGenerator();
+	textGenerator.setup();
 
 	// UNIT AXES / LIGHT CUBE
 	unitAxes = new UnitAxes();
@@ -505,8 +480,13 @@ int main()
 		// -------------------------
 		glViewport(0, 0, windowWidth, windowHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(windowWidth), 0.0f, static_cast<float>(windowHeight));
+		textShader.use();
+		textShader.setMat4("projection", projection);
+
 		shader.use();
-		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)windowWidth / (float)windowHeight, 0.1f, 200.0f);
+		projection = glm::perspective(glm::radians(camera.Zoom), (float)windowWidth / (float)windowHeight, 0.1f, 200.0f);
 		glm::mat4 view = camera.GetViewMatrix();
 		shader.setMat4("projection", projection);
 		shader.setMat4("view", view);
@@ -516,12 +496,9 @@ int main()
 		shader.setFloat("far_plane", far_plane);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
-
-		//glActiveTexture(GL_TEXTURE0);
-		//glBindTexture(GL_TEXTURE_2D, skeletonDiffuseMap);
+		
 		renderObjModels(shader, objArr);
 		renderScene(shader, false);
-
 		// unitAxes and lightCube -- USE DIFFERENT SHADERS -- that's why they're not in the render scene function (also different draw signature)
 		//unitAxes->draw(camera, projection, view);
 		lightCube->draw(projection, view, lightPos);

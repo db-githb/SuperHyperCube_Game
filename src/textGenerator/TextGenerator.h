@@ -18,7 +18,8 @@ class TextGenerator {
 public:
 
 	void setup();
-	void RenderText(Shader& shader, std::string text, float x, float y, float scale, glm::vec3 color);
+	void renderText(Shader& shader, std::string text, float x, float y, float scale, glm::vec3 color);
+	void startMenu();
 
 private:
 
@@ -32,4 +33,7 @@ private:
 
 	unsigned int VAO, VBO;
 	std::map<GLchar, Character> Characters;
+	Shader textFrameShader;
+	GLuint textFrameVAO, textFrameVBO;
+	void createFrame();
 };
