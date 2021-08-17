@@ -657,7 +657,7 @@ void renderScene(Shader& inShader)
 {
 	
 	
-	//gridLines->draw(glm::mat4(1.0f),inShader);
+	gridLines->draw(glm::mat4(1.0f),inShader);
 
 	scene->Draw(inShader);
 	// unitCube->draw(model, shader);
@@ -670,7 +670,7 @@ void renderScene(Shader& inShader)
 
 void renderSceneDepth(Shader& inShader)
 {
-	//gridLines->draw(glm::mat4(1.0f), inShader);
+	gridLines->draw(glm::mat4(1.0f), inShader);
 	scene->Draw(inShader);
 	//glCullFace(GL_FRONT);
 	// unitCube->draw(model, shader);

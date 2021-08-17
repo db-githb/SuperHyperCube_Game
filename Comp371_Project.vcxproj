@@ -164,8 +164,6 @@
     <None Include="res\shaders\cubeShader.vert" />
     <None Include="res\shaders\depthShader.frag" />
     <None Include="res\shaders\depthShader.vert" />
-    <None Include="res\shaders\gridLineShader.frag" />
-    <None Include="res\shaders\gridLineShader.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Objects\Levels\LevelDamian.cpp" />
