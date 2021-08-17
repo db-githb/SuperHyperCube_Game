@@ -113,6 +113,7 @@
     <ClCompile Include="src\Objects\Levels\LevelElijah.cpp" />
     <ClCompile Include="src\Objects\Levels\LevelDamian.cpp" />
     <ClCompile Include="src\Objects\Levels\LevelThomas.cpp" />
+    <ClCompile Include="src\Sound\SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">
@@ -150,5 +151,18 @@
     <ClInclude Include="src\Objects\Levels\LevelDamian.h" />
     <ClInclude Include="src\Objects\Levels\LevelThomas.h" />
     <ClInclude Include="src\Mesh\ObjModel.h" />
+    <ClInclude Include="src\Sound\SoundManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="res\sounds\269136__heshl__neutral-click-resonant-static-tube-sound.wav" />
+    <Media Include="res\sounds\277441__xtrgamr__tones-of-victory.wav" />
+    <Media Include="res\sounds\397166__frankum__minimal-electronic-grove-techno-loop-track - Copy.mp3" />
+    <Media Include="res\sounds\487588__ranner__ui-click.wav" />
+    <Media Include="res\sounds\572936__bloodpixelhero__error - Copy.wav" />
+    <Media Include="res\sounds\error.wav" />
+    <Media Include="res\sounds\frankum_techno_loop.mp3" />
+    <Media Include="res\sounds\neutral_click.wav" />
+    <Media Include="res\sounds\ranner_click.wav" />
+    <Media Include="res\sounds\success.wav" />
   </ItemGroup>
 </Project>

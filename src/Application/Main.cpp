@@ -6,8 +6,6 @@
 #include "../Models/unitAxes/UnitAxes.h"
 #include "../Models/gridLines/GridLines.h"
 #include "../Models/lightCube/LightCube.h"
-#include "../Models/custom/modelDamian/ModelDamian.h"
-#include "../Models/custom/modelElijah/ModelElijah.h"
 #include "../Objects/Level.h"
 #include "../Objects/Levels/LevelElijah.h"
 #include "../Objects/Levels/LevelDamian.h"
@@ -221,8 +219,6 @@ int main()
 	// OBJECTS
 	//-----------
 	gridLines = new GridLines(shader);
-
-	
 
 	scene = new ObjectNode();
 	
@@ -544,6 +540,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_W:
 			if (mods == GLFW_MOD_SHIFT)
 			{
+				
 				//activeModel->translate(TRANS_FORWARD);
 				game->currentLevel->AddPosition(glm::vec3(0, 0, -1));//glm::vec3(0, 0, -1));
 			}

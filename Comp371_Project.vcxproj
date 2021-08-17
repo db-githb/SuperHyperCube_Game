@@ -70,12 +70,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(SolutionDir)lib\assimp_x86-windows\lib;$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\lib-vc2019;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
-    <IncludePath>$(SolutionDir)lib\assimp_x86-windows\include;$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)src\modelBase;$(SolutionDir)src\modelRichard</IncludePath>
+    <LibraryPath>D:\dev\COMP-371\Comp371_Project\lib\irrKlang-1.6.0\lib\Win32-visualStudio;$(SolutionDir)lib\assimp_x86-windows\lib;$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\lib-vc2019;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+    <IncludePath>D:\dev\COMP-371\Comp371_Project\lib\irrKlang-1.6.0\include;$(SolutionDir)lib\assimp_x86-windows\include;$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)src\modelBase;$(SolutionDir)src\modelRichard;D:\dev\COMP-371\Comp371_Project\lib\irrKlang-64bit-1.6.0\irrKlang-64bit-1.6.0\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LibraryPath>$(SolutionDir)lib\assimp_x86-windows\lib;$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\lib-vc2019;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
-    <IncludePath>$(SolutionDir)lib\assimp_x86-windows\include;$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>D:\dev\COMP-371\Comp371_Project\lib\irrKlang-1.6.0\lib\Win32-visualStudio;$(SolutionDir)lib\assimp_x86-windows\lib;$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\lib-vc2019;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+    <IncludePath>D:\dev\COMP-371\Comp371_Project\lib\irrKlang-1.6.0\include;$(SolutionDir)lib\assimp_x86-windows\include;$(SolutionDir)lib\glfw-3.3.2.bin.WIN32\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);;D:\dev\COMP-371\Comp371_Project\lib\irrKlang-64bit-1.6.0\irrKlang-64bit-1.6.0\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>D:\dev\COMP-371\Comp371_Project\lib\glfw-3.3.2.bin.WIN32\include;D:\dev\Libraries\Include;D:\dev\COMP-371\Comp371_Project\lib\assimp_x86-windows\include;$(IncludePath)</IncludePath>
@@ -94,7 +94,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>assimp-vc142-mt.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>irrKlang.lib;assimp-vc142-mt.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Q /R /Y $(ProjectDir)lib\assimp_x86-windows\lib\ $(TargetDir)</Command>
@@ -125,7 +125,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>assimp-vc142-mt.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>irrKlang.lib;assimp-vc142-mt.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Q /R /Y $(ProjectDir)lib\assimp_x86-windows\lib\ $(TargetDir)</Command>
@@ -185,6 +185,7 @@
     <ClCompile Include="src\Models\unitAxes\UnitAxes.cpp" />
     <ClCompile Include="src\Mesh\unitCube\UnitCube.cpp" />
     <ClCompile Include="src\Mesh\unitLine\UnitLine.cpp" />
+    <ClCompile Include="src\Sound\SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Mesh\ObjModel.h" />
@@ -206,6 +207,19 @@
     <ClInclude Include="src\Models\unitAxes\UnitAxes.h" />
     <ClInclude Include="src\Mesh\unitCube\UnitCube.h" />
     <ClInclude Include="src\Mesh\unitLine\UnitLine.h" />
+    <ClInclude Include="src\Sound\SoundManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="res\sounds\269136__heshl__neutral-click-resonant-static-tube-sound.wav" />
+    <Media Include="res\sounds\277441__xtrgamr__tones-of-victory.wav" />
+    <Media Include="res\sounds\397166__frankum__minimal-electronic-grove-techno-loop-track - Copy.mp3" />
+    <Media Include="res\sounds\487588__ranner__ui-click.wav" />
+    <Media Include="res\sounds\572936__bloodpixelhero__error - Copy.wav" />
+    <Media Include="res\sounds\error.wav" />
+    <Media Include="res\sounds\frankum_techno_loop.mp3" />
+    <Media Include="res\sounds\neutral_click.wav" />
+    <Media Include="res\sounds\ranner_click.wav" />
+    <Media Include="res\sounds\success.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

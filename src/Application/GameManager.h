@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Objects/Level.h"
+#include "../Sound/SoundManager.h"
 
 class GameManager : public ObjectNode
 {
@@ -34,6 +35,7 @@ public:
 	
 
 private:
+	SoundManager* soundManager;
 	std::vector<Level*> levels;
 	glm::vec3 modelTargetPosition;
 	float lastUpdateTime = 0;

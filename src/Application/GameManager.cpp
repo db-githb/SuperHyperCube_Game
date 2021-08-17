@@ -5,6 +5,7 @@ void GameManager::ResetGame()
 	currentLevelIndex = 0;
 	points = 0;
 	gameStartTime = glfwGetTime();
+	soundManager = new SoundManager();
 }
 
 void GameManager::ResetLevel()
@@ -77,7 +78,18 @@ bool GameManager::IsObjectAtEnd()
 
 bool GameManager::ValidateLevel()
 {
-	return currentLevel->validateOrientation();
+	bool result = currentLevel->validateOrientation();
+
+	if(result == true)
+	{
+		soundManager->playSuccessSound();
+		return true;
+	}
+	else
+	{
+		soundManager->playErrorSound();
+		return false;
+	}
 }
 
 void GameManager::Draw(Shader& inShader)
@@ -87,6 +99,7 @@ void GameManager::Draw(Shader& inShader)
 
 void GameManager::AddRotation90(glm::vec3 axis)
 {
+	soundManager->playRotateSound();
 	currentLevel->object->AddRotation90(axis);
 }
 
