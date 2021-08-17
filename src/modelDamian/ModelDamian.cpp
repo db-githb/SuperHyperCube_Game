@@ -76,10 +76,13 @@ void ModelDamian::allocateObjectData() {
 	ModelBase::allocateObjectData();
 
 	// reset unitCubes in the model to their respective colors
-	for (int r = 1; r < 8; r++) {
+	for (int r = 2; r < 8; r++) {
 		object.modelData[r][3][planes - 3] = BLUE;
 		wall.modelData[r][3][0] = NONE;
 	}
+
+	object.modelData[7][3][planes - 2] = BLUE;
+	object.modelData[7][3][planes - 1] = BLUE;
 
 	for (int c = 1; c < 6; c++) {
 
@@ -107,7 +110,7 @@ void ModelDamian::allocateObjectData() {
 			wall.modelData[6][c][0] = NONE;
 		}
 
-		if (c == 2 || c == 4) {
+		if (c == 4) {
 			object.modelData[4][c][planes - 3] = RED;
 			wall.modelData[4][c][0] = NONE;
 
