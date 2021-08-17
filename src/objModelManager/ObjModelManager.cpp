@@ -18,7 +18,7 @@ ObjModelManager::ObjModelManager() {
 		new glm::vec3(-25.0f, 0.1f, 2.0f),
 	};
 
-	leafNumber = new int [nrFallingLeaf] {0, 7, 3, 9, 5, 6, 4, 8, 2, 1};
+	leafNumber = new int [nrFallingLeaf] {0, 7, 3, 1, 5, 6, 4, 8, 2, 9};
 
 	indexToChooseWhichLeafIsFalling = 0;
 	fallValue = 15.0f;
@@ -76,7 +76,7 @@ void ObjModelManager::renderObjModels(Shader& inShader) {
 	else {
 		fallingLeafPos[theActiveFallingLeaf]->x += swingValueX;
 		fallValue = 15.0f;
-		indexToChooseWhichLeafIsFalling += indexToChooseWhichLeafIsFalling < nrFallingLeaf ? 1 : -indexToChooseWhichLeafIsFalling;
+		indexToChooseWhichLeafIsFalling += indexToChooseWhichLeafIsFalling < (nrFallingLeaf-1) ? 1 : -indexToChooseWhichLeafIsFalling;
 	}
 
 	// falling leaves
