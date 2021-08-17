@@ -2,13 +2,13 @@
 
 #define ROWS 9
 #define COLUMNS 9
-#define PLANES 6
+#define PLANES 10
 
 ModelRichard::ModelRichard(Shader& inShader) : ModelBase(inShader) {
 
-	rows = 9;
-	columns = 9;
-	planes = 7;
+	rows = ROWS;
+	columns = COLUMNS;
+	planes = PLANES;
 
 	allocateWallData();
 	allocateObjectData();
@@ -49,7 +49,9 @@ void ModelRichard::allocateObjectData() {
 	for (int r = 0; r < ROWS; r++) {
 		for (int c = 0; c < COLUMNS; c++) {
 			int colorIndex = modelLayer1[r][c];
+			object.modelData[8 - r][c][2] = colorIndex;
 			object.modelData[8 - r][c][3] = colorIndex;
+			object.modelData[8 - r][c][4] = colorIndex;
 		}
 	}
 
@@ -65,7 +67,8 @@ void ModelRichard::allocateObjectData() {
 	for (int r = 0; r < ROWS; r++) {
 		for (int c = 0; c < COLUMNS; c++) {
 			int colorIndex = modelLayer2[r][c];
-			object.modelData[8 - r][c][4] = colorIndex;
+			object.modelData[8 - r][c][5] = colorIndex;
+			object.modelData[8 - r][c][6] = colorIndex;
 		}
 	}
 
@@ -78,10 +81,13 @@ void ModelRichard::allocateObjectData() {
 										   {-2, -2, -2, -2, -2, -2, -2, -2, -2},
 										   {-2, -2, -2, -2, -2, -2, -2, -2, -2},
 										   {-2, -2, -2, -2, -2, -2, -2, -2, -2} };
+
+
 	for (int r = 0; r < ROWS; r++) {
 		for (int c = 0; c < COLUMNS; c++) {
 			int colorIndex = modelLayer3[r][c];
-			object.modelData[8 - r][c][5] = colorIndex;
+			object.modelData[8 - r][c][7] = colorIndex;
+			object.modelData[8 - r][c][8] = colorIndex;
 		}
 	}
 }

@@ -314,7 +314,8 @@ void ModelBase::generateOriginalObject() {
 bool ModelBase::objectAtWall() {
 
 	//Keep for when we switch to delta time for more smooth translation
-	return glm::sign<float>(prevZ) != glm::sign<float>(zTranslation);
+	//return glm::sign<float>(prevZ) != glm::sign<float>(zTranslation);
+	return zTranslation < -5;
 }
 
 bool ModelBase::passOrientation() {
