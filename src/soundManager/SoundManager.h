@@ -14,6 +14,7 @@ public:
 
 	void muteMusic();
 	void muteEffects();
+	void setPaused(bool paused);
 
 	void incMusicVol();
 	void decMusicVol();

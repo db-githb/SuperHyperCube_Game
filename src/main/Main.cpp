@@ -1,15 +1,11 @@
+#pragma once
 #include "../unitCube/UnitCube.h"
 #include "../unitLine/UnitLine.h"
 #include "../unitAxes/UnitAxes.h"
 #include "../gridLines/GridLines.h"
-#include "../modelDamian/modelDamian.h"
-#include "../modelElijah/modelElijah.h"
-#include "../modelThomas/modelThomas.h"
-#include "../modelMichael/modelMichael.h"
-#include "../modelRichard/modelRichard.h"
 #include "../lightCube/LightCube.h"
-#include "../loadModel/loadModel.h"
 #include "../gameManager/GameManager.h"
+#include "../objModelManager/ObjModelManager.h"
 #include "../soundManager/SoundManager.h"
 #include "../textGenerator/TextGenerator.h"
 
@@ -30,14 +26,6 @@ bool firstMouse = true;
 // timing
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
-
-float fallValue = 15.0f;
-float swingValueX = 0.0f;
-float prevSwingValueX = 0.0f;
-
-
-float swingValueZ = 0.0f;
-float prevSwingValueZ = 0.0f;
 
 // -------------------
 // INSTANTIATE STATIC VARIABLES (assign memory) for static variable
@@ -78,7 +66,6 @@ void processInput(GLFWwindow* window)
 		camera.ProcessKeyboard(Camera_Movement::UP, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
 		camera.ProcessKeyboard(Camera_Movement::DOWN, deltaTime);
-
 }
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
@@ -279,87 +266,6 @@ void renderScene(Shader &inShader, bool shadowMap) {
 	gameManager->draw(shader);
 }
 
-void renderObjModels(Shader& inShader, Model* inObjArr) {
-	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::rotate(model, glm::radians(25.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	model = glm::translate(model, glm::vec3(-16.0f, 0.0f, -10.0f));
-	model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
-	inShader.setMat4("model", model);
-	inObjArr[0].Draw(inShader);
-
-	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(6.0f, 0.0f, 2.0f));
-	inShader.setMat4("model", model);
-	inObjArr[1].Draw(inShader);
-
-	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(-6.0f, 0.0f, 2.0f));
-	model = glm::scale(model, glm::vec3(-1.0f, 1.0f, 1.0f));
-	inShader.setMat4("model", model);
-	inObjArr[1].Draw(inShader);
-
-	fallValue -= deltaTime;
-	prevSwingValueX = swingValueX;
-
-	if (fallValue >= 0.11) {
-		swingValueX = cos(glfwGetTime()) * 1.35;
-	}
-	else {
-		swingValueX = prevSwingValueX;
-		fallValue = 15.0f;
-	}
-
-	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(-12.0f + swingValueX, fallValue, -4.0f));
-	inShader.setMat4("model", model);
-	inObjArr[2].Draw(inShader);
-
-	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(-12.0f, 0.1f, -11.0f));
-	inShader.setMat4("model", model);
-	inObjArr[2].Draw(inShader);
-
-	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(-15.0f, 0.1f, 0.0f));
-	inShader.setMat4("model", model);
-	inObjArr[2].Draw(inShader);
-
-	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(-15.0f, 0.1f, -6.0f));
-	inShader.setMat4("model", model);
-	inObjArr[2].Draw(inShader);
-
-	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(-16.0f, 0.1f, 4.0f));
-	inShader.setMat4("model", model);
-	inObjArr[2].Draw(inShader);
-
-	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(-18.0f, 0.1f, -2.0f));
-	inShader.setMat4("model", model);
-	inObjArr[2].Draw(inShader);
-
-	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(-19.0f, 0.1f, 2.0f));
-	inShader.setMat4("model", model);
-	inObjArr[2].Draw(inShader);
-
-	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(-20.0f, 0.1f, 5.0f));
-	inShader.setMat4("model", model);
-	inObjArr[2].Draw(inShader);
-
-	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(-22.0f, 0.1f, -1.0f));
-	inShader.setMat4("model", model);
-	inObjArr[2].Draw(inShader);
-
-	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(-25.0f, 0.1f, 2.0f));
-	inShader.setMat4("model", model);
-	inObjArr[2].Draw(inShader);
-}
-
 int main()
 {
 	// Initialise GLFW
@@ -455,11 +361,6 @@ int main()
 	glReadBuffer(GL_NONE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	// -----------
-// LOAD OBJ MODELS
-// -----------
-	Model objArr[]{ Model("res/objects/tree7.obj") , Model("res/objects/richierReduced.obj"),  Model("res/objects/leaf.obj")};
-
 	//-----------
 	// SHADERS
 	//-----------
@@ -471,14 +372,17 @@ int main()
 	// OBJECTS
 	//-----------
 	gridLines = new GridLines(shader);
-	ModelBase* models[5]{ new ModelDamian(shader), new ModelElijah(shader), new ModelThomas(shader), new ModelMichael(shader), new ModelRichard(shader) };
-	
+
 	//start sound manager
 	soundManager = new SoundManager();
+	soundManager->muteMusic();
 
 	//start game manager
 	gameManager = new GameManager();
-	gameManager->initialize(5, models, soundManager, &textShader, glm::vec2(windowWidth, windowHeight));
+	gameManager->initialize(&shader, &textShader, soundManager, glm::vec2(windowWidth, windowHeight));
+
+	//start .obj model manager
+	ObjModelManager objModelManager = ObjModelManager();
 
 	TextGenerator textGenerator = TextGenerator();
 	textGenerator.setup();
@@ -539,7 +443,7 @@ int main()
 		shadowMapShader.setFloat("far_plane", far_plane);
 		shadowMapShader.setVec3("lightPos", lightPos);
 
-		renderObjModels(shader, objArr);
+		objModelManager.renderObjModels(shader);
 		renderScene(shadowMapShader, true);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -565,8 +469,9 @@ int main()
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
 		
-		renderObjModels(shader, objArr);
+		objModelManager.renderObjModels(shader);
 		renderScene(shader, false);
+		
 		// unitAxes and lightCube -- USE DIFFERENT SHADERS -- that's why they're not in the render scene function (also different draw signature)
 		//unitAxes->draw(camera, projection, view);
 		lightCube->draw(projection, view, lightPos);

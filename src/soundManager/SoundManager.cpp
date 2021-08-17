@@ -21,7 +21,7 @@ SoundManager::SoundManager() {
 	rotate = engine->addSoundSourceFromFile("res/sounds/neutral_click.wav");
 
 	musicVol = 0.5f;
-	effectsVol = 0.6f;
+	effectsVol = 0.5f;
 
 	music->setDefaultVolume(musicVol);
 	rotate->setDefaultVolume(effectsVol);
@@ -29,13 +29,13 @@ SoundManager::SoundManager() {
 	error->setDefaultVolume(effectsVol);
 
 	startMusic();
-	musicMute = false;
+	musicMute = true;
 	effectsMute = false;
 
 }
 
 void SoundManager::startMusic() {
-	musicVolumeControl = engine->play2D(music, true, false, true);
+	musicVolumeControl = engine->play2D(music, true, true, true);
 }
 
 void SoundManager::muteMusic() {
@@ -104,4 +104,8 @@ void SoundManager::playErrorSound() {
 		error->setDefaultVolume(effectsVol);
 		engine->play2D(error);
 	}
+}
+
+void SoundManager::setPaused(bool paused) {
+	engine->setAllSoundsPaused(paused);
 }

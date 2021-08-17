@@ -146,6 +146,7 @@
     </ClCompile>
     <ClCompile Include="src\soundManager\SoundManager.cpp" />
     <ClCompile Include="src\textGenerator\TextGenerator.cpp" />
+    <ClCompile Include="src\objModelManager\ObjModelManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">
@@ -195,6 +196,7 @@
     <ClInclude Include="src\loadModel\mesh.h" />
     <ClInclude Include="src\soundManager\SoundManager.h" />
     <ClInclude Include="src\textGenerator\TextGenerator.h" />
+    <ClInclude Include="src\objModelManager\ObjModelManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\assimp_x86-windows\lib\assimp-vc142-mt.lib" />

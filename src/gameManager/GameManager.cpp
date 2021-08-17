@@ -1,9 +1,14 @@
 #include "GameManager.h"
 #include <string> 
 
-void GameManager::initialize(int inNumModels, ModelBase** inModels, SoundManager* inSoundManager, Shader* inTextShader, glm::vec2 windowSize){
-	nrModels = inNumModels;
-	models = inModels;
+void GameManager::initialize(Shader* inBaseShader, Shader* inTextShader, SoundManager* inSoundManager, glm::vec2 windowSize){
+	models = new ModelBase*[5]{
+		new ModelDamian(*inBaseShader), 
+		new ModelElijah(*inBaseShader), 
+		new ModelThomas(*inBaseShader), 
+		new ModelMichael(*inBaseShader), 
+		new ModelRichard(*inBaseShader) 
+	};
 
 	currentModel = 0;
 	activeModel = models[currentModel];
@@ -16,7 +21,7 @@ void GameManager::initialize(int inNumModels, ModelBase** inModels, SoundManager
 	deltaTime = 0;
 
 	soundManager = inSoundManager;
-	soundManager->muteMusic();
+
 	textGenerator = new TextGenerator();
 	textGenerator->setup();
 	textShader = inTextShader;
@@ -31,7 +36,7 @@ void GameManager::start() {
 	}
 
 	startOn = true;
-	soundManager->startMusic();
+	soundManager->setPaused(false);
 	startTime = glfwGetTime();
 	activeModel->turnMovementOn();
 }
