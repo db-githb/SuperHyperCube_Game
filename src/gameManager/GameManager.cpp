@@ -72,7 +72,6 @@ void GameManager::draw(Shader* inShader) {
 	}
 	else {
 		if (activeModel->endFinished()) {
-			std::cout << score << std::endl;
 			nextModel();
 			endState = false;
 		}
