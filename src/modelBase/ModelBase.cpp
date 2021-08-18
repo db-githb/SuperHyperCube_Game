@@ -147,7 +147,7 @@ void ModelBase::drawObject(glm::mat4 model) {
 	object.shader.setFloat("specBias", 8.0);
 	object.shader.setBool("textureOn", textureOn);
 	object.shader.setBool("borderOn", true);
-	//object.shader.setBool("moonAmbient", false);
+	object.shader.setBool("moonAmbient", false);
 	// bind texture maps
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, object.diffuseMap);

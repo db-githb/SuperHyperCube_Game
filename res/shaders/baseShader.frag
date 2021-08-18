@@ -55,7 +55,7 @@ void main()
     vec3 ambient = 0.3 * color;
 
 	if(moonAmbient){
-		//ambient = vec3(1.0, 1.0, 1.0);
+		ambient = vec3(1.0, 1.0, 1.0);
 	}
     // diffuse
     vec3 lightDir = normalize(pointLight.position - FragPos);
