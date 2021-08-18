@@ -54,17 +54,6 @@ void ObjModelManager::renderObjModels(Shader& inShader, bool shadowMap) {
 	inShader.setMat4("model", model);
 	objArr[1]->Draw(inShader);
 
-	// Moon
-	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(6.5f, 21.5f, -6.0f));
-	model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
-	if (!shadowMap) {
-		inShader.setMat4("model", model);
-		inShader.setBool("moonAmbient", true);
-		objArr[3]->Draw(inShader);
-		inShader.setBool("moonAmbient", false);
-	}
-
 
 	// per-frame logic for falling leaves
 	float currentTime = (float)glfwGetTime();
@@ -123,4 +112,16 @@ void ObjModelManager::renderObjModels(Shader& inShader, bool shadowMap) {
 		objArr[2]->Draw(inShader);
 	}
 
+	// Moon
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(6.5f, 21.5f, -6.0f));
+	model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+	if (!shadowMap) {
+		inShader.setMat4("model", model);
+		inShader.setBool("moonAmbient", true);
+		inShader.setBool("borderOn", false);
+		objArr[3]->Draw(inShader);
+		inShader.setBool("borderOn", false);
+		inShader.setBool("moonAmbient", false);
+	}
 }
