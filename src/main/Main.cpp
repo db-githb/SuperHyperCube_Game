@@ -459,8 +459,8 @@ int main()
 		// unitAxes and lightCube -- USE DIFFERENT SHADERS -- that's why they're not in the render scene function (also different draw signature)
 		//unitAxes->draw(camera, projection, view);
 		//lightCube->draw(projection, view, lightPos);
-
 		skyCube.draw(projection, view);
+
 		glfwSwapBuffers(mainWindow);
 	}
 

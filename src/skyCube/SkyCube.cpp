@@ -42,3 +42,8 @@ void SkyCube::draw(glm::mat4 projection, glm::mat4 view) {
 	}
 	skyCubeShader.setBool("textureOn", false);
 }
+
+SkyCube::~SkyCube() {
+	delete &unitCube;
+	delete &skyCubeShader;
+}

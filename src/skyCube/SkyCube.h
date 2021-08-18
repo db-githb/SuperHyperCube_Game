@@ -5,6 +5,7 @@ class SkyCube {
 public:
 	SkyCube();
 	void draw(glm::mat4 projection, glm::mat4 view);
+	~SkyCube();
 
 private:
 	UnitCube unitCube;
