@@ -167,23 +167,13 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 		// translate models left/right and rotate left/right
 		case GLFW_KEY_A:
-
-			if (mods == GLFW_MOD_SHIFT) {
-				gameManager->activeModel->translate(TRANS_LEFT);
-			}
-			else {
-				gameManager->activeModel->rotate(ROTATE_Y_COUNTER);
-			}
+			soundManager->playRotateSound();
+			gameManager->activeModel->rotate(ROTATE_Y_COUNTER);
 			break;
 
 		case  GLFW_KEY_D:
-
-			if (mods == GLFW_MOD_SHIFT) {
-				gameManager->activeModel->translate(TRANS_RIGHT);
-			}
-			else {
-				gameManager->activeModel->rotate(ROTATE_Y_CLOCKWISE);
-			}
+			soundManager->playRotateSound();
+			gameManager->activeModel->rotate(ROTATE_Y_CLOCKWISE);
 			break;
 
 		// translate models up/down
@@ -203,7 +193,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 		// rotate along X and Z axis, maybe map y rotation to G and V keys
 		case GLFW_KEY_V:
-			soundManager->playRotateSound();
+			
 			gameManager->activeModel->rotate(ROTATE_X_CLOCKWISE);
 			break;
 

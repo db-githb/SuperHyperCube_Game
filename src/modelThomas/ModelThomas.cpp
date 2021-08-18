@@ -4,7 +4,7 @@ ModelThomas::ModelThomas(Shader& inShader) : ModelBase(inShader) {
 
 	rows = 9;
 	columns = 7;
-	planes = 7;
+	planes = 3;
 
 	colorPalette = new glm::vec3[NUM_COLORS];
 	setColorPalette();

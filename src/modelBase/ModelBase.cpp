@@ -172,7 +172,7 @@ void ModelBase::drawObject(glm::mat4 model) {
 	model = glm::translate(model, (glm::vec3(xTranslation, yTranslation, zTranslation)));
 	
 	model = glm::translate(model, glm::vec3(0.0f, rows/2, planes / 2));
-	model = glm::rotate(model, xRotation, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, xRotation, glm::vec3(1.5f, 0.0f, 0.0f));
 	model = glm::translate(model, glm::vec3(-0.5f, -rows/2, 0.0));
 	model = glm::rotate(model, yRotation, glm::vec3(0.0f, 1.0f, 0.0));
 	model = glm::translate(model, glm::vec3(0.0f, rows/2, -planes / 2));

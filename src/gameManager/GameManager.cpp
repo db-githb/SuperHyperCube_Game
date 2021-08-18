@@ -3,11 +3,11 @@
 
 void GameManager::initialize(Shader* inBaseShader, Shader* inTextShader, SoundManager* inSoundManager, glm::vec2 windowSize){
 	models = new ModelBase*[5]{
+		new ModelThomas(*inBaseShader),
+		new ModelDamian(*inBaseShader),
 		new ModelElijah(*inBaseShader),
 		new ModelRichard(*inBaseShader),
 		new ModelMichael(*inBaseShader),
-		new ModelDamian(*inBaseShader),
-		new ModelThomas(*inBaseShader), 
 	};
 
 	currentModel = 0;
