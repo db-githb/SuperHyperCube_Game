@@ -97,7 +97,6 @@ void ModelBase::draw(Shader* inShader) {
 	model = glm::translate(model, modelBasePosition);
 	model = glm::scale(model, glm::vec3(1.0f) * scaleFactor);
 
-
 	if (inShader == NULL) {
 		wall.shader.use();
 		drawWall(model);
@@ -148,7 +147,7 @@ void ModelBase::drawObject(glm::mat4 model) {
 	object.shader.setFloat("specBias", 8.0);
 	object.shader.setBool("textureOn", textureOn);
 	object.shader.setBool("borderOn", true);
-
+	//object.shader.setBool("moonAmbient", false);
 	// bind texture maps
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, object.diffuseMap);

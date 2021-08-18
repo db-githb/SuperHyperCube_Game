@@ -6,7 +6,7 @@ class ObjModelManager {
 
 public:
 	ObjModelManager();
-	void renderObjModels(Shader& inShader);
+	void renderObjModels(Shader& inShader, bool shadowMap);
 
 private:
 	Model** objArr;

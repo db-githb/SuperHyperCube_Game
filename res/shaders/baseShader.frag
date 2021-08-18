@@ -40,6 +40,8 @@ uniform bool textureOn;
 uniform bool borderOn;
 uniform float specBias;
 
+uniform bool moonAmbient;
+
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 float ShadowCalculation(vec3 fragPos);
 
@@ -51,6 +53,10 @@ void main()
     vec3 lightColor = vec3(0.3);
     // ambient
     vec3 ambient = 0.3 * color;
+
+	if(moonAmbient){
+		//ambient = vec3(1.0, 1.0, 1.0);
+	}
     // diffuse
     vec3 lightDir = normalize(pointLight.position - FragPos);
     float diff = max(dot(lightDir, normal), 0.0);

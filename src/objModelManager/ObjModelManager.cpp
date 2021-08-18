@@ -1,7 +1,7 @@
 #include "ObjModelManager.h"
 
 ObjModelManager::ObjModelManager() {
-	objArr = new Model * [3]{ new Model("res/objects/tree7.obj"), new Model("res/objects/richierReduced.obj"), new Model("res/objects/leaf.obj") };
+	objArr = new Model * [4]{ new Model("res/objects/tree7.obj"), new Model("res/objects/richierReduced.obj"), new Model("res/objects/leaf.obj"),  new Model("res/objects/venus1.obj") };
 
 	nrFallingLeaf = 10;
 
@@ -28,8 +28,8 @@ ObjModelManager::ObjModelManager() {
 	prevSwingValueZ = 0.0f;
 }
 
-void ObjModelManager::renderObjModels(Shader& inShader) {
-	
+void ObjModelManager::renderObjModels(Shader& inShader, bool shadowMap) {
+
 	// Tree Model
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::rotate(model, glm::radians(25.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -50,6 +50,18 @@ void ObjModelManager::renderObjModels(Shader& inShader) {
 	model = glm::scale(model, glm::vec3(-1.0f, 1.0f, 1.0f));
 	inShader.setMat4("model", model);
 	objArr[1]->Draw(inShader);
+
+	// Venus
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(6.5f, 21.5f, -6.0f));
+	model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+	if (!shadowMap) {
+		inShader.setMat4("model", model);
+		inShader.setBool("moonAmbient", true);
+		objArr[3]->Draw(inShader);
+		inShader.setBool("moonAmbient", false);
+	}
+
 
 	// ground leaves
 	/*

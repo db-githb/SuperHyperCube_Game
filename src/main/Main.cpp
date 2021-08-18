@@ -179,38 +179,31 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 		// translate models up/down
 		case GLFW_KEY_W:
-			gameManager->activeModel->translate(TRANS_UP);
+			soundManager->playRotateSound();
+			gameManager->activeModel->rotate(ROTATE_Z_CLOCKWISE);
 			return;
 
 		case  GLFW_KEY_S:
-			gameManager->activeModel->translate(TRANS_DOWN);
+			soundManager->playRotateSound();
+			gameManager->activeModel->rotate(ROTATE_Z_COUNTER);
 			break;
 
-		case GLFW_KEY_Z:
-
-			gameManager->activeModel->translate(TRANS_FORWARD);
-			
-			break;
-
-		// rotate along X and Z axis, maybe map y rotation to G and V keys
-		case GLFW_KEY_V:
-			
+		case GLFW_KEY_K:
+			soundManager->playRotateSound();
 			gameManager->activeModel->rotate(ROTATE_X_CLOCKWISE);
 			break;
 
+		case GLFW_KEY_M:
+			soundManager->playRotateSound();
+			gameManager->activeModel->rotate(ROTATE_X_COUNTER);			
+			break;
+
 		case GLFW_KEY_G:
-			soundManager->playRotateSound();
-			gameManager->activeModel->rotate(ROTATE_X_COUNTER);
+			gameManager->activeModel->translate(TRANS_FORWARD);
 			break;
 
-		case GLFW_KEY_H:
-			soundManager->playRotateSound();
-			gameManager->activeModel->rotate(ROTATE_Z_CLOCKWISE);
-			break;
-
-		case GLFW_KEY_B:
-			soundManager->playRotateSound();
-			gameManager->activeModel->rotate(ROTATE_Z_COUNTER);			
+		case GLFW_KEY_V:
+			gameManager->activeModel->translate(TRANS_BACKWARD);
 			break;
 
 		case GLFW_KEY_HOME:
@@ -433,7 +426,7 @@ int main()
 		shadowMapShader.setFloat("far_plane", far_plane);
 		shadowMapShader.setVec3("lightPos", lightPos);
 
-		objModelManager.renderObjModels(shader);
+		objModelManager.renderObjModels(shader, true);
 		renderScene(shadowMapShader, true);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -460,7 +453,7 @@ int main()
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
 		
-		objModelManager.renderObjModels(shader);
+		objModelManager.renderObjModels(shader, false);
 		renderScene(shader, false);
 		
 		// unitAxes and lightCube -- USE DIFFERENT SHADERS -- that's why they're not in the render scene function (also different draw signature)
