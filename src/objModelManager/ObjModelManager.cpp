@@ -18,10 +18,13 @@ ObjModelManager::ObjModelManager() {
 		new glm::vec3(-25.0f, 0.1f, 2.0f),
 	};
 
-	leafNumber = new int [nrFallingLeaf] {0, 7, 3, 1, 5, 6, 4, 8, 2, 9};
-
+	leafNumber = new int [nrFallingLeaf] {0, 9, 4, 1, 5, 9, 3, 8, 2, 6};
 	indexToChooseWhichLeafIsFalling = 0;
-	fallValue = 15.0f;
+
+	indexToChooseSecondLeaf = 9;
+	secondLeafFallValue = secondLeafHeight;
+
+	fallValue = firstLeafHeight;
 	swingValueX = 0.0f;
 
 	swingValueZ = 0.0f;
@@ -63,16 +66,6 @@ void ObjModelManager::renderObjModels(Shader& inShader, bool shadowMap) {
 	}
 
 
-	// ground leaves
-	/*
-	for (int i = 0; i < nrGroundLeaf; i++) {
-		model = glm::mat4(1.0f);
-		model = glm::translate(model, *groundLeafPos[i]);
-		inShader.setMat4("model", model);
-		objArr[2]->Draw(inShader);
-	}
-	*/
-
 	// per-frame logic for falling leaves
 	float currentTime = (float)glfwGetTime();
 	deltaTime = currentTime - lastTime;
@@ -81,20 +74,39 @@ void ObjModelManager::renderObjModels(Shader& inShader, bool shadowMap) {
 	fallValue -= deltaTime;
 
 	int theActiveFallingLeaf = leafNumber[indexToChooseWhichLeafIsFalling];
+	int theActiveLeaf2 = leafNumber[indexToChooseSecondLeaf];
 
 	if (fallValue >= 0.11) {
 		swingValueX = cos(glfwGetTime()) * 1.35;
 	}
 	else {
 		fallingLeafPos[theActiveFallingLeaf]->x += swingValueX;
-		fallValue = 15.0f;
-		indexToChooseWhichLeafIsFalling += indexToChooseWhichLeafIsFalling < (nrFallingLeaf-1) ? 1 : -indexToChooseWhichLeafIsFalling;
+		fallValue = firstLeafHeight;
+		indexToChooseWhichLeafIsFalling = indexToChooseWhichLeafIsFalling < (nrFallingLeaf-2) ? indexToChooseWhichLeafIsFalling+2 : 0;
 	}
 
 	// falling leaves
 	model = glm::mat4(1.0f);
-	
 	model = glm::translate(model, glm::vec3(fallingLeafPos[theActiveFallingLeaf]->x + swingValueX, fallValue, fallingLeafPos[theActiveFallingLeaf]->z));
+	inShader.setMat4("model", model);
+	objArr[2]->Draw(inShader);
+
+	// SECOND FALLING LEAF
+
+	secondLeafFallValue -= deltaTime;
+
+	if (secondLeafFallValue >= 0.11) {
+		swingValueX = cos(glfwGetTime()) * 1.35;
+	}
+	else {
+		fallingLeafPos[theActiveLeaf2]->x += swingValueX;
+		secondLeafFallValue = secondLeafHeight;
+		indexToChooseSecondLeaf = indexToChooseSecondLeaf < (nrFallingLeaf - 1) ? indexToChooseSecondLeaf + 2 : 1;
+	}
+
+	// falling leaves
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(fallingLeafPos[theActiveLeaf2]->x + swingValueX, secondLeafFallValue, fallingLeafPos[theActiveLeaf2]->z));
 	inShader.setMat4("model", model);
 	objArr[2]->Draw(inShader);
 
@@ -102,7 +114,7 @@ void ObjModelManager::renderObjModels(Shader& inShader, bool shadowMap) {
 	for (int i = 0; i < nrFallingLeaf; i++) {
 
 		model = glm::mat4(1.0f);
-		if (i == theActiveFallingLeaf) {
+		if (i == theActiveFallingLeaf || i == theActiveLeaf2) {
 			continue;
 		}
 
@@ -110,4 +122,5 @@ void ObjModelManager::renderObjModels(Shader& inShader, bool shadowMap) {
 		inShader.setMat4("model", model);
 		objArr[2]->Draw(inShader);
 	}
+
 }

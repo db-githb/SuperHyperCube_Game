@@ -12,10 +12,17 @@ private:
 	Model** objArr;
 	glm::vec3** fallingLeafPos;
 	glm::vec3** groundLeafPos;
+
+	float firstLeafHeight = 15.0f;
+	float secondLeafHeight = 17.5;
+
 	int* leafNumber;
 	int nrFallingLeaf;
 	int nrGroundLeaf;
 	int indexToChooseWhichLeafIsFalling;
+
+	int indexToChooseSecondLeaf;
+	float secondLeafFallValue;
 
 	float fallValue;
 	float swingValueX;
