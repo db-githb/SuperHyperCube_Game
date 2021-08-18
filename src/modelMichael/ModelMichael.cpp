@@ -4,7 +4,7 @@ ModelMichael::ModelMichael(Shader& inShader) : ModelBase(inShader) {
 
 	rows = 9;
 	columns = 7;
-	planes = 7;
+	planes = 5;
 
 	allocateWallData();
 	allocateObjectData();
@@ -64,8 +64,8 @@ void ModelMichael::generateCube(int rowStart, int rowEnd, int columnStart, int c
 
 void ModelMichael::resetUnitCubes()
 {
-	generateCube(5, 7, 1, 2, 3, 4, RED);
-	generateCube(2, 2, 1, 5, 2, 2, BLUE);
-	generateCube(3, 3, 4, 4, 2, 3, RED);
-	generateCube(4, 5, 3, 3, 1, 1, BLUE);
+	generateCube(5, 7, 1, 2, 2, 3, RED);
+	generateCube(1, 2, 1, 5, 1, 1, BLUE);
+	generateCube(3, 3, 4, 4, 1, 2, RED);
+	generateCube(4, 5, 3, 3, 0, 0, BLUE);
 }

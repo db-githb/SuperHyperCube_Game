@@ -133,6 +133,3 @@ void TextGenerator::renderText(Shader& shader, std::string text, float x, float 
 
 }
 
-void TextGenerator::startMenu() {
-
-}
