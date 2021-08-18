@@ -325,7 +325,7 @@ int main()
 	ModelBase::setColorPalette();
 
 
-	// configure skybox FBO
+	// configure depthMap FBO
 	// -----------------------
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 	unsigned int depthMapFBO;
