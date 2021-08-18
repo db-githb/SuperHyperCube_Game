@@ -8,6 +8,7 @@
 #include "../objModelManager/ObjModelManager.h"
 #include "../soundManager/SoundManager.h"
 #include "../textGenerator/TextGenerator.h"
+#include "../skyCube/SkyCube.h"
 
 // window size
 #define WIDTH 1024
@@ -377,10 +378,10 @@ int main()
 	TextGenerator textGenerator = TextGenerator();
 	textGenerator.setup();
 
-	// UNIT AXES / LIGHT CUBE
+	// UNIT AXES / LIGHT CUBE / SKY CUBE
 	unitAxes = new UnitAxes();
 	lightCube = new LightCube();
-
+	SkyCube skyCube = SkyCube();
 	// ==================================
 
 	// display/render loop
@@ -399,7 +400,6 @@ int main()
 
 		//Clear the Window
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 		glm::vec3 lightPos = gameManager->activeModel->modelBasePosition + glm::vec3(5.0f, 20.5f, -5.0f);
 
 		// 0. create depth cubemap transformation matrices
@@ -452,6 +452,7 @@ int main()
 		glm::mat4 view = camera.GetViewMatrix();
 		shader.setMat4("projection", projection);
 		shader.setMat4("view", view);
+
 		// set lighting uniforms
 		shader.setVec3("pointLight.position", lightPos);
 		shader.setVec3("viewPos", camera.Position);
@@ -466,6 +467,7 @@ int main()
 		//unitAxes->draw(camera, projection, view);
 		lightCube->draw(projection, view, lightPos);
 
+		skyCube.draw(projection, view);
 		glfwSwapBuffers(mainWindow);
 	}
 

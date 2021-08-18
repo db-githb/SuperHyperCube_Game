@@ -195,6 +195,7 @@ xcopy /Q /R /Y $(ProjectDir)lib\freetype\lib\ $(TargetDir)</Command>
     <ClCompile Include="src\modelThomas\ModelThomas.cpp" />
     <ClCompile Include="src\objModelManager\ObjModelManager.cpp" />
     <ClCompile Include="src\shader\Shader.cpp" />
+    <ClCompile Include="src\skyCube\SkyCube.cpp" />
     <ClCompile Include="src\soundManager\SoundManager.cpp" />
     <ClCompile Include="src\textGenerator\TextGenerator.cpp" />
     <ClCompile Include="src\unitAxes\UnitAxes.cpp" />
@@ -217,6 +218,7 @@ xcopy /Q /R /Y $(ProjectDir)lib\freetype\lib\ $(TargetDir)</Command>
     <ClInclude Include="src\objModelManager\ObjModelManager.h" />
     <ClInclude Include="src\shader\Shader.h" />
     <ClInclude Include="src\shader\stb_image.h" />
+    <ClInclude Include="src\skyCube\SkyCube.h" />
     <ClInclude Include="src\soundManager\SoundManager.h" />
     <ClInclude Include="src\textGenerator\TextGenerator.h" />
     <ClInclude Include="src\unitAxes\UnitAxes.h" />
