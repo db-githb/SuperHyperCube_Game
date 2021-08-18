@@ -51,7 +51,7 @@ void ObjModelManager::renderObjModels(Shader& inShader, bool shadowMap) {
 	inShader.setMat4("model", model);
 	objArr[1]->Draw(inShader);
 
-	// Venus
+	// Moon
 	model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(6.5f, 21.5f, -6.0f));
 	model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));

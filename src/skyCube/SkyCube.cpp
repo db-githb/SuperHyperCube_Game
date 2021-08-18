@@ -5,13 +5,7 @@ SkyCube::SkyCube() {
 	skyCubeShader = Shader("res/shaders/cubeShader.vert", "res/shaders/cubeShader.frag");
 
 	//skyCubeShader.use();
-	//skyCubeShader.setInt("image", 0);
-	image[0] = skyCubeShader.loadTexture("res/images/skyCube/front.jpg");
-	image[1] = skyCubeShader.loadTexture("res/images/skyCube/right.jpg");
-	image[2] = skyCubeShader.loadTexture("res/images/skyCube/back.jpg");
-	image[3] = skyCubeShader.loadTexture("res/images/skyCube/left.jpg");
-	image[4] = skyCubeShader.loadTexture("res/images/skyCube/top.jpg");
-	image[5] = skyCubeShader.loadTexture("res/images/stars2.png");
+	image = skyCubeShader.loadTexture("res/images/stars2.png");
 
 	positions[0] = glm::vec3(0.0f, 50.0f, -50.0f);
 	positions[1] = glm::vec3(50.0f, 50.0f, 0.0f);
@@ -35,7 +29,7 @@ void SkyCube::draw(glm::mat4 projection, glm::mat4 view) {
 
 	skyCubeShader.setBool("textureOn", true);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, image[5]);
+	glBindTexture(GL_TEXTURE_2D, image);
 	for (int i = 0; i < 5; i++) {
 
 		glm::mat4 model = glm::mat4(1.0f);

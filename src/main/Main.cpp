@@ -357,6 +357,9 @@ int main()
 	//-----------
 	gridLines = new GridLines(shader);
 
+	TextGenerator textGenerator = TextGenerator();
+	textGenerator.setup();
+
 	//start sound manager
 	soundManager = new SoundManager();
 	soundManager->muteMusic();
@@ -367,9 +370,6 @@ int main()
 
 	//start .obj model manager
 	ObjModelManager objModelManager = ObjModelManager();
-
-	TextGenerator textGenerator = TextGenerator();
-	textGenerator.setup();
 
 	// UNIT AXES / LIGHT CUBE / SKY CUBE
 	unitAxes = new UnitAxes();
@@ -458,7 +458,7 @@ int main()
 		
 		// unitAxes and lightCube -- USE DIFFERENT SHADERS -- that's why they're not in the render scene function (also different draw signature)
 		//unitAxes->draw(camera, projection, view);
-		lightCube->draw(projection, view, lightPos);
+		//lightCube->draw(projection, view, lightPos);
 
 		skyCube.draw(projection, view);
 		glfwSwapBuffers(mainWindow);

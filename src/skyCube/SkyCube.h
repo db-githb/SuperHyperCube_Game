@@ -9,7 +9,7 @@ public:
 private:
 	UnitCube unitCube;
 	Shader skyCubeShader;
-	unsigned int image[6];
+	unsigned int image;
 	glm::vec3 positions[5];
 	glm::vec3 scaleVec[5];
 	float scaleFactor;
