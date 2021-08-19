@@ -178,12 +178,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 
 		// translate models up/down
-		case GLFW_KEY_W:
+		case GLFW_KEY_S:
 			soundManager->playRotateSound();
 			gameManager->activeModel->rotate(ROTATE_Z_CLOCKWISE);
-			return;
+			break;
 
-		case  GLFW_KEY_S:
+		case  GLFW_KEY_W:
 			soundManager->playRotateSound();
 			gameManager->activeModel->rotate(ROTATE_Z_COUNTER);
 			break;

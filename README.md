@@ -18,21 +18,14 @@ space = start game
 
 enter = speed up
 
-z = translate forwards (translate along -z axis)
-
-c = translate backwards (translate alone +z axis)
-
 a = rotate anti-clockwise (around the y-axis)
 
 d = rotate clockwise (around the y-axis)
 
-v = rotate clockwise (around the x-axis)
+w = rotate clockwise (around the x-axis)
 
-g = rotate anti-clockwise (around the x-axis)
+s = rotate anti-clockwise (around the x-axis)
 
-h = rotate clockwise (around the z-axis)
-
-b = rotate anti-clockwise (around the z-axis)
 
 
 **Camera Manipulation**:
@@ -52,3 +45,8 @@ while middle mouse button pressed, use mouse movement in y-direction to tilt cam
 while left mouse button pressed, use mouse movement to zoom
 
 Home key returns camera to starting position 
+
+**Points of Interest**
+-leaves falling from the tree.
+-point light in moon which generate shadows
+-success/fail effects

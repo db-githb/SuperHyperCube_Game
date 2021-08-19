@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access">
+  <Class Name="Camera" Collapsed="true">
+    <Position X="15" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACEBEAAMAAAAEgEABAAAABACgAAAAAAADQAAAAAAI=</HashCode>
+      <FileName>src\camera\Camera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GridLines" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAEAAABAAgAIAQAAAAAAAAAAAAAAAQAAAAIA=</HashCode>
+      <FileName>src\gridLines\GridLines.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="unitCube" />
+      <Field Name="gridLinesShader" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Mesh" Collapsed="true">
+    <Position X="15.75" Y="2.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAgQgAAAEAAAgAAAAAAAAAAAAAQAAAAAQAAAAAEACA=</HashCode>
+      <FileName>src\loadModel\mesh.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model" Collapsed="true">
+    <Position X="15" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAACAARAigAAACAAAAAAAAAAAASAAgAAAAAAAA=</HashCode>
+      <FileName>src\loadModel\loadModel.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModelBase" Collapsed="true">
+    <Position X="3.75" Y="5.5" Width="3" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Struct Name="ModelBase::Component" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>src\modelBase\ModelBase.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>IQAA4CgIACEAAAAAgGJSWDATCQAAEwASGEEEBCAgFKA=</HashCode>
+      <FileName>src\modelBase\ModelBase.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="unitCube" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ModelDamian" Collapsed="true">
+    <Position X="0.5" Y="5.5" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAAABAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\modelDamian\ModelDamian.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModelElijah" Collapsed="true">
+    <Position X="5.75" Y="6.25" Width="1.25" />
+    <NestedTypes>
+      <Struct Name="ModelElijah::Transform">
+        <TypeIdentifier>
+          <NewMemberFileName>src\modelElijah\ModelElijah.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAQAAABAAAAAAEAAAAEAAAAAAAACA=</HashCode>
+      <FileName>src\modelElijah\ModelElijah.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModelMichael" Collapsed="true">
+    <Position X="3.25" Y="6.75" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAACDAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAIA=</HashCode>
+      <FileName>src\modelMichael\ModelMichael.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModelRichard" Collapsed="true">
+    <Position X="1.25" Y="7" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAEAAAAAAAAAAAABAAAAAAAAEAAAAAAAAIA=</HashCode>
+      <FileName>src\modelRichard\ModelRichard.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModelThomas" Collapsed="true">
+    <Position X="1.25" Y="4" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAAABAAAAAAAAUAAAAAAAAIA=</HashCode>
+      <FileName>src\modelThomas\ModelThomas.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjModelManager" Collapsed="true">
+    <Position X="12.75" Y="1.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>EAAAAAACAAEIgBhEBAAAAgAQAACAAAABAIwAAAAAAIA=</HashCode>
+      <FileName>src\objModelManager\ObjModelManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shader" Collapsed="true">
+    <Position X="9" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>QDgAAAAABAAIgBAAABIMCAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>src\shader\Shader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SkyCube" Collapsed="true">
+    <Position X="11" Y="4.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAgAIBIAIAEAAAAAAAAAAEAAAAgAA=</HashCode>
+      <FileName>src\skyCube\SkyCube.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="unitCube" />
+      <Field Name="skyCubeShader" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SoundManager" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAARAYAAAA0QAAAAAEAAChIAAUIAAAwABAg=</HashCode>
+      <FileName>src\soundManager\SoundManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TextGenerator" Collapsed="true">
+    <Position X="0.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAgIgAAAQAAkAAAAAAAAAAAAAAAAAAQAAAAAEAAA=</HashCode>
+      <FileName>src\textGenerator\TextGenerator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnitCube" Collapsed="true">
+    <Position X="6" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAgAAABEACAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\unitCube\UnitCube.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameManager" Collapsed="true">
+    <Position X="4.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAABICEAAgAgAgOoAAgAABAAACAARAAAAQAJAIA=</HashCode>
+      <FileName>src\gameManager\GameManager.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="models" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
