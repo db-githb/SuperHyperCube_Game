@@ -180,30 +180,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		// translate models up/down
 		case GLFW_KEY_S:
 			soundManager->playRotateSound();
-			gameManager->activeModel->rotate(ROTATE_Z_CLOCKWISE);
+			gameManager->activeModel->rotate(ROTATE_X_CLOCKWISE);
 			break;
 
 		case  GLFW_KEY_W:
 			soundManager->playRotateSound();
-			gameManager->activeModel->rotate(ROTATE_Z_COUNTER);
-			break;
-
-		case GLFW_KEY_K:
-			soundManager->playRotateSound();
-			gameManager->activeModel->rotate(ROTATE_X_CLOCKWISE);
-			break;
-
-		case GLFW_KEY_M:
-			soundManager->playRotateSound();
-			gameManager->activeModel->rotate(ROTATE_X_COUNTER);			
-			break;
-
-		case GLFW_KEY_G:
-			gameManager->activeModel->translate(TRANS_FORWARD);
-			break;
-
-		case GLFW_KEY_V:
-			gameManager->activeModel->translate(TRANS_BACKWARD);
+			gameManager->activeModel->rotate(ROTATE_X_COUNTER);
 			break;
 
 		case GLFW_KEY_HOME:
@@ -212,10 +194,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 		case GLFW_KEY_R:
 			gameManager->activeModel->resetPOS();
-			break;
-
-		case GLFW_KEY_O:
-			gameManager->activeModel->generateOriginalObject();
 			break;
 
 		case GLFW_KEY_SPACE:
