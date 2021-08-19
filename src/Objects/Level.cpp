@@ -54,7 +54,7 @@ bool Level::validateOrientation()
 
 /// <summary>
 /// Assigns values to the objectData array.
-/// Generates an object by copying the values within objectData into the "object" child's cubePositions array.
+/// Generates an object by copying the values within objectData into the "object" child's cubes array.
 /// </summary>
 void Level::generateObject()
 {
@@ -84,7 +84,7 @@ void Level::generateObject()
 		for (int y = 1; y < sizeY-1; y++)
 		{
 			for (int z = 0; z < sizeZ; z++)
-				object->m_model->cubePositions[x][y][z] = objectData[x][y][z];
+				object->m_model->cubes[x][y][z] = objectData[x][y][z];
 		}
 	}
 }
@@ -131,7 +131,7 @@ void Level::generateWall()
 		for (int y = 0; y < sizeY; y++)
 		{
 			
-			wall->m_model->cubePositions[x][y][0] = wallData[x][y][0];
+			wall->m_model->cubes[x][y][0] = wallData[x][y][0];
 		}
 	}
 	

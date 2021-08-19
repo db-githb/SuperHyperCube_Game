@@ -35,7 +35,7 @@ void LevelElijah::generateObject()
 		for (int y = 1; y < sizeY - 1; y++)
 		{
 			for (int z = 0; z < sizeZ; z++)
-				object->m_model->cubePositions[x][y][z] = objectData[x][y][z];
+				object->m_model->cubes[x][y][z] = objectData[x][y][z];
 		}
 	}
 }

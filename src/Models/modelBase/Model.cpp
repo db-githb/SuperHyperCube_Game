@@ -30,13 +30,13 @@ Model::Model(Shader &inShader) {
 }
 
 /// <summary>
-/// Sets all values within the cubePositions array to NONE.
+/// Sets all values within the cubes array to NONE.
 /// </summary>
 void Model::resetObject() {
 	for (int r = 0; r < sizeX; r++) {
 		for (int c = 0; c < sizeY; c++) {
 			for (int p = 0; p < sizeZ; p++) {
-				cubePositions[r][c][p] = NONE;
+				cubes[r][c][p] = NONE;
 			}
 		}
 	}
@@ -45,7 +45,7 @@ void Model::resetObject() {
 
 
 /// <summary>
-/// Draws the model specified by the cubePositions array at the Transform.
+/// Draws the model specified by the cubes array at the Transform.
 /// </summary>
 /// <param name="inShader"> The shader used to render the model.</param>
 void Model::draw(Shader* inShader) {
@@ -59,30 +59,31 @@ void Model::draw(Shader* inShader) {
 	
 	glm::mat4 modelOrigin = transform->GetModel(parentTransform->GetModel());
 
-	// Iterate through the cubePositions array and draws unitCubes at a position offset from the modelOrigin (transform relative to parent)
+	// Iterate through the cubes array and draws unitCubes at a position offset from the modelOrigin (transform relative to parent)
 	for (int r = 0; r < sizeX; r++) {
 		for (int c = 0; c < sizeY; c++) {
 			for (int p = 0; p < sizeZ; p++) {
 
 				// Skip drawing if cubePosition contains "NONE"
-				if (cubePositions[r][c][p] == NONE) {
+				if (cubes[r][c][p] == NONE) {
 					continue;
 				}
 
-				// Sends a colour uniform to the shader according to the value at an arbitrary cubePositions index
-				inShader->setVec3("colour", colorPalette[cubePositions[r][c][p]]);
+				// Sends a colour uniform to the shader according to the value at an arbitrary cubes index
+				inShader->setVec3("colour", colorPalette[cubes[r][c][p]]);
 
 				// Produces a transformation matrix for each cube in the model relative to the modelOrigin
 				// Offsets the cubes such that the modelOrigin is the center of the entire model
-				glm::mat4 cubeMatrix = glm::translate(modelOrigin, glm::vec3((float)c, (float)r, (float)p)
-					+ glm::vec3(ceil(float(-sizeX) * 0.5f),ceil(float(-sizeY) * 0.5f), ceil(float(-sizeZ) * 0.5f)));
+				glm::vec3 positionalOffset = glm::vec3((float)c, (float)r, (float)p);
+				glm::vec3 centerPointOffset = glm::vec3(ceil(float(-sizeX) * 0.5f), ceil(float(-sizeY) * 0.5f), ceil(float(-sizeZ) * 0.5f));
+				glm::mat4 cubeMatrix = glm::translate(modelOrigin, positionalOffset + centerPointOffset);
 
 				inShader->setMat4("model", cubeMatrix);
 				
 				// draw the cube
 				glDrawArrays(renderMode, 0, 36);
 	
-
+				cubePositions[r][c][p] = transform->GetPosition() + positionalOffset + centerPointOffset;
 			}
 		}
 	}
@@ -123,7 +124,7 @@ void Model::setColorPalette() {
 
 
 /// <summary>
-/// Assings a value of NONE to each index of the cubePositions array.
+/// Assings a value of NONE to each index of the cubes array.
 /// </summary>
 void Model::allocateModelData()
 {
@@ -133,7 +134,8 @@ void Model::allocateModelData()
 		{
 			for(int z = 0; z < sizeZ; z++)
 			{
-				cubePositions[x][y][z] = NONE;
+				cubes[x][y][z] = NONE;
+				cubePositions[x][y][x] = glm::vec3(0);
 			}
 		}
 	}
@@ -175,14 +177,14 @@ void Model::toggleBorder() {
 Model::~Model() {
 	for (int r = 0; r < sizeX; r++) {
 		for (int c = 0; c < sizeY; c++) {
-			delete[] cubePositions[r][c];
-			delete[] cubePositions[r][c];
+			delete[] cubes[r][c];
+			delete[] cubes[r][c];
 		}
-		delete[] cubePositions[r];
-		delete[] cubePositions[r];
+		delete[] cubes[r];
+		delete[] cubes[r];
 	}
-	delete[] cubePositions;
-	delete[] cubePositions;
+	delete[] cubes;
+	delete[] cubes;
 }
 
 /// <summary>

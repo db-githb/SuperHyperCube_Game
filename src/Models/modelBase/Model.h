@@ -52,7 +52,8 @@ public:
 	static void setColorPalette();
 	Transform* parentTransform;
 	glm::vec3 modelBasePosition;
-	int cubePositions[sizeX][sizeY][sizeZ];
+	int cubes[sizeX][sizeY][sizeZ];
+	glm::vec3 cubePositions[sizeX][sizeY][sizeZ];
 	Data data;
 
 protected:
