@@ -66,7 +66,7 @@ void ObjModelManager::renderObjModels(Shader& inShader, bool shadowMap) {
 	int theActiveLeaf2 = leafNumber[indexToChooseSecondLeaf];
 
 	if (fallValue >= 0.11) {
-		swingValueX = cos(glfwGetTime()) * 1.35;
+		swingValueX = (float)cos(glfwGetTime()) * 1.35f;
 	}
 	else {
 		fallingLeafPos[theActiveFallingLeaf]->x += swingValueX;
@@ -85,7 +85,7 @@ void ObjModelManager::renderObjModels(Shader& inShader, bool shadowMap) {
 	secondLeafFallValue -= deltaTime;
 
 	if (secondLeafFallValue >= 0.11) {
-		swingValueX = cos(glfwGetTime()) * 1.35;
+		swingValueX = (float)cos(glfwGetTime()) * 1.35f;
 	}
 	else {
 		fallingLeafPos[theActiveLeaf2]->x += swingValueX;
