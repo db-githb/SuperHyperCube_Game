@@ -2,7 +2,8 @@
 #include <string> 
 
 void GameManager::initialize(Shader* inBaseShader, Shader* inTextShader, SoundManager* inSoundManager, glm::vec2 windowSize){
-	models = new ModelBase * [5]{
+	nrModels = 5;
+	models = new ModelBase * [nrModels]{
 		new ModelRichard(*inBaseShader),
 		new ModelDamian(*inBaseShader),
 		new ModelThomas(*inBaseShader),
@@ -10,6 +11,7 @@ void GameManager::initialize(Shader* inBaseShader, Shader* inTextShader, SoundMa
 		new ModelElijah(*inBaseShader),
 	};
 
+	shuffle();
 	currentModel = 0;
 	activeModel = models[currentModel];
 	activeModel->randomOrientation();
@@ -83,8 +85,12 @@ void GameManager::draw(Shader* inShader) {
 void GameManager::nextModel() {
 	startTime = glfwGetTime();
 
-	// loop array when at the end
-	currentModel = currentModel == 4 ? 0 : currentModel + 1;
+	currentModel += 1;
+	// loop and shuffle array when at the end
+	if (currentModel == nrModels) {
+		shuffle();
+		currentModel = 0;
+	}
 
 	// set next active model
 	activeModel = models[currentModel];
@@ -109,4 +115,14 @@ double GameManager::getStartTime() {
 }
 double GameManager::getDeltaTime() {
 	return deltaTime;
+}
+
+void GameManager::shuffle() {
+	srand(glfwGetTime());
+	for (int i = nrModels - 1; i > 0; i--) {
+		int j = rand() % (i + 1);
+		ModelBase* temp = models[i];
+		models[i] = models[j];
+		models[j] = temp;
+	}
 }

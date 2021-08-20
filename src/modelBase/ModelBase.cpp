@@ -349,6 +349,7 @@ bool ModelBase::endFinished() {
 }
 
 void ModelBase::randomOrientation() {
+	srand(glfwGetTime());
 	yRotation = ((rand() % 3) + 1) * glm::half_pi<float>();
 	xRotation = ((rand() % 3) + 1) * glm::half_pi<float>();
 }

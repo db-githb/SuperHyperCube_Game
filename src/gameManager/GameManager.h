@@ -40,4 +40,6 @@ private:
 
 	float windowWidth;
 	float windowHeight;
+
+	void shuffle();
 };
