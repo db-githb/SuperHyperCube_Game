@@ -2,7 +2,7 @@
 
 **MUST BE BUILT IN X86 (WIN32) !!!!**
 
-**executable is in the debug folder**
+**executable can be run from the release folder**
 
 **it must be run from the Quiz1_21875841 folder**
 

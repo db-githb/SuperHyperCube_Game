@@ -118,7 +118,6 @@ double GameManager::getDeltaTime() {
 }
 
 void GameManager::shuffle() {
-	srand((int)(glfwGetTime()*1000000.0f)%1000);
 	for (int i = nrModels - 1; i > 0; i--) {
 		int j = rand() % (i + 1);
 		ModelBase* temp = models[i];

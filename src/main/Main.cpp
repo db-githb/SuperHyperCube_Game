@@ -10,6 +10,8 @@
 #include "../textGenerator/TextGenerator.h"
 #include "../skyCube/SkyCube.h"
 
+
+
 // window size
 #define WIDTH 1024
 #define HEIGHT 768
@@ -230,6 +232,10 @@ void renderScene(Shader &inShader, bool shadowMap) {
 
 int main()
 {
+
+	// seed rand function
+	srand((int)(glfwGetTime() * 1000000.0f) % 1000);
+
 	// Initialise GLFW
 	if (!glfwInit())
 	{
