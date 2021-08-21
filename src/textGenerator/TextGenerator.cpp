@@ -35,7 +35,9 @@ void TextGenerator::setup() {
 		// disable byte-alignment restriction
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-		// load first 128 characters of ASCII set
+		
+		// Iterate through all the font's characters and retrieve corresponding character glyphs.
+		// For each character: generate a texture, set its options, and store its metrics.
 		for (unsigned char c = 0; c < 128; c++)
 		{
 			// Load character glyph 
@@ -101,18 +103,20 @@ void TextGenerator::renderText(Shader& shader, std::string text, float x, float 
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(VAO);
 
-	// iterate through all characters
 	std::string::const_iterator c;
 	for (c = text.begin(); c != text.end(); c++)
 	{
 		Character ch = Characters[*c];
 
+		// calculate the origin position of the quad
 		float xpos = x + ch.Bearing.x * scale;
 		float ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
 
+		// calculate the quad's size
 		float w = ch.Size.x * scale;
 		float h = ch.Size.y * scale;
-		// update VBO for each character
+
+		// generate a set of 6 vertices to form the 2D quad
 		float vertices[6][4] = {
 			{ xpos,     ypos + h,   0.0f, 0.0f },
 			{ xpos,     ypos,       0.0f, 1.0f },
@@ -122,8 +126,10 @@ void TextGenerator::renderText(Shader& shader, std::string text, float x, float 
 			{ xpos + w, ypos,       1.0f, 1.0f },
 			{ xpos + w, ypos + h,   1.0f, 0.0f }
 		};
+
 		// render glyph texture over quad
 		glBindTexture(GL_TEXTURE_2D, ch.TextureID);
+
 		// update content of VBO memory
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // be sure to use glBufferSubData and not glBufferData
