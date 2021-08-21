@@ -10,6 +10,13 @@ Transform::Transform(const glm::vec3& position, const glm::vec3& rotation, const
 	m_scale    = scale;
 }
 
+// Transform::Transform(Transform& trans)
+// {
+// 	m_position = trans.m_position;
+// 	m_rotation = trans.m_rotation;
+// 	m_scale		= trans.m_scale;
+// }
+
 
 const glm::vec3& Transform::GetPosition()
 {

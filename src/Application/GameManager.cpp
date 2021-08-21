@@ -66,19 +66,19 @@ void GameManager::Update(float ms)
 	{
 		std::cout << "\n ________________________________________________________________";
 		lastUpdateTime = glfwGetTime();
-		for(int i = 0; i <9; i++)
-		{
-			for (int j = 0; j < 9; j++)
-			{
-				for (int k = 0; k < 7; k++)
-				{
-					if (currentLevel->object->m_model->cubes[i][j][k] == NONE)
-						continue;
-
-					std::cout << "\n object z: " << currentLevel->object->m_model->cubePositions[i][j][k].z;
-				}
-			}
-		}
+		// for(int i = 0; i <9; i++)
+		// {
+		// 	for (int j = 0; j < 9; j++)
+		// 	{
+		// 		for (int k = 0; k < 7; k++)
+		// 		{
+		// 			if (currentLevel->object->m_model->cubes[i][j][k] == NONE)
+		// 				continue;
+		//
+		// 			//std::cout << "\n object z: " << currentLevel->object->m_model->cubePositions[i][j][k];
+		// 		}
+		// 	}
+		// }
 		
 		//std::cout << "\n wall z: " << currentLevel->wall->GetPosition().z;
 	}

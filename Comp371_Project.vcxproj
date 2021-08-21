@@ -186,6 +186,7 @@
     <ClCompile Include="src\Sound\SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Application\Quaternion.h" />
     <ClInclude Include="src\Mesh\ObjModel.h" />
     <ClInclude Include="src\Objects\Levels\LevelDamian.h" />
     <ClInclude Include="src\Objects\Levels\LevelElijah.h" />
@@ -218,6 +219,9 @@
     <Media Include="res\sounds\neutral_click.wav" />
     <Media Include="res\sounds\ranner_click.wav" />
     <Media Include="res\sounds\success.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="glm.natvis" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

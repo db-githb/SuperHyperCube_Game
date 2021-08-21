@@ -146,6 +146,7 @@
     <ClInclude Include="src\Objects\Levels\LevelThomas.h" />
     <ClInclude Include="src\Mesh\ObjModel.h" />
     <ClInclude Include="src\Sound\SoundManager.h" />
+    <ClInclude Include="src\Application\Quaternion.h" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="res\sounds\269136__heshl__neutral-click-resonant-static-tube-sound.wav" />
@@ -158,5 +159,8 @@
     <Media Include="res\sounds\neutral_click.wav" />
     <Media Include="res\sounds\ranner_click.wav" />
     <Media Include="res\sounds\success.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="glm.natvis" />
   </ItemGroup>
 </Project>

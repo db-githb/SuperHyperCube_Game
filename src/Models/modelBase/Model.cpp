@@ -15,6 +15,16 @@ Model::Model(Shader &inShader) {
 	// Create a new transform component and set it's position to the modelBasePosition
 	transform = new Transform();
 	transform->SetPosition(modelBasePosition);
+	// for(int x = 0; x < sizeX; x++)
+	// {
+	// 	for(int y = 0; y < sizeY; y++)
+	// 	{
+	// 		for(int z = 0; z < sizeY; z++)
+	// 		{
+	// 			cubePositions[x][y][z] =  Transform(*transform);
+	// 		}
+	// 	}
+	// }
 
 	allocateModelData();
 
@@ -83,7 +93,7 @@ void Model::draw(Shader* inShader) {
 				// draw the cube
 				glDrawArrays(renderMode, 0, 36);
 	
-				cubePositions[r][c][p] = transform->GetPosition() + positionalOffset + centerPointOffset;
+				//cubePositions[r][c][p].AddPosition(positionalOffset + centerPointOffset);
 			}
 		}
 	}
