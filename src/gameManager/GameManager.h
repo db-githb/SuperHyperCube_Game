@@ -22,6 +22,8 @@ public:
 	double getStartTime();
 	double getDeltaTime();
 
+	bool scoreTimeApart;
+
 private:
 
 	int score;

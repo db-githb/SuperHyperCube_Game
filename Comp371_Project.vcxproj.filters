@@ -97,7 +97,6 @@
     <None Include="res\objects\tree7.obj" />
     <None Include="res\shaders\textShader.frag" />
     <None Include="res\shaders\textShader.vert" />
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera\Camera.cpp">

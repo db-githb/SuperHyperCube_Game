@@ -160,7 +160,6 @@ xcopy /Q /R /Y $(ProjectDir)lib\freetype\lib\ $(TargetDir)</Command>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
     <None Include="lib\assimp_x86-windows\lib\assimp-vc142-mt.dll" />
     <None Include="lib\assimp_x86-windows\lib\bz2.dll" />
     <None Include="lib\assimp_x86-windows\lib\Irrlicht.dll" />

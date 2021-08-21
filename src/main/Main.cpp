@@ -205,6 +205,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_ENTER:
 			gameManager->speedUp();
 			break;
+
+		case GLFW_KEY_BACKSLASH:
+			gameManager->scoreTimeApart = !gameManager->scoreTimeApart;
+			break;
 		}
 	}
 }
@@ -449,5 +453,5 @@ int main()
 	}
 
 	glfwTerminate();
-	exit(0);
+		exit(0);
 }

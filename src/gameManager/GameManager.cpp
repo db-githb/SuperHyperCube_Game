@@ -29,6 +29,8 @@ void GameManager::initialize(Shader* inBaseShader, Shader* inTextShader, SoundMa
 	textShader = inTextShader;
 	windowWidth = windowSize.x;
 	windowHeight = windowSize.y;
+
+	scoreTimeApart = false;
 }
 
 void GameManager::start() {
@@ -50,8 +52,15 @@ void GameManager::draw(Shader* inShader) {
 		deltaTime = glfwGetTime() - startTime;
 		int displayTime = 10 - (int)deltaTime;
 		if (displayTime < 0) displayTime = 0;
-		textGenerator->renderText(*textShader, "Score: " + std::to_string(score), windowWidth - 240, windowHeight - 50, 0.75f, glm::vec3(0.5, 0.8f, 0.2f));
-		textGenerator->renderText(*textShader, "Time: " + std::to_string(displayTime), windowWidth - 240, windowHeight - 100, 0.75f, glm::vec3(0.5, 0.8f, 0.2f));
+
+		if (scoreTimeApart) {
+			textGenerator->renderText(*textShader, "Score: " + std::to_string(score), 80, windowHeight - 50, 0.75f, glm::vec3(0.5, 0.8f, 0.2f));
+			textGenerator->renderText(*textShader, "Time: " + std::to_string(displayTime), windowWidth - 220, windowHeight - 50, 0.75f, glm::vec3(0.5, 0.8f, 0.2f));
+		}
+		else {
+			textGenerator->renderText(*textShader, "Score: " + std::to_string(score), windowWidth - 240, windowHeight - 50, 0.75f, glm::vec3(0.5, 0.8f, 0.2f));
+			textGenerator->renderText(*textShader, "Time: " + std::to_string(displayTime), windowWidth - 240, windowHeight - 100, 0.75f, glm::vec3(0.5, 0.8f, 0.2f));
+		}
 	}
 	else {
 		textGenerator->renderText(*textShader, "Press Spacebar to Start", windowWidth/2-255, (windowHeight/2)+(windowHeight* 0.09765625f), 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
