@@ -108,7 +108,7 @@ void TextGenerator::renderText(Shader& shader, std::string text, float x, float 
 	{
 		Character ch = Characters[*c];
 
-		// calculate the origin position of the quad
+		// calculate the origin position of the quad (each character rendered on a square/quad)
 		float xpos = x + ch.Bearing.x * scale;
 		float ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
 

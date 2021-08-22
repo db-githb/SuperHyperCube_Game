@@ -4,7 +4,11 @@
 
 **executable can be run from the release folder**
 
-**it must be run from the Quiz1_21875841 folder**
+see video demo.
+Note: jerky motion is a result of video compression to upload video
+
+**display settings**
+- "\" key = toggle score/timer placement
 
 **Sound Settings**
 

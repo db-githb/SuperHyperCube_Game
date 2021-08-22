@@ -349,6 +349,7 @@ bool ModelBase::endFinished() {
 }
 
 void ModelBase::randomOrientation() {
+	// add one to ensure that the object never starts in the "correct" orientation
 	yRotation = ((rand() % 3) + 1) * glm::half_pi<float>();
 	xRotation = ((rand() % 3) + 1) * glm::half_pi<float>();
 }
