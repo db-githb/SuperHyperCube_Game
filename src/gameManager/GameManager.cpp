@@ -24,7 +24,7 @@ void GameManager::initialize(Shader* inBaseShader, Shader* inTextShader, SoundMa
 
 	pauseOn = true;
 	pauseEndTime = glfwGetTime();
-	
+	startFlag = true;
 
 	soundManager = inSoundManager;
 
@@ -70,9 +70,15 @@ void GameManager::draw(Shader* inShader) {
 			textGenerator->renderText(*textShader, "Score: " + std::to_string(score), windowWidth - 240, windowHeight - 50, 0.75f, glm::vec3(0.5, 0.8f, 0.2f));
 			textGenerator->renderText(*textShader, "Time: " + std::to_string(displayTime), windowWidth - 240, windowHeight - 100, 0.75f, glm::vec3(0.5, 0.8f, 0.2f));
 		}
+		startFlag = false;
 	}
 	else {
-		textGenerator->renderText(*textShader, "Press Spacebar to Start", windowWidth/2-255, (windowHeight/2)+(windowHeight* 0.09765625f), 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
+		if (startFlag) {
+			textGenerator->renderText(*textShader, "Press Spacebar to Start", windowWidth / 2 - 255, (windowHeight / 2) + (windowHeight * 0.09765625f), 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
+		}
+		else {
+			textGenerator->renderText(*textShader, "Press Spacebar to Continue", windowWidth / 2 - 255, (windowHeight / 2) + (windowHeight * 0.09765625f), 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
+		}
 	}
 
 	if (!endState) {

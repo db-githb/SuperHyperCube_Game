@@ -53,6 +53,7 @@ private:
 	float windowWidth;
 	float windowHeight;
 
+	bool startFlag;
 
 	void shuffle();
 };

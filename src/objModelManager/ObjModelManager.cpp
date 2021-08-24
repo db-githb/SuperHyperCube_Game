@@ -1,7 +1,12 @@
 #include "ObjModelManager.h"
 
 ObjModelManager::ObjModelManager() {
-	objArr = new Model * [4]{ new Model("res/objects/tree7.obj"), new Model("res/objects/richierReduced.obj"), new Model("res/objects/leaf.obj"),  new Model("res/objects/venus1.obj") };
+	objArr = new Model * [5]{ 
+		new Model("res/objects/tree7.obj"), 
+		new Model("res/objects/richierReduced.obj"), 
+		new Model("res/objects/leaf.obj"),  
+		new Model("res/objects/venus1.obj"),
+		new Model("res/objects/Sun.obj") };
 
 	nrFallingLeaf = 10;
 
@@ -124,4 +129,11 @@ void ObjModelManager::renderObjModels(Shader& inShader, bool shadowMap) {
 		inShader.setBool("borderOn", false);
 		inShader.setBool("moonAmbient", false);
 	}
+
+	//Portal
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(0.0f, 0.05f, -1.0f));
+	inShader.setMat4("model", model);
+	objArr[4]->Draw(inShader);
+
 }
