@@ -8,12 +8,13 @@
 #include "../shader/Shader.h"
 #include "../soundManager/SoundManager.h"
 #include "../textGenerator/TextGenerator.h"
+#include "../objModelManager/ObjModelManager.h"
 
 class GameManager {
 
 public:
 	ModelBase* activeModel;
-	void initialize(Shader* inBaseShader, Shader* inTextShader, SoundManager* inSoundManager, glm::vec2 windowSize);
+	void initialize(Shader* inBaseShader, Shader* inTextShader, SoundManager* inSoundManager, glm::vec2 windowSize, ObjModelManager* inObjModelManager);
 	void toggleGame();
 	void draw(Shader* inShader);
 	void speedUp();
@@ -27,6 +28,8 @@ public:
 	bool scoreTimeApart;
 
 private:
+
+	ObjModelManager* objModelManager;
 
 	int score;
 	int nrModels;

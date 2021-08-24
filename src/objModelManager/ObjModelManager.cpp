@@ -34,6 +34,9 @@ ObjModelManager::ObjModelManager() {
 
 	swingValueZ = 0.0f;
 	prevSwingValueZ = 0.0f;
+
+	portalOn = false;
+	portalScale = 5.0f;
 }
 
 void ObjModelManager::renderObjModels(Shader& inShader, bool shadowMap) {
@@ -121,6 +124,7 @@ void ObjModelManager::renderObjModels(Shader& inShader, bool shadowMap) {
 	model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(6.5f, 21.5f, -6.0f));
 	model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+
 	if (!shadowMap) {
 		inShader.setMat4("model", model);
 		inShader.setBool("moonAmbient", true);
@@ -131,9 +135,22 @@ void ObjModelManager::renderObjModels(Shader& inShader, bool shadowMap) {
 	}
 
 	//Portal
-	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(0.0f, 0.05f, -1.0f));
-	inShader.setMat4("model", model);
-	objArr[4]->Draw(inShader);
+	if (portalOn) {
+		portalScale = portalScale == 0 ? portalScale - 0.1f: 5.0;
+		float rotation = (float)glfwGetTime();
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.05f, -1.0f));
+		model = glm::scale(model, glm::vec3(1.0f * portalScale));
+		model = glm::rotate(model, rotation, glm::vec3(0.0f, 1.0f, 0.0f));
+		inShader.setMat4("model", model);
+		objArr[4]->Draw(inShader);
+	}
+}
 
+void ObjModelManager::turnPortalOn() {
+	portalOn = true;
+}
+
+void ObjModelManager::turnPortalOff() {
+	portalOn = false;
 }

@@ -7,7 +7,8 @@ class ObjModelManager {
 public:
 	ObjModelManager();
 	void renderObjModels(Shader& inShader, bool shadowMap);
-
+	void turnPortalOn();
+	void turnPortalOff();
 private:
 	Model** objArr;
 	glm::vec3** fallingLeafPos;
@@ -32,4 +33,7 @@ private:
 
 	float lastTime;
 	float deltaTime;
+
+	bool portalOn;
+	float portalScale;
 };

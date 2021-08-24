@@ -1,7 +1,8 @@
 #include "GameManager.h"
 #include <string> 
 
-void GameManager::initialize(Shader* inBaseShader, Shader* inTextShader, SoundManager* inSoundManager, glm::vec2 windowSize){
+void GameManager::initialize(Shader* inBaseShader, Shader* inTextShader, SoundManager* inSoundManager, glm::vec2 windowSize, ObjModelManager* inObjModelManager){
+
 	nrModels = 5;
 	models = new ModelBase * [nrModels]{
 		new ModelRichard(*inBaseShader),
@@ -35,6 +36,9 @@ void GameManager::initialize(Shader* inBaseShader, Shader* inTextShader, SoundMa
 	windowHeight = windowSize.y;
 
 	scoreTimeApart = false;
+
+	//start .obj model manager
+	objModelManager = inObjModelManager;
 }
 
 void GameManager::toggleGame() {
@@ -90,6 +94,7 @@ void GameManager::draw(Shader* inShader) {
 			}
 			else {
 				activeModel->failState();
+				objModelManager->turnPortalOn();
 				soundManager->playErrorSound();
 			}
 			endState = true;
@@ -97,6 +102,7 @@ void GameManager::draw(Shader* inShader) {
 	}
 	else {
 		if (activeModel->endFinished()) {
+			objModelManager->turnPortalOff();
 			nextModel();
 			endState = false;
 		}

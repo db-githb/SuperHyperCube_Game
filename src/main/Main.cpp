@@ -222,8 +222,8 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 }
 
 void renderScene(Shader &inShader, bool shadowMap) {
-	glm::mat4 model = glm::mat4(1.0f);
 	
+	glm::mat4 model = glm::mat4(1.0f);
 	gridLines->draw(model, inShader);
 
 	Shader* shader = nullptr;
@@ -352,12 +352,12 @@ int main()
 	soundManager = new SoundManager();
 	soundManager->muteMusic();
 
+	//start .obj model manager
+	ObjModelManager* objModelManager = new ObjModelManager();
+
 	//start game manager
 	gameManager = new GameManager();
-	gameManager->initialize(&shader, &textShader, soundManager, glm::vec2(windowWidth, windowHeight));
-
-	//start .obj model manager
-	ObjModelManager objModelManager = ObjModelManager();
+	gameManager->initialize(&shader, &textShader, soundManager, glm::vec2(windowWidth, windowHeight), objModelManager);
 
 	// UNIT AXES / LIGHT CUBE / SKY CUBE
 	unitAxes = new UnitAxes();
@@ -414,7 +414,7 @@ int main()
 		shadowMapShader.setFloat("far_plane", far_plane);
 		shadowMapShader.setVec3("lightPos", lightPos);
 
-		objModelManager.renderObjModels(shader, true);
+		objModelManager->renderObjModels(shader, true);
 		renderScene(shadowMapShader, true);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -441,7 +441,7 @@ int main()
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
 		
-		objModelManager.renderObjModels(shader, false);
+		objModelManager->renderObjModels(shader, false);
 		renderScene(shader, false);
 		
 		// unitAxes and lightCube -- USE DIFFERENT SHADERS -- that's why they're not in the render scene function (also different draw signature)
