@@ -199,7 +199,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 
 		case GLFW_KEY_SPACE:
-			gameManager->start();
+			gameManager->toggleGame();
 			break;
 
 		case GLFW_KEY_ENTER:
@@ -453,5 +453,5 @@ int main()
 	}
 
 	glfwTerminate();
-		exit(0);
+	exit(0);
 }

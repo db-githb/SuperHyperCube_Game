@@ -304,9 +304,8 @@ void ModelBase::toggleBorder() {
 	borderOn = !borderOn;
 }
 
-void ModelBase::turnMovementOn() {
-	movementOn = true;
-	movementStartTime = glfwGetTime();
+void ModelBase::toggleMovement() {
+	movementOn = !movementOn;
 }
 
 // function overwritten by all the derived models

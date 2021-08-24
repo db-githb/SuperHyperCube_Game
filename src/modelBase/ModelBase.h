@@ -66,7 +66,7 @@ public:
 	virtual void setRenderMode(int mode);
 	virtual void toggleTexture();
 	virtual void toggleBorder();
-	virtual void turnMovementOn();
+	virtual void toggleMovement();
 	virtual void generateOriginalObject();
 	virtual void resetObject();
 	virtual void resetPOS();
@@ -111,7 +111,6 @@ protected:
 	bool textureOn;
 	bool borderOn;
 	bool movementOn;
-	double movementStartTime;
 
 	/* orientation in radians */
 	float xRotation;

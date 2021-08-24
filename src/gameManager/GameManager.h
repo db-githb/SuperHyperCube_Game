@@ -14,7 +14,7 @@ class GameManager {
 public:
 	ModelBase* activeModel;
 	void initialize(Shader* inBaseShader, Shader* inTextShader, SoundManager* inSoundManager, glm::vec2 windowSize);
-	void start();
+	void toggleGame();
 	void draw(Shader* inShader);
 	void speedUp();
 	void nextModel();
@@ -22,18 +22,28 @@ public:
 	double getStartTime();
 	double getDeltaTime();
 
+	int displayTime;
+
 	bool scoreTimeApart;
 
 private:
 
 	int score;
 	int nrModels;
-	bool startOn;
+	bool gameOn;
+	bool pauseOn;
+	
+	int gameState;
+
 	ModelBase** models;
 
 	int currentModel;
 	double startTime;
 	double deltaTime;
+
+	double pauseStartTime;
+	double pauseEndTime;
+	double deltaPause;
 
 	SoundManager* soundManager;
 	TextGenerator* textGenerator;
@@ -42,6 +52,7 @@ private:
 
 	float windowWidth;
 	float windowHeight;
+
 
 	void shuffle();
 };

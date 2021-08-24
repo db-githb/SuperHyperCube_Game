@@ -15,12 +15,16 @@ void GameManager::initialize(Shader* inBaseShader, Shader* inTextShader, SoundMa
 	currentModel = 0;
 	activeModel = models[currentModel];
 	activeModel->randomOrientation();
-	startOn = false;
+	gameOn = false;
 	score = 0;
 	endState = false;
 
 	startTime = 0;
 	deltaTime = 0;
+
+	pauseOn = true;
+	pauseEndTime = glfwGetTime();
+	
 
 	soundManager = inSoundManager;
 
@@ -33,24 +37,29 @@ void GameManager::initialize(Shader* inBaseShader, Shader* inTextShader, SoundMa
 	scoreTimeApart = false;
 }
 
-void GameManager::start() {
+void GameManager::toggleGame() {
 	
-	if (startOn) {
-		return;
+	if (gameOn) {
+		gameOn = false;
+		pauseStartTime = glfwGetTime();
+	}
+	else {
+		gameOn = true;
+		pauseEndTime = glfwGetTime();
+		deltaPause = pauseEndTime - pauseStartTime;
+		startTime += deltaPause;
 	}
 
-	startOn = true;
 	soundManager->setPaused(false);
-	startTime = glfwGetTime();
-	activeModel->turnMovementOn();
+	activeModel->toggleMovement();
 }
 
 void GameManager::draw(Shader* inShader) {
 
 	textShader->use();
-	if (startOn) {
+	if (gameOn) {
 		deltaTime = glfwGetTime() - startTime;
-		int displayTime = 10 - (int)deltaTime;
+		displayTime = 10 - (int)deltaTime;
 		if (displayTime < 0) displayTime = 0;
 
 		if (scoreTimeApart) {
@@ -65,7 +74,6 @@ void GameManager::draw(Shader* inShader) {
 	else {
 		textGenerator->renderText(*textShader, "Press Spacebar to Start", windowWidth/2-255, (windowHeight/2)+(windowHeight* 0.09765625f), 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
 	}
-	
 
 	if (!endState) {
 		if (activeModel->objectAtWall()) {
@@ -106,7 +114,7 @@ void GameManager::nextModel() {
 	activeModel->resetPOS();
 	activeModel->randomOrientation();
 	activeModel->speed = 0.03f;
-	activeModel->turnMovementOn();
+	activeModel->toggleMovement();
 	startTime = glfwGetTime();
 }
 
