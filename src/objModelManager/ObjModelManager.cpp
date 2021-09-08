@@ -36,7 +36,7 @@ ObjModelManager::ObjModelManager() {
 	prevSwingValueZ = 0.0f;
 
 	portalOn = false;
-	portalScale = 5.0f;
+	portalScale = 0.0f;
 }
 
 void ObjModelManager::renderObjModels(Shader& inShader, bool shadowMap) {
@@ -136,7 +136,7 @@ void ObjModelManager::renderObjModels(Shader& inShader, bool shadowMap) {
 
 	//Portal
 	if (portalOn) {
-		portalScale = portalScale == 0 ? portalScale - 0.1f: 5.0;
+		portalScale = portalScale >= 5.0f ? 0.0f : portalScale + 0.05f;
 		float rotation = (float)glfwGetTime();
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.05f, -1.0f));
