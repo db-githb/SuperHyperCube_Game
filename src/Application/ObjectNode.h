@@ -13,7 +13,8 @@
 #include "Transform.h"
 #include "Component.h"
 #include "../Models/modelBase/Model.h"
-
+#include <../../glm/gtc/quaternion.hpp>
+#include <../../glm/gtx/quaternion.hpp>
 
 class ObjectNode
 {
@@ -38,6 +39,7 @@ public:
 
 	void SetPosition(glm::vec3 pos);
 	void SetRotation(glm::vec3 rot);
+	void SetRotationImmediate(glm::vec3 rot);
 	void SetScale(glm::vec3 scale);
 
 	void AddPosition(glm::vec3 pos);
@@ -47,6 +49,7 @@ public:
 
 	// TODO: Fix rotations such that they occur in world space instead of local space
 	virtual void AddRotation90(glm::vec3 axis);
+	virtual void AddRotation90Immediate(glm::vec3 axis);
 	
 	const glm::vec3& GetPosition();
 	const glm::vec3& GetRotation();

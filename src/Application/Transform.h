@@ -6,6 +6,8 @@
 #include "../../glm/gtc/matrix_transform.hpp"
 #include <../../glm/gtc/type_ptr.hpp>
 #include <../../glm/gtx/transform.hpp>
+#include <../../glm/gtc/quaternion.hpp>
+#include <../../glm/gtx/quaternion.hpp>
 
 
 
@@ -23,6 +25,8 @@ public:
 	void SetRotation(glm::vec3 rot);
 	void SetScale(glm::vec3 scale);
 
+	void SetRotationImmediate(glm::vec3 rot);
+
 	void AddPosition(glm::vec3 pos);
 	void AddRotation(glm::vec3 rot);
 	void AddScale(glm::vec3 scale);
@@ -34,6 +38,10 @@ public:
 	glm::mat4 GetModel(glm::mat4 parentTransform) const;
 	glm::vec3 GetForwardVector();
 
+	glm::quat RotateTowards(glm::quat q1, glm::quat q2, float maxAngle);
+
+	glm::quat desiredRotation;
+	glm::quat rotationq;
 
 protected:
 	
@@ -42,7 +50,6 @@ private:
 	glm::vec3 m_rotation{};
 	glm::vec3 m_scale{};
 	glm::mat4 matrix;
-
 };
 
 

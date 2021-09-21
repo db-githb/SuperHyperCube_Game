@@ -60,7 +60,7 @@ void Model::resetObject() {
 /// <param name="inShader"> The shader used to render the model.</param>
 void Model::draw(Shader* inShader) {
 		inShader->use();
-
+	cubePositions.clear();
 
 	// bind texture maps
 	glActiveTexture(GL_TEXTURE0);
@@ -92,7 +92,8 @@ void Model::draw(Shader* inShader) {
 				
 				// draw the cube
 				glDrawArrays(renderMode, 0, 36);
-	
+
+				cubePositions.push_back(glm::vec3(cubeMatrix[3]));
 				//cubePositions[r][c][p].AddPosition(positionalOffset + centerPointOffset);
 			}
 		}
@@ -145,7 +146,6 @@ void Model::allocateModelData()
 			for(int z = 0; z < sizeZ; z++)
 			{
 				cubes[x][y][z] = NONE;
-				cubePositions[x][y][x] = glm::vec3(0);
 			}
 		}
 	}
@@ -203,6 +203,7 @@ Model::~Model() {
 /// <param name="ms"> Time in milliseconds between frames.</param>
 void Model::Update(float ms)
 {
+	transform->rotationq = transform->RotateTowards(transform->rotationq, transform->desiredRotation, 5 * ms);
 }
 
 /// <summary>

@@ -27,8 +27,6 @@ Level::Level(Shader& inShader)
 /// <param name="ms"> Time in milliseconds between frames.</param>
 void Level::Update(float ms)
 {
-
-	//object->AddPosition(glm::vec3(0, 0, -4 * ms));
 	
 }
 
@@ -172,6 +170,23 @@ void Level::clearWallModel()
 	wall->m_model->resetObject();
 }
 
+bool Level::checkCollision()
+{
+	//iterate through the list of the object's cubes
+	for(int i = 0; i < object->m_model->cubePositions.size(); i++)
+	{	
+		for(int j = 0; j < wall->m_model->cubePositions.size(); j++)
+		{
+			if(glm::distance(object->m_model->cubePositions[i],wall->m_model->cubePositions[j]) < 1)
+			{
+				std::cout << "collision detected";
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 
 void Level::resetLevel()
 {
@@ -189,22 +204,22 @@ void Level::randomizeObjectOrientation()
 		switch(selection)
 		{
 		case 0:
-			object->AddRotation90(glm::vec3(1, 0, 0));
-			break;
-		case 1:
-			object->AddRotation90(glm::vec3(-1, 0, 0));
-			break;
-		case 2:
-			object->AddRotation90(glm::vec3(0, 1, 0));
-			break;
-		case 3:
-			object->AddRotation90(glm::vec3(0, -1, 0));
-			break;
-		case 4:
-			object->AddRotation90(glm::vec3(0, 0, 1));
-			break;
-		case 5:
-			object->AddRotation90(glm::vec3(0, 0, -1));
+			object->AddRotation90Immediate(glm::vec3(1, 0, 0));
+			break;				 
+		case 1:					 
+			object->AddRotation90Immediate(glm::vec3(-1, 0, 0));
+			break;				 
+		case 2:					 
+			object->AddRotation90Immediate(glm::vec3(0, 1, 0));
+			break;				 
+		case 3:					 
+			object->AddRotation90Immediate(glm::vec3(0, -1, 0));
+			break;				 
+		case 4:					 
+			object->AddRotation90Immediate(glm::vec3(0, 0, 1));
+			break;				 
+		case 5:					 
+			object->AddRotation90Immediate(glm::vec3(0, 0, -1));
 			break;
 		}
 		

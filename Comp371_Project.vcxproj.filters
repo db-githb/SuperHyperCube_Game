@@ -108,6 +108,7 @@
     <ClCompile Include="src\Objects\Levels\LevelDamian.cpp" />
     <ClCompile Include="src\Objects\Levels\LevelThomas.cpp" />
     <ClCompile Include="src\Sound\SoundManager.cpp" />
+    <ClCompile Include="src\Application\Quaternion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera\Camera.h">

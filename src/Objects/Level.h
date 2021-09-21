@@ -47,6 +47,7 @@ public:
 	void generateWall();
 	void clearObjectModel();
 	void clearWallModel();
+	bool checkCollision();
 
 	void resetLevel();
 	void randomizeObjectOrientation();

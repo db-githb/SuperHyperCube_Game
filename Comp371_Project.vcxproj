@@ -166,6 +166,7 @@
     <None Include="res\shaders\depthShader.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Application\Quaternion.cpp" />
     <ClCompile Include="src\Objects\Levels\LevelDamian.cpp" />
     <ClCompile Include="src\Objects\Levels\LevelElijah.cpp" />
     <ClCompile Include="src\Application\GameManager.cpp" />

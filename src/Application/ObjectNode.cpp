@@ -43,8 +43,11 @@ void ObjectNode::Draw(Shader& shader)
 }    
 
 void ObjectNode::Update(float ms)
-{ 
+{
+	
 	// Update Children
+	if (m_model != nullptr)
+		m_model->Update(ms);
 	for(ObjectNode* child : children)
 	{
 		child->Update(ms);
@@ -82,6 +85,21 @@ void ObjectNode::SetRotation(glm::vec3 rot)
 	
 	transform.SetRotation(rotation + rot);
 	
+	for (ObjectNode* child : children)
+	{
+		child->SetRotation(rot);
+	}
+}
+
+void ObjectNode::SetRotationImmediate(glm::vec3 rot)
+{
+	glm::vec3 rotation = glm::vec3(0, 0, 0);
+
+	// if (parent)
+	// 	rotation = parent->transform.GetRotation();
+
+	transform.SetRotationImmediate(rotation + rot);
+
 	for (ObjectNode* child : children)
 	{
 		child->SetRotation(rot);
@@ -129,10 +147,30 @@ void ObjectNode::AddRotation90(glm::vec3 axis)
 	else if (axis == glm::vec3(0, 0, -1))
 		rotationZcount--;
 	
-	SetRotation(glm::vec3(glm::radians(rotations[abs(rotationXcount) % 4]),
-							  glm::radians(rotations[abs(rotationYcount) % 4]),
+	SetRotation(glm::vec3(rotations[abs(rotationXcount) % 4],
+							  rotations[abs(rotationYcount) % 4],
 							  0));
 	
+}
+
+void ObjectNode::AddRotation90Immediate(glm::vec3 axis)
+{
+	if (axis == glm::vec3(1, 0, 0))
+		rotationXcount++;
+	else if (axis == glm::vec3(-1, 0, 0))
+		rotationXcount--;
+	if (axis == glm::vec3(0, 1, 0))
+		rotationYcount++;
+	else if (axis == glm::vec3(0, -1, 0))
+		rotationYcount--;
+	if (axis == glm::vec3(0, 0, 1))
+		rotationZcount++;
+	else if (axis == glm::vec3(0, 0, -1))
+		rotationZcount--;
+
+	SetRotationImmediate(glm::vec3(rotations[abs(rotationXcount) % 4],
+		rotations[abs(rotationYcount) % 4],
+		0));
 }
 
 
@@ -147,6 +185,7 @@ const glm::vec3& ObjectNode::GetRotation()
 {
 	return transform.GetRotation();
 }
+
 
 const glm::vec3& ObjectNode::GetScale()
 {

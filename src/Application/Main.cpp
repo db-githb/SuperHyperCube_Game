@@ -280,6 +280,8 @@ int main()
 		glClearColor(0.1f, 0.4f, 0.4f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		scene->Update(deltaTime);
+		
 		// 1. render scene to depth texture
 		// --------------------------------
 		float near_plane = 1.0f; float far_plane = 100.0f;
@@ -375,7 +377,7 @@ int main()
 		unitAxes->draw(camera, projection, view);
 		lightCube->draw(projection, view, lightPos);
 		//game->Update();
-		scene->Update(deltaTime);
+		
 
 		glfwSwapBuffers(mainWindow);
 

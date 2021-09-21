@@ -53,7 +53,7 @@ public:
 	Transform* parentTransform;
 	glm::vec3 modelBasePosition;
 	int cubes[sizeX][sizeY][sizeZ];
-	glm::vec3 cubePositions[sizeX][sizeY][sizeZ];
+	std::vector<glm::vec3> cubePositions;
 	Data data;
 
 protected:

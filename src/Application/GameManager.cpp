@@ -53,9 +53,10 @@ void GameManager::GameOver()
 
 void GameManager::Update(float ms)
 {
+	currentLevel->object->Update(ms);
 	if (currentLevel->object->GetPosition().z > -12.0f)
 	{
-		//UpdateObjectPosition(ms);
+		UpdateObjectPosition(ms);
 	}
 	else
 	{
@@ -66,19 +67,22 @@ void GameManager::Update(float ms)
 	{
 		std::cout << "\n ________________________________________________________________";
 		lastUpdateTime = glfwGetTime();
-		// for(int i = 0; i <9; i++)
-		// {
-		// 	for (int j = 0; j < 9; j++)
-		// 	{
-		// 		for (int k = 0; k < 7; k++)
-		// 		{
-		// 			if (currentLevel->object->m_model->cubes[i][j][k] == NONE)
-		// 				continue;
+		// int cubecount = 0;
+		//  for(int i = 0; i <9; i++)
+		//  {
+		//  	for (int j = 0; j < 9; j++)
+		//  	{
+		//  		for (int k = 0; k < 7; k++)
+		//  		{
+		//  			if (currentLevel->object->m_model->cubes[i][j][k] == NONE)
+		//  				continue;
+		// 			glm::vec3 currentCube = currentLevel->object->m_model->cubePositions[i][j][k];
 		//
-		// 			//std::cout << "\n object z: " << currentLevel->object->m_model->cubePositions[i][j][k];
-		// 		}
-		// 	}
-		// }
+		// 			std::cout << "\n cube " << cubecount << ": X = " << currentCube.x << " | Y = " << currentCube.y << " | Z = " << currentCube.z;
+		// 			cubecount++;
+		//  		}
+		//  	}
+		//  }
 		
 		//std::cout << "\n wall z: " << currentLevel->wall->GetPosition().z;
 	}
@@ -98,7 +102,7 @@ bool GameManager::IsObjectAtEnd()
 
 bool GameManager::ValidateLevel()
 {
-	bool result = currentLevel->validateOrientation();
+	bool result = currentLevel->checkCollision() ? false : true;//currentLevel->validateOrientation();
 
 	if(result == true)
 	{
