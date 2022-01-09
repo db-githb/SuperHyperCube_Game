@@ -2,11 +2,11 @@
 
 ![](https://github.com/db-githb/Comp371_Project/blob/model_loading/screencap.PNG)
 
-** MUST BE BUILT IN X86 (WIN32) !!!! **
+**MUST BE BUILT IN X86 (WIN32) !!!!**
 
-** executable is in the debug folder **
+**executable is in the debug folder**
 
-** it must be run from the home folder debug\comp371_project.exe **
+**it must be run from the home folder debug\comp371_project.exe**
 
 **Model Manipulation**:
 
