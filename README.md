@@ -1,5 +1,7 @@
 # Comp371_Project
 
+[](https://github.com/db-githb/Comp371_Project/blob/model_loading/screencap.PNG)
+
 ** MUST BE BUILT IN X86 (WIN32) !!!! **
 
 ** executable is in the debug folder **
