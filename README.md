@@ -1,7 +1,5 @@
 # Comp371_Project
 
-!(https://ibb.co/drCZFph)
-
 ** MUST BE BUILT IN X86 (WIN32) !!!! **
 
 ** executable is in the debug folder **
