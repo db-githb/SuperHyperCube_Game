@@ -6,7 +6,7 @@
 
 ** executable is in the debug folder **
 
-** it must be run from the Quiz1_21875841 folder **
+** it must be run from the home folder debug\comp371_project.exe **
 
 **Model Manipulation**:
 
