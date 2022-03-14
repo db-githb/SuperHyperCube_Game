@@ -1,4 +1,4 @@
-# Comp371_Project
+# Super HyperCube Game
 
 ![](https://github.com/db-githb/Comp371_Project/blob/model_loading/screencap.PNG)
 
